@@ -5,34 +5,36 @@ import Button from '../button/Button';
 const DefaultHeader = styled.header`
   display: flex;
   justify-content: space-between;
-  width: 100%;
   background-color: ${lightTheme.mainColor};
+  border-bottom: ${lightTheme.borderDefault};
   height: 5rem;
   padding: 1rem 20rem;
   box-sizing: border-box;
-  border-bottom: ${lightTheme.borderDefault};
 `;
 
 const HeaderLeft = styled.div`
+  width: 12rem;
   display: flex;
   align-items: center;
 `;
 const HeaderRight = styled.div`
+  width: 12rem;
   display: flex;
   align-items: center;
 `;
 
 function Header() {
+  const buttonTitle = ['홈', '탐색', '장르별', '로그인', '회원가입'];
   return (
     <DefaultHeader>
       <HeaderLeft>
-        <Button>홈</Button>
-        <Button>탐색</Button>
-        <Button>장르별</Button>
+        <Button>{buttonTitle[0]}</Button>
+        <Button>{buttonTitle[1]}</Button>
+        <Button>{buttonTitle[2]}</Button>
       </HeaderLeft>
       <HeaderRight>
-        <Button>로그인</Button>
-        <Button>회원가입</Button>
+        <Button>{buttonTitle[3]}</Button>
+        <Button>{buttonTitle[4]}</Button>
       </HeaderRight>
     </DefaultHeader>
   );

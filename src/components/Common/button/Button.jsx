@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { darkTheme, lightTheme } from '../../../styles/themes';
+import { lightTheme } from '../../../styles/themes';
 
 const HeaderButton = styled.button`
   width: 5rem;
@@ -9,6 +9,7 @@ const HeaderButton = styled.button`
   background-color: ${lightTheme.mainColor};
   font-size: 1rem;
   cursor: pointer;
+  font-family: ${lightTheme.fontSuitRegular};
 `;
 
 function Button({ children }) {
