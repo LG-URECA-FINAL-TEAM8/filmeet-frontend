@@ -37,11 +37,6 @@ function Poster() {
       title: '반지의 제왕',
       image: 'https://via.placeholder.com/300x400',
     },
-    {
-      id: 8,
-      title: '어벤져스: 엔드게임',
-      image: 'https://via.placeholder.com/300x400',
-    },
   ];
 
   return <></>;
