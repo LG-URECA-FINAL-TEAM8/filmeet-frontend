@@ -12,8 +12,8 @@ const HeaderButton = styled.button`
   font-family: ${lightTheme.fontSuitRegular};
 `;
 
-function Button({ children }) {
-  return <HeaderButton>{children}</HeaderButton>;
+function Button({ children, onClick }) {
+  return <HeaderButton onClick={onClick}>{children}</HeaderButton>;
 }
 
 export default Button;

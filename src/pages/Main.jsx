@@ -18,6 +18,10 @@ function Main() {
       <Poster />
       <Title>{movieTitle[1]}</Title>
       <Poster />
+      <Title>{movieTitle[2]}</Title>
+      <Poster />
+      <Title>{movieTitle[3]}</Title>
+      <Poster />
     </MainBody>
   );
 }

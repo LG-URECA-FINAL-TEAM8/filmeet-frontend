@@ -58,7 +58,7 @@ function Poster() {
 
 const CarouselContainer = styled.div`
   width: calc(5 * (20% - 1rem) + 4rem);
-  height: 24rem;
+  height: auto;
   position: relative;
 
   .carousel.carousel-slider {
@@ -67,7 +67,7 @@ const CarouselContainer = styled.div`
 
   .carousel .slide {
     background: transparent;
-    height: 24rem;
+    height: auto;
   }
 
   .control-prev,
