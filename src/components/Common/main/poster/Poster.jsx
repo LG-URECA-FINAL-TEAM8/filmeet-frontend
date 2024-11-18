@@ -6,6 +6,56 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+function Poster() {
+  const groupMovies = (movies, size) => {
+    const groups = [];
+    for (let i = 0; i < movies.length; i += size) {
+      groups.push(movies.slice(i, i + size));
+    }
+    return groups;
+  };
+
+  const movieGroups = groupMovies(movies, 5);
+
+  return (
+    <CarouselContainer>
+      <Carousel
+        showThumbs={false}
+        showStatus={false}
+        showIndicators={false}
+        infiniteLoop={true}
+        centerMode={false}
+        swipeable={true}
+        emulateTouch={true}
+        renderArrowPrev={(clickHandler, hasPrev) =>
+          hasPrev && (
+            <NavButton className="prev" onClick={clickHandler}>
+              <ChevronLeft color={lightTheme.fontGray} />
+            </NavButton>
+          )
+        }
+        renderArrowNext={(clickHandler, hasNext) =>
+          hasNext && (
+            <NavButton className="next" onClick={clickHandler}>
+              <ChevronRight color={lightTheme.fontGray} />
+            </NavButton>
+          )
+        }>
+        {movieGroups.map((group, groupIndex) => (
+          <SlideContainer key={groupIndex}>
+            {group.map((movie) => (
+              <PostItem key={movie.id}>
+                <PostCardImg src={movie.image} alt={movie.title} />
+                <PostTitle>{movie.title}</PostTitle>
+              </PostItem>
+            ))}
+          </SlideContainer>
+        ))}
+      </Carousel>
+    </CarouselContainer>
+  );
+}
+
 const CarouselContainer = styled.div`
   width: calc(5 * (20% - 1rem) + 4rem);
   height: 24rem;
@@ -94,55 +144,5 @@ const SlideContainer = styled.div`
   gap: 1rem;
   height: 100%;
 `;
-
-function Poster() {
-  const groupMovies = (movies, size) => {
-    const groups = [];
-    for (let i = 0; i < movies.length; i += size) {
-      groups.push(movies.slice(i, i + size));
-    }
-    return groups;
-  };
-
-  const movieGroups = groupMovies(movies, 5);
-
-  return (
-    <CarouselContainer>
-      <Carousel
-        showThumbs={false}
-        showStatus={false}
-        showIndicators={false}
-        infiniteLoop={true}
-        centerMode={false}
-        swipeable={true}
-        emulateTouch={true}
-        renderArrowPrev={(clickHandler, hasPrev) =>
-          hasPrev && (
-            <NavButton className="prev" onClick={clickHandler}>
-              <ChevronLeft color={lightTheme.fontGray} />
-            </NavButton>
-          )
-        }
-        renderArrowNext={(clickHandler, hasNext) =>
-          hasNext && (
-            <NavButton className="next" onClick={clickHandler}>
-              <ChevronLeft color={lightTheme.fontGray} />
-            </NavButton>
-          )
-        }>
-        {movieGroups.map((group, groupIndex) => (
-          <SlideContainer key={groupIndex}>
-            {group.map((movie) => (
-              <PostItem key={movie.id}>
-                <PostCardImg src={movie.image} alt={movie.title} />
-                <PostTitle>{movie.title}</PostTitle>
-              </PostItem>
-            ))}
-          </SlideContainer>
-        ))}
-      </Carousel>
-    </CarouselContainer>
-  );
-}
 
 export default Poster;
