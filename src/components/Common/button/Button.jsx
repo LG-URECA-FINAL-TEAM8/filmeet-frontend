@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { darkTheme } from '../../../styles/themes';
+import { darkTheme, lightTheme } from '../../../styles/themes';
 
 const HeaderButton = styled.button`
   width: 5rem;
   height: auto;
   border: none;
-  color: ${darkTheme.fontGray};
-  background-color: ${darkTheme.mainColor};
+  color: ${lightTheme.fontBlack};
+  background-color: ${lightTheme.mainColor};
   font-size: 1rem;
   cursor: pointer;
 `;

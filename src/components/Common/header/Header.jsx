@@ -1,16 +1,16 @@
 import styled from 'styled-components';
-import { darkTheme } from '../../../styles/themes';
+import { lightTheme } from '../../../styles/themes';
 import Button from '../button/Button';
 
 const DefaultHeader = styled.header`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: ${darkTheme.mainColor};
+  background-color: ${lightTheme.mainColor};
   height: 5rem;
-  padding: 1rem;
+  padding: 1rem 20rem;
   box-sizing: border-box;
-  border-bottom: 1px solid #202025;
+  border-bottom: ${lightTheme.borderDefault};
 `;
 
 const HeaderLeft = styled.div`
