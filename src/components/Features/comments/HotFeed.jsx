@@ -32,6 +32,16 @@ const sampleData = [
     likes: 200,
     comments: 45,
   },
+  {
+    id: 4,
+    userName: 'Charlie',
+    rating: 5,
+    image: 'https://via.placeholder.com/150',
+    title: 'Tasty Fries',
+    comment: 'Crispy and perfectly salted fries. A must-try!',
+    likes: 200,
+    comments: 45,
+  },
 ];
 
 function HotFeed() {
