@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Main from '../pages/Main';
 import DefaultLayout from '../components/Layout/DefaultLayout';
+import MyPage from '../pages/MyPage';
 
 const router = createBrowserRouter([
   {
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
         path: '',
         element: <Main />,
       },
+      {
+        path: 'mypage',
+        element: <MyPage />,
+      }
     ],
   },
 ]);
