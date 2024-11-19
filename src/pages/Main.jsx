@@ -2,6 +2,7 @@ import React from 'react';
 import { MainBody } from '../styles/main/main';
 import Title from '../components/Common/main/Title/Title';
 import Poster from '../components/Common/main/poster/Poster';
+import HotFeed from '../components/Features/comments/HotFeed';
 
 function Main() {
   const movieTitle = [
@@ -22,6 +23,8 @@ function Main() {
       <Poster />
       <Title>{movieTitle[3]}</Title>
       <Poster />
+      <Title>{movieTitle[4]}</Title>
+      <HotFeed />
     </MainBody>
   );
 }
