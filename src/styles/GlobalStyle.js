@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-
   .white {
     color: "#FCFCFC";
   }

@@ -1,18 +1,19 @@
 import styled from 'styled-components';
-import { darkTheme } from '../../../styles/themes';
+import { lightTheme } from '../../../styles/themes';
 
 const HeaderButton = styled.button`
   width: 5rem;
   height: auto;
   border: none;
-  color: ${darkTheme.fontGray};
-  background-color: ${darkTheme.mainColor};
+  color: ${lightTheme.fontBlack};
+  background-color: ${lightTheme.mainColor};
   font-size: 1rem;
   cursor: pointer;
+  font-family: ${lightTheme.fontSuitRegular};
 `;
 
-function Button({ children }) {
-  return <HeaderButton>{children}</HeaderButton>;
+function Button({ children, onClick }) {
+  return <HeaderButton onClick={onClick}>{children}</HeaderButton>;
 }
 
 export default Button;
