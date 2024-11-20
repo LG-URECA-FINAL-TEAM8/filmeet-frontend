@@ -18,21 +18,19 @@ const router = createBrowserRouter([
       {
         path: 'mypage',
         element: <MyPage />,
-        children: [
-          {
-            path: "ratings",
-            element: <RatingsPage />,
-          },
-          {
-            path: "comments",
-            element: <CommentsPage />,
-          },
-          {
-            path: "collections",
-            element: <CollectionsPage />,
-          },
-        ]
-      }
+      },
+      {
+        path: 'mypage/ratings',
+        element: <RatingsPage />
+      },
+      {
+        path: 'mypage/comments',
+        element: <CommentsPage />
+      },
+      {
+        path: 'mypage/collections',
+        element: <CollectionsPage />
+      },
     ],
   },
 ]);

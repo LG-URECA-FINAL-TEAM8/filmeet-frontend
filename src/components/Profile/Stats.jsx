@@ -1,24 +1,31 @@
 import React from "react";
-import { StatsContainer, StatBox, StatNumber, StatText, StyledLink } from "../../styles/profile/profile";
+import { StatsContainer, StatBox, StatNumber, StatText, StatsContainerWrapper } from "../../styles/profile/profile";
+import { useNavigate } from "react-router-dom";
 
 const Stats = () => {
+  const navigate = useNavigate();
+
   const stats = [
     { count: 4, label: "평가", path: "/mypage/ratings" },
     { count: 0, label: "코멘트", path: "/mypage/comments" },
     { count: 0, label: "컬렉션", path: "/mypage/collections" },
   ];
 
+  const handleNavigation = (path) => {
+    navigate(path); // 페이지 이동
+  };
+
   return (
-    <StatsContainer>
-      {stats.map((stat, index) => (
-        <StyledLink to={stat.path} key={index}>
-            <StatBox key={index}>
+    <StatsContainerWrapper>
+        <StatsContainer>
+        {stats.map((stat, index) => (
+            <StatBox key={index} onClick={() => handleNavigation(stat.path)}>
                 <StatNumber>{stat.count}</StatNumber>
                 <StatText>{stat.label}</StatText>
             </StatBox>
-        </StyledLink>
-      ))}
-    </StatsContainer>
+        ))}
+        </StatsContainer>
+    </StatsContainerWrapper>
   );
 };
 

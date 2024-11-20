@@ -61,7 +61,7 @@ export const ProfileImage = styled.div`
   align-items: center;
   color: #fff;
   font-size: 2rem;
-  margin-top: 4.125rem;
+  margin-top: 2rem;
   margin-bottom: 0.5rem;
 `;
 
@@ -106,12 +106,34 @@ export const FollowButton = styled.button`
     color: ${lightTheme.fontBlack};
 `;
 
+export const StatsContainerWrapper = styled.div`
+  position: relative; /* 구분선을 absolute로 조정할 기준 */
+  width: 100%; /* 부모 컨테이너 전체를 차지 */
+  margin-top: 1rem; /* 프로필 요소와의 간격 */
+  margin-bottom: 1rem;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1); /* 구분선 색상 */
+  }
+
+  &::before {
+    top: 0; /* 상단 구분선 */
+  }
+
+  &::after {
+    bottom: 0; /* 하단 구분선 */
+  }
+`;
+
 export const StatsContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
 // 각 스탯 박스
@@ -121,6 +143,7 @@ export const StatBox = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
   width: 5rem;
   height: 2.75rem
   padding: 0.75rem 0;
@@ -130,25 +153,25 @@ export const StatBox = styled.div`
   &:not(:last-child)::after {
     content: '';
     position: absolute;
-    right: 0; /* 박스의 오른쪽에 선 추가 */
-    height: 50%; /* 세로선 높이 조절 */
-    width: 1px; /* 선 두께 */
-    background-color: #e8e8ef; /* 연한 색상 */
-    top: 25%; /* 선을 중앙에 배치 */
+    right: 0;
+    top: 25%;
+    height: 50%;
+    width: 1px;
+    background-color: #e8e8ef;
   }
 `;
 
 export const StatNumber = styled.span`
-  font-size: 1.125rem; /* 숫자 크기 */
+  font-size: 1.125rem;
   font-weight: bold;
   color: ${lightTheme.fontBlack};
   margin-top: 0.75rem;
 `;
 
 export const StatText = styled.p`
-  font-size: 0.875rem; /* 텍스트 크기 */
+  font-size: 0.875rem;
   color: ${lightTheme.fontGray};
-  margin: 0; /* 기본 여백 제거 */
+  margin: 0;
   margin-bottom: 0.75rem;
 `;
 
