@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 import { lightTheme } from '../themes';
 
+export function FormInputWrapper({ type, placeholder, required }) {
+  return (
+    <FormGroup>
+      <FormInput type={type} placeholder={placeholder} required={required} />
+    </FormGroup>
+  );
+}
 export const AdminPage = styled.section`
   display: flex;
   flex-direction: column;
@@ -51,7 +58,11 @@ export const FormInput = styled.input`
   }
 `;
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled.button.attrs(function () {
+  return {
+    type: 'submit',
+  };
+})`
   width: 23.375rem; 
   height: 3.375rem; 
   font-size: 1rem;

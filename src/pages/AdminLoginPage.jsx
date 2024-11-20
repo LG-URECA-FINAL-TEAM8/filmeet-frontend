@@ -5,29 +5,36 @@ import {
   AdminContent,
   AdminTitle,
   AdminForm,
-  FormGroup,
-  FormInput,
+  FormInputWrapper,
   SubmitButton,
 } from '../styles/admin/adminlogin';
 
 function AdminLoginPage() {
+  const logintitle = '관리자 로그인';
+  const loginbutton = '로그인';
+  const formfields = [
+    { type: 'text', placeholder: '관리자 ID', required: true },
+    { type: 'password', placeholder: '비밀번호', required: true },
+  ];
   return (
     <AdminPage>
-      <AdminHeaderComponent text="관리자 페이지" fontSize="1.5rem" top="50%" left="20%" />
+      <AdminHeaderComponent />
       <AdminContent>
-        <AdminTitle>관리자 로그인</AdminTitle>
+        <AdminTitle>{logintitle}</AdminTitle>
         <AdminForm>
-          <FormGroup>
-            <FormInput type="id" placeholder="관리자 ID" required />
-          </FormGroup>
-          <FormGroup>
-            <FormInput type="password" placeholder="비밀번호" required />
-          </FormGroup>
-          <SubmitButton type="submit">로그인</SubmitButton>
+        {formfields.map((field, index) => (
+          <FormInputWrapper 
+          key={index}
+          type={field.type} 
+          placeholder={field.placeholder} 
+          required={field.required} 
+        />
+        ))}
+          <SubmitButton>{loginbutton}</SubmitButton>
         </AdminForm>
       </AdminContent>
     </AdminPage>
   );
-};
+}
 
 export default AdminLoginPage;
