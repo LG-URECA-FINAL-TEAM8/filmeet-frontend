@@ -68,7 +68,7 @@ export const ProfileImage = styled.div`
 // 프로필 이름
 export const ProfileName = styled.div`
   font-size: 1.125rem;
-  font-weight: bold;
+  font-family: ${lightTheme.fontSuitBold};
   color: ${lightTheme.fontBlack};
   margin-bottom: 0.5rem;
 `;
@@ -78,10 +78,11 @@ export const FollowStats = styled.div`
   display: flex;
   gap: 1rem;
   font-size: 0.875rem;
+  font-family: ${lightTheme.fontSuitRegular};
   color: ${lightTheme.fontGray};
 
   span {
-    font-weight: bold;
+    font-family: ${lightTheme.fontSuitBold};
     color: ${lightTheme.fontBlack};
   }
 `;
@@ -91,6 +92,7 @@ export const FollowButton = styled.button`
   width: 100%;
   height: 2.5rem;
   background-color: ${lightTheme.fontBlack};
+  font-family: ${lightTheme.fontSuitRegular};
   color: ${lightTheme.fontWhite};
   border: none;
   border-radius: 0.25rem;
@@ -107,9 +109,9 @@ export const FollowButton = styled.button`
 `;
 
 export const StatsContainerWrapper = styled.div`
-  position: relative; /* 구분선을 absolute로 조정할 기준 */
-  width: 100%; /* 부모 컨테이너 전체를 차지 */
-  margin-top: 1rem; /* 프로필 요소와의 간격 */
+  position: relative;
+  width: 100%;
+  margin-top: 1rem;
   margin-bottom: 1rem;
 
   &::before, &::after {
@@ -118,15 +120,15 @@ export const StatsContainerWrapper = styled.div`
     left: 0;
     right: 0;
     height: 1px;
-    background-color: rgba(0, 0, 0, 0.1); /* 구분선 색상 */
+    background-color: rgba(0, 0, 0, 0.1);
   }
 
   &::before {
-    top: 0; /* 상단 구분선 */
+    top: 0;
   }
 
   &::after {
-    bottom: 0; /* 하단 구분선 */
+    bottom: 0;
   }
 `;
 
@@ -145,7 +147,7 @@ export const StatBox = styled.div`
   justify-content: center;
   position: relative;
   width: 5rem;
-  height: 2.75rem
+  height: 2.75rem;
   padding: 0.75rem 0;
   cursor: pointer;
   text-align: center;
@@ -163,13 +165,16 @@ export const StatBox = styled.div`
 
 export const StatNumber = styled.span`
   font-size: 1.125rem;
-  font-weight: bold;
+  font-weight: ${lightTheme.fontWeightBold};
+  font-family: ${lightTheme.fontSuitBold};
   color: ${lightTheme.fontBlack};
   margin-top: 0.75rem;
 `;
 
 export const StatText = styled.p`
   font-size: 0.875rem;
+  font-weight: ${lightTheme.fontWeightRegular};
+  font-family: ${lightTheme.fontSuitRegular};
   color: ${lightTheme.fontGray};
   margin: 0;
   margin-bottom: 0.75rem;
