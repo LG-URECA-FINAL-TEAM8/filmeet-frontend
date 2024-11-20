@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 import Button from './Button';
 import useModalStore from '../../../store/modal/useModalStore';
+import { useState } from 'react';
 
 const DefaultHeader = styled.header`
   display: flex;
@@ -21,11 +22,12 @@ const HeaderSection = styled.div`
 
 function Header() {
   const { openModal } = useModalStore();
+  const [activeButton, setActiveButton] = useState(null);
 
   const buttons = [
-    { title: '홈', onClick: null },
-    { title: '탐색', onClick: null },
-    { title: '장르별', onClick: null },
+    { title: '홈', onClick: () => setActiveButton('홈') },
+    { title: '탐색', onClick: () => setActiveButton('탐색') },
+    { title: '장르별', onClick: () => setActiveButton('장르별') },
   ];
 
   const authButtons = [
@@ -33,16 +35,20 @@ function Header() {
     { title: '회원가입', onClick: openModal },
   ];
 
-  const renderButtons = (buttonList) =>
+  const renderButtons = (buttonList, isMain = false) =>
     buttonList.map(({ title, onClick }, index) => (
-      <Button key={index} onClick={onClick}>
+      <Button
+        key={index}
+        onClick={onClick}
+        active={isMain && activeButton === title} 
+      >
         {title}
       </Button>
     ));
 
   return (
     <DefaultHeader>
-      <HeaderSection>{renderButtons(buttons)}</HeaderSection>
+      <HeaderSection>{renderButtons(buttons, true)}</HeaderSection>
       <HeaderSection>{renderButtons(authButtons)}</HeaderSection>
     </DefaultHeader>
   );
