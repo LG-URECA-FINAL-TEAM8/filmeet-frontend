@@ -69,16 +69,11 @@ const CarouselContainer = styled.div`
     background: transparent;
     height: auto;
   }
-
-  .control-prev,
-  .control-next {
-    display: none;
-  }
 `;
 
 const NavButton = styled.button`
   position: absolute;
-  top: 50%;
+  top: 46%;
   transform: translateY(-50%);
   width: 2rem;
   height: 2rem;

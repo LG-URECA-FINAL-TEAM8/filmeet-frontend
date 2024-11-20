@@ -1,8 +1,8 @@
-import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
-import Button from '../button/Button';
+import Button from './Button';
 import useModalStore from '../../../store/modal/useModalStore';
+
 const DefaultHeader = styled.header`
   display: flex;
   justify-content: space-between;
@@ -13,31 +13,37 @@ const DefaultHeader = styled.header`
   box-sizing: border-box;
 `;
 
-const HeaderLeft = styled.div`
-  width: 12rem;
-  display: flex;
-  align-items: center;
-`;
-const HeaderRight = styled.div`
+const HeaderSection = styled.div`
   width: 12rem;
   display: flex;
   align-items: center;
 `;
 
 function Header() {
-  const buttonTitle = ['홈', '탐색', '장르별', '로그인', '회원가입'];
-  const {openModal} = useModalStore();
+  const { openModal } = useModalStore();
+
+  const buttons = [
+    { title: '홈', onClick: null },
+    { title: '탐색', onClick: null },
+    { title: '장르별', onClick: null },
+  ];
+
+  const authButtons = [
+    { title: '로그인', onClick: openModal },
+    { title: '회원가입', onClick: openModal },
+  ];
+
+  const renderButtons = (buttonList) =>
+    buttonList.map(({ title, onClick }, index) => (
+      <Button key={index} onClick={onClick}>
+        {title}
+      </Button>
+    ));
+
   return (
     <DefaultHeader>
-      <HeaderLeft>
-        <Button>{buttonTitle[0]}</Button>
-        <Button>{buttonTitle[1]}</Button>
-        <Button>{buttonTitle[2]}</Button>
-      </HeaderLeft>
-      <HeaderRight>
-        <Button onClick={openModal}>{buttonTitle[3]}</Button>
-        <Button>{buttonTitle[4]}</Button>
-      </HeaderRight>
+      <HeaderSection>{renderButtons(buttons)}</HeaderSection>
+      <HeaderSection>{renderButtons(authButtons)}</HeaderSection>
     </DefaultHeader>
   );
 }

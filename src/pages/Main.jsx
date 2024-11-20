@@ -1,7 +1,7 @@
 import React from 'react';
 import { MainBody } from '../styles/main/main';
-import Title from '../components/Common/main/Title/Title';
-import Poster from '../components/Common/main/poster/Poster';
+import Title from '../components/features/main/title/Title';
+import Poster from '../components/features/main/poster/Poster';
 import HotFeed from '../components/Features/comments/HotFeed';
 
 function Main() {
