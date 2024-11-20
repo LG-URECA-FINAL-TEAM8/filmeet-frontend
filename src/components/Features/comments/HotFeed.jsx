@@ -8,7 +8,7 @@ const sampleData = [
     rating: 4.5,
     image: 'https://via.placeholder.com/150',
     title: 'Delicious Burger',
-    comment: 'The best burger I’ve ever had!',
+    comment: 'The best burger I’ve ever had! The best burger I’ve ever had!',
     likes: 120,
     comments: 25,
   },
@@ -62,7 +62,7 @@ function HotFeed() {
   );
 }
 
-const FeedContainer = styled.div`
+const FeedContainer = styled.div` 
   height: auto;
   display: flex;
   justify-content: center;
@@ -72,8 +72,8 @@ const FeedContainer = styled.div`
 
 const FeedItem = styled.div`
   width: 100%;
-  padding: 1rem;
   height: auto;
+  padding: 1rem;
   max-height: 12rem;
   gap: 1rem;
   border: ${lightTheme.defaultBorder};
@@ -93,25 +93,28 @@ const FeedUserSection = styled.div`
 `;
 
 const FeedMainSection = styled.section`
-  gap: 1rem;
+  
   display: flex;
   flex-direction: row;
+  height: auto;
 `;
 const ImageItem = styled.div`
   margin-top: 1rem;
   width: 25%;
-  height: auto;
+  height: 100%;
   img {
     width: 100%;
-    height: auto;
+    height: 100%;    
     object-fit: cover;
   }
 `;
 
 const CommentItem = styled.div`
-  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-bottom : 1rem;
   width: 75%;
   height: auto;
+  max-height: 5.5rem;
 `;
 
 const FeedStats = styled.div`
