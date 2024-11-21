@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // 전체 페이지 컨테이너 (배경색 적용)
 export const MyPageContainer = styled.div`
-  background-color: #F5F5F5;
+  background-color: ${lightTheme.mainColor};
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -16,10 +16,9 @@ export const ProfileContainer = styled.div`
   width: 40rem;
   height: 36.25rem; 
   background-color: ${lightTheme.mainColor};
-  border-radius: 0.375rem;
+  border-radius: 50%;
   position: relative;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0rem 1rem;
   margin: 0 auto;
 
   @media (min-width: 120rem) {
