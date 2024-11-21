@@ -42,7 +42,7 @@ const TableWrapper = styled.div`
   margin-top: 1rem;
   display: flex;
   justify-content: center;
-  width: 40rem; 
+  width: 41rem; 
   height: 41rem; 
   overflow-y: auto; 
   border: ${lightTheme.defaultBorder}; 
@@ -56,7 +56,7 @@ const MovieTable = styled.table`
 
 const TableHeader = styled.th`
   border: ${lightTheme.defaultBorder};
-  padding: 0.75rem;
+  padding: 1rem;
   text-align: center;
   background-color: ${lightTheme.mainColor};
   font-weight: bold;
@@ -67,15 +67,15 @@ const TableHeader = styled.th`
 `;
 
 const TableHeaderTitle = styled(TableHeader)`
-  width: 70%;
+  width: 64%;
 `;
 
 const TableHeaderEdit = styled(TableHeader)`
-  width: 15%;
+  width: 18%;
 `;
 
 const TableHeaderDelete = styled(TableHeader)`
-  width: 15%;
+  width: 18%;
 `;
 
 const TableRow = styled.tr`
@@ -84,7 +84,7 @@ const TableRow = styled.tr`
 
 const TableCell = styled.td`
   border: ${lightTheme.defaultBorder};
-  padding: 0.75rem;
+  padding: 1rem;
   text-align: center;
   color: ${lightTheme.fontBlack};
 `;
