@@ -14,7 +14,6 @@ function UserModal() {
   const { isModalOpen, closeModal } = useModalStore(); 
   const DividerText = ['OR'];
  
-
   return (
     <ReactModal
       isOpen={isModalOpen}
