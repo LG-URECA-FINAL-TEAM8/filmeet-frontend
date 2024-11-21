@@ -2,13 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 
-function AdminHeaderComponent({
-  text = '관리자 페이지', 
-  fontSize = '1.5rem',
-  textPosition = { top: '50%', left: '20%' }, 
-  showButtons = true,
-}) {
-
+function AdminHeaderComponent(props) {
+  const {
+    text,
+    fontSize,
+    textPosition,
+    showButtons,
+  } = {
+    text: '관리자 페이지',
+    fontSize: '1.5rem',
+    textPosition: { top: '50%', left: '20%' },
+    showButtons: true,
+    ...props,
+  };
   const allMovieButton = '전체 영화 목록';
   const newMovieButton = '새로운 영화 추가';
   const likeButton = '좋아요 관리';
