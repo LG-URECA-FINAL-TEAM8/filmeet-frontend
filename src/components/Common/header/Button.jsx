@@ -7,13 +7,17 @@ const HeaderButton = styled.button`
   border: none;
   color: ${lightTheme.fontBlack};
   background-color: ${lightTheme.mainColor};
-  font-size: 1rem;
+  font-size: 1rem; 
   cursor: pointer;
-  font-family: ${lightTheme.fontSuitRegular};
+  font-family: ${(props) => (props.active ? `${lightTheme.fontSuitBold}` : `${lightTheme.fontSuitRegular}`)}
 `;
 
-function Button({ children, onClick }) {
-  return <HeaderButton onClick={onClick}>{children}</HeaderButton>;
+function Button({ children, onClick, active }) {
+  return (
+    <HeaderButton onClick={onClick} active={active}>
+      {children}
+    </HeaderButton>
+  );
 }
 
 export default Button;

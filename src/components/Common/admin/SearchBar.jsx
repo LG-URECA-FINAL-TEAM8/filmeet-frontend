@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { lightTheme } from '../../../styles/themes';
 
 function SearchBar({ onSearch }) {
   return (
@@ -25,7 +25,7 @@ const SearchInput = styled.input`
   height: 3.25rem; 
   padding: 0 1rem;
   font-size: 1rem;
-  border: 0.0625rem solid #ccc; 
+  border: ${lightTheme.defaultBorder};
   border-radius: 0.25rem 0 0 0.25rem;
   box-sizing: border-box;
 
@@ -38,8 +38,8 @@ const SearchInput = styled.input`
 const SearchButton = styled.button`
   width: 4rem;
   height: 3.25rem; 
-  background-color: #333;
-  color: white;
+  background-color:  ${lightTheme.fontBlack};
+  color: ${lightTheme.fontWhite};
   border: none;
   border-radius: 0 0.25rem 0.25rem 0;
   font-size: 1rem;

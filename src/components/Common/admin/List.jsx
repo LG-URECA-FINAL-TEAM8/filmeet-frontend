@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { lightTheme } from '../../../styles/themes';
 
 function List({ movies }) {
   const headertitle = '영화 제목';
@@ -38,11 +39,11 @@ function List({ movies }) {
 export default List;
 
 const TableWrapper = styled.div`
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   display: flex;
   justify-content: center;
-  width: 40.75rem; 
-  height: 40.625rem; 
+  width: 40rem; 
+  height: 41rem; 
   overflow-y: auto; 
   border: 0.0625rem solid #ccc; 
   border-radius: 0.25rem;
@@ -78,7 +79,7 @@ const TableHeaderDelete = styled(TableHeader)`
 `;
 
 const TableRow = styled.tr`
-  border: 0.0625rem solid #ccc;
+  border: ${lightTheme.defaultBorder};
 `;
 
 const TableCell = styled.td`
@@ -91,7 +92,7 @@ const EditButton = styled.button`
   background-color: transparent;
   color: #000;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 25%;
   padding: 0.5rem 0.75rem;
   cursor: pointer;
 
@@ -104,7 +105,7 @@ const DeleteButton = styled.button`
   background-color: transparent;
   color: #000;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 25%;
   padding: 0.5rem 0.75rem;
   cursor: pointer;
 

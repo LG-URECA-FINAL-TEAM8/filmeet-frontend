@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { lightTheme } from '../../../styles/themes';
 
 function AdminHeaderComponent({
   text = '관리자 페이지', 
@@ -37,13 +38,13 @@ export default AdminHeaderComponent;
 
 export const AdminHeader = styled.header`
   width: 100%;
-  height: 3.875rem;
-  background-color: #2c2c2c;
-  color: white;
+  height: 4rem;
+  background-color: ${lightTheme.footerBlack};
+  color: ${lightTheme.fontWhite};
   font-size: 1.5rem;
   font-weight: bold;
-  font-family: 'SUIT-Bold', sans-serif;
-  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
+  font-family: ${lightTheme.fontSuitBold};
+  box-shadow: ${lightTheme.defaulBoxShadow};
   position: relative;
   display: flex;
   align-items: center;
@@ -59,7 +60,7 @@ export const AdminHeaderText = styled.h1`
   margin: 0;
   font-size: ${(props) => props.fontSize || '1.5rem'};
   font-weight: bold;
-  font-family: 'SUIT-Bold', sans-serif;
+  font-family: ${lightTheme.fontSuitBold};
   color: white;
 `;
 
@@ -75,7 +76,7 @@ const HeaderButton = styled.button`
   font-size: 1rem;
   border: none;
   cursor: pointer;
-  font-family: 'SUIT-Bold', sans-serif;
+  font-family: ${lightTheme.fontSuitBold};
   &:hover {
     text-decoration: underline;
   }

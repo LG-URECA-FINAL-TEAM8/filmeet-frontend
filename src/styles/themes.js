@@ -19,4 +19,5 @@ export const lightTheme = {
   fontWeightMedium: 500,
   fontWeightRegular: 400,
   defaulBoxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+  defaultBorder: '1px solid #e0e0e0;',
 };
