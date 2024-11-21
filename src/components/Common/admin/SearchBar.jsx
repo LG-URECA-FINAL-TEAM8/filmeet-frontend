@@ -21,7 +21,7 @@ const SearchBarWrapper = styled.div`
 `;
 
 const SearchInput = styled.input`
-  width: calc(40.75rem - 4rem); 
+  width: calc(41rem - 4rem); 
   height: 3rem; 
   padding: 0 1rem;
   font-size: 1rem;
