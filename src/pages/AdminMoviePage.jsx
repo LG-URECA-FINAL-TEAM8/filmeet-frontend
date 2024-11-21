@@ -40,14 +40,15 @@ function AdminMoviesPage() {
     { title: '영화6' },
     { title: '영화7' },
   ]);
-
+  const headertitle = '등록된 영화 목록';
+  
   function handleSearch() {
 
   }
 
   return (
     <AdminPage>
-      <AdminHeaderComponent text="등록된 영화 목록" fontSize="1.5rem" top="50%" left="20%" />
+      <AdminHeaderComponent text={headertitle} fontSize="1.5rem" top="50%" left="20%" />
       <SearchBar onSearch={handleSearch} />
       <List movies={movies} />
     </AdminPage>

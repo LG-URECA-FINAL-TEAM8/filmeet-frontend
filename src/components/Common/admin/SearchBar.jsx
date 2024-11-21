@@ -22,7 +22,7 @@ const SearchBarWrapper = styled.div`
 
 const SearchInput = styled.input`
   width: calc(40.75rem - 4rem); 
-  height: 3.25rem; 
+  height: 3rem; 
   padding: 0 1rem;
   font-size: 1rem;
   border: ${lightTheme.defaultBorder};
@@ -31,21 +31,21 @@ const SearchInput = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #333;
+    border-color: ${lightTheme.fontBlack};
   }
 `;
 
 const SearchButton = styled.button`
   width: 4rem;
-  height: 3.25rem; 
+  height: 3rem; 
   background-color:  ${lightTheme.fontBlack};
   color: ${lightTheme.fontWhite};
   border: none;
   border-radius: 0 0.25rem 0.25rem 0;
   font-size: 1rem;
   cursor: pointer;
-
+  font-family: ${lightTheme.fontSuitRegular};
   &:hover {
-    background-color: #555;
+    background-color: ${lightTheme.footerBlack};
   }
 `;

@@ -2,39 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 
-function AdminHeaderComponent(props) {
-  const {
-    text,
-    fontSize,
-    textPosition,
-    showButtons,
-  } = {
-    text: '관리자 페이지',
-    fontSize: '1.5rem',
-    textPosition: { top: '50%', left: '20%' },
-    showButtons: true,
-    ...props,
-  };
-  const allMovieButton = '전체 영화 목록';
-  const newMovieButton = '새로운 영화 추가';
-  const likeButton = '좋아요 관리';
+function AdminHeaderComponent({ text = '관리자 페이지', showButtons = true }) {
+  const buttons = [
+    { title: '전체 영화 목록'},
+    { title: '새로운 영화 추가'},
+    { title: '좋아요 관리'}, 
+  ];
 
   return (
     <AdminHeader>
-      <AdminHeaderText
-        top={textPosition.top}
-        left={textPosition.left}
-        fontSize={fontSize}
-      >
-        {text}
-      </AdminHeaderText>
-
+      <HeaderContent>
+      <AdminHeaderText>{text}</AdminHeaderText>
+      </HeaderContent>
       {showButtons && (
-        <HeaderButtons>
-          <HeaderButton>{allMovieButton}</HeaderButton>
-          <HeaderButton>{newMovieButton}</HeaderButton>
-          <HeaderButton>{likeButton}</HeaderButton>
-        </HeaderButtons>
+        <ButtonGroup>
+          {buttons.map((button, index) => (
+            <StyledButton key={index} onClick={button.onClick}>
+              {button.title}
+            </StyledButton>
+          ))}
+        </ButtonGroup>
       )}
     </AdminHeader>
   );
@@ -47,7 +34,7 @@ export const AdminHeader = styled.header`
   height: 4rem;
   background-color: ${lightTheme.footerBlack};
   color: ${lightTheme.fontWhite};
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   font-family: ${lightTheme.fontSuitBold};
   box-shadow: ${lightTheme.defaulBoxShadow};
@@ -57,7 +44,11 @@ export const AdminHeader = styled.header`
   justify-content: flex-start;
   padding: 0 1rem; 
 `;
-
+const HeaderContent = styled.div`
+  flex: 1; 
+  display: flex;
+  align-items: center;
+`;
 export const AdminHeaderText = styled.h1`
   position: absolute;
   top: ${(props) => props.top || '50%'}; 
@@ -69,21 +60,22 @@ export const AdminHeaderText = styled.h1`
   font-family: ${lightTheme.fontSuitBold};
   color: white;
 `;
-
-const HeaderButtons = styled.div`
-  display: flex;
-  gap: 1rem; 
-  margin-left: auto;
-`;
-
-const HeaderButton = styled.button`
+const StyledButton = styled.button`
   background: none;
-  color: white;
+  color: ${lightTheme.fontWhite};
   font-size: 1rem;
   border: none;
   cursor: pointer;
   font-family: ${lightTheme.fontSuitBold};
+
   &:hover {
     text-decoration: underline;
   }
 `;
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+
+

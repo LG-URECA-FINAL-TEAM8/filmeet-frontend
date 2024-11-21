@@ -10,6 +10,7 @@ import {
 } from '../styles/admin/adminlogin';
 
 function AdminLoginPage() {
+  const headertitle = '관리자 페이지';
   const logintitle = '관리자 로그인';
   const loginbutton = '로그인';
   const formfields = [
@@ -18,7 +19,7 @@ function AdminLoginPage() {
   ];
   return (
     <AdminPage>
-      <AdminHeaderComponent showButtons = {false}/>
+      <AdminHeaderComponent text = {headertitle} showButtons = {false}/>
       <AdminContent>
         <AdminTitle>{logintitle}</AdminTitle>
         <AdminForm>

@@ -45,7 +45,7 @@ const TableWrapper = styled.div`
   width: 40rem; 
   height: 41rem; 
   overflow-y: auto; 
-  border: 0.0625rem solid #ccc; 
+  border: ${lightTheme.defaultBorder}; 
   border-radius: 0.25rem;
 `;
 
@@ -55,15 +55,15 @@ const MovieTable = styled.table`
 `;
 
 const TableHeader = styled.th`
-  border: 0.0625rem solid #ccc;
+  border: ${lightTheme.defaultBorder};
   padding: 0.75rem;
   text-align: center;
-  background-color: #f9f9f9;
+  background-color: ${lightTheme.mainColor};
   font-weight: bold;
   position: sticky; 
   top: 0; 
   z-index: 1; 
-
+  color: ${lightTheme.fontBlack};
 `;
 
 const TableHeaderTitle = styled(TableHeader)`
@@ -83,33 +83,36 @@ const TableRow = styled.tr`
 `;
 
 const TableCell = styled.td`
-  border: 0.0625rem solid #ccc;
+  border: ${lightTheme.defaultBorder};
   padding: 0.75rem;
   text-align: center;
+  color: ${lightTheme.fontBlack};
 `;
 
 const EditButton = styled.button`
   background-color: transparent;
-  color: #000;
+  color: ${lightTheme.fontBlack};
   border: none;
   border-radius: 25%;
-  padding: 0.5rem 0.75rem;
+  padding: 1rem 1rem;
   cursor: pointer;
 
   &:hover {
     text-decoration: underline;
+    color: ${lightTheme.footerBlack};
   }
 `;
 
 const DeleteButton = styled.button`
   background-color: transparent;
-  color: #000;
+  color: ${lightTheme.fontBlack};
   border: none;
   border-radius: 25%;
-  padding: 0.5rem 0.75rem;
+  padding: 1rem 1rem;
   cursor: pointer;
 
   &:hover {
     text-decoration: underline;
+    color: ${lightTheme.footerBlack};
   }
 `;
