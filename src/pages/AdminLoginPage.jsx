@@ -18,7 +18,7 @@ function AdminLoginPage() {
   ];
   return (
     <AdminPage>
-      <AdminHeaderComponent />
+      <AdminHeaderComponent showButtons = {false}/>
       <AdminContent>
         <AdminTitle>{logintitle}</AdminTitle>
         <AdminForm>
