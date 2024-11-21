@@ -2,19 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 function AdminHeaderComponent({
-  text = '관리자 페이지', // 기본 문구
+  text = '관리자 페이지', 
   fontSize = '1.5rem',
-  textPosition = { top: '50%', left: '20%' }, // 문구 위치 설정
+  textPosition = { top: '50%', left: '20%' }, 
   showButtons = true,
 }) {
-  // 버튼 텍스트 정의
+
   const allMovieButton = '전체 영화 목록';
   const newMovieButton = '새로운 영화 추가';
   const likeButton = '좋아요 관리';
 
   return (
     <AdminHeader>
-      {/* 동적으로 위치 조정 가능한 헤더 문구 */}
       <AdminHeaderText
         top={textPosition.top}
         left={textPosition.left}
@@ -54,8 +53,8 @@ export const AdminHeader = styled.header`
 
 export const AdminHeaderText = styled.h1`
   position: absolute;
-  top: ${(props) => props.top || '50%'}; /* 동적으로 설정 가능한 top */
-  left: ${(props) => props.left || '20%'}; /* 동적으로 설정 가능한 left */
+  top: ${(props) => props.top || '50%'}; 
+  left: ${(props) => props.left || '20%'}; 
   transform: translate(-50%, -50%);
   margin: 0;
   font-size: ${(props) => props.fontSize || '1.5rem'};
