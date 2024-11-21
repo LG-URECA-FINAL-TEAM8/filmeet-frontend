@@ -105,6 +105,7 @@ export const FollowButton = styled.button`
   &:hover {
     background-color: ${lightTheme.fontGray};
     color: ${lightTheme.fontBlack};
+  }
 `;
 
 export const StatsContainerWrapper = styled.div`
