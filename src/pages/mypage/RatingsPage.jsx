@@ -1,7 +1,7 @@
 import React from "react";
 
 const RatingsPage = () => {
-  return <div>This is the Ratings Page</div>;
+  return <div>평가페이지</div>;
 };
 
 export default RatingsPage;
