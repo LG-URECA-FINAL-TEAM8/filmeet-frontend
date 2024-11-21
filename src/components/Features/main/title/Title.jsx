@@ -1,6 +1,4 @@
-import React, { Children } from 'react';
 import styled from 'styled-components';
-import Poster from '../poster/Poster';
 import { lightTheme } from '../../../../styles/themes';
 
 const TitleSection = styled.section`

@@ -1,27 +1,26 @@
 import React from 'react';
 import { MainBody } from '../styles/main/main';
-import Title from '../components/Common/main/Title/Title';
-import Poster from '../components/Common/main/poster/Poster';
+import Title from '../components/features/main/title/Title';
+import Poster from '../components/Features/main/poster/Poster';
+import HotFeed from '../components/Features/comments/HotFeed';
 
 function Main() {
-  const movieTitle = [
-    '개인 추천 영화',
-    '필밋 TOP 10',
-    '공개 예정작',
-    '박스오피스 순위',
-    '지금 뜨는 코멘트',
+  const movieSections = [
+    { title: '개인 추천 영화', component: <Poster /> },
+    { title: '필밋 TOP 10', component: <Poster /> },
+    { title: '공개 예정작', component: <Poster /> },
+    { title: '박스오피스 순위', component: <Poster /> },
+    { title: '지금 뜨는 코멘트', component: <HotFeed /> },
   ];
 
   return (
     <MainBody>
-      <Title>{movieTitle[0]}</Title>
-      <Poster />
-      <Title>{movieTitle[1]}</Title>
-      <Poster />
-      <Title>{movieTitle[2]}</Title>
-      <Poster />
-      <Title>{movieTitle[3]}</Title>
-      <Poster />
+      {movieSections.map(({ title, component }, index) => (
+        <React.Fragment key={index}>
+          <Title>{title}</Title>
+          {component}
+        </React.Fragment>
+      ))}
     </MainBody>
   );
 }
