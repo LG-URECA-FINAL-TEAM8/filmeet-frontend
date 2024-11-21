@@ -13,7 +13,7 @@ export const AdminPage = styled.section`
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-color: #ffffff;
+  background-color: ${lightTheme.mainColor};
   position: relative;
 `;
 
@@ -23,20 +23,20 @@ export const AdminContent = styled.main`
 `;
 
 export const AdminTitle = styled.h2`
-  margin-top: 15rem;
+  margin-top: 10rem;
   font-size: 1.5rem;
-  font-weight: bold;
-  font-family: 'SUIT-Bold', sans-serif;
-  color: #333333;
-  border-bottom: 0.1rem solid #333333;
+  font-weight: ${lightTheme.fontWeightBold};
+  font-family: ${lightTheme.fontSuitBold};
+  color: ${lightTheme.fontBlack};
+  border-bottom: 0.1rem solid ${lightTheme.fontBlack};
   width: 70%;
   display: inline-block;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
   margin-bottom: 2rem;
 `;
 
 export const AdminForm = styled.form`
-  max-width: 23.375rem; 
+  max-width: 23rem; 
   width: 100%;
 `;
 
@@ -45,16 +45,16 @@ export const FormGroup = styled.div`
 `;
 
 export const FormInput = styled.input`
-  width: 23.375rem; 
-  height: 2.75rem; 
-  padding: 0.5rem;
+  width: 23rem; 
+  height: 3rem; 
+  padding: 1rem;
   font-size: 1rem;
-  border: 0.1rem solid #cccccc;
+  border: ${lightTheme.defaultBorder};
   border-radius: 0.25rem;
   box-sizing: border-box;
   &:focus {
     outline: none;
-    border-color: #333333;
+    border-color: ${lightTheme.fontBlack};
   }
 `;
 
@@ -63,17 +63,17 @@ export const SubmitButton = styled.button.attrs(function () {
     type: 'submit',
   };
 })`
-  width: 23.375rem; 
-  height: 3.375rem; 
+  width: 23rem; 
+  height: 3rem; 
   font-size: 1rem;
-  background-color: #333333;
-  color: white;
+  background-color: ${lightTheme.fontBlack};
+  color: ${lightTheme.fontWhite};
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
-  font-weight: bold;
-  font-family: 'SUIT-Regular', sans-serif;
+  font-weight: ${lightTheme.fontWeightBold};
+  font-family: ${lightTheme.fontSuitRegular};
   &:hover {
-    background-color: #555555;
+    background-color: ${lightTheme.footerBlack};
   }
 `;

@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 
 function List({ movies }) {
-  const headertitle = '영화 제목';
-  const headeredit = '수정';
-  const headerdelete = '삭제';
+  const tabletitle = '영화 제목';
+  const tableedit = '수정';
+  const tabledelete = '삭제';
   const editbutton = '수정';
   const deletebutton = '삭제';
   return (
@@ -13,9 +13,9 @@ function List({ movies }) {
       <MovieTable>
         <thead>
           <tr>
-            <TableHeaderTitle>{headertitle}</TableHeaderTitle>
-            <TableHeaderEdit>{headeredit}</TableHeaderEdit>
-            <TableHeaderDelete>{headerdelete}</TableHeaderDelete>
+            <TableHeaderTitle>{tabletitle}</TableHeaderTitle>
+            <TableHeaderEdit>{tableedit}</TableHeaderEdit>
+            <TableHeaderDelete>{tabledelete}</TableHeaderDelete>
           </tr>
         </thead>
         <tbody>
@@ -59,7 +59,7 @@ const TableHeader = styled.th`
   padding: 1rem;
   text-align: center;
   background-color: ${lightTheme.mainColor};
-  font-weight: bold;
+  font-weight: ${lightTheme.fontWeightBold};
   position: sticky; 
   top: 0; 
   z-index: 1; 
@@ -93,7 +93,6 @@ const EditButton = styled.button`
   background-color: transparent;
   color: ${lightTheme.fontBlack};
   border: none;
-  border-radius: 25%;
   padding: 1rem 1rem;
   cursor: pointer;
 
@@ -107,7 +106,6 @@ const DeleteButton = styled.button`
   background-color: transparent;
   color: ${lightTheme.fontBlack};
   border: none;
-  border-radius: 25%;
   padding: 1rem 1rem;
   cursor: pointer;
 

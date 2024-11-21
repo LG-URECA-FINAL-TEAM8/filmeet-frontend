@@ -31,7 +31,7 @@ export const MovieTable = styled.table`
   border: ${lightTheme.defaultBorder};
 `;
 export const TableHeader = styled.th`
-   border: ${lightTheme.defaultBorder};
+  border: ${lightTheme.defaultBorder};
   padding: 1rem;
   text-align: center;
   background-color: ${lightTheme.mainColor};

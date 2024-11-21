@@ -35,7 +35,7 @@ export const AdminHeader = styled.header`
   background-color: ${lightTheme.footerBlack};
   color: ${lightTheme.fontWhite};
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: ${lightTheme.fontWeightBold};
   font-family: ${lightTheme.fontSuitBold};
   box-shadow: ${lightTheme.defaulBoxShadow};
   position: relative;
@@ -56,7 +56,7 @@ export const AdminHeaderText = styled.h1`
   transform: translate(-50%, -50%);
   margin: 0;
   font-size: ${(props) => props.fontSize || '1.5rem'};
-  font-weight: bold;
+  font-weight: ${lightTheme.fontWeightBold};
   font-family: ${lightTheme.fontSuitBold};
   color: white;
 `;
