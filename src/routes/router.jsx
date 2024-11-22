@@ -2,10 +2,10 @@ import { createBrowserRouter } from 'react-router-dom';
 import Main from '../pages/Main';
 import DefaultLayout from '../components/Layout/DefaultLayout';
 import MyPage from '../pages/mypage/MyPage';
-import RatingsPage from '../pages/mypage/RatingsPage';
+import RatingsPage from '../pages/mypage/ratingpage/RatingsPage';
 import CommentsPage from '../pages/mypage/CommentsPage';
 import CollectionsPage from '../pages/mypage/CollectionsPage';
-
+import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +22,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'mypage/ratings',
-        element: <RatingsPage />
+        element: <RatingsPage />,
+      },
+      {
+        path: 'mypage/contents/movies/ratings',
+        element: <MovieRatingsPage />,
       },
       {
         path: 'mypage/comments',
