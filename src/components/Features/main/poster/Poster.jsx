@@ -23,7 +23,7 @@ function Poster() {
         showThumbs={false}
         showStatus={false}
         showIndicators={false}
-        infiniteLoop={true}
+        infiniteLoop={false}
         centerMode={false}
         swipeable={true}
         emulateTouch={true}
@@ -60,20 +60,23 @@ const CarouselContainer = styled.div`
   width: calc(5 * (20% - 1rem) + 4rem);
   height: auto;
   position: relative;
+  overflow: visible;
 
   .carousel.carousel-slider {
     height: 100%;
+    overflow: visible;
   }
 
   .carousel .slide {
     background: transparent;
     height: auto;
+    overflow: visible;
   }
 `;
 
 const NavButton = styled.button`
   position: absolute;
-  top: 46%;
+  top: 42%;
   transform: translateY(-50%);
   width: 2rem;
   height: 2rem;
@@ -94,7 +97,7 @@ const NavButton = styled.button`
   }
 
   &.prev {
-    left: 0rem;
+    left: -0.8rem;
   }
 
   &.next {

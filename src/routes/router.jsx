@@ -5,7 +5,7 @@ import MyPage from '../pages/mypage/MyPage';
 import RatingsPage from '../pages/mypage/RatingsPage';
 import CommentsPage from '../pages/mypage/CommentsPage';
 import CollectionsPage from '../pages/mypage/CollectionsPage';
-
+import CommonPoster from '../components/Common/poster/CommonPoster';
 
 const router = createBrowserRouter([
   {
@@ -17,20 +17,24 @@ const router = createBrowserRouter([
         element: <Main />,
       },
       {
+        path: 'poster',
+        element: <CommonPoster />,
+      },
+      {
         path: 'mypage',
         element: <MyPage />,
       },
       {
         path: 'mypage/ratings',
-        element: <RatingsPage />
+        element: <RatingsPage />,
       },
       {
         path: 'mypage/comments',
-        element: <CommentsPage />
+        element: <CommentsPage />,
       },
       {
         path: 'mypage/collections',
-        element: <CollectionsPage />
+        element: <CollectionsPage />,
       },
     ],
   },
