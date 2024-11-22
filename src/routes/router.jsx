@@ -5,7 +5,6 @@ import MyPage from '../pages/mypage/MyPage';
 import RatingsPage from '../pages/mypage/RatingsPage';
 import CommentsPage from '../pages/mypage/CommentsPage';
 import CollectionsPage from '../pages/mypage/CollectionsPage';
-import CommonPoster from '../components/Common/poster/CommonPoster';
 
 const router = createBrowserRouter([
   {
@@ -15,10 +14,6 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <Main />,
-      },
-      {
-        path: 'poster',
-        element: <CommonPoster />,
       },
       {
         path: 'mypage',

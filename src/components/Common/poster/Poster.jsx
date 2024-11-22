@@ -1,58 +1,63 @@
 import React from 'react';
 import styled from 'styled-components';
-import { lightTheme } from '../../../../styles/themes';
-import movies from '../../../../data/moives.json';
+import { lightTheme } from '../../../styles/themes';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { groupMovies } from '../../../utils/poster/posterGroup';
 
-function Poster() {
-  const groupMovies = (movies, size) => {
-    const groups = [];
-    for (let i = 0; i < movies.length; i += size) {
-      groups.push(movies.slice(i, i + size));
-    }
-    return groups;
-  };
-
+function Poster({ useCarousel = false, movies = { movies } }) {
   const movieGroups = groupMovies(movies, 5);
 
+  if (useCarousel) {
+    return (
+      <CarouselContainer>
+        <Carousel
+          showThumbs={false}
+          showStatus={false}
+          showIndicators={false}
+          infiniteLoop={false}
+          centerMode={false}
+          swipeable={true}
+          emulateTouch={true}
+          renderArrowPrev={(clickHandler, hasPrev) =>
+            hasPrev && (
+              <NavButton className="prev" onClick={clickHandler}>
+                <ChevronLeft color={lightTheme.fontGray} />
+              </NavButton>
+            )
+          }
+          renderArrowNext={(clickHandler, hasNext) =>
+            hasNext && (
+              <NavButton className="next" onClick={clickHandler}>
+                <ChevronRight color={lightTheme.fontGray} />
+              </NavButton>
+            )
+          }>
+          {movieGroups.map((group, groupIndex) => (
+            <SlideContainer key={groupIndex}>
+              {group.map((movie) => (
+                <PostItem key={movie.id}>
+                  <PostCardImg src={movie.image} alt={movie.title} />
+                  <PostTitle>{movie.title}</PostTitle>
+                </PostItem>
+              ))}
+            </SlideContainer>
+          ))}
+        </Carousel>
+      </CarouselContainer>
+    );
+  }
+
   return (
-    <CarouselContainer>
-      <Carousel
-        showThumbs={false}
-        showStatus={false}
-        showIndicators={false}
-        infiniteLoop={false}
-        centerMode={false}
-        swipeable={true}
-        emulateTouch={true}
-        renderArrowPrev={(clickHandler, hasPrev) =>
-          hasPrev && (
-            <NavButton className="prev" onClick={clickHandler}>
-              <ChevronLeft color={lightTheme.fontGray} />
-            </NavButton>
-          )
-        }
-        renderArrowNext={(clickHandler, hasNext) =>
-          hasNext && (
-            <NavButton className="next" onClick={clickHandler}>
-              <ChevronRight color={lightTheme.fontGray} />
-            </NavButton>
-          )
-        }>
-        {movieGroups.map((group, groupIndex) => (
-          <SlideContainer key={groupIndex}>
-            {group.map((movie) => (
-              <PostItem key={movie.id}>
-                <PostCardImg src={movie.image} alt={movie.title} />
-                <PostTitle>{movie.title}</PostTitle>
-              </PostItem>
-            ))}
-          </SlideContainer>
-        ))}
-      </Carousel>
-    </CarouselContainer>
+    <SlideContainer>
+      {movies.map((movie) => (
+        <PostItem key={movie.id}>
+          <PostCardImg src={movie.image} alt={movie.title} />
+          <PostTitle>{movie.title}</PostTitle>
+        </PostItem>
+      ))}
+    </SlideContainer>
   );
 }
 
