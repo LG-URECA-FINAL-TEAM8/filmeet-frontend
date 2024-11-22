@@ -6,7 +6,6 @@ import RatingsPage from '../pages/mypage/RatingsPage';
 import CommentsPage from '../pages/mypage/CommentsPage';
 import CollectionsPage from '../pages/mypage/CollectionsPage';
 
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -22,15 +21,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'mypage/ratings',
-        element: <RatingsPage />
+        element: <RatingsPage />,
       },
       {
         path: 'mypage/comments',
-        element: <CommentsPage />
+        element: <CommentsPage />,
       },
       {
         path: 'mypage/collections',
-        element: <CollectionsPage />
+        element: <CollectionsPage />,
       },
     ],
   },

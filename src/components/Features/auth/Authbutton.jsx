@@ -9,8 +9,8 @@ const Authbutton = ({ value }) => {
 export default Authbutton;
 
 const StyledButton = styled.button`
-  width: 97%;
-  padding: 0.8rem;
+  width: 100%;
+  padding: 1rem;
   background-color: ${lightTheme.fontPink};
   color: ${lightTheme.fontWhite};
   font-size: 1rem;
@@ -18,10 +18,10 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 0.25rem;
   margin-top: 0.3rem;
-  font-family:${lightTheme.fontSuitRegular};
+  font-family: ${lightTheme.fontSuitRegular};
   cursor: pointer;
 
   &:hover {
-    background-color: #E02761; /* lightTheme 색깔추가 해줭*/
+    background-color: #e02761; /* lightTheme 색깔추가 해줭*/
   }
 `;
