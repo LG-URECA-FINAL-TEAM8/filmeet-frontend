@@ -97,6 +97,8 @@ export const FilterButton = styled.button`
 export const SectionContainer = styled.div`
   margin: 1.5rem 0;
   width: 100%;
+  padding-bottom: 1rem; /* 섹션 하단 여백 */
+  border-bottom: 1px solid ${lightTheme.fontGray};
 `;
 
 export const SectionTitle = styled.h2`

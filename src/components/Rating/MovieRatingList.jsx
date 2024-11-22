@@ -1,14 +1,13 @@
 import React from "react";
-import { TopContainer, BackButton, TopTitle, MovieContainer, MovieItem, MovieImage, MovieTitle, MovieRating, MovieInfo, FilterContainer, FilterButton } from "../../styles/rating/rating"; // 스타일 컴포넌트
+import { TopContainer, BackButton, TopTitle, FilterContainer, FilterButton, MovieImage, MovieContainer } from "../../styles/rating/rating"; // 스타일 컴포넌트
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import useRatingsStore from "../../store/rating/useRatingsStore";
 import { useNavigate } from "react-router-dom";
 
 const MovieRatingList = () => {
-  const { setActiveComponent, filteredMovies, activeFilter, setActiveFilter } = useRatingsStore();
+  const { activeFilter, setActiveFilter } = useRatingsStore();
   const navigate = useNavigate(); 
-  const movies = filteredMovies();
 
   const handleBackClick = () => {
     navigate('/mypage/ratings')
@@ -36,19 +35,7 @@ const MovieRatingList = () => {
       </TopContainer>
 
       <MovieContainer>
-        {movies.length > 0 ? (
-          movies.map((movie) => (
-            <MovieItem key={movie.id}>
-              <MovieImage src={movie.image} alt={movie.title} />
-              <MovieInfo>
-                <MovieTitle>{movie.title}</MovieTitle>
-                <MovieRating>평가함 ★ {movie.rating}</MovieRating>
-              </MovieInfo>
-            </MovieItem>
-          ))
-        ) : (
-          <p>아직 평가하신 작품이 없어요.</p>
-        )}
+        <MovieImage />
       </MovieContainer>
     </>
   );

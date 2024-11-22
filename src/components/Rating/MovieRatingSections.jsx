@@ -1,10 +1,10 @@
 import useRatingsStore from "../../store/rating/useRatingsStore";
-import { MovieContainer, MovieImage, MovieInfo, MovieItem, MovieTitle, SectionContainer, SectionTitle } from "../../styles/rating/rating";
+import { MovieContainer, MovieImage, SectionContainer, SectionTitle } from "../../styles/rating/rating";
 
 const MovieRatingSections = () => {
     const { movies } = useRatingsStore();
   
-    const ratings = [5.0, 4.5, 4.0, 3.5, 3.0]; // 점수 배열
+    const ratings = [5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5];
     const sections = ratings.map((rating) => {
       const filteredMovies = movies.filter((movie) => movie.rating === rating);
   
@@ -21,14 +21,7 @@ const MovieRatingSections = () => {
             <SectionTitle>{title}</SectionTitle>
             {movies.length > 0 ? (
               <MovieContainer>
-                {movies.map((movie) => (
-                  <MovieItem key={movie.id}>
-                    <MovieImage src={movie.image} alt={movie.title} />
-                    <MovieInfo>
-                      <MovieTitle>{movie.title}</MovieTitle>
-                    </MovieInfo>
-                  </MovieItem>
-                ))}
+                <MovieImage />
               </MovieContainer>
             ) : (
               <p>결과가 없어요.</p>
