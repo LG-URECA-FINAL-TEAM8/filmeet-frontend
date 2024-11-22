@@ -4,10 +4,11 @@ import SearchBar from './SearchBar';
 import List from './List';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import moviesData from '../../../data/movies.json';
+import { lightTheme } from '../../../styles/themes';
 
 function MovieManagement() {
   const { movies, setMovies } = useMovieStore(); 
-
+  const pagetitle = '전체 영화 목록';
   useEffect(() => {
     setMovies(moviesData);
   }, [setMovies]);
@@ -20,7 +21,8 @@ function MovieManagement() {
   };
 
 return (
-    <Wrapper>
+    <PageWrapper>
+      <PageTitle>{pagetitle}</PageTitle>
       <SearchBarWrapper>
         <SearchBar onSearch={handleSearch} />
       </SearchBarWrapper>
@@ -32,10 +34,9 @@ return (
           { label: '삭제', onClick: (item) => alert(`삭제: ${item.title}`) },
         ]}
       />
-    </Wrapper>
+    </PageWrapper>
   );
 }
-
 
 export default MovieManagement;
 
@@ -43,34 +44,18 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
-  background-color: #f8f9fa;
-  height: 100vh;
+  padding: 1rem;
+  background-color: ${lightTheme.backgroundGray}
+  height: 100%;
 `;
 
 const PageTitle = styled.h2`
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: ${lightTheme.fontWeightBold};
   margin-bottom: 1rem;
 `;
 
 const SearchBarWrapper = styled.div`
   width: 80%;
   margin-bottom: 1rem;
-`;
-
-const ListWrapper = styled.div`
-  width: 80%;
-  flex: 1;
-  overflow-y: auto;
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 0.25rem;
-  padding: 1rem;
-`;
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
 `;

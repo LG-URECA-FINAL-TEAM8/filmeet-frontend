@@ -2,34 +2,38 @@ import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 
-function List({ movies }) {
-  const tabletitle = '영화 제목';
-  const tableedit = '수정';
-  const tabledelete = '삭제';
-  const editbutton = '수정';
-  const deletebutton = '삭제';
+function List({ data = [], columns = [], actions = [] }) {
   return (
     <TableWrapper>
       <MovieTable>
         <thead>
           <tr>
-            <TableHeaderTitle>{tabletitle}</TableHeaderTitle>
-            <TableHeaderEdit>{tableedit}</TableHeaderEdit>
-            <TableHeaderDelete>{tabledelete}</TableHeaderDelete>
+            {columns.map((column, index) => (
+              <TableHeader key={index}>{column}</TableHeader>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {movies.map((movie, index) => (
-            <TableRow key={index}>
-              <TableCell>{movie.title}</TableCell>
-              <TableCell>
-                <EditButton>{editbutton}</EditButton>
-              </TableCell>
-              <TableCell>
-                <DeleteButton>{deletebutton}</DeleteButton>
+          {data.length > 0 ? (
+            data.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>{item.title}</TableCell>
+                {actions.map((action, actionIndex) => (
+                  <TableCell key={actionIndex}>
+                    <ActionButton onClick={() => action.onClick(item)}>
+                      {action.label}
+                    </ActionButton>
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} style={{ textAlign: 'center' }}>
+                데이터가 없습니다.
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </tbody>
       </MovieTable>
     </TableWrapper>
@@ -39,11 +43,10 @@ function List({ movies }) {
 export default List;
 
 const TableWrapper = styled.div`
-  margin-top: 1rem;
   display: flex;
   justify-content: center;
-  width: 41rem; 
-  height: 41rem; 
+  width: 100%; 
+  height: 38rem; 
   overflow-y: auto; 
   border: ${lightTheme.defaultBorder}; 
   border-radius: 0.25rem;
@@ -66,18 +69,6 @@ const TableHeader = styled.th`
   color: ${lightTheme.fontBlack};
 `;
 
-const TableHeaderTitle = styled(TableHeader)`
-  width: 64%;
-`;
-
-const TableHeaderEdit = styled(TableHeader)`
-  width: 18%;
-`;
-
-const TableHeaderDelete = styled(TableHeader)`
-  width: 18%;
-`;
-
 const TableRow = styled.tr`
   border: ${lightTheme.defaultBorder};
 `;
@@ -89,24 +80,10 @@ const TableCell = styled.td`
   color: ${lightTheme.fontBlack};
 `;
 
-const EditButton = styled.button`
+const ActionButton = styled.button`
   background-color: transparent;
   color: ${lightTheme.fontBlack};
   border: none;
-  padding: 1rem 1rem;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-    color: ${lightTheme.footerBlack};
-  }
-`;
-
-const DeleteButton = styled.button`
-  background-color: transparent;
-  color: ${lightTheme.fontBlack};
-  border: none;
-  padding: 1rem 1rem;
   cursor: pointer;
 
   &:hover {

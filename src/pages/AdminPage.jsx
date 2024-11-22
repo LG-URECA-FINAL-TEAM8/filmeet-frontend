@@ -5,7 +5,7 @@ import MovieManagement from '../components/Common/admin/MovieManagement';
 import AddNewMovie from '../components/Common/admin/AddMovie';
 import LikeManagement from '../components/Common/admin/LikeManagement';
 import usePageStore from '../store/admin/usePagestore';
-
+import { AdminPageWrapper, PageContent } from '../styles/admin/adminpage';
 
 function AdminPage() {
   const { currentPage, setPage } = usePageStore();
@@ -37,22 +37,3 @@ function AdminPage() {
 }
 
 export default AdminPage;
-
-const AdminPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items : center;
-  height: 100vh;
-  background-color: #f8f9fa;
-  position : relative;
-`;
-
-const PageContent = styled.div`
-  flex: 1;
-  padding: 1rem;
-  box-sizing: border-box;
-  width: 48%;
-  justify-content: center;
-  align-items: flex-start;
-  overflow-y: hidden;
-`;
