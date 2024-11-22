@@ -30,11 +30,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'mypage/comments',
-        element: <CommentsPage />
+        element: <CommentsPage />,
       },
       {
         path: 'mypage/collections',
-        element: <CollectionsPage />
+        element: <CollectionsPage />,
       },
     ],
   },
