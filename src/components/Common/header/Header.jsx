@@ -37,11 +37,7 @@ function Header() {
 
   const renderButtons = (buttonList, isMain = false) =>
     buttonList.map(({ title, onClick }, index) => (
-      <Button
-        key={index}
-        onClick={onClick}
-        active={isMain && activeButton === title} 
-      >
+      <Button key={index} onClick={onClick} active={isMain && activeButton === title}>
         {title}
       </Button>
     ));
