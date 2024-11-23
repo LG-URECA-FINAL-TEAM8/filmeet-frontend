@@ -70,7 +70,7 @@ export const Count = styled.p`
   font-weight: ${lightTheme.fontWeightMedium};
   font-size: 1.2rem;
   color: ${lightTheme.fontGray};
-  margin: 0 0 0 0.5rem;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
 `;
 
 export const FilterContainer = styled.div`
@@ -95,32 +95,57 @@ export const FilterButton = styled.button`
 `;
 
 export const SectionContainer = styled.div`
-  margin: 1.5rem 0;
   width: 100%;
-  padding-bottom: 1rem; /* 섹션 하단 여백 */
-  border-bottom: 1px solid ${lightTheme.fontGray};
+  padding-bottom: 1rem;
+  margin: 0 0 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+`;
+
+export const SectionHeader = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 0 1rem;
+margin-bottom: 1rem;
 `;
 
 export const SectionTitle = styled.h2`
-  font: ${lightTheme.fontSuitBold};
-  font-size: 1.5rem;
-  color: ${lightTheme.fontPrimary};
-  padding: 0 0 0 1rem;
-  margin-bottom: 1rem;
-  text-align: left;
+display: flex;
+font: ${lightTheme.fontSuitBold};
+font-size: 1.5rem;
+color: ${lightTheme.fontPrimary};
+margin: 1rem 0 0 0;
 `;
 
-export const MovieContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 한 열당 최소 150px */
-  gap: 1rem; /* 아이템 간격 */
-  max-width: 1920px; /* 최대 너비 */
-  margin: 0 auto; /* 중앙 정렬 */
-  padding: 1rem; /* 내부 여백 */
-  box-sizing: border-box;
+export const SectionCount = styled.p`
+  font: ${lightTheme.fontSuitRegular};
+  font-weight: ${lightTheme.fontWeightMedium};
+  font-size: 1.2rem;
+  color: ${lightTheme.fontGray};
+  margin: 0.2rem 0.5rem 0.5rem 0.5rem;
 `;
 
+export const MoreButton = styled.button`
+  background: none;
+  border: none;
+  color: ${lightTheme.fontPink};
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: ${lightTheme.fontWeightRegular};
+  padding: 0;
 
+  &:hover {
+    text-decoration: underline;
+    color: ${lightTheme.fontPinkHover};
+  }
+`;
+
+export const NoResults = styled.div`
+  text-align: center;
+  font-size: 1.2rem;
+  color: ${lightTheme.fontGray};
+  margin: 2rem 0;
+`;
 
 
 

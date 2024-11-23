@@ -156,12 +156,14 @@ function Poster({ caseType = 0, movies = { movies } }) {
         {movies.map((movie) => (
           <PostItem key={movie.id}>
             <PostCardImg src={movie.image} alt={movie.title} />
+            <PostTitle>{movie.title}</PostTitle>
           </PostItem>
         ))}
       </SlideContainer>
     );
   }
 
+  //case 6 (case 4 grid 버전)
   if (caseType == 6) {
     return (
       <GridContainer>
@@ -170,6 +172,20 @@ function Poster({ caseType = 0, movies = { movies } }) {
             <PostCardImg src={movie.image} alt={movie.title} />
             <PostTitle>{movie.title}</PostTitle>
             <PinkField>{`평가함 ★ ${movie.rating}`}</PinkField>
+          </GridItem>
+        ))}
+      </GridContainer>
+    );
+  }
+
+  //case 6 (case 5 grid 버전)
+  if (caseType == 7) {
+    return (
+      <GridContainer>
+        {movies.map((movie) => (
+          <GridItem key={movie.id}>
+            <PostCardImg src={movie.image} alt={movie.title} />
+            <PostTitle>{movie.title}</PostTitle>
           </GridItem>
         ))}
       </GridContainer>

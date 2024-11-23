@@ -1,5 +1,5 @@
 import React from "react";
-import { TopContainer, BackButton, TopTitle, FilterContainer, FilterButton, MovieContainer } from "../../styles/rating/rating";
+import { TopContainer, BackButton, TopTitle, FilterContainer, FilterButton } from "../../styles/rating/rating";
 import Poster from '../../components/Common/poster/Poster';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
