@@ -111,56 +111,18 @@ export const SectionTitle = styled.h2`
 `;
 
 export const MovieContainer = styled.div`
-  width: 100%;
-  max-width: 120rem;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 0 0 1rem;
-  gap: 1rem;
-  justify-content: flex-start;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 한 열당 최소 150px */
+  gap: 1rem; /* 아이템 간격 */
+  max-width: 1920px; /* 최대 너비 */
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 1rem; /* 내부 여백 */
   box-sizing: border-box;
 `;
 
-export const MovieItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 8rem;
-  height: 11rem;
-  background-color: ${lightTheme.cardBackground};
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 0.5rem;
-  box-sizing: border-box;
-`;
 
-export const MovieImage = styled.img`
-  width: 8rem;
-  height: 11rem;
-  object-fit: cover;
-  border-radius: 0.5rem;
-  margin-bottom: 0.5rem;
-`;
 
-export const MovieInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-`;
 
-export const MovieTitle = styled.h2`
-  font: ${lightTheme.fontSuitBold};
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
-`;
-
-export const MovieRating = styled.p`
-  font: ${lightTheme.fontSuitRegular};
-  font-size: 1rem;
-  color: ${lightTheme.fontGray};
-`;
 
 
 

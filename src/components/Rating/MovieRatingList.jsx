@@ -1,9 +1,11 @@
 import React from "react";
-import { TopContainer, BackButton, TopTitle, FilterContainer, FilterButton, MovieImage, MovieContainer } from "../../styles/rating/rating"; // 스타일 컴포넌트
+import { TopContainer, BackButton, TopTitle, FilterContainer, FilterButton, MovieContainer } from "../../styles/rating/rating";
+import Poster from '../../components/Common/poster/Poster';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import useRatingsStore from "../../store/rating/useRatingsStore";
 import { useNavigate } from "react-router-dom";
+import { movies } from "../../data/movies";
 
 const MovieRatingList = () => {
   const { activeFilter, setActiveFilter } = useRatingsStore();
@@ -32,11 +34,8 @@ const MovieRatingList = () => {
             별점 순
             </FilterButton>
         </FilterContainer>
-      </TopContainer>
-
-      <MovieContainer>
-        <MovieImage />
-      </MovieContainer>
+      </TopContainer> 
+        <Poster caseType={6} movies={movies} />      
     </>
   );
 };

@@ -162,6 +162,20 @@ function Poster({ caseType = 0, movies = { movies } }) {
     );
   }
 
+  if (caseType == 6) {
+    return (
+      <GridContainer>
+        {movies.map((movie) => (
+          <GridItem key={movie.id}>
+            <PostCardImg src={movie.image} alt={movie.title} />
+            <PostTitle>{movie.title}</PostTitle>
+            <PinkField>{`평가함 ★ ${movie.rating}`}</PinkField>
+          </GridItem>
+        ))}
+      </GridContainer>
+    );
+  }
+  
   return (
     <SlideContainer>
       {movies.map((movie) => (
@@ -281,6 +295,22 @@ const SlideContainer = styled.div`
   display: flex;
   gap: 1rem;
   height: 100%;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* 최소 150px, 나머지 비율 */
+  gap: 1rem;
+  max-width: 120rem; /* 컨테이너 최대 너비 */
+  margin: 0 auto;
+  padding: 1rem;
+`;
+
+const GridItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 `;
 
 export default Poster;

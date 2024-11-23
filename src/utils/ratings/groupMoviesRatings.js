@@ -1,20 +1,17 @@
-// src/utils/movieUtils.js
-export const groupMoviesByRatings = (movies) => {
-    const grouped = {};
-  
-    // 5.0부터 0.5까지 그룹 초기화
-    for (let i = 5.0; i >= 0.5; i -= 0.5) {
-      grouped[i.toFixed(1)] = [];
+export const groupMoviesByRating = (movies, ratings) => {
+  // ratings 배열의 각 값을 초기화 (빈 배열로)
+  const groupedMovies = ratings.reduce((acc, rating) => {
+    acc[rating] = [];
+    return acc;
+  }, {});
+
+  // movies 배열을 순회하며 해당 별점 그룹에 영화 추가
+  movies.forEach((movie) => {
+    const ratingKey = ratings.find((rating) => rating === movie.rating);
+    if (ratingKey !== undefined) {
+      groupedMovies[ratingKey].push(movie);
     }
-  
-    // 영화 데이터를 별점 기준으로 그룹화
-    movies.forEach((movie) => {
-      const ratingKey = movie.rating.toFixed(1); // "5.0", "4.5" 형식
-      if (grouped[ratingKey]) {
-        grouped[ratingKey].push(movie);
-      }
-    });
-  
-    return grouped;
-  };
-  
+  });
+
+  return groupedMovies;
+};
