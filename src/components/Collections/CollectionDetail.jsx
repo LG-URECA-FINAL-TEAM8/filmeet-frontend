@@ -15,40 +15,40 @@ const CollectionsLabel = {
   };
   
   const CollectionDetail = ({ collectionData }) => {
-    const [likes, setLikes] = useState(collectionData?.likes || 0); // 좋아요 상태 관리
-    const [comment, setComment] = useState(""); // 댓글 입력 상태
-    const [comments, setComments] = useState([]); // 댓글 목록 상태
-    const commentSectionRef = useRef(null); // 댓글 섹션 참조
+    const [likes, setLikes] = useState(collectionData?.likes || 0); 
+    const [comment, setComment] = useState(""); 
+    const [comments, setComments] = useState([]); 
+    const commentSectionRef = useRef(null); 
   
     if (!collectionData) {
       return <div>{CollectionsLabel.NoData}</div>;
     }
   
     const {
-      profileImage = "https://via.placeholder.com/48", // 기본 이미지
+      profileImage = "https://via.placeholder.com/48", 
       name = "알 수 없음",
       collectionName = "제목 없음",
       description = "설명 없음",
-      bannerImage = "https://via.placeholder.com/800x200", // 기본 배너 이미지
+      bannerImage = "https://via.placeholder.com/800x200", 
       movies = [],
     } = collectionData;
   
-    // 좋아요 버튼 핸들러
+    
     const handleLike = () => {
-      setLikes((prevLikes) => prevLikes + 1); // 좋아요 수 증가
+      setLikes((prevLikes) => prevLikes + 1); 
     };
   
-    // 댓글 버튼 핸들러
+ 
     const handleCommentButton = () => {
       if (commentSectionRef.current) {
-        commentSectionRef.current.scrollIntoView({ behavior: "smooth" }); // 스크롤 이동
+        commentSectionRef.current.scrollIntoView({ behavior: "smooth" }); 
       }
     };
   
     const handleAddComment = () => {
       if (comment.trim()) {
-        setComments([...comments, comment]); // 댓글 추가
-        setComment(""); // 입력 필드 초기화
+        setComments([...comments, comment]); 
+        setComment(""); 
       }
     };
   
