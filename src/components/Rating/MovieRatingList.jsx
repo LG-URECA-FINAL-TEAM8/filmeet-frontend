@@ -7,12 +7,20 @@ import useRatingsStore from "../../store/rating/useRatingsStore";
 import { useNavigate } from "react-router-dom";
 import { movies } from "../../data/movies";
 
+const PageContent = {
+  title: "평가한 작품들",
+  filters: [
+    { label: "전체", value: "전체" },
+    { label: "별점 순", value: "별점 순" },
+  ],
+};
+
 const MovieRatingList = () => {
   const { activeFilter, setActiveFilter } = useRatingsStore();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate('/mypage/ratings')
+    navigate('/mypage/ratings');
   };
 
   const handleFilterClick = (filter) => {
@@ -25,17 +33,20 @@ const MovieRatingList = () => {
         <BackButton onClick={handleBackClick}>
           <FontAwesomeIcon icon={faArrowLeft} />
         </BackButton>
-        <TopTitle>평가한 작품들</TopTitle>
+        <TopTitle>{PageContent.title}</TopTitle>
         <FilterContainer>
-            <FilterButton isActive={activeFilter === "전체"} onClick={() => handleFilterClick("전체")}>
-            전체
+          {PageContent.filters.map((option) => (
+            <FilterButton
+              key={option.value}
+              isActive={activeFilter === option.value}
+              onClick={() => handleFilterClick(option.value)}
+            >
+              {option.label}
             </FilterButton>
-            <FilterButton isActive={activeFilter === "별점 순"} onClick={() => handleFilterClick("별점 순")}>
-            별점 순
-            </FilterButton>
+          ))}
         </FilterContainer>
-      </TopContainer> 
-        <Poster caseType={6} movies={movies} />      
+      </TopContainer>
+      <Poster caseType={6} movies={movies} />
     </>
   );
 };

@@ -7,7 +7,9 @@ import { groupMoviesByRating } from '../../../utils/ratings/groupMoviesRatings';
 import { movies } from '../../../data/movies';
 import Poster from '../../../components/Common/poster/Poster';
 
-
+const PageContent = {
+  noResults: "결과가 없습니다."
+}
 
 const AllMoviesByRatingPage = () => { 
   const navigate = useNavigate(); 
@@ -31,7 +33,7 @@ const AllMoviesByRatingPage = () => {
       {moviesForRating.length > 0 ? (
         <Poster caseType={7} movies={moviesForRating} />
       ) : (
-        <div>결과가 없습니다.</div>
+        <div>{PageContent.noResults}</div>
       )}
     </>
   );

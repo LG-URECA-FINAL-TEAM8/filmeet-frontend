@@ -315,9 +315,9 @@ const SlideContainer = styled.div`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(10, 1fr); /* 최소 150px, 나머지 비율 */
+  grid-template-columns: repeat(10, 1fr);
   gap: 1rem;
-  max-width: 120rem; /* 컨테이너 최대 너비 */
+  max-width: 120rem;
   margin: 0 auto;
   padding: 1rem;
 `;
