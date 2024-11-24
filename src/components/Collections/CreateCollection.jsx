@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
 import { lightTheme } from "../../styles/themes";
-import MovieSearchModal from "./MovieSearchModal";
-import { useNavigate } from "react-router-dom";
 
 
 const CreateCollection = () => {
@@ -11,9 +9,13 @@ const CreateCollection = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMovies, setSelectedMovies] = useState([]); 
-  const navigate = useNavigate();
+  const [selectedMovies, setSelectedMovies] = useState([]);
 
+  // 모달 열기/닫기 핸들러
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  // 컬렉션 저장
   const handleSave = () => {
     if (title.trim()) {
       addCollection({
@@ -21,23 +23,14 @@ const CreateCollection = () => {
         name: title,
         description,
         movies: selectedMovies,
-        image: selectedMovies[0]?.image || "", 
       });
-      setTitle("");
-      setDescription("");
-      setSelectedMovies([]);
-      navigate("/collections");  
     }
   };
 
+  // 선택된 영화 추가
   const handleAddMovies = (movies) => {
-    setSelectedMovies((prev) => {
-      const uniqueMovies = movies.filter(
-        (movie) => !prev.some((prevMovie) => prevMovie.id === movie.id)
-      );
-      return [...prev, ...uniqueMovies];
-    });
-    setIsModalOpen(false);
+    setSelectedMovies((prev) => [...prev, ...movies]);
+    handleCloseModal();
   };
 
   const labels = {
@@ -66,7 +59,6 @@ const CreateCollection = () => {
         </InputBox>
         <InputBox>
           <Textarea
-            type="text"
             placeholder={labels.descriptionPlaceholder}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -79,10 +71,12 @@ const CreateCollection = () => {
           <span>({selectedMovies.length}/1000)</span>
         </SectionHeader>
         <MoviesGrid>
-          <AddCard onClick={() => setIsModalOpen(true)}>
+          {/* "작품 추가" 버튼 */}
+          <AddCard onClick={handleOpenModal}>
             <PlusSign>+</PlusSign>
             <AddText>{labels.addItem}</AddText>
           </AddCard>
+          {/* 선택된 영화 썸네일 */}
           {selectedMovies.map((movie) => (
             <MovieThumbnail key={movie.id}>
               <ThumbnailImage src={movie.image} alt={movie.title} />
@@ -91,18 +85,14 @@ const CreateCollection = () => {
           ))}
         </MoviesGrid>
       </Section>
-      {isModalOpen && (
-        <MovieSearchModal
-          onClose={() => setIsModalOpen(false)}
-          onAddMovies={handleAddMovies}
-        />
-      )}
+
     </Container>
   );
 };
 
 export default CreateCollection;
 
+// 스타일링
 const Container = styled.div`
   width: 100%;
   max-width: 37.5rem;
@@ -192,7 +182,7 @@ const SectionHeader = styled.div`
 
 const MoviesGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* 가변 크기 그리드 */
   gap: 0.5rem;
   margin-top: 1rem;
 `;
