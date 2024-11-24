@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         element: <MovieRatingsPage />,
       },
       {
-        path: 'mypage/contents/movies/ratings/rating',
+        path: 'mypage/contents/movies/ratings/:rating',
         element: <AllMoviesByRatingPage />, // 별점별 영화 전체 페이지 추가
       },
       {

@@ -13,7 +13,7 @@ export const TopContainer = styled.div`
   width: 100%;
   height: auto;
   background-color: ${lightTheme.mainColor};
-  border-bottom: 1px solid ${lightTheme.fontGray};
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -48,7 +48,7 @@ export const BottomContainer = styled.div`
   max-width: 120rem;
   height: 2.5rem;
   background-color: ${lightTheme.mainColor};
-  border-bottom: 1px solid ${lightTheme.fontGray};
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -133,11 +133,6 @@ export const MoreButton = styled.button`
   font-size: 1rem;
   font-weight: ${lightTheme.fontWeightRegular};
   padding: 0;
-
-  &:hover {
-    text-decoration: underline;
-    color: ${lightTheme.fontPinkHover};
-  }
 `;
 
 export const NoResults = styled.div`
