@@ -5,10 +5,10 @@ const useCollectionsStore = create((set) => ({
     {
       id: 1,
       name: "이성혁",
-      CollectionsName: "컬렉션 제목",
-      description: "컬렉션 설명",
-      image: "https://example.com/marvel.jpg", // 대표 이미지
-      profileImage: "https://example.com/profile1.jpg", // 프로필 이미지 추가
+      CollectionsName: "마블 컬렉션",
+      description: "마블 영화를 모아놓은 컬렉션입니다.",
+      image: "https://example.com/marvel.jpg",
+      profileImage: "https://example.com/profile1.jpg",
       likes: 15,
       commentsCount: 7,
       movies: [
@@ -31,115 +31,80 @@ const useCollectionsStore = create((set) => ({
     {
       id: 2,
       name: "홍길동",
-      CollectionsName: "액션 영화 모음",
-      description: "박진감 넘치는 액션 영화들",
-      image: "https://example.com/action.jpg", // 대표 이미지
-      profileImage: "https://example.com/profile2.jpg", // 프로필 이미지 추가
-      likes: 20,
-      commentsCount: 8,
+      CollectionsName: "로맨틱 코미디",
+      description: "기분 좋은 웃음을 줄 수 있는 영화들",
+      image: "https://example.com/romcom.jpg",
+      profileImage: "https://example.com/profile2.jpg",
+      likes: 25,
+      commentsCount: 12,
       movies: [
         {
           id: 201,
-          title: "어벤져스",
+          title: "노팅힐",
           description: "영화",
-          year: 2012,
-          image: "https://example.com/avengers.jpg",
+          year: 1999,
+          image: "https://example.com/nottinghill.jpg",
         },
         {
           id: 202,
-          title: "가디언즈 오브 갤럭시",
+          title: "러브 액츄얼리",
           description: "영화",
-          year: 2014,
-          image: "https://example.com/guardians.jpg",
+          year: 2003,
+          image: "https://example.com/loveactually.jpg",
         },
       ],
     },
     {
       id: 3,
-      name: "김영희",
-      CollectionsName: "로맨틱 영화 모음",
-      description: "감성적인 로맨스 영화들",
-      image: "https://example.com/romance.jpg",
+      name: "김철수",
+      CollectionsName: "액션 영화 모음",
+      description: "짜릿한 액션 영화의 세계로!",
+      image: "https://example.com/action.jpg",
       profileImage: "https://example.com/profile3.jpg",
-      likes: 30,
-      commentsCount: 12,
+      likes: 35,
+      commentsCount: 20,
       movies: [
         {
           id: 301,
-          title: "노트북",
+          title: "존 윅",
           description: "영화",
-          year: 2004,
-          image: "https://example.com/notebook.jpg",
+          year: 2014,
+          image: "https://example.com/johnwick.jpg",
         },
         {
           id: 302,
-          title: "어바웃 타임",
+          title: "미션 임파서블",
           description: "영화",
-          year: 2013,
-          image: "https://example.com/about-time.jpg",
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: "박철수",
-      CollectionsName: "SF 영화 모음",
-      description: "미래와 우주를 그린 SF 영화들",
-      image: "https://example.com/scifi.jpg",
-      profileImage: "https://example.com/profile4.jpg",
-      likes: 25,
-      commentsCount: 10,
-      movies: [
-        {
-          id: 401,
-          title: "인터스텔라",
-          description: "영화",
-          year: 2014,
-          image: "https://example.com/interstellar.jpg",
-        },
-        {
-          id: 402,
-          title: "인셉션",
-          description: "영화",
-          year: 2010,
-          image: "https://example.com/inception.jpg",
-        },
-      ],
-    },
-    {
-      id: 5,
-      name: "최미나",
-      CollectionsName: "코미디 영화 모음",
-      description: "웃음 가득한 코미디 영화들",
-      image: "https://example.com/comedy.jpg",
-      profileImage: "https://example.com/profile5.jpg",
-      likes: 40,
-      commentsCount: 18,
-      movies: [
-        {
-          id: 501,
-          title: "슈퍼배드",
-          description: "영화",
-          year: 2010,
-          image: "https://example.com/despicable-me.jpg",
-        },
-        {
-          id: 502,
-          title: "행오버",
-          description: "영화",
-          year: 2009,
-          image: "https://example.com/hangover.jpg",
+          year: 1996,
+          image: "https://example.com/missionimpossible.jpg",
         },
       ],
     },
   ],
   isCreating: false,
+  isModalOpen: false,
+  openModal: () => set({ isModalOpen: true }),
+  closeModal: () => set({ isModalOpen: false }),
   setIsCreating: (status) => set({ isCreating: status }),
   addCollection: (newCollection) =>
     set((state) => ({
       collections: [...state.collections, newCollection],
     })),
-  setMovies: (newMovies) => set({ movies: newMovies }), // 영화 데이터 업데이트 함수
+  setMovies: (newMovies) =>
+    set((state) => ({
+      movies: newMovies,
+    })),
+  addMoviesToCollection: (collectionId, moviesToAdd) =>
+    set((state) => ({
+      collections: state.collections.map((collection) =>
+        collection.id === collectionId
+          ? {
+              ...collection,
+              movies: [...collection.movies, ...moviesToAdd],
+            }
+          : collection
+      ),
+    })),
 }));
 
 export default useCollectionsStore;

@@ -10,7 +10,7 @@ const CollectionsOverview = () => {
     setIsCreating(true); 
   };
   const Collectionslabel = {
-    CollectionManagement:"컬렉션 관리",
+    CollectionManagement:"컬렉션",
     AddCollections:"새 컬렉션 추가"
   };
 
@@ -34,6 +34,7 @@ const CollectionsContainer = styled.section`
   max-width: 40rem;
   margin: 0 auto;
   width: 100%;
+  margin-top: 1.5rem;
 `;
 
 const CollectionsTitle = styled.h1`

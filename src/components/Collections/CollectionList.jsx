@@ -1,24 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
-import { Collections } from "@mui/icons-material";
 import { lightTheme } from "../../styles/themes";
 
-
-
-const CollectionList = () => {
+const CollectionList = ({ onSelectCollection }) => {
   const { collections } = useCollectionsStore();
-
+ 
+  const CollectionsLabel = {
+    Like: "좋아요",
+    Comment: "댓글",
+  };
+  
   return (
     <Wrapper>
       <ListContainer>
         {collections.map((collection) => (
-          <CollectionCard key={collection.id}>
+          <CollectionCard
+            key={collection.id}
+            onClick={() => onSelectCollection(collection)}
+          >
             <ImageSection>
-              <Image src={collection.image}/>
+              <Image src={collection.image} />
               <Overlay>
                 <Profile>
-                  <ProfileImage src={collection.profileImage} alt="Profile" /> {/* 프로필 이미지 추가 */}
+                  <ProfileImage src={collection.profileImage} alt="Profile" />
                   <ProfileName>{collection.name}</ProfileName>
                 </Profile>
                 <Badge>{collection.movies.length}</Badge>
@@ -29,12 +34,8 @@ const CollectionList = () => {
               <Description>{collection.description || "컬렉션 설명 없음"}</Description>
             </CardContent>
             <CardActions>
-              <Action>
-                좋아요 {collection.likes}
-              </Action>
-              <Action>
-                댓글 {collection.commentsCount}
-              </Action>
+              <Action>{CollectionsLabel.Like} {collection.likes}</Action>
+              <Action>{CollectionsLabel.Comment} {collection.commentsCount}</Action>
             </CardActions>
           </CollectionCard>
         ))}
@@ -42,8 +43,8 @@ const CollectionList = () => {
     </Wrapper>
   );
 };
-export default CollectionList;
 
+export default CollectionList;
 
 const Wrapper = styled.div`
   max-width: 40rem;
