@@ -3,37 +3,36 @@ import Poster from '../../components/Common/poster/Poster';
 import { groupMoviesByRating } from '../../utils/ratings/groupMoviesRatings';
 import { MoreButton, NoResults, SectionContainer, SectionCount, SectionHeader, SectionTitle } from '../../styles/rating/rating';
 import { useNavigate } from 'react-router-dom';
-
-const PageContent = {
-  sectionTitle: "평가함",
-  noResults: "결과가 없습니다",
-  moreButton: "더보기",
-  ratings: [5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5],
-};
+import { pagecontents } from '../../data/pagecontents';
 
 const MovieRatingSections = () => {
   const navigate = useNavigate();
-  const groupedMovies = groupMoviesByRating(movies, PageContent.ratings);
+  const { sectionTitle, noResults, moreButton, ratings } = pagecontents.movieRatingSections;
+  const groupedMovies = groupMoviesByRating(movies, ratings);
+
+  const handleMoreClick = (rating) => () => {
+    navigate(`/mypage/contents/movies/ratings/${rating}`);
+  };
 
   return (
     <>
-      {PageContent.ratings.map((rating) => (
+      {ratings.map((rating) => (
         <SectionContainer key={rating}>
           <SectionHeader>
             <SectionTitle>
-              {`${rating.toFixed(1)} ${PageContent.sectionTitle}`}
+              {`${rating.toFixed(1)} ${sectionTitle}`}
               <SectionCount>{groupedMovies[rating]?.length || 0}</SectionCount>
             </SectionTitle>
             {groupedMovies[rating]?.length > 0 && (
-              <MoreButton onClick={() => navigate(`/mypage/contents/movies/ratings/${rating}`)}>
-                {PageContent.moreButton}
+              <MoreButton onClick={handleMoreClick(rating)}>
+                {moreButton}
               </MoreButton>
             )}
           </SectionHeader>
           {groupedMovies[rating]?.length > 0 ? (
             <Poster caseType={7} movies={groupedMovies[rating].slice(0, 10)} />
           ) : (
-            <NoResults>{PageContent.noResults}</NoResults>
+            <NoResults>{noResults}</NoResults>
           )}
         </SectionContainer>
       ))}
