@@ -15,6 +15,7 @@ const MovieRatingList = () => {
 
   const handleBackClick = createBackClickHandler(navigate, "/mypage/ratings");
   const handleFilterClick = createFilterClickHandler(setActiveFilter);
+  const filterClickHandlers = filters.map((option) => () => handleFilterClick(option.value));
 
   return (
     <>
@@ -24,11 +25,11 @@ const MovieRatingList = () => {
         </S.BackButton>
         <S.TopTitle>{title}</S.TopTitle>
         <S.FilterContainer>
-          {filters.map((option) => (
+          {filters.map((option, index) => (
             <S.FilterButton
               key={option.value}
               isActive={activeFilter === option.value}
-              onClick={() => handleFilterClick(option.value)}
+              onClick={filterClickHandlers[index]}
             >
               {option.label}
             </S.FilterButton>

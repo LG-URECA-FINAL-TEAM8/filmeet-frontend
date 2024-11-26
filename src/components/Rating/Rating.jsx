@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import * as S from "../../styles/rating/rating"; // S로 스타일 컴포넌트 import
+import * as S from "../../styles/rating/rating";
 import { pagecontents } from "../../data/pagecontents";
+import { createBackClickHandler } from "../../utils/ratings/navigationHandlers";
 
 const Rating = () => {
   const navigate = useNavigate();
@@ -12,10 +13,8 @@ const Rating = () => {
     navigate("/mypage/contents/movies/ratings");
   };
 
-  const handleBackClick = () => {
-    navigate("/mypage");
-  };
-
+  const handleBackClick = createBackClickHandler(navigate, "/mypage");
+  
   return (
     <>
       <S.TopContainer>

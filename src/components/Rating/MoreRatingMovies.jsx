@@ -5,10 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { groupMoviesByRating } from "../../utils/ratings/groupMoviesRatings";
 import { movies } from "../../data/movies";
 import Poster from "../Common/poster/Poster";
-
-const PageContent = {
-  noResults: "결과가 없습니다.",
-};
+import { createBackClickHandler } from "../../utils/ratings/navigationHandlers";
+import { pagecontents } from "../../data/pagecontents";
 
 const MoreRatingMovies = () => {
   const navigate = useNavigate();
@@ -16,9 +14,15 @@ const MoreRatingMovies = () => {
 
   const groupedMovies = groupMoviesByRating(movies, [parseFloat(rating)]);
   const moviesForRating = groupedMovies[parseFloat(rating)] || [];
+  const handleBackClick = createBackClickHandler(navigate, "/mypage/contents/movies/ratings");
 
-  const handleBackClick = () => {
-    navigate("/mypage/contents/movies/ratings");
+  const { noResults } = pagecontents.moreRatingMovies;
+
+  const renderMoviesContent = (movies) => {
+    if (movies.length > 0) {
+      return <Poster caseType={7} movies={movies} />;
+    }
+    return <S.NoResults>{noResults}</S.NoResults>;
   };
 
   return (
@@ -29,11 +33,7 @@ const MoreRatingMovies = () => {
         </S.BackButton>
         <S.TopTitle>{`${parseFloat(rating).toFixed(1)} 점 준 영화`}</S.TopTitle>
       </S.TopContainer>
-      {moviesForRating.length > 0 ? (
-        <Poster caseType={7} movies={moviesForRating} />
-      ) : (
-        <S.NoResults>{PageContent.noResults}</S.NoResults>
-      )}
+      {renderMoviesContent(moviesForRating)}
     </>
   );
 };

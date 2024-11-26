@@ -14,6 +14,13 @@ const MovieRatingSections = () => {
     navigate(`/mypage/contents/movies/ratings/${rating}`);
   };
 
+  const renderContent = (moviesForRating) => {
+    if (moviesForRating.length > 0) {
+      return <Poster caseType={7} movies={moviesForRating.slice(0, 10)} />;
+    }
+    return <S.NoResults>{noResults}</S.NoResults>;
+  };
+
   return (
     <>
       {ratings.map((rating) => (
@@ -22,18 +29,12 @@ const MovieRatingSections = () => {
             <S.SectionTitle>
               {`${rating.toFixed(1)} ${sectionTitle}`}
               <S.SectionCount>{groupedMovies[rating]?.length || 0}</S.SectionCount>
-            </S.SectionTitle>
-            {groupedMovies[rating]?.length > 0 && (
+            </S.SectionTitle>   
               <S.MoreButton onClick={handleMoreClick(rating)}>
                 {moreButton}
-              </S.MoreButton>
-            )}
+              </S.MoreButton>           
           </S.SectionHeader>
-          {groupedMovies[rating]?.length > 0 ? (
-            <Poster caseType={7} movies={groupedMovies[rating].slice(0, 10)} />
-          ) : (
-            <S.NoResults>{noResults}</S.NoResults>
-          )}
+          {renderContent(groupedMovies[rating] || [])}
         </S.SectionContainer>
       ))}
     </>
