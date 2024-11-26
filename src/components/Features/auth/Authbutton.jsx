@@ -1,4 +1,3 @@
-import React from 'react';
 import { lightTheme } from '../../../styles/themes';
 import styled from 'styled-components';
 
@@ -18,10 +17,10 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 0.25rem;
   margin-top: 0.3rem;
-  font-family:${lightTheme.fontSuitRegular};
+  font-family: ${lightTheme.fontSuitRegular};
   cursor: pointer;
 
   &:hover {
-    background-color: #E02761; /* lightTheme 색깔추가 해줭*/
+    background-color: #e02761; /* lightTheme 색깔추가 해줭*/
   }
 `;

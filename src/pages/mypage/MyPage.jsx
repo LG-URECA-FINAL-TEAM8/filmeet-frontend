@@ -1,12 +1,11 @@
-import React from 'react';
 import { MyPageContainer, ProfileContainer } from '../../styles/profile/profile';
-import ProfileHeader from '../../components/Profile/profileheader';
+import ProfileHeader from '../../components/Profile/ProfileHeader';
 
 const MyPage = () => {
   return (
     <MyPageContainer>
       <ProfileContainer>
-        <ProfileHeader/> 
+        <ProfileHeader />
       </ProfileContainer>
     </MyPageContainer>
   );

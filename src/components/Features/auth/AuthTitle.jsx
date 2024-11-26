@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 
@@ -13,5 +12,5 @@ const AuthTitle = styled.h2`
   font-weight: ${lightTheme.fontWeightBold};
   text-align: center;
   margin-top: 2.125rem;
-  font-family:${lightTheme.fontSuitBold};
+  font-family: ${lightTheme.fontSuitBold};
 `;

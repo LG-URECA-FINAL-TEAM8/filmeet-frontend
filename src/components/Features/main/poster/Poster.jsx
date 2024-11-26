@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../../../../styles/themes';
 import movies from '../../../../data/moives.json';
