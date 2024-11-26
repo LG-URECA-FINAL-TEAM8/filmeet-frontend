@@ -1,5 +1,5 @@
 import React from 'react';
-import { MainBody, PostContainer } from '../styles/main/main';
+import { MainBody } from '../styles/main/main';
 import Title from '../components/features/main/title/Title';
 import Poster from '../components/Common/poster/Poster';
 import HotFeed from '../components/Features/comments/HotFeed';

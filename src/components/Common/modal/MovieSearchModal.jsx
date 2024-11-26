@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Modal from "react-modal";
+import ReactModal from "react-modal";
 import styled from "styled-components";
 import { movies } from "../../../data/movies";
 import useCollectionsStore from "../../../store/collections/useCollectionsStore";
 import { lightTheme } from "../../../styles/themes";
 
-Modal.setAppElement("#root");
+ReactModal.setAppElement("#root");
 
 const CollectionsLabel = {
   AddMovies: "작품 추가",
@@ -39,200 +39,230 @@ const MovieSearchModal = ({ onAddMovies }) => {
   };
 
   return (
-    isModalOpen && (
-      <StyledModalOverlay onClick={closeModal}>
-        <StyledModalContent onClick={(e) => e.stopPropagation()}>
-          <ModalContent>
-            <Header>
-              <Title>{CollectionsLabel.AddMovies}</Title>
-              <AddButton
-                disabled={selectedMovies.length === 0}
-                onClick={handleAddMovies}
+    <ReactModal
+      isOpen={isModalOpen}
+      onRequestClose={closeModal}
+      style={customStyles}
+      contentLabel="Movie Search Modal"
+    >
+      <S.ModalContent>
+        <S.Header>
+          <S.Title>{CollectionsLabel.AddMovies}</S.Title>
+          <S.AddButton
+            disabled={selectedMovies.length === 0}
+            onClick={handleAddMovies}
+          >
+            {selectedMovies.length}
+            {CollectionsLabel.AddMoviesButton}
+          </S.AddButton>
+        </S.Header>
+        <S.SearchBarContainer>
+          <S.SearchBar
+            type="text"
+            placeholder={CollectionsLabel.SearchPlaceholder}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </S.SearchBarContainer>
+        <S.MovieList>
+          {searchTerm.trim() &&
+            getFilteredMovies().map((movie) => (
+              <S.MovieItem
+                key={movie.id}
+                onClick={() => toggleMovieSelection(movie)}
+                isSelected={selectedMovies.some(
+                  (selectedMovie) => selectedMovie.id === movie.id
+                )}
               >
-                {selectedMovies.length}
-                {CollectionsLabel.AddMoviesButton}
-              </AddButton>
-            </Header>
-            <SearchBarContainer>
-              <SearchBar
-                type="text"
-                placeholder={CollectionsLabel.SearchPlaceholder}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </SearchBarContainer>
-            <MovieList>
-              {searchTerm.trim() &&
-                getFilteredMovies().map((movie) => (
-                  <MovieItem
-                    key={movie.id}
-                    onClick={() => toggleMovieSelection(movie)}
-                    isSelected={selectedMovies.some(
-                      (selectedMovie) => selectedMovie.id === movie.id
-                    )}
-                  >
-                    <Checkbox
-                      isSelected={selectedMovies.some(
-                        (selectedMovie) => selectedMovie.id === movie.id
-                      )}
-                    />
-                    <MovieImage src={movie.image} alt={movie.title} />
-                    <MovieInfo>
-                      <span>{movie.title}</span>
-                      <span>{movie.year}</span>
-                    </MovieInfo>
-                  </MovieItem>
-                ))}
-            </MovieList>
-          </ModalContent>
-        </StyledModalContent>
-      </StyledModalOverlay>
-    )
+                <S.Checkbox
+                  isSelected={selectedMovies.some(
+                    (selectedMovie) => selectedMovie.id === movie.id
+                  )}
+                />
+                <S.MovieImage src={movie.image} alt={movie.title} />
+                <S.MovieInfo>
+                  <span>{movie.title}</span>
+                  <span>{movie.year}</span>
+                </S.MovieInfo>
+              </S.MovieItem>
+            ))}
+        </S.MovieList>
+      </S.ModalContent>
+    </ReactModal>
   );
 };
 
 export default MovieSearchModal;
-// Styled Components
-const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 25rem;
-  max-width: 90%;
-  height: 37.5rem;
-  border-radius: 0.3rem;
-  padding: 0;
-  margin: 0 auto;
-`;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.6rem 1.2rem;
-`;
+const customStyles = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  content: {
+    position: "relative",
+    width: "25rem",
+    maxWidth: "90%",
+    height: "37.5rem",
+    borderRadius: "0.3rem",
+    padding: "0",
+    margin: "0 auto",
+    boxShadow: `${lightTheme.defaultBoxShadow}`,
+    overflow: "hidden",
+    backgroundColor: lightTheme.fontWhite,
+    fontFamily: lightTheme.fontSuitRegular,
+  },
+};
 
-const Title = styled.h2`
-  font-size: 1.2rem;
-  font-family: ${lightTheme.fontSuitRegular}
-`;
+const S = {
+  ModalContent: styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 25rem;
+    max-width: 90%;
+    height: 37.5rem;
+    border-radius: 0.3rem;
+    padding: 0;
+    margin: 0 auto;
+  `,
 
-const AddButton = styled.span`
-  font-family: ${lightTheme.fontSuitRegular};
-  font-size: 0.8rem;
-  font-weight: ${lightTheme.fontWeightBold};
-  color: ${(props) => (props.disabled ? lightTheme.fontGray : lightTheme.fontPink)};
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
-  user-select: none;
+  Header: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 1.2rem;
+  `,
 
-  &:hover {
-    text-decoration: ${(props) => (props.disabled ? "none" : "underline")};
-  }
-`;
+  Title: styled.h2`
+    font-size: 1.2rem;
+    font-family: ${lightTheme.fontSuitRegular};
+  `,
 
-const SearchBarContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.6rem 0;
-  padding-bottom: 0.6rem;
-  border-bottom: 0.1rem solid ${lightTheme.fontGray}; 
-`;
+  AddButton: styled.span`
+    font-family: ${lightTheme.fontSuitRegular};
+    font-size: 0.8rem;
+    font-weight: ${lightTheme.fontWeightBold};
+    color: ${(props) =>
+      props.disabled ? lightTheme.fontGray : lightTheme.fontPink};
+    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+    user-select: none;
 
-const SearchBar = styled.input`
-  width: 100%;
-  padding: 0.6rem;
-  border: 0.1rem solid ${lightTheme.borderGray}; 
-  border-radius: 0.3rem;
-  background-color: ${lightTheme.fontWhite};
-  font-size: 0.8rem;
-  outline: none; 
-  color: ${lightTheme.fontGray};
-  font-family: ${lightTheme.fontSuitRegular};
+    &:hover {
+      text-decoration: ${(props) => (props.disabled ? "none" : "underline")};
+    }
+  `,
 
-  ::placeholder {
+  SearchBarContainer: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.6rem 0;
+    padding-bottom: 0.6rem;
+    border-bottom: 0.1rem solid ${lightTheme.fontGray};
+  `,
+
+  SearchBar: styled.input`
+    width: 100%;
+    padding: 0.6rem;
+    border: 0.1rem solid ${lightTheme.borderGray};
+    border-radius: 0.3rem;
+    background-color: ${lightTheme.fontWhite};
+    font-size: 0.8rem;
+    outline: none;
     color: ${lightTheme.fontGray};
-  }
+    font-family: ${lightTheme.fontSuitRegular};
 
-  &:focus {
-    border-color: ${lightTheme.fontPink}; 
-    box-shadow: 0 0 0.2rem ${lightTheme.fontPink}; 
-  }
-`;
+    ::placeholder {
+      color: ${lightTheme.fontGray};
+    }
 
-const MovieList = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  margin-top: 0.6rem;
-  padding: 0.6rem;
-`;
+    &:focus {
+      border-color: ${lightTheme.fontPink};
+      box-shadow: 0 0 0.2rem ${lightTheme.fontPink};
+    }
+  `,
 
-const MovieItem = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0.6rem;
-  border: 0.1rem solid ${lightTheme.fontGray};
-  border-radius: 0.3rem;
-  margin-bottom: 0.3rem;
-  font-family: ${lightTheme.fontSuitRegular};
-  cursor: pointer;
+  MovieList: styled.div`
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 0.6rem;
+    padding: 0.6rem;
+  `,
 
-  &:hover {
-    background-color: ${lightTheme.lightGray};
-  }
-`;
+  MovieItem: styled.div`
+    display: flex;
+    align-items: center;
+    padding: 0.6rem;
+    border: 0.1rem solid ${lightTheme.fontGray};
+    border-radius: 0.3rem;
+    margin-bottom: 0.3rem;
+    font-family: ${lightTheme.fontSuitRegular};
+    cursor: pointer;
 
-const Checkbox = styled.div`
-  width: 1.3rem;
-  height: 1.3rem;
-  margin-right: 0.6rem;
-  border: 0.1rem solid ${(props) => (props.isSelected ? lightTheme.fontPink : lightTheme.fontGray)};
-  background-color: ${(props) => (props.isSelected ? lightTheme.fontPink : "transparent")};
+    &:hover {
+      background-color: ${lightTheme.lightGray};
+    }
+  `,
+
+  Checkbox: styled.div`
+      width: 0.7rem; 
+  height: 0.7rem;
+  margin-right: 0.5rem; 
+  border: 0.1rem solid
+    ${(props) => (props.isSelected ? lightTheme.fontPink : lightTheme.fontGray)};
+  background-color: ${(props) =>
+    props.isSelected ? lightTheme.fontPink : "transparent"};
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  line-height: 0; 
 
   &:after {
     content: "✔";
-    font-size: 0.8rem;
+    font-size: 0.5rem; 
     color: ${lightTheme.fontWhite};
     display: ${(props) => (props.isSelected ? "block" : "none")};
   }
-`;
+  `,
 
-const MovieImage = styled.img`
-  width: 3.5rem;
-  height: 5rem;
-  margin-right: 0.7rem;
-  border-radius: 0.3rem;
-`;
+  MovieImage: styled.img`
+    width: 3.5rem;
+    height: 5rem;
+    margin-right: 0.7rem;
+    border-radius: 0.3rem;
+  `,
 
-const MovieInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+  MovieInfo: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
 
-const StyledModalOverlay = styled.div`
-  background-color: ${lightTheme.fontGray};
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+  StyledModalOverlay: styled.div`
+    background-color: ${lightTheme.fontGray};
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
 
-const StyledModalContent = styled.div`
-  position: relative;
-  width: 25rem;
-  max-width: 90%;
-  height: 37.5rem;
-  background: ${lightTheme.fontWhite};
-  border-radius: 0.3rem;
-  overflow: hidden;
-  box-shadow: ${lightTheme.defaultBoxShadow};
-  padding: 0;
-  font-family: ${lightTheme.fontSuitRegular}
-`;
+  StyledModalContent: styled.div`
+    position: relative;
+    width: 25rem;
+    max-width: 90%;
+    height: 37.5rem;
+    background: ${lightTheme.fontWhite};
+    border-radius: 0.3rem;
+    overflow: hidden;
+    box-shadow: ${lightTheme.defaultBoxShadow};
+    padding: 0;
+    font-family: ${lightTheme.fontSuitRegular};
+  `,
+};

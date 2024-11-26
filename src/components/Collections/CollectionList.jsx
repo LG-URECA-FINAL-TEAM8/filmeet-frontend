@@ -12,150 +12,157 @@ const CollectionList = ({ onSelectCollection }) => {
   };
   
   return (
-    <Wrapper>
-      <ListContainer>
+    <S.Wrapper>
+      <S.ListContainer>
         {collections.map((collection) => (
-          <CollectionCard
+          <S.CollectionCard
             key={collection.id}
             onClick={() => onSelectCollection(collection)}
           >
-            <ImageSection>
-              <Image src={collection.image} />
-              <Overlay>
-                <Profile>
-                  <ProfileImage src={collection.profileImage} alt="Profile" />
-                  <ProfileName>{collection.name}</ProfileName>
-                </Profile>
-                <Badge>{collection.movies.length}</Badge>
-              </Overlay>
-            </ImageSection>
-            <CardContent>
-              <CollectionName>{collection.CollectionsName}</CollectionName>
-              <Description>{collection.description || "컬렉션 설명 없음"}</Description>
-            </CardContent>
-            <CardActions>
-              <Action>{CollectionsLabel.Like} {collection.likes}</Action>
-              <Action>{CollectionsLabel.Comment} {collection.commentsCount}</Action>
-            </CardActions>
-          </CollectionCard>
+            <S.ImageSection>
+              <S.Image src={collection.image} />
+              <S.Overlay>
+                <S.Profile>
+                  <S.ProfileImage src={collection.profileImage} alt="Profile" />
+                  <S.ProfileName>{collection.name}</S.ProfileName>
+                </S.Profile>
+                <S.Badge>{collection.movies.length}</S.Badge>
+              </S.Overlay>
+            </S.ImageSection>
+            <S.CardContent>
+              <S.CollectionName>{collection.CollectionsName}</S.CollectionName>
+              <S.Description>
+                {collection.description || "컬렉션 설명 없음"}
+              </S.Description>
+            </S.CardContent>
+            <S.CardActions>
+              <S.Action>
+                {CollectionsLabel.Like} {collection.likes}
+              </S.Action>
+              <S.Action>
+                {CollectionsLabel.Comment} {collection.commentsCount}
+              </S.Action>
+            </S.CardActions>
+          </S.CollectionCard>
         ))}
-      </ListContainer>
-    </Wrapper>
+      </S.ListContainer>
+    </S.Wrapper>
   );
 };
-
 export default CollectionList;
 
-const Wrapper = styled.div`
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 2rem;
-`;
+const S = {
+  Wrapper: styled.div`
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 2rem;
+  `,
 
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
+  ListContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  `,
 
-const CollectionCard = styled.div`
-  width: 100%;
-  border: ${lightTheme.borderDefault};
-  border-radius: 0.5rem;
-  overflow: hidden;
-  background: ${lightTheme.mainColor};
-  box-shadow: ${lightTheme.defaulBoxShadow};
-`;
+  CollectionCard: styled.div`
+    width: 100%;
+    border: ${lightTheme.borderDefault};
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: ${lightTheme.mainColor};
+    box-shadow: ${lightTheme.defaulBoxShadow};
+  `,
 
-const ImageSection = styled.div`
-  position: relative;
-  width: 100%;
-  height: 18rem;
-  background: ${lightTheme.fontGray};
-`;
+  ImageSection: styled.div`
+    position: relative;
+    width: 100%;
+    height: 18rem;
+    background: ${lightTheme.fontGray};
+  `,
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
+  Image: styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  `,
 
-const Overlay = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  color: ${lightTheme.fontWhite};
-`;
+  Overlay: styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    color: ${lightTheme.fontWhite};
+  `,
 
-const Profile = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;
+  Profile: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  `,
 
-const ProfileImage = styled.img`
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  border: ${lightTheme.borderDefault};
-`;
+  ProfileImage: styled.img`
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: ${lightTheme.borderDefault};
+  `,
 
-const ProfileName = styled.span`
-  font-size: 1rem;
-  font-weight: ${lightTheme.fontWeightBold};
-  color: ${lightTheme.fontWhite};
-  font-family: ${lightTheme.fontSuitBold}
-`;
+  ProfileName: styled.span`
+    font-size: 1rem;
+    font-weight: ${lightTheme.fontWeightBold};
+    color: ${lightTheme.fontWhite};
+    font-family: ${lightTheme.fontSuitBold};
+  `,
 
-const Badge = styled.div`
-  background: ${lightTheme.fontBlack};
-  color: ${lightTheme.fontWhite};
-  font-size: 0.8rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: ${lightTheme.fontSuitRegular}
-`;
+  Badge: styled.div`
+    background: ${lightTheme.fontBlack};
+    color: ${lightTheme.fontWhite};
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: ${lightTheme.fontSuitRegular};
+  `,
 
-const CardContent = styled.div`
-  padding: 1rem;
-`;
+  CardContent: styled.div`
+    padding: 1rem;
+  `,
 
-const CollectionName = styled.h2`
-  font-size: 1.2rem;
-  margin: 0;
-  color: ${lightTheme.fontBlack};
-  font-family: ${lightTheme.fontSuitBold};
-`;
+  CollectionName: styled.h2`
+    font-size: 1.2rem;
+    margin: 0;
+    color: ${lightTheme.fontBlack};
+    font-family: ${lightTheme.fontSuitBold};
+  `,
 
-const Description = styled.p`
-  font-size: 1rem;
-  color: ${lightTheme.fontGray};
-  font-family: ${lightTheme.fontSuitRegular};
-`;
+  Description: styled.p`
+    font-size: 1rem;
+    color: ${lightTheme.fontGray};
+    font-family: ${lightTheme.fontSuitRegular};
+  `,
 
-const CardActions = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  color: ${lightTheme.fontGray};
-  border-top: ${lightTheme.borderDefault};
-`;
+  CardActions: styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: ${lightTheme.fontGray};
+    border-top: ${lightTheme.borderDefault};
+  `,
 
-const Action = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  Action: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
-  span {
-    font-weight: ${lightTheme.fontWeightMedium};
-  }
-`;
+    span {
+      font-weight: ${lightTheme.fontWeightMedium};
+    }
+  `,
+};

@@ -1,35 +1,61 @@
 import React from "react";
 import styled from "styled-components";
 import { lightTheme } from "../../styles/themes";
+import useCollectionsStore from "../../store/collections/useCollectionsStore";
 
-const NoResult = ({ iconSrc, message }) => {
+const CollectionsOverview = () => {
+  const { setIsCreating } = useCollectionsStore();
+
+  const handleAddCollection = () => {
+    setIsCreating(true);
+  };
+  const Collectionslabel = {
+    CollectionManagement: "컬렉션",
+    AddCollections: "새 컬렉션 추가",
+  };
+
   return (
-    <NoResultContainer>
-      <Icon src={iconSrc} alt="No Result Icon" />
-      <Text>{message}</Text>
-    </NoResultContainer>
+    <S.CollectionsContainer>
+      <S.CollectionsTitle>
+        {Collectionslabel.CollectionManagement}
+      </S.CollectionsTitle>
+      <S.NewCollectionButton onClick={handleAddCollection}>
+        {Collectionslabel.AddCollections}
+      </S.NewCollectionButton>
+    </S.CollectionsContainer>
   );
 };
 
-export default NoResult;
+export default CollectionsOverview;
 
-const NoResultContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6rem; 
-  color: ${lightTheme.fontGray}; 
-  margin-top: 6.3rem;
-`;
+const S = {
+  CollectionsContainer: styled.section`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    max-width: 40rem;
+    margin: 0 auto;
+    width: 100%;
+    margin-top: 1.5rem;
+  `,
 
-const Icon = styled.img`
-  width: 3rem; 
-  height: 3rem; 
-`;
+  CollectionsTitle: styled.h1`
+    font-size: 1.5rem;
+    font-weight: ${lightTheme.fontWeightBold};
+    margin: 0;
+  `,
 
-const Text = styled.p`
-  font-size: 1rem; 
-  color: ${lightTheme.fontGray}; 
-  margin: 0;
-  font-family:${lightTheme.fontSuitRegular}
-`;
+  NewCollectionButton: styled.button`
+    font-size: 1rem;
+    color: ${lightTheme.fontPink};
+    font-family: ${lightTheme.fontSuitRegular};
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  `,
+};

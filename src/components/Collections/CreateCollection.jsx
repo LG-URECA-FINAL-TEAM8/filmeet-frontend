@@ -64,254 +64,256 @@ const CreateCollection = () => {
   };
 
   return (
-    <Container>
-      <HeaderContainer>
-        <Header>{CollectionsLabel.NewCollection}</Header>
-        <SaveButton onClick={handleSaveCollection}>
+    <S.Container>
+      <S.HeaderContainer>
+        <S.Header>{CollectionsLabel.NewCollection}</S.Header>
+        <S.SaveButton onClick={handleSaveCollection}>
           {CollectionsLabel.Create}
-        </SaveButton>
-      </HeaderContainer>
-      <InputContainer>
-        <InputBox>
-          <Input
+        </S.SaveButton>
+      </S.HeaderContainer>
+      <S.InputContainer>
+        <S.InputBox>
+          <S.Input
             type="text"
             placeholder={CollectionsLabel.CollectionTitlePlaceholder}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-        </InputBox>
-        <InputBox>
-          <Textarea
+        </S.InputBox>
+        <S.InputBox>
+          <S.Textarea
             placeholder={CollectionsLabel.CollectionDescriptionPlaceholder}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-        </InputBox>
-      </InputContainer>
-      <Section>
-        <SectionHeader>
+        </S.InputBox>
+      </S.InputContainer>
+      <S.Section>
+        <S.SectionHeader>
           <span>{CollectionsLabel.Movies}</span>
           {selectedMovies.length > 0 &&
             (isEditing ? (
-              <RemoveButton onClick={removeSelectedMovies}>
+              <S.RemoveButton onClick={removeSelectedMovies}>
                 {moviesToRemove.length}
                 {CollectionsLabel.RemoveSelected}
-              </RemoveButton>
+              </S.RemoveButton>
             ) : (
-              <EditButton onClick={enableEditMode}>
+              <S.EditButton onClick={enableEditMode}>
                 {CollectionsLabel.Edit}
-              </EditButton>
+              </S.EditButton>
             ))}
-        </SectionHeader>
-        <MoviesGrid>
-          <AddCard onClick={openModal}>
-            <PlusSign>+</PlusSign>
-            <AddText>{CollectionsLabel.AddMovie}</AddText>
-          </AddCard>
+        </S.SectionHeader>
+        <S.MoviesGrid>
+          <S.AddCard onClick={openModal}>
+            <S.PlusSign>+</S.PlusSign>
+            <S.AddText>{CollectionsLabel.AddMovie}</S.AddText>
+          </S.AddCard>
           {selectedMovies.map((movie) => (
-            <MovieThumbnail
+            <S.MovieThumbnail
               key={movie.id}
               isSelected={moviesToRemove.includes(movie.id)}
             >
-              <ThumbnailImage src={movie.image} alt={movie.title} />
-              <ThumbnailTitle>{movie.title}</ThumbnailTitle>
+              <S.ThumbnailImage src={movie.image} alt={movie.title} />
+              <S.ThumbnailTitle>{movie.title}</S.ThumbnailTitle>
               {isEditing && (
-                <RemoveIcon
+                <S.RemoveIcon
                   isSelected={moviesToRemove.includes(movie.id)}
                   onClick={() => toggleMovieToRemove(movie.id)}
                 >
                   ⨉
-                </RemoveIcon>
+                </S.RemoveIcon>
               )}
-            </MovieThumbnail>
+            </S.MovieThumbnail>
           ))}
-        </MoviesGrid>
-      </Section>
+        </S.MoviesGrid>
+      </S.Section>
       {isModalOpen && <MovieSearchModal onAddMovies={handleAddMovies} />}
-    </Container>
+    </S.Container>
   );
 };
 
 export default CreateCollection;
 
-const Container = styled.div`
-  width: 100%;
-  max-width: 37.5rem;
-  margin: 0 auto;
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-`;
+const S = {
+  Container: styled.div`
+    width: 100%;
+    max-width: 37.5rem;
+    margin: 0 auto;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  `,
 
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+  HeaderContainer: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `,
 
-const Header = styled.h1`
-  font-size: 1.5rem;
-  font-weight: ${lightTheme.fontWeightBold};
-  font-family: ${lightTheme.fontSuitBold}; 
-`;
+  Header: styled.h1`
+    font-size: 1.5rem;
+    font-weight: ${lightTheme.fontWeightBold};
+    font-family: ${lightTheme.fontSuitBold};
+  `,
 
-const SaveButton = styled.button`
-  padding: 0.3rem 0.9rem; 
-  font-size: 1rem;
-  color: ${lightTheme.fontGray};
-  background-color: transparent;
-  border: 0.1rem solid ${lightTheme.fontGray}; 
-  border-radius: 0.3rem; 
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  font-family: ${lightTheme.fontSuitBold}; 
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.3rem;
-`;
-
-const InputBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-`;
-
-const Input = styled.input`
-  font-size: 1rem;
-  padding: 0.4rem 0; 
-  border: none;
-  border-bottom: 0.1rem solid ${lightTheme.fontGray}; 
-  outline: none;
-  font-family: ${lightTheme.fontSuitRegular}; 
-  &::placeholder {
+  SaveButton: styled.button`
+    padding: 0.3rem 0.9rem;
+    font-size: 1rem;
     color: ${lightTheme.fontGray};
-  }
-`;
+    background-color: transparent;
+    border: 0.1rem solid ${lightTheme.fontGray};
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-family: ${lightTheme.fontSuitBold};
+  `,
 
-const Textarea = styled.textarea`
-  font-size: 1rem;
-  padding: 0.4rem 0; 
-  border: none;
-  border-bottom: 0.1rem solid ${lightTheme.fontGray}; 
-  outline: none;
-  resize: none;
-  height: 3.8rem; 
-  line-height: 1;
-  font-family: ${lightTheme.fontSuitRegular}; /
-  &::placeholder {
+  InputContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+  `,
+
+  InputBox: styled.div`
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  `,
+
+  Input: styled.input`
+    font-size: 1rem;
+    padding: 0.4rem 0;
+    border: none;
+    border-bottom: 0.1rem solid ${lightTheme.fontGray};
+    outline: none;
+    font-family: ${lightTheme.fontSuitRegular};
+    &::placeholder {
+      color: ${lightTheme.fontGray};
+    }
+  `,
+
+  Textarea: styled.textarea`
+    font-size: 1rem;
+    padding: 0.4rem 0;
+    border: none;
+    border-bottom: 0.1rem solid ${lightTheme.fontGray};
+    outline: none;
+    resize: none;
+    height: 3.8rem;
+    line-height: 1;
+    font-family: ${lightTheme.fontSuitRegular};
+    &::placeholder {
+      color: ${lightTheme.fontGray};
+    }
+  `,
+
+  Section: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  `,
+
+  SectionHeader: styled.div`
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    font-weight: ${lightTheme.fontWeightBold};
+    color: ${lightTheme.fontBlack};
+  `,
+
+  MoviesGrid: styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+    gap: 0.3rem;
+    margin-top: 0.6rem;
+  `,
+
+  AddCard: styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 6rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    text-align: center;
+    font-family: ${lightTheme.fontSuitRegular};
+  `,
+
+  PlusSign: styled.div`
+    font-size: 2rem;
     color: ${lightTheme.fontGray};
-  }
-`;
+  `,
 
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem; 
-`;
+  AddText: styled.div`
+    font-size: 0.8rem;
+    color: ${lightTheme.fontGray};
+    margin-top: 0.3rem;
+    font-family: ${lightTheme.fontSuitRegular};
+  `,
 
-const SectionHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-size: 1rem;
-  font-weight: ${lightTheme.fontWeightBold};
-  color: ${lightTheme.fontBlack};
-`;
+  MovieThumbnail: styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: ${(props) =>
+      props.isSelected ? lightTheme.lightPink : "transparent"};
+    border: ${(props) =>
+      props.isSelected ? `0.1rem solid ${lightTheme.fontPink}` : "none"};
+    border-radius: 0.3rem;
+    padding: 0.2rem;
+  `,
 
-const MoviesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
-  gap: 0.3rem; 
-  margin-top: 0.6rem; 
-`;
+  ThumbnailImage: styled.img`
+    width: 5rem;
+    height: 6.8rem;
+    object-fit: cover;
+    border-radius: 0.3rem;
+  `,
 
-const AddCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 5rem;
-  height: 6rem; 
-  border-radius: 0.3rem; 
-  cursor: pointer;
-  text-align: center;
-  font-family: ${lightTheme.fontSuitRegular}; 
-`;
+  ThumbnailTitle: styled.div`
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+    font-weight: ${lightTheme.fontWeightMedium};
+    color: ${lightTheme.fontBlack};
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    max-width: 5rem;
+  `,
 
-const PlusSign = styled.div`
-  font-size: 2rem;
-  color: ${lightTheme.fontGray};
-`;
+  RemoveIcon: styled.div`
+    position: absolute;
+    top: 0.2rem;
+    right: 0.2rem;
+    font-size: 1rem;
+    color: ${(props) =>
+      props.isSelected ? lightTheme.fontPink : lightTheme.fontGray};
+    cursor: pointer;
 
-const AddText = styled.div`
-  font-size: 0.8rem;
-  color: ${lightTheme.fontGray};
-  margin-top: 0.3rem; 
-  font-family: ${lightTheme.fontSuitRegular}; 
-`;
+    &:hover {
+      color: ${lightTheme.fontPink};
+    }
+  `,
 
-const MovieThumbnail = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background-color: ${(props) =>
-    props.isSelected ? lightTheme.lightPink : "transparent"};
-  border: ${(props) =>
-    props.isSelected ? `0.1rem solid ${lightTheme.fontPink}` : "none"};
-  border-radius: 0.3rem;
-  padding: 0.2rem; 
-`;
-
-const ThumbnailImage = styled.img`
-  width: 5rem; 
-  height: 6.8rem; 
-  object-fit: cover;
-  border-radius: 0.3rem;
-`;
-
-const ThumbnailTitle = styled.div`
-  margin-top: 0.2rem; 
-  font-size: 0.8rem;
-  font-weight: ${lightTheme.fontWeightMedium};
-  color: ${lightTheme.fontBlack};
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100%;
-  max-width: 5rem; 
-`;
-
-const RemoveIcon = styled.div`
-  position: absolute;
-  top: 0.2rem; 
-  right: 0.2rem; 
-  font-size: 1rem;
-  color: ${(props) =>
-    props.isSelected ? lightTheme.fontPink : lightTheme.fontGray};
-  cursor: pointer;
-
-  &:hover {
+  EditButton: styled.button`
+    font-size: 0.8rem;
     color: ${lightTheme.fontPink};
-  }
-`;
+    border: none;
+    background: none;
+    cursor: pointer;
+  `,
 
-const EditButton = styled.button`
-  font-size: 0.8rem;
-  color: ${lightTheme.fontPink};
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
-
-const RemoveButton = styled.button`
-  font-size: 0.8rem;
-  color: ${lightTheme.fontPink};
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
+  RemoveButton: styled.button`
+    font-size: 0.8rem;
+    color: ${lightTheme.fontPink};
+    border: none;
+    background: none;
+    cursor: pointer;
+  `,
+};
