@@ -17,14 +17,15 @@ const CollectionsLabel = {
   
   const CollectionDetail = ({ collectionData }) => {
     const [likes, setLikes] = useState(collectionData?.likes || 0); 
+    const [isLiked, setIsLiked] = useState(false); 
     const [comment, setComment] = useState(""); 
     const [comments, setComments] = useState([]); 
     const commentSectionRef = useRef(null); 
-  
+    
     if (!collectionData) {
       return <div>{CollectionsLabel.NoData}</div>;
     }
-  
+    
     const {
       profileImage = "https://via.placeholder.com/48", 
       name = "알 수 없음",
@@ -33,26 +34,30 @@ const CollectionsLabel = {
       bannerImage = "https://via.placeholder.com/800x200", 
       movies = [],
     } = collectionData;
-  
     
+   
     const handleLike = () => {
-      setLikes((prevLikes) => prevLikes + 1); 
+      if (isLiked) {
+        setLikes((prevLikes) => prevLikes - 1); 
+      } else {
+        setLikes((prevLikes) => prevLikes + 1); 
+      }
+      setIsLiked(!isLiked); 
     };
-  
- 
+    
     const handleCommentButton = () => {
       if (commentSectionRef.current) {
         commentSectionRef.current.scrollIntoView({ behavior: "smooth" }); 
       }
     };
-  
+    
     const handleAddComment = () => {
       if (comment.trim()) {
         setComments([...comments, comment]); 
         setComment(""); 
       }
     };
-  
+    
     return (
       <S.Container>
         <S.Header backgroundImage={bannerImage}>
@@ -74,8 +79,9 @@ const CollectionsLabel = {
             </S.Stats>
           </S.Description>
           <S.ActionSection>
-            <S.ActionButton onClick={handleLike}>
-              <S.Icon>{CollectionsLabel.LikeIcon}</S.Icon> {CollectionsLabel.Like}
+          <S.ActionButton onClick={handleLike} isLiked={isLiked}>
+             <S.Icon isLiked={isLiked}>{CollectionsLabel.LikeIcon}</S.Icon> 
+             {CollectionsLabel.Like}
             </S.ActionButton>
             <S.Divider />
             <S.ActionButton onClick={handleCommentButton}>
@@ -83,7 +89,7 @@ const CollectionsLabel = {
             </S.ActionButton>
           </S.ActionSection>
     
-          {/* 작품들 섹션 */}
+       
           <S.MoviesSection>
             <S.SectionHeader>
               <S.SectionTitle>{CollectionsLabel.Movies}</S.SectionTitle>
@@ -129,6 +135,7 @@ const CollectionsLabel = {
   };
   
   export default CollectionDetail;
+  
   
 
 
@@ -231,27 +238,28 @@ const CollectionsLabel = {
       border-bottom: 1px solid ${lightTheme.fontGray};
     `,
   
-    ActionButton: styled.button`
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: none;
-      border: none;
-      font-size: 1rem;
-      cursor: pointer;
-      color: ${lightTheme.fontGray};
-      font-family:${lightTheme.fontSuitRegular};
-  
-      &:hover {
-        color: ${lightTheme.fontPink}; 
-      }
-    `,
-  
-    Icon: styled.span`
-      font-size: 1.2rem;
-      margin-right: 0.3rem; 
-    `,
+   ActionButton: styled.button`
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: ${(props) => (props.isLiked ? lightTheme.fontPink : lightTheme.fontGray)};
+    font-family: ${lightTheme.fontSuitBold};
+
+    &:hover {
+      color: ${lightTheme.fontPink};
+    }
+  `,
+
+  Icon: styled.span`
+    font-size: 1.2rem;
+    margin-right: 0.3rem;
+    color: ${(props) => (props.isLiked ? lightTheme.fontPink : lightTheme.fontGray)};
+  `,
   
     Divider: styled.div`
       width: 1px;
