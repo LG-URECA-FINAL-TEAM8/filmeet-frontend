@@ -1,4 +1,3 @@
-import React from 'react';
 import { lightTheme } from '../../../styles/themes';
 import styled from 'styled-components';
 
