@@ -6,7 +6,7 @@ import useMovieStore from '../../../store/admin/useMovieStore';
 import moviesData from '../../../data/movies.json';
 import { lightTheme }from '../../../styles/themes';
 
-function AddMovie() {
+function AddMovie({pageTitle}) {
   const { movies, setMovies } = useMovieStore();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function AddMovie() {
 
   return (
     <PageWrapper>
-      <PageTitle>새로운 영화 추가</PageTitle>
+      <PageTitle>{pageTitle}</PageTitle>
       <SearchBarWrapper>
         <SearchBar onSearch={handleSearch} />
       </SearchBarWrapper>

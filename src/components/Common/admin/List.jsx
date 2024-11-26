@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 
-function List({ data = [], columns = [], actions = [] }) {
+function List({ data = [] , columns =[], actions = [] }) {
   return (
     <TableWrapper>
       <MovieTable>
@@ -14,26 +14,18 @@ function List({ data = [], columns = [], actions = [] }) {
           </tr>
         </thead>
         <tbody>
-          {data.length > 0 ? (
-            data.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>{item.title}</TableCell>
-                {actions.map((action, actionIndex) => (
-                  <TableCell key={actionIndex}>
-                    <ActionButton onClick={() => action.onClick(item)}>
-                      {action.label}
-                    </ActionButton>
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} style={{ textAlign: 'center' }}>
-                데이터가 없습니다.
-              </TableCell>
+          {data.map((item, index) => (
+            <TableRow key={index}>
+              <TableCell>{item.title}</TableCell>
+              {actions.map((action, actionIndex) => (
+                <TableCell key={actionIndex}>
+                  <ActionButton onClick={() => action.onClick(item)}>
+                    {action.label}
+                  </ActionButton>
+                </TableCell>
+              ))}
             </TableRow>
-          )}
+          ))}
         </tbody>
       </MovieTable>
     </TableWrapper>

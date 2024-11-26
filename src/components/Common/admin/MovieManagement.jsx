@@ -1,14 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import styled from 'styled-components';
 import SearchBar from './SearchBar';
 import List from './List';
+import AdminEditModal from '../modal/AdminEditModal';
+import useAdminEditModalStore from '../../../store/modal/useAdminEditModalStore';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import moviesData from '../../../data/movies.json';
 import { lightTheme } from '../../../styles/themes';
 
-function MovieManagement() {
-  const { movies, setMovies } = useMovieStore(); 
-  const pagetitle = '전체 영화 목록';
+function MovieManagement({pageTitle}) {
+  const { movies, setMovies } = useMovieStore();
+  const { isModalOpen,
+          openModal,
+          closeModal,
+          selectedMovie } = useAdminEditModalStore();
+
   useEffect(() => {
     setMovies(moviesData);
   }, [setMovies]);
@@ -19,10 +25,15 @@ function MovieManagement() {
     );
     setMovies(filteredMovies);
   };
-
+  const handleEdit = (movie) => {
+    openModal(movie);
+  };
+  const handleDelete = (movie) => {
+    
+  };
 return (
     <PageWrapper>
-      <PageTitle>{pagetitle}</PageTitle>
+      <PageTitle>{pageTitle}</PageTitle>
       <SearchBarWrapper>
         <SearchBar onSearch={handleSearch} />
       </SearchBarWrapper>
@@ -30,10 +41,16 @@ return (
         data={movies}
         columns={['영화 제목', '수정', '삭제']}
         actions={[
-          { label: '수정', onClick: (item) => alert(`수정: ${item.title}`) },
-          { label: '삭제', onClick: (item) => alert(`삭제: ${item.title}`) },
+          { label: '수정', onClick: handleEdit },
+          { label: '삭제', onClick: handleDelete },
         ]}
       />
+      {isModalOpen && (
+        <AdminEditModal
+          movie={selectedMovie}
+          onClose={closeModal}
+        />
+      )}
     </PageWrapper>
   );
 }

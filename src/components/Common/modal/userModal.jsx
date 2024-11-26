@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
 import ReactModal from 'react-modal';
-import useModalStore from '../../../store/modal/useModalStore'; 
+import useModalStore from '../../../store/modal/useModalStore';
 import { lightTheme } from '../../../styles/themes';
 import styled from 'styled-components';
 import ModalInput from '../../Features/auth/ModalInput';
@@ -11,33 +10,30 @@ import Authlink from '../../Features/auth/Authlink';
 ReactModal.setAppElement('#root');
 
 function UserModal() {
-  const { isModalOpen, closeModal } = useModalStore(); 
+  const { isModalOpen, closeModal } = useModalStore();
   const DividerText = ['OR'];
- 
+
   return (
     <ReactModal
       isOpen={isModalOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      contentLabel="User Modal"
-    >
-      
-      <AuthTitle value = "로그인" />
+      contentLabel="User Modal">
+      <AuthTitle value="로그인" />
       <Container>
         <ModalInput type="email" placeholder="이메일" />
-        <ModalInput type="password" placeholder='비밀번호'/>
-        <Authbutton value = "로그인" />
+        <ModalInput type="password" placeholder="비밀번호" />
+        <Authbutton value="로그인" />
         <AuthWrapper>
-          <AuthMessage value='계정이 없으신가요?' />
-          <Authlink value='회원가입' />
+          <AuthMessage value="계정이 없으신가요?" />
+          <Authlink value="회원가입" />
         </AuthWrapper>
-        
       </Container>
       <Divider>
         <Line />
         <Dividertext>{DividerText[0]}</Dividertext>
         <Line />
-      </Divider> 
+      </Divider>
     </ReactModal>
   );
 }
@@ -66,7 +62,7 @@ const Dividertext = styled.div`
   margin: 0 1rem;
   font-size: 0.9rem;
   color: ${lightTheme.fontGray};
-  font-family:${lightTheme.fontSuitRegular};
+  font-family: ${lightTheme.fontSuitRegular};
 `;
 
 const AuthWrapper = styled.section`
@@ -74,7 +70,6 @@ const AuthWrapper = styled.section`
   margin-top: 1rem;
   font-size: 0.9rem;
 
-  
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
@@ -82,11 +77,11 @@ const AuthWrapper = styled.section`
 
 const customStyles = {
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000
+    zIndex: 1000,
   },
   content: {
     position: 'relative',
@@ -99,6 +94,6 @@ const customStyles = {
     padding: '1rem',
     borderRadius: '0.5rem',
     boxShadow: `${lightTheme.defaulBoxShadow}`,
-    overflow: 'auto'
-  }
+    overflow: 'auto',
+  },
 };

@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 
 function SearchBar({ onSearch }) {
+  const search = '검색';
   return (
     <SearchBarWrapper>
       <SearchInput type="text" placeholder="검색" />
-      <SearchButton onClick={onSearch}>검색</SearchButton>
+      <SearchButton onClick={onSearch}>{search}</SearchButton>
     </SearchBarWrapper>
   );
 }

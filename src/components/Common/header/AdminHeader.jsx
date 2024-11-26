@@ -9,6 +9,9 @@ function AdminHeaderComponent({
   onLikeManagementClick,
   showButtons = true,
 }) {
+  const clickmanagement = '전체 영화 목록';
+  const clickadd = '새로운 영화 추가';
+  const clicklike = '좋아요 관리';
   return (
     <AdminHeader>
       <HeaderContent>
@@ -16,9 +19,9 @@ function AdminHeaderComponent({
       </HeaderContent>
       {showButtons && (
         <ButtonGroup>
-          <StyledButton onClick={onMovieManagementClick}>전체 영화 목록</StyledButton>
-          <StyledButton onClick={onAddNewMovieClick}>새로운 영화 추가</StyledButton>
-          <StyledButton onClick={onLikeManagementClick}>좋아요 관리</StyledButton>
+          <StyledButton onClick={onMovieManagementClick}>{clickmanagement}</StyledButton>
+          <StyledButton onClick={onAddNewMovieClick}>{clickadd}</StyledButton>
+          <StyledButton onClick={onLikeManagementClick}>{clicklike}</StyledButton>
         </ButtonGroup>
       )}
     </AdminHeader>

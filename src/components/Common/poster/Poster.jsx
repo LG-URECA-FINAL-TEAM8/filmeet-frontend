@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -6,10 +5,10 @@ import { Carousel } from 'react-responsive-carousel';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { groupMovies } from '../../../utils/poster/posterGroup';
 
-function Poster({ useCarousel = false, movies = { movies } }) {
+function Poster({ caseType = 0, movies = { movies } }) {
   const movieGroups = groupMovies(movies, 5);
 
-  if (useCarousel) {
+  if (caseType == 1) {
     return (
       <CarouselContainer>
         <Carousel
@@ -40,12 +39,125 @@ function Poster({ useCarousel = false, movies = { movies } }) {
                 <PostItem key={movie.id}>
                   <PostCardImg src={movie.image} alt={movie.title} />
                   <PostTitle>{movie.title}</PostTitle>
+                  <GrayField>{movie.rating}</GrayField>
                 </PostItem>
               ))}
             </SlideContainer>
           ))}
         </Carousel>
       </CarouselContainer>
+    );
+  }
+  //case 2 개봉예정일
+  if (caseType == 2) {
+    return (
+      <CarouselContainer>
+        <Carousel
+          showThumbs={false}
+          showStatus={false}
+          showIndicators={false}
+          infiniteLoop={false}
+          centerMode={false}
+          swipeable={true}
+          emulateTouch={true}
+          renderArrowPrev={(clickHandler, hasPrev) =>
+            hasPrev && (
+              <NavButton className="prev" onClick={clickHandler}>
+                <ChevronLeft color={lightTheme.fontGray} />
+              </NavButton>
+            )
+          }
+          renderArrowNext={(clickHandler, hasNext) =>
+            hasNext && (
+              <NavButton className="next" onClick={clickHandler}>
+                <ChevronRight color={lightTheme.fontGray} />
+              </NavButton>
+            )
+          }>
+          {movieGroups.map((group, groupIndex) => (
+            <SlideContainer key={groupIndex}>
+              {group.map((movie) => (
+                <PostItem key={movie.id}>
+                  <PostCardImg src={movie.image} alt={movie.title} />
+                  <PostTitle>{movie.title}</PostTitle>
+                  <PinkField>{`개봉일정 ${movie.releaseDate}`}</PinkField>
+                </PostItem>
+              ))}
+            </SlideContainer>
+          ))}
+        </Carousel>
+      </CarouselContainer>
+    );
+  }
+  //case : 3 누적관객
+  if (caseType == 3) {
+    return (
+      <CarouselContainer>
+        <Carousel
+          showThumbs={false}
+          showStatus={false}
+          showIndicators={false}
+          infiniteLoop={false}
+          centerMode={false}
+          swipeable={true}
+          emulateTouch={true}
+          renderArrowPrev={(clickHandler, hasPrev) =>
+            hasPrev && (
+              <NavButton className="prev" onClick={clickHandler}>
+                <ChevronLeft color={lightTheme.fontGray} />
+              </NavButton>
+            )
+          }
+          renderArrowNext={(clickHandler, hasNext) =>
+            hasNext && (
+              <NavButton className="next" onClick={clickHandler}>
+                <ChevronRight color={lightTheme.fontGray} />
+              </NavButton>
+            )
+          }>
+          {movieGroups.map((group, groupIndex) => (
+            <SlideContainer key={groupIndex}>
+              {group.map((movie) => {
+                const formattedAudience = `${Math.floor(movie.totalAudience / 10000)}만 명`;
+                return (
+                  <PostItem key={movie.id}>
+                    <PostCardImg src={movie.image} alt={movie.title} />
+                    <PostTitle>{movie.title}</PostTitle>
+                    <GrayField>{`누적 관객 ${formattedAudience}`}</GrayField>
+                  </PostItem>
+                );
+              })}
+            </SlideContainer>
+          ))}
+        </Carousel>
+      </CarouselContainer>
+    );
+  }
+
+  //case 4 마이페이지
+  if (caseType == 4) {
+    return (
+      <SlideContainer>
+        {movies.map((movie) => (
+          <PostItem key={movie.id}>
+            <PostCardImg src={movie.image} alt={movie.title} />
+            <PostTitle>{movie.title}</PostTitle>
+            <PinkField>{`평가함 ★ ${movie.rating}`}</PinkField>
+          </PostItem>
+        ))}
+      </SlideContainer>
+    );
+  }
+  //case 5 이미지
+  if (caseType == 5) {
+    return (
+      <SlideContainer>
+        {movies.map((movie) => (
+          <PostItem key={movie.id}>
+            <PostCardImg src={movie.image} alt={movie.title} />
+          </PostItem>
+        ))}
+      </SlideContainer>
     );
   }
 
@@ -131,6 +243,28 @@ const PostTitle = styled.div`
   color: ${lightTheme.fontBlack};
   font-size: 1rem;
   font-weight: ${lightTheme.fontWeightMedium};
+  font-family: ${lightTheme.fontSuitRegular};
+`;
+
+const PinkField = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+  width: 100%;
+  color: ${lightTheme.fontPink};
+  font-size: 0.9rem;
+  font-weight: ${lightTheme.fontWeightRegular};
+  font-family: ${lightTheme.fontSuitRegular};
+`;
+
+const GrayField = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+  width: 100%;
+  color: ${lightTheme.fontGray};
+  font-size: 0.9rem;
+  font-weight: ${lightTheme.fontWeightRegular};
   font-family: ${lightTheme.fontSuitRegular};
 `;
 

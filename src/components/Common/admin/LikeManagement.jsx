@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import SearchBar from './SearchBar';
 import List from './List';
 import { lightTheme }from '../../../styles/themes';
 
-function LikeManagement() {
-
-  const pagetitle = '좋아요 관리';
+function LikeManagement({pageTitle}) {
+  
   const handleSearch = (searchTerm) => {
-
+    
   };
 
   return (
     <PageWrapper>
-      <PageTitle>{pagetitle}</PageTitle>
+      <PageTitle>{pageTitle}</PageTitle>
       <SearchBarWrapper>
         <SearchBar onSearch={handleSearch} />
       </SearchBarWrapper>
