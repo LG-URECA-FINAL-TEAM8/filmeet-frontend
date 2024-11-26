@@ -15,8 +15,14 @@ function Header() {
   ];
 
   const authButtons = [
-    { title: '로그인', onClick: openModal },
-    { title: '회원가입', onClick: openModal },
+    {
+      title: '로그인',
+      onClick: () => openModal('로그인', '계정이 없으신가요?'),
+    },
+    {
+      title: '회원가입',
+      onClick: () => openModal('회원가입', '계정이 이미 있으신가요?'),
+    },
   ];
 
   const renderButtons = (buttonList, isMain = false) =>
