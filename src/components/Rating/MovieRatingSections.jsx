@@ -1,7 +1,7 @@
 import { movies } from '../../data/movies';
 import Poster from '../../components/Common/poster/Poster';
 import { groupMoviesByRating } from '../../utils/ratings/groupMoviesRatings';
-import { MoreButton, NoResults, SectionContainer, SectionCount, SectionHeader, SectionTitle } from '../../styles/rating/rating';
+import * as S from '../../styles/rating/rating';
 import { useNavigate } from 'react-router-dom';
 import { pagecontents } from '../../data/pagecontents';
 
@@ -17,24 +17,24 @@ const MovieRatingSections = () => {
   return (
     <>
       {ratings.map((rating) => (
-        <SectionContainer key={rating}>
-          <SectionHeader>
-            <SectionTitle>
+        <S.SectionContainer key={rating}>
+          <S.SectionHeader>
+            <S.SectionTitle>
               {`${rating.toFixed(1)} ${sectionTitle}`}
-              <SectionCount>{groupedMovies[rating]?.length || 0}</SectionCount>
-            </SectionTitle>
+              <S.SectionCount>{groupedMovies[rating]?.length || 0}</S.SectionCount>
+            </S.SectionTitle>
             {groupedMovies[rating]?.length > 0 && (
-              <MoreButton onClick={handleMoreClick(rating)}>
+              <S.MoreButton onClick={handleMoreClick(rating)}>
                 {moreButton}
-              </MoreButton>
+              </S.MoreButton>
             )}
-          </SectionHeader>
+          </S.SectionHeader>
           {groupedMovies[rating]?.length > 0 ? (
             <Poster caseType={7} movies={groupedMovies[rating].slice(0, 10)} />
           ) : (
-            <NoResults>{noResults}</NoResults>
+            <S.NoResults>{noResults}</S.NoResults>
           )}
-        </SectionContainer>
+        </S.SectionContainer>
       ))}
     </>
   );

@@ -1,13 +1,12 @@
-import React from "react";
-import { RatingPageContainer } from "../../../styles/rating/rating";
+import * as S from "../../../styles/rating/rating";
 import Rating from "../../../components/Rating/Rating";
 
 const RatingsPage = () => {
 
   return (
-    <RatingPageContainer>
+    <S.RatingPageContainer>
       <Rating />
-    </RatingPageContainer>
+    </S.RatingPageContainer>
   );
 };
 

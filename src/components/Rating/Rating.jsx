@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { TopContainer, BottomContainer, BackButton, TopTitle, Label, Count } from "../../styles/rating/rating";
+import * as S from "../../styles/rating/rating"; // S로 스타일 컴포넌트 import
 import { pagecontents } from "../../data/pagecontents";
 
 const Rating = () => {
@@ -13,23 +13,23 @@ const Rating = () => {
   };
 
   const handleBackClick = () => {
-    navigate('/mypage');
+    navigate("/mypage");
   };
 
   return (
     <>
-      <TopContainer>
-        <BackButton onClick={handleBackClick}>
+      <S.TopContainer>
+        <S.BackButton onClick={handleBackClick}>
           <FontAwesomeIcon icon={faArrowLeft} />
-        </BackButton>
-        <TopTitle>{title}</TopTitle>
-      </TopContainer>
+        </S.BackButton>
+        <S.TopTitle>{title}</S.TopTitle>
+      </S.TopContainer>
 
       {categories.map((category, index) => (
-        <BottomContainer key={index} onClick={handleCategoryClick}>
-          <Label>{category.label}</Label>
-          <Count>{category.count}</Count>
-        </BottomContainer>
+        <S.BottomContainer key={index} onClick={handleCategoryClick}>
+          <S.Label>{category.label}</S.Label>
+          <S.Count>{category.count}</S.Count>
+        </S.BottomContainer>
       ))}
     </>
   );

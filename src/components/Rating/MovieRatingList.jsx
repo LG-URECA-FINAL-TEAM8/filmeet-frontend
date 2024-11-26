@@ -1,4 +1,4 @@
-import { TopContainer, BackButton, TopTitle, FilterContainer, FilterButton } from "../../styles/rating/rating";
+import * as S from "../../styles/rating/rating";
 import Poster from '../../components/Common/poster/Poster';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -6,39 +6,35 @@ import useRatingsStore from "../../store/rating/useRatingsStore";
 import { useNavigate } from "react-router-dom";
 import { movies } from "../../data/movies";
 import { pagecontents } from "../../data/pagecontents";
+import { createBackClickHandler, createFilterClickHandler } from "../../utils/ratings/navigationHandlers";
 
 const MovieRatingList = () => {
   const { activeFilter, setActiveFilter } = useRatingsStore();
   const { title, filters } = pagecontents.movieRatingList;
   const navigate = useNavigate();
 
-  const handleBackClick = () => {
-    navigate('/mypage/ratings');
-  };
-
-  const handleFilterClick = (filter) => {
-    setActiveFilter(filter);
-  };
+  const handleBackClick = createBackClickHandler(navigate, "/mypage/ratings");
+  const handleFilterClick = createFilterClickHandler(setActiveFilter);
 
   return (
     <>
-      <TopContainer>
-        <BackButton onClick={handleBackClick}>
+      <S.TopContainer>
+        <S.BackButton onClick={handleBackClick}>
           <FontAwesomeIcon icon={faArrowLeft} />
-        </BackButton>
-        <TopTitle>{title}</TopTitle>
-        <FilterContainer>
+        </S.BackButton>
+        <S.TopTitle>{title}</S.TopTitle>
+        <S.FilterContainer>
           {filters.map((option) => (
-            <FilterButton
+            <S.FilterButton
               key={option.value}
               isActive={activeFilter === option.value}
               onClick={() => handleFilterClick(option.value)}
             >
               {option.label}
-            </FilterButton>
+            </S.FilterButton>
           ))}
-        </FilterContainer>
-      </TopContainer>
+        </S.FilterContainer>
+      </S.TopContainer>
       <Poster caseType={6} movies={movies} />
     </>
   );

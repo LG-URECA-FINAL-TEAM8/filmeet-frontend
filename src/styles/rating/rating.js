@@ -141,3 +141,5 @@ export const NoResults = styled.div`
   font-size: 1.2rem;
   color: ${lightTheme.fontGray};
 `;
+
+ 

@@ -6,7 +6,8 @@ import RatingsPage from '../pages/mypage/ratingpage/RatingsPage';
 import CommentsPage from '../pages/mypage/CommentsPage';
 import CollectionsPage from '../pages/mypage/CollectionsPage';
 import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
-import AllMoviesByRatingPage from '../pages/mypage/ratingpage/AllMoviesByRatingPage';
+import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
+
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'mypage/contents/movies/ratings/:rating',
-        element: <AllMoviesByRatingPage />, // 별점별 영화 전체 페이지 추가
+        element: <AllMoviesByRatingsPage />,
       },
       {
         path: 'mypage/comments',

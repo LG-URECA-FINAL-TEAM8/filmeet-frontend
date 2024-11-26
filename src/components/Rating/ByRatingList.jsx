@@ -1,43 +1,39 @@
-import { TopContainer, BackButton, TopTitle, FilterContainer, FilterButton } from "../../styles/rating/rating";
+import * as S from "../../styles/rating/rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import useRatingsStore from "../../store/rating/useRatingsStore";
 import { useNavigate } from "react-router-dom";
 import MovieRatingSections from "./MovieRatingSections";
 import { pagecontents } from "../../data/pagecontents";
+import { createBackClickHandler, createFilterClickHandler } from "../../utils/ratings/navigationHandlers";
 
 const ByRatingList = () => {
   const { activeFilter, setActiveFilter } = useRatingsStore();
   const { title, filters } = pagecontents.movieRatingList;
   const navigate = useNavigate();
 
-  const handleBackClick = () => {
-    navigate("/mypage/ratings");
-  };
-
-  const handleFilterClick = (filter) => {
-    setActiveFilter(filter);
-  };
+  const handleBackClick = createBackClickHandler(navigate, "/mypage/ratings");
+  const handleFilterClick = createFilterClickHandler(setActiveFilter);
 
   return (
     <>
-      <TopContainer>
-        <BackButton onClick={handleBackClick}>
+      <S.TopContainer>
+        <S.BackButton onClick={handleBackClick}>
           <FontAwesomeIcon icon={faArrowLeft} />
-        </BackButton>
-        <TopTitle>{title}</TopTitle>
-        <FilterContainer>
+        </S.BackButton>
+        <S.TopTitle>{title}</S.TopTitle>
+        <S.FilterContainer>
           {filters.map((filter) => (
-            <FilterButton
+            <S.FilterButton
               key={filter.value}
               isActive={activeFilter === filter.value}
               onClick={() => handleFilterClick(filter.value)}
             >
               {filter.label}
-            </FilterButton>
+            </S.FilterButton>
           ))}
-        </FilterContainer>
-      </TopContainer>
+        </S.FilterContainer>
+      </S.TopContainer>
       <MovieRatingSections />
     </>
   );
