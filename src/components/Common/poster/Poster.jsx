@@ -77,8 +77,8 @@ function Poster({ caseType = 0, movies = { movies } }) {
           {movieGroups.map((group, groupIndex) => (
             <S.SlideContainer key={groupIndex}>
               {group.map((movie) => (
-                <S.PostItem key={movie.id}>
-                  <S.PostCardImg src={movie.image} alt={movie.title} />
+                <S.PostItem key={movie.movieId}>
+                  <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
                   <S.PostTitle>{movie.title}</S.PostTitle>
                   <S.PinkField>{`개봉일정 ${movie.releaseDate}`}</S.PinkField>
                 </S.PostItem>
