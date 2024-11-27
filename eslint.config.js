@@ -53,8 +53,8 @@ export default [
       // camelCase를 기본으로 하되, 상수 또는 디스트럭처링에서 예외를 허용합니다.
       camelcase: ['error', { properties: 'never', ignoreDestructuring: true }],
 
-      // 변수명은 최소 3자 이상으로 작성하되, 예외적으로 'id'와 'img'는 허용합니다.
-      'id-length': ['warn', { min: 3, exceptions: ['id', 'img'] }],
+      // 변수명은 최소 3자 이상으로 작성하되, 예외적으로 'id'와 'img' 'S'는 허용합니다.
+      'id-length': ['warn', { min: 3, exceptions: ['id', 'img', 'S', 'i'] }],
       // React 컴포넌트 이름은 PascalCase로 작성해야 합니다.
       'react/jsx-pascal-case': 'error',
     },
