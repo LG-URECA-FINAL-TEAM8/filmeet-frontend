@@ -13,7 +13,7 @@ const StyledInput = styled.input`
   margin-bottom: 0.75rem;
   border: none;
   border-radius: 0.25rem;
-  background-color: #d9d9d9; /*{lightTheme} 색깔 추가*/
+  background-color: #d9d9d9;
   color: ${lightTheme.fontGray};
   font-size: 1rem;
 

@@ -10,7 +10,7 @@ import Authlink from '../../Features/auth/Authlink';
 ReactModal.setAppElement('#root');
 
 function UserModal() {
-  const { isModalOpen, closeModal } = useModalStore();
+  const { isModalOpen, closeModal, modalTitle, modalMessage } = useModalStore();
   const DividerText = ['OR'];
 
   return (
