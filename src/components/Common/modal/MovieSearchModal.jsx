@@ -1,9 +1,9 @@
-import React, { useState } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import { movies } from "../../../data/movies";
 import useCollectionsStore from "../../../store/collections/useCollectionsStore";
 import { lightTheme } from "../../../styles/themes";
+import ModalList from "../poster/ModalList"; 
 
 ReactModal.setAppElement("#root");
 
@@ -14,26 +14,43 @@ const CollectionsLabel = {
 };
 
 const MovieSearchModal = ({ onAddMovies }) => {
-  const { isModalOpen, closeModal } = useCollectionsStore();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedMovies, setSelectedMovies] = useState([]);
+  const {
+    isModalOpen,
+    closeModal,
+    searchTerm,
+    setSearchTerm,
+    tempSelectedMovies,
+    toggleMovieSelection,
+    confirmTempSelectedMovies,
+  } = useCollectionsStore();
 
-  const getFilteredMovies = () =>
-    movies.filter((movie) =>
-      movie.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-  const toggleMovieSelection = (movie) => {
-    setSelectedMovies((prev) =>
-      prev.find((selectedMovie) => selectedMovie.id === movie.id)
-        ? prev.filter((selectedMovie) => selectedMovie.id !== movie.id)
-        : [...prev, movie]
-    );
+  
+  const getFilteredMovies = () => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase(); 
+    return movies
+      .filter(
+        (movie) =>
+          movie.title.toLowerCase().includes(lowerCaseSearchTerm) || 
+          movie.type?.toLowerCase().includes(lowerCaseSearchTerm) 
+      )
+      .map((movie) => ({
+        ...movie,
+        isSelected: tempSelectedMovies.some(
+          (selectedMovie) => selectedMovie.id === movie.id
+        ),
+      }));
   };
 
+ 
+  const handleMovieSelect = (movie) => {
+    toggleMovieSelection(movie); 
+  };
+
+  
   const handleAddMovies = () => {
-    if (selectedMovies.length > 0) {
-      onAddMovies(selectedMovies);
+    if (tempSelectedMovies.length > 0) {
+      onAddMovies(tempSelectedMovies);
+      confirmTempSelectedMovies();
       closeModal();
     }
   };
@@ -49,10 +66,10 @@ const MovieSearchModal = ({ onAddMovies }) => {
         <S.Header>
           <S.Title>{CollectionsLabel.AddMovies}</S.Title>
           <S.AddButton
-            disabled={selectedMovies.length === 0}
+            disabled={tempSelectedMovies.length === 0}
             onClick={handleAddMovies}
           >
-            {selectedMovies.length}
+            {tempSelectedMovies.length}
             {CollectionsLabel.AddMoviesButton}
           </S.AddButton>
         </S.Header>
@@ -61,31 +78,14 @@ const MovieSearchModal = ({ onAddMovies }) => {
             type="text"
             placeholder={CollectionsLabel.SearchPlaceholder}
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)} 
           />
         </S.SearchBarContainer>
         <S.MovieList>
-          {searchTerm.trim() &&
-            getFilteredMovies().map((movie) => (
-              <S.MovieItem
-                key={movie.id}
-                onClick={() => toggleMovieSelection(movie)}
-                isSelected={selectedMovies.some(
-                  (selectedMovie) => selectedMovie.id === movie.id
-                )}
-              >
-                <S.Checkbox
-                  isSelected={selectedMovies.some(
-                    (selectedMovie) => selectedMovie.id === movie.id
-                  )}
-                />
-                <S.MovieImage src={movie.image} alt={movie.title} />
-                <S.MovieInfo>
-                  <span>{movie.title}</span>
-                  <span>{movie.year}</span>
-                </S.MovieInfo>
-              </S.MovieItem>
-            ))}
+          <ModalList
+            movies={getFilteredMovies()} 
+            onMovieSelect={handleMovieSelect} 
+          />
         </S.MovieList>
       </S.ModalContent>
     </ReactModal>
@@ -108,8 +108,7 @@ const customStyles = {
     maxWidth: "90%",
     height: "37.5rem",
     borderRadius: "0.3rem",
-    padding: "0",
-    margin: "0 auto",
+    padding: "5px",
     boxShadow: `${lightTheme.defaultBoxShadow}`,
     overflow: "hidden",
     backgroundColor: lightTheme.fontWhite,
@@ -133,7 +132,7 @@ const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.6rem 1.2rem;
+    padding: 0 1.2rem;
   `,
 
   Title: styled.h2`
@@ -178,11 +177,6 @@ const S = {
     ::placeholder {
       color: ${lightTheme.fontGray};
     }
-
-    &:focus {
-      border-color: ${lightTheme.fontPink};
-      box-shadow: 0 0 0.2rem ${lightTheme.fontPink};
-    }
   `,
 
   MovieList: styled.div`
@@ -206,28 +200,7 @@ const S = {
       background-color: ${lightTheme.lightGray};
     }
   `,
-
-  Checkbox: styled.div`
-      width: 0.7rem; 
-  height: 0.7rem;
-  margin-right: 0.5rem; 
-  border: 0.1rem solid
-    ${(props) => (props.isSelected ? lightTheme.fontPink : lightTheme.fontGray)};
-  background-color: ${(props) =>
-    props.isSelected ? lightTheme.fontPink : "transparent"};
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  line-height: 0; 
-
-  &:after {
-    content: "✔";
-    font-size: 0.5rem; 
-    color: ${lightTheme.fontWhite};
-    display: ${(props) => (props.isSelected ? "block" : "none")};
-  }
-  `,
+ 
 
   MovieImage: styled.img`
     width: 3.5rem;

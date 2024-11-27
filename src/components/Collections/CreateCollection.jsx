@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import MovieSearchModal from "../Common/modal/MovieSearchModal";
 import { lightTheme } from "../../styles/themes";
@@ -16,24 +16,25 @@ const CollectionsLabel = {
 };
 
 const CreateCollection = () => {
-  const { addCollection, openModal, isModalOpen } = useCollectionsStore();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedMovies, setSelectedMovies] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [moviesToRemove, setMoviesToRemove] = useState([]);
-
-  const handleAddMovies = (movies) => {
-    setSelectedMovies((prevMovies) => [...prevMovies, ...movies]);
-  };
-
-  const toggleMovieToRemove = (movieId) => {
-    setMoviesToRemove((prevMovies) =>
-      prevMovies.includes(movieId)
-        ? prevMovies.filter((id) => id !== movieId)
-        : [...prevMovies, movieId]
-    );
-  };
+  const {
+    title,
+    description,
+    selectedMovies,
+    isEditing,
+    moviesToRemove,
+    isModalOpen,
+    openModal,
+    closeModal,
+    setTitle,
+    setDescription,
+    addMovies,
+    toggleMovieToRemove,
+    removeSelectedMovies,
+    enableEditMode,
+    resetFields,
+    addCollection,
+    confirmTempSelectedMovies,
+  } = useCollectionsStore();
 
   const handleSaveCollection = () => {
     if (title.trim()) {
@@ -45,22 +46,6 @@ const CreateCollection = () => {
       });
       resetFields();
     }
-  };
-
-  const resetFields = () => {
-    setTitle("");
-    setDescription("");
-    setSelectedMovies([]);
-  };
-
-  const enableEditMode = () => setIsEditing(true);
-
-  const removeSelectedMovies = () => {
-    setSelectedMovies((prevMovies) =>
-      prevMovies.filter((movie) => !moviesToRemove.includes(movie.id))
-    );
-    setMoviesToRemove([]);
-    setIsEditing(false);
   };
 
   return (
@@ -127,7 +112,15 @@ const CreateCollection = () => {
           ))}
         </S.MoviesGrid>
       </S.Section>
-      {isModalOpen && <MovieSearchModal onAddMovies={handleAddMovies} />}
+      {isModalOpen && (
+        <MovieSearchModal
+          onAddMovies={(movies) => {
+            addMovies(movies);
+            confirmTempSelectedMovies();
+            closeModal();
+          }}
+        />
+      )}
     </S.Container>
   );
 };
@@ -152,7 +145,7 @@ const S = {
   `,
 
   Header: styled.h1`
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: ${lightTheme.fontWeightBold};
     font-family: ${lightTheme.fontSuitBold};
   `,
@@ -183,7 +176,7 @@ const S = {
 
   Input: styled.input`
     font-size: 1rem;
-    padding: 0.4rem 0;
+    padding: 0.4rem 0 1.2rem;
     border: none;
     border-bottom: 0.1rem solid ${lightTheme.fontGray};
     outline: none;
@@ -195,13 +188,14 @@ const S = {
 
   Textarea: styled.textarea`
     font-size: 1rem;
-    padding: 0.4rem 0;
+    padding: 0.4rem 0 7rem;
     border: none;
     border-bottom: 0.1rem solid ${lightTheme.fontGray};
     outline: none;
     resize: none;
     height: 3.8rem;
     line-height: 1;
+
     font-family: ${lightTheme.fontSuitRegular};
     &::placeholder {
       color: ${lightTheme.fontGray};
@@ -217,38 +211,44 @@ const S = {
   SectionHeader: styled.div`
     display: flex;
     justify-content: space-between;
-    font-size: 1rem;
+    font-size: 1.4rem;
     font-weight: ${lightTheme.fontWeightBold};
     color: ${lightTheme.fontBlack};
-  `,
+    font-family: ${lightTheme.fontSuitBold};
+    
+    `,
 
   MoviesGrid: styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
-    gap: 0.3rem;
-    margin-top: 0.6rem;
-  `,
+    grid-template-columns: repeat(auto-fill, minmax(6.1rem, 1fr)); 
+    gap:  0.6rem; 
+    margin-top: 1.5rem;
+    `,
 
   AddCard: styled.div`
+    margin: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 5rem;
-    height: 6rem;
+    width: 6.25rem; 
+    height: 8.9rem; 
     border-radius: 0.3rem;
     cursor: pointer;
     text-align: center;
     font-family: ${lightTheme.fontSuitRegular};
-  `,
+    border: 0.1rem solid #cacaca; 
+    background-color: #f8f8f8; 
+    color: #cacaca; 
+   `,
 
   PlusSign: styled.div`
-    font-size: 2rem;
+     font-size: 3rem;
     color: ${lightTheme.fontGray};
   `,
 
   AddText: styled.div`
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: ${lightTheme.fontGray};
     margin-top: 0.3rem;
     font-family: ${lightTheme.fontSuitRegular};
@@ -256,50 +256,51 @@ const S = {
 
   MovieThumbnail: styled.div`
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    background-color: ${(props) =>
-      props.isSelected ? lightTheme.lightPink : "transparent"};
-    border: ${(props) =>
-      props.isSelected ? `0.1rem solid ${lightTheme.fontPink}` : "none"};
-    border-radius: 0.3rem;
-    padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 6.25rem; 
+  border-radius: 0.3rem;
+  overflow: hidden;
+  text-align: center;
+  font-family: ${lightTheme.fontSuitRegular};
+  margin: 0 auto;  
   `,
 
   ThumbnailImage: styled.img`
-    width: 5rem;
-    height: 6.8rem;
+    width: 100%;
+    height: 8.9rem; 
     object-fit: cover;
     border-radius: 0.3rem;
   `,
 
   ThumbnailTitle: styled.div`
-    margin-top: 0.2rem;
-    font-size: 0.8rem;
+    margin-top: 0.4rem; 
+    font-size: 0.9rem; 
     font-weight: ${lightTheme.fontWeightMedium};
     color: ${lightTheme.fontBlack};
+    text-align: center;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
     width: 100%;
-    max-width: 5rem;
-  `,
+    font-family:${lightTheme.fontSuitRegular};
+`,
 
   RemoveIcon: styled.div`
-    position: absolute;
-    top: 0.2rem;
-    right: 0.2rem;
-    font-size: 1rem;
-    color: ${(props) =>
-      props.isSelected ? lightTheme.fontPink : lightTheme.fontGray};
-    cursor: pointer;
+ position: absolute;
+  top: 0; 
+  right: 0; 
+  font-size: 1rem;
+  color: ${(props) =>
+    props.isSelected ? lightTheme.fontPink : lightTheme.fontGray};
+  cursor: pointer;
+  padding: 0.3rem; 
 
-    &:hover {
-      color: ${lightTheme.fontPink};
-    }
-  `,
+  &:hover {
+    color: ${lightTheme.fontPink};
+  }
+`,
 
   EditButton: styled.button`
     font-size: 0.8rem;
@@ -307,6 +308,7 @@ const S = {
     border: none;
     background: none;
     cursor: pointer;
+    font-family: ${lightTheme.fontSuitRegular};
   `,
 
   RemoveButton: styled.button`
