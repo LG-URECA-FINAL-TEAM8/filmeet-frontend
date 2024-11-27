@@ -10,7 +10,7 @@ import Authlink from '../../Features/auth/Authlink';
 ReactModal.setAppElement('#root');
 
 function UserModal() {
-  const { isModalOpen, closeModal } = useModalStore();
+  const { isModalOpen, closeModal, modalTitle, modalMessage } = useModalStore();
   const DividerText = ['OR'];
 
   return (
@@ -19,14 +19,15 @@ function UserModal() {
       onRequestClose={closeModal}
       style={customStyles}
       contentLabel="User Modal">
-      <AuthTitle value="로그인" />
+      <AuthTitle value={modalTitle} />
       <Container>
+        {modalTitle === '회원가입' && <ModalInput type="text" placeholder="닉네임" />}
         <ModalInput type="email" placeholder="이메일" />
         <ModalInput type="password" placeholder="비밀번호" />
-        <Authbutton value="로그인" />
+        <Authbutton value={modalTitle} />
         <AuthWrapper>
-          <AuthMessage value="계정이 없으신가요?" />
-          <Authlink value="회원가입" />
+          <AuthMessage value={modalMessage} />
+          <Authlink value={modalTitle === '로그인' ? '회원가입' : '로그인'} />
         </AuthWrapper>
       </Container>
       <Divider>
