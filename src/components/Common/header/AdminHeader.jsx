@@ -55,6 +55,7 @@ const S = {
   
   font-weight: ${lightTheme.fontWeightBold};
   font-size: ${(props) => props.fontSize || '1.5rem'};
+  font-weight: ${lightTheme.fontWeightBold};
   font-family: ${lightTheme.fontSuitBold};
   color: ${lightTheme.fontBlack};
   margin: 0;
