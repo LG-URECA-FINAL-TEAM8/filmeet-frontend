@@ -10,7 +10,7 @@ function Poster({ caseType = 0, movies = { movies } }) {
 
   if (caseType == 1) {
     return (
-      <CarouselContainer>
+      <S.CarouselContainer>
         <Carousel
           showThumbs={false}
           showStatus={false}
@@ -21,37 +21,37 @@ function Poster({ caseType = 0, movies = { movies } }) {
           emulateTouch={true}
           renderArrowPrev={(clickHandler, hasPrev) =>
             hasPrev && (
-              <NavButton className="prev" onClick={clickHandler}>
+              <S.NavButton className="prev" onClick={clickHandler}>
                 <ChevronLeft color={lightTheme.fontGray} />
-              </NavButton>
+              </S.NavButton>
             )
           }
           renderArrowNext={(clickHandler, hasNext) =>
             hasNext && (
-              <NavButton className="next" onClick={clickHandler}>
+              <S.NavButton className="next" onClick={clickHandler}>
                 <ChevronRight color={lightTheme.fontGray} />
-              </NavButton>
+              </S.NavButton>
             )
           }>
           {movieGroups.map((group, groupIndex) => (
-            <SlideContainer key={groupIndex}>
+            <S.SlideContainer key={groupIndex}>
               {group.map((movie) => (
-                <PostItem key={movie.id}>
-                  <PostCardImg src={movie.image} alt={movie.title} />
-                  <PostTitle>{movie.title}</PostTitle>
-                  <GrayField>{movie.rating}</GrayField>
-                </PostItem>
+                <S.PostItem key={movie.id}>
+                  <S.PostCardImg src={movie.image} alt={movie.title} />
+                  <S.PostTitle>{movie.title}</S.PostTitle>
+                  <S.GrayField>{movie.rating}</S.GrayField>
+                </S.PostItem>
               ))}
-            </SlideContainer>
+            </S.SlideContainer>
           ))}
         </Carousel>
-      </CarouselContainer>
+      </S.CarouselContainer>
     );
   }
   //case 2 개봉예정일
   if (caseType == 2) {
     return (
-      <CarouselContainer>
+      <S.CarouselContainer>
         <Carousel
           showThumbs={false}
           showStatus={false}
@@ -62,37 +62,37 @@ function Poster({ caseType = 0, movies = { movies } }) {
           emulateTouch={true}
           renderArrowPrev={(clickHandler, hasPrev) =>
             hasPrev && (
-              <NavButton className="prev" onClick={clickHandler}>
+              <S.NavButton className="prev" onClick={clickHandler}>
                 <ChevronLeft color={lightTheme.fontGray} />
-              </NavButton>
+              </S.NavButton>
             )
           }
           renderArrowNext={(clickHandler, hasNext) =>
             hasNext && (
-              <NavButton className="next" onClick={clickHandler}>
+              <S.NavButton className="next" onClick={clickHandler}>
                 <ChevronRight color={lightTheme.fontGray} />
-              </NavButton>
+              </S.NavButton>
             )
           }>
           {movieGroups.map((group, groupIndex) => (
-            <SlideContainer key={groupIndex}>
+            <S.SlideContainer key={groupIndex}>
               {group.map((movie) => (
-                <PostItem key={movie.id}>
-                  <PostCardImg src={movie.image} alt={movie.title} />
-                  <PostTitle>{movie.title}</PostTitle>
-                  <PinkField>{`개봉일정 ${movie.releaseDate}`}</PinkField>
-                </PostItem>
+                <S.PostItem key={movie.movieId}>
+                  <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
+                  <S.PostTitle>{movie.title}</S.PostTitle>
+                  <S.PinkField>{`개봉일정 ${movie.releaseDate}`}</S.PinkField>
+                </S.PostItem>
               ))}
-            </SlideContainer>
+            </S.SlideContainer>
           ))}
         </Carousel>
-      </CarouselContainer>
+      </S.CarouselContainer>
     );
   }
   //case : 3 누적관객
   if (caseType == 3) {
     return (
-      <CarouselContainer>
+      <S.CarouselContainer>
         <Carousel
           showThumbs={false}
           showStatus={false}
@@ -103,229 +103,227 @@ function Poster({ caseType = 0, movies = { movies } }) {
           emulateTouch={true}
           renderArrowPrev={(clickHandler, hasPrev) =>
             hasPrev && (
-              <NavButton className="prev" onClick={clickHandler}>
+              <S.NavButton className="prev" onClick={clickHandler}>
                 <ChevronLeft color={lightTheme.fontGray} />
-              </NavButton>
+              </S.NavButton>
             )
           }
           renderArrowNext={(clickHandler, hasNext) =>
             hasNext && (
-              <NavButton className="next" onClick={clickHandler}>
+              <S.NavButton className="next" onClick={clickHandler}>
                 <ChevronRight color={lightTheme.fontGray} />
-              </NavButton>
+              </S.NavButton>
             )
           }>
           {movieGroups.map((group, groupIndex) => (
-            <SlideContainer key={groupIndex}>
+            <S.SlideContainer key={groupIndex}>
               {group.map((movie) => {
                 const formattedAudience = `${Math.floor(movie.totalAudience / 10000)}만 명`;
                 return (
-                  <PostItem key={movie.id}>
-                    <PostCardImg src={movie.image} alt={movie.title} />
-                    <PostTitle>{movie.title}</PostTitle>
-                    <GrayField>{`누적 관객 ${formattedAudience}`}</GrayField>
-                  </PostItem>
+                  <S.PostItem key={movie.id}>
+                    <S.PostCardImg src={movie.image} alt={movie.title} />
+                    <S.PostTitle>{movie.title}</S.PostTitle>
+                    <S.GrayField>{`누적 관객 ${formattedAudience}`}</S.GrayField>
+                  </S.PostItem>
                 );
               })}
-            </SlideContainer>
+            </S.SlideContainer>
           ))}
         </Carousel>
-      </CarouselContainer>
+      </S.CarouselContainer>
     );
   }
 
   //case 4 마이페이지
   if (caseType == 4) {
     return (
-      <SlideContainer>
+      <S.SlideContainer>
         {movies.map((movie) => (
-          <PostItem key={movie.id}>
-            <PostCardImg src={movie.image} alt={movie.title} />
-            <PostTitle>{movie.title}</PostTitle>
-            <PinkField>{`평가함 ★ ${movie.rating}`}</PinkField>
-          </PostItem>
+          <S.PostItem key={movie.id}>
+            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostTitle>{movie.title}</S.PostTitle>
+            <S.PinkField>{`평가함 ★ ${movie.rating}`}</S.PinkField>
+          </S.PostItem>
         ))}
-      </SlideContainer>
+      </S.SlideContainer>
     );
   }
   //case 5 이미지
   if (caseType == 5) {
     return (
-      <SlideContainer>
+      <S.SlideContainer>
         {movies.map((movie) => (
-          <PostItem key={movie.id}>
-            <PostCardImg src={movie.image} alt={movie.title} />
-            <PostTitle>{movie.title}</PostTitle>
-          </PostItem>
+          <S.PostItem key={movie.id}>
+            <S.PostCardImg src={movie.image} alt={movie.title} />
+          </S.PostItem>
         ))}
-      </SlideContainer>
+      </S.SlideContainer>
     );
   }
 
   //case 6 (case 4 grid 버전)
   if (caseType == 6) {
     return (
-      <GridContainer>
+      <S.GridContainer>
         {movies.map((movie) => (
-          <GridItem key={movie.id}>
-            <PostCardImg src={movie.image} alt={movie.title} />
-            <PostTitle>{movie.title}</PostTitle>
-            <PinkField>{`평가함 ★ ${movie.rating}`}</PinkField>
-          </GridItem>
+          <S.GridItem key={movie.id}>
+            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostTitle>{movie.title}</S.PostTitle>
+            <S.PinkField>{`평가함 ★ ${movie.rating}`}</S.PinkField>
+          </S.GridItem>
         ))}
-      </GridContainer>
+      </S.GridContainer>
     );
   }
 
   //case 6 (case 5 grid 버전)
   if (caseType == 7) {
     return (
-      <GridContainer>
+      <S.GridContainer>
         {movies.map((movie) => (
-          <GridItem key={movie.id}>
-            <PostCardImg src={movie.image} alt={movie.title} />
-            <PostTitle>{movie.title}</PostTitle>
-          </GridItem>
+          <S.GridItem key={movie.id}>
+            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostTitle>{movie.title}</S.PostTitle>
+          </S.GridItem>
         ))}
-      </GridContainer>
+      </S.GridContainer>
     );
   }
   
   return (
-    <SlideContainer>
+    <S.SlideContainer>
       {movies.map((movie) => (
-        <PostItem key={movie.id}>
-          <PostCardImg src={movie.image} alt={movie.title} />
-          <PostTitle>{movie.title}</PostTitle>
-        </PostItem>
+        <S.PostItem key={movie.id}>
+          <S.PostCardImg src={movie.image} alt={movie.title} />
+          <S.PostTitle>{movie.title}</S.PostTitle>
+        </S.PostItem>
       ))}
-    </SlideContainer>
+    </S.SlideContainer>
   );
 }
 
-const CarouselContainer = styled.div`
-  width: calc(5 * (20% - 1rem) + 4rem);
-  height: auto;
-  position: relative;
-  overflow: visible;
-
-  .carousel.carousel-slider {
-    height: 100%;
-    overflow: visible;
-  }
-
-  .carousel .slide {
-    background: transparent;
+const S = {
+  CarouselContainer: styled.div`
+    width: calc(5 * (20% - 1rem) + 4rem);
     height: auto;
+    position: relative;
     overflow: visible;
-  }
-`;
 
-const NavButton = styled.button`
-  position: absolute;
-  top: 42%;
-  transform: translateY(-50%);
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: ${lightTheme.defaulBoxShadow};
-  z-index: 2;
-  transition: all 0.2s ease;
+    .carousel.carousel-slider {
+      height: 100%;
+      overflow: visible;
+    }
 
-  &:hover {
-    background: white;
+    .carousel .slide {
+      background: transparent;
+      height: auto;
+      overflow: visible;
+    }
+  `,
+
+  NavButton: styled.button`
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     box-shadow: ${lightTheme.defaulBoxShadow};
-  }
+    z-index: 2;
+    transition: all 0.2s ease;
 
-  &.prev {
-    left: -0.8rem;
-  }
+    &:hover {
+      background: white;
+      box-shadow: ${lightTheme.defaulBoxShadow};
+    }
 
-  &.next {
-    right: 0rem;
-  }
+    &.prev {
+      left: -0.8rem;
+    }
 
-  svg {
-    width: 1rem;
-    height: 1rem;
-  }
-`;
+    &.next {
+      right: 0rem;
+    }
 
-const PostCardImg = styled.img`
-  width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
-  object-fit: cover;
-  aspect-ratio: 2/3;
-`;
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  `,
 
-const PostTitle = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 0.5rem;
-  width: 100%;
-  color: ${lightTheme.fontBlack};
-  font-size: 1rem;
-  font-weight: ${lightTheme.fontWeightMedium};
-  font-family: ${lightTheme.fontSuitRegular};
-`;
+  PostCardImg: styled.img`
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    object-fit: cover;
+    aspect-ratio: 2/3;
+  `,
+  PostTitle: styled.div`
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+    width: 100%;
+    color: ${lightTheme.fontBlack};
+    font-size: 1rem;
+    font-weight: ${lightTheme.fontWeightMedium};
+    font-family: ${lightTheme.fontSuitRegular};
+  `,
 
-const PinkField = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 0.5rem;
-  width: 100%;
-  color: ${lightTheme.fontPink};
-  font-size: 0.9rem;
-  font-weight: ${lightTheme.fontWeightRegular};
-  font-family: ${lightTheme.fontSuitRegular};
-`;
+  PinkField: styled.div`
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+    width: 100%;
+    color: ${lightTheme.fontPink};
+    font-size: 0.9rem;
+    font-weight: ${lightTheme.fontWeightRegular};
+    font-family: ${lightTheme.fontSuitRegular};
+  `,
 
-const GrayField = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 0.5rem;
-  width: 100%;
-  color: ${lightTheme.fontGray};
-  font-size: 0.9rem;
-  font-weight: ${lightTheme.fontWeightRegular};
-  font-family: ${lightTheme.fontSuitRegular};
-`;
+  GrayField: styled.div`
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+    width: 100%;
+    color: ${lightTheme.fontGray};
+    font-size: 0.9rem;
+    font-weight: ${lightTheme.fontWeightRegular};
+    font-family: ${lightTheme.fontSuitRegular};
+  `,
 
-const PostItem = styled.div`
-  margin-bottom: 1rem;
-  cursor: pointer;
-  padding: 0 0.5rem;
-  flex: 0 0 calc(20% - 1rem);
-  max-width: calc(20% - 1rem);
-`;
-
-const SlideContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  height: 100%;
-`;
-
-const GridContainer = styled.div`
+  PostItem: styled.div`
+    margin-bottom: 1rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    flex: 0 0 calc(20% - 1rem);
+    max-width: calc(20% - 1rem);
+  `,
+  SlideContainer: styled.div`
+    display: flex;
+    gap: 1rem;
+    height: 100%;
+  `,
+  GridContainer : styled.div`
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   gap: 1rem;
   max-width: 120rem;
   margin: 0 auto;
   padding: 1rem;
-`;
+`,
 
-const GridItem = styled.div`
+ GridItem : styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-`;
+`,
+}
 
 export default Poster;

@@ -12,5 +12,6 @@ const AuthTitle = styled.h2`
   font-weight: ${lightTheme.fontWeightBold};
   text-align: center;
   margin-top: 2.125rem;
+  margin-bottom: 2.125rem;
   font-family: ${lightTheme.fontSuitBold};
 `;
