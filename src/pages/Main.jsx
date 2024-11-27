@@ -3,13 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { MainBody } from '../styles/main/main';
 import Title from '../components/features/main/title/Title';
 import Poster from '../components/Common/poster/Poster';
-import HotFeed from '../components/Features/comments/HotFeed';
+import HotFeed from '../components/features/comments/HotFeed';
 import { movies } from '../data/movies';
 
 const UpComingMovies = async () => {
-  const response = await fetch(
-    'http://filmeet-alb-1547575166.ap-northeast-2.elb.amazonaws.com/movies/upcoming'
-  );
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/movies/upcoming`);
   if (!response.ok) {
     throw new Error('Movies data fetching failed');
   }

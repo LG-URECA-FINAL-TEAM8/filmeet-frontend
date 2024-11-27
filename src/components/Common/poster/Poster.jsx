@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { lightTheme } from '../../../styles/themes';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -22,14 +21,14 @@ function Poster({ caseType = 0, movies = { movies } }) {
           renderArrowPrev={(clickHandler, hasPrev) =>
             hasPrev && (
               <S.NavButton className="prev" onClick={clickHandler}>
-                <ChevronLeft color={lightTheme.fontGray} />
+                <ChevronLeft color={'#7E7E7E'} />
               </S.NavButton>
             )
           }
           renderArrowNext={(clickHandler, hasNext) =>
             hasNext && (
               <S.NavButton className="next" onClick={clickHandler}>
-                <ChevronRight color={lightTheme.fontGray} />
+                <ChevronRight color={'#7E7E7E'} />
               </S.NavButton>
             )
           }>
@@ -63,14 +62,14 @@ function Poster({ caseType = 0, movies = { movies } }) {
           renderArrowPrev={(clickHandler, hasPrev) =>
             hasPrev && (
               <S.NavButton className="prev" onClick={clickHandler}>
-                <ChevronLeft color={lightTheme.fontGray} />
+                <ChevronLeft color={(props) => props.theme.color.fontGray} />
               </S.NavButton>
             )
           }
           renderArrowNext={(clickHandler, hasNext) =>
             hasNext && (
               <S.NavButton className="next" onClick={clickHandler}>
-                <ChevronRight color={lightTheme.fontGray} />
+                <ChevronRight color={(props) => props.theme.color.fontGray} />
               </S.NavButton>
             )
           }>
@@ -104,14 +103,14 @@ function Poster({ caseType = 0, movies = { movies } }) {
           renderArrowPrev={(clickHandler, hasPrev) =>
             hasPrev && (
               <S.NavButton className="prev" onClick={clickHandler}>
-                <ChevronLeft color={lightTheme.fontGray} />
+                <ChevronLeft color={(props) => props.theme.color.fontGray} />
               </S.NavButton>
             )
           }
           renderArrowNext={(clickHandler, hasNext) =>
             hasNext && (
               <S.NavButton className="next" onClick={clickHandler}>
-                <ChevronRight color={lightTheme.fontGray} />
+                <ChevronRight color={(props) => props.theme.color.fontGray} />
               </S.NavButton>
             )
           }>
@@ -189,16 +188,16 @@ function Poster({ caseType = 0, movies = { movies } }) {
       </S.GridContainer>
     );
   }
-  
+
   return (
-    <S.SlideContainer>
+    <>
       {movies.map((movie) => (
         <S.PostItem key={movie.id}>
           <S.PostCardImg src={movie.image} alt={movie.title} />
           <S.PostTitle>{movie.title}</S.PostTitle>
         </S.PostItem>
       ))}
-    </S.SlideContainer>
+    </>
   );
 }
 
@@ -234,13 +233,13 @@ const S = {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: ${lightTheme.defaulBoxShadow};
+    box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
     z-index: 2;
     transition: all 0.2s ease;
 
     &:hover {
       background: white;
-      box-shadow: ${lightTheme.defaulBoxShadow};
+      box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
     }
 
     &.prev {
@@ -264,15 +263,16 @@ const S = {
     object-fit: cover;
     aspect-ratio: 2/3;
   `,
+
   PostTitle: styled.div`
     display: flex;
     justify-content: flex-start;
     margin-top: 0.5rem;
     width: 100%;
-    color: ${lightTheme.fontBlack};
+    color: ${(props) => props.theme.color.fontBlack};
     font-size: 1rem;
-    font-weight: ${lightTheme.fontWeightMedium};
-    font-family: ${lightTheme.fontSuitRegular};
+    font-weight: ${(props) => props.theme.font.fontWeightMedium};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 
   PinkField: styled.div`
@@ -280,10 +280,10 @@ const S = {
     justify-content: flex-start;
     margin-top: 0.5rem;
     width: 100%;
-    color: ${lightTheme.fontPink};
+    color: ${(props) => props.theme.color.fontPink};
     font-size: 0.9rem;
-    font-weight: ${lightTheme.fontWeightRegular};
-    font-family: ${lightTheme.fontSuitRegular};
+    font-weight: ${(props) => props.theme.font.fontWeightRegular};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 
   GrayField: styled.div`
@@ -291,10 +291,10 @@ const S = {
     justify-content: flex-start;
     margin-top: 0.5rem;
     width: 100%;
-    color: ${lightTheme.fontGray};
+    color: ${(props) => props.theme.color.fontGray};
     font-size: 0.9rem;
-    font-weight: ${lightTheme.fontWeightRegular};
-    font-family: ${lightTheme.fontSuitRegular};
+    font-weight: ${(props) => props.theme.font.fontWeightRegular};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 
   PostItem: styled.div`
@@ -302,28 +302,28 @@ const S = {
     cursor: pointer;
     padding: 0 0.5rem;
     flex: 0 0 calc(20% - 1rem);
-    max-width: calc(20% - 1rem);
   `,
+
   SlideContainer: styled.div`
     display: flex;
     gap: 1rem;
     height: 100%;
   `,
-  GridContainer : styled.div`
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 1rem;
-  max-width: 120rem;
-  margin: 0 auto;
-  padding: 1rem;
-`,
 
- GridItem : styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-`,
-}
+  GridContainer: styled.div`
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 1rem;
+    margin: 0 auto;
+    padding: 1rem;
+  `,
+
+  GridItem: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  `,
+};
 
 export default Poster;

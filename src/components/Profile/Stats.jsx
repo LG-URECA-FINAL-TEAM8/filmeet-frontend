@@ -17,7 +17,7 @@ const Stats = () => {
   ];
 
   const handleNavigation = (path) => {
-    navigate(path); // 페이지 이동
+    navigate(path);
   };
 
   return (

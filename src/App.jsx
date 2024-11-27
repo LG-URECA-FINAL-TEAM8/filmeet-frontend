@@ -4,6 +4,8 @@ import { RouterProvider } from 'react-router-dom';
 import UserModal from './components/Common/modal/userModal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import styled, { ThemeProvider } from 'styled-components';
+import { lightTheme } from './styles/themes';
 
 function App() {
   const queryClient = new QueryClient();
@@ -11,9 +13,11 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <UserModal />
-        <RouterProvider router={router} />
-        <ReactQueryDevtools />
+        <ThemeProvider theme={lightTheme}>
+          <UserModal />
+          <RouterProvider router={router} />
+          <ReactQueryDevtools />
+        </ThemeProvider>
       </QueryClientProvider>
     </>
   );

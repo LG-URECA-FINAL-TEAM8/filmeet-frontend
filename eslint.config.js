@@ -54,7 +54,7 @@ export default [
       camelcase: ['error', { properties: 'never', ignoreDestructuring: true }],
 
       // 변수명은 최소 3자 이상으로 작성하되, 예외적으로 'id'와 'img' 'S'는 허용합니다.
-      'id-length': ['warn', { min: 3, exceptions: ['id', 'img', 'S', 'i'] }],
+      'id-length': ['warn', { min: 3, exceptions: ['id', 'img', 'S', 'i', 'e'] }],
       // React 컴포넌트 이름은 PascalCase로 작성해야 합니다.
       'react/jsx-pascal-case': 'error',
     },
