@@ -161,6 +161,35 @@ function Poster({ caseType = 0, movies = { movies } }) {
     );
   }
 
+  //case 6 (case 4 grid 버전)
+  if (caseType == 6) {
+    return (
+      <S.GridContainer>
+        {movies.map((movie) => (
+          <S.GridItem key={movie.id}>
+            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostTitle>{movie.title}</S.PostTitle>
+            <S.PinkField>{`평가함 ★ ${movie.rating}`}</S.PinkField>
+          </S.GridItem>
+        ))}
+      </S.GridContainer>
+    );
+  }
+
+  //case 6 (case 5 grid 버전)
+  if (caseType == 7) {
+    return (
+      <S.GridContainer>
+        {movies.map((movie) => (
+          <S.GridItem key={movie.id}>
+            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostTitle>{movie.title}</S.PostTitle>
+          </S.GridItem>
+        ))}
+      </S.GridContainer>
+    );
+  }
+  
   return (
     <S.SlideContainer>
       {movies.map((movie) => (
@@ -280,6 +309,21 @@ const S = {
     gap: 1rem;
     height: 100%;
   `,
-};
+  GridContainer : styled.div`
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 1rem;
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 1rem;
+`,
+
+ GridItem : styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+`,
+}
 
 export default Poster;
