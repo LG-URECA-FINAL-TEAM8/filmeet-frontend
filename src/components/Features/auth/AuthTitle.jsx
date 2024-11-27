@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import { lightTheme } from '../../../styles/themes';
 
 const LoginTitle = ({ value }) => {
-  return <AuthTitle>{value}</AuthTitle>;
+  return <S.AuthTitle>{value}</S.AuthTitle>;
 };
 
 export default LoginTitle;
 
-const AuthTitle = styled.h2`
-  font-size: 1.2rem;
-  font-weight: ${lightTheme.fontWeightBold};
-  text-align: center;
-  margin-top: 2.125rem;
-  margin-bottom: 2.125rem;
-  font-family: ${lightTheme.fontSuitBold};
-`;
+const S = {
+  AuthTitle: styled.h2`
+    font-size: 1.2rem;
+    font-weight: ${({ theme }) => theme.font.fontWeightBold};
+    text-align: center;
+    margin-top: 2.125rem;
+    margin-bottom: 2.125rem;
+    font-family: ${({ theme }) => theme.font.fontSuitBold};
+  `,
+};

@@ -1,18 +1,16 @@
-import styled from "styled-components";
-import { lightTheme } from "../themes";
+import styled from 'styled-components';
 
 export const RatingPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: ${lightTheme.mainColor};
+  background-color: ${(props) => props.theme.color.mainColor};
 `;
 
 export const TopContainer = styled.div`
   width: 100%;
   padding: 0 1rem;
-  margin: 0 auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -20,7 +18,7 @@ export const TopContainer = styled.div`
   justify-content: center;
   height: auto;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: ${lightTheme.mainColor};
+  background-color: ${(props) => props.theme.color.mainColor};
 `;
 
 export const BackButton = styled.button`
@@ -31,21 +29,20 @@ export const BackButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: ${lightTheme.fontPink};
+  color: ${(props) => props.theme.color.fontPink};
   font-size: 1rem;
 `;
 
 export const TopTitle = styled.p`
-  margin: 0 0.5rem 1rem 0;
-  font: ${lightTheme.fontSuitBold};
-  font-weight: ${lightTheme.fontWeightBold};
+  padding: 0.3rem;
+  font-weight: ${(props) => props.theme.font.fontWeightBold};
   font-size: 1.2rem;
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
 `;
 
 export const BottomContainer = styled.div`
   width: 100%;
-  max-width: 120rem;
-  padding: 0 0.5rem;
+  padding: 0 1rem;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -53,23 +50,20 @@ export const BottomContainer = styled.div`
   height: 2.5rem;
   cursor: pointer;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: ${lightTheme.mainColor};
+  background-color: ${(props) => props.theme.color.mainColor};
 `;
 
 export const Label = styled.p`
-  margin: 0;
-  font: ${lightTheme.fontSuitBold};
-  font-weight: ${lightTheme.fontWeightBold};
+  padding: 0.3rem;
   font-size: 1.2rem;
-  color: ${lightTheme.fontPrimary};
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
 `;
 
 export const Count = styled.p`
   margin: 0.5rem;
-  font: ${lightTheme.fontSuitRegular};
-  font-weight: ${lightTheme.fontWeightMedium};
+  font-weight: ${(props) => props.theme.font.fontWeightMedium};
   font-size: 1.2rem;
-  color: ${lightTheme.fontGray};
+  color: ${(props) => props.theme.color.fontGray};
 `;
 
 export const FilterContainer = styled.div`
@@ -85,12 +79,11 @@ export const FilterButton = styled.button`
   padding: 0;
   background: none;
   border: none;
-  font: ${lightTheme.fontSuitBold};
-  font-weight: ${lightTheme.fontWeightBold};
+  font-weight: ${(props) => props.theme.font.fontWeightBold};
   font-size: 0.9rem;
-  color: ${({ isActive }) => (isActive ? lightTheme.fontPink : lightTheme.fontGray)};
-  border-bottom: ${({ isActive }) =>
-    isActive ? `2px solid ${lightTheme.fontPink}` : "2px solid transparent"};
+  color: ${({ theme, isActive }) => (isActive ? theme.font.fontPink : theme.font.fontGray)};
+  border-bottom: ${({ theme, isActive }) =>
+    isActive ? `2px solid ${theme.font.fontPink}` : '2px solid transparent'};
   cursor: pointer;
 `;
 
@@ -112,17 +105,17 @@ export const SectionHeader = styled.div`
 export const SectionTitle = styled.h2`
   display: flex;
   margin: 1rem 0 0 0;
-  font: ${lightTheme.fontSuitBold};
+  font-family: ${(props) => props.theme.font.fontSuitBold};
   font-size: 1.5rem;
-  color: ${lightTheme.fontPrimary};
+  color: ${(props) => props.theme.color.fontBlack};
 `;
 
 export const SectionCount = styled.p`
   margin: 0.2rem 0.5rem 0.5rem 0.5rem;
-  font: ${lightTheme.fontSuitRegular};
-  font-weight: ${lightTheme.fontWeightMedium};
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
+  font-weight: ${(props) => props.theme.font.fontWeightMedium};
   font-size: 1.2rem;
-  color: ${lightTheme.fontGray};
+  color: ${(props) => props.theme.color.fontGray};
 `;
 
 export const MoreButton = styled.button`
@@ -130,8 +123,8 @@ export const MoreButton = styled.button`
   background: none;
   border: none;
   font-size: 1rem;
-  font-weight: ${lightTheme.fontWeightRegular};
-  color: ${lightTheme.fontPink};
+  font-weight: ${(props) => props.theme.font.fontSuitRegular};
+  color: ${(props) => props.theme.color.fontPink};
   cursor: pointer;
 `;
 
@@ -139,7 +132,5 @@ export const NoResults = styled.div`
   margin: 2rem 0;
   text-align: center;
   font-size: 1.2rem;
-  color: ${lightTheme.fontGray};
+  color: ${(props) => props.theme.color.fontGray};
 `;
-
- 

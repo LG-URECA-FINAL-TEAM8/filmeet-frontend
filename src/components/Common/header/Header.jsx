@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { lightTheme } from '../../../styles/themes';
 import Button from './Button';
 import useModalStore from '../../../store/modal/useModalStore';
 import { useState } from 'react';
@@ -44,8 +43,8 @@ const S = {
   DefaultHeader: styled.header`
     display: flex;
     justify-content: space-between;
-    background-color: ${lightTheme.mainColor};
-    border-bottom: ${lightTheme.borderDefault};
+    background-color: ${(props) => props.theme.color.mainColor};
+    border-bottom: ${(props) => props.theme.box.defaultBorder};
     height: 5rem;
     padding: 1rem 20rem;
     box-sizing: border-box;

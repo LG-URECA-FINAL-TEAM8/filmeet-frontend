@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { lightTheme } from '../../../styles/themes';
 
 function Button({ children, onClick, active }) {
   return (
@@ -14,12 +13,12 @@ const S = {
     width: 5rem;
     height: auto;
     border: none;
-    color: ${lightTheme.fontBlack};
-    background-color: ${lightTheme.mainColor};
+    color: ${(props) => props.theme.color.fontBlack};
+    background-color: ${(props) => props.theme.color.mainColor};
     font-size: 1rem;
     cursor: pointer;
     font-family: ${(props) =>
-      props.active ? `${lightTheme.fontSuitBold}` : `${lightTheme.fontSuitRegular}`};
+      props.active ? props.theme.font.fontSuitBold : props.theme.font.fontSuitRegular};
   `,
 };
 

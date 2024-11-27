@@ -1,10 +1,8 @@
-import styled from "styled-components";
-import { lightTheme } from "../themes";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// 전체 페이지 컨테이너 (배경색 적용)
 export const MyPageContainer = styled.div`
-  background-color: ${lightTheme.mainColor};
+  background-color: ${({ theme }) => theme.color.mainColor};
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -14,8 +12,8 @@ export const MyPageContainer = styled.div`
 // 프로필 컨테이너
 export const ProfileContainer = styled.div`
   width: 40rem;
-  height: 36.25rem; 
-  background-color: ${lightTheme.mainColor};
+  height: 36.25rem;
+  background-color: ${({ theme }) => theme.color.mainColor};
   border-radius: 50%;
   position: relative;
   padding: 0rem 1rem;
@@ -46,7 +44,7 @@ export const SettingsWrapper = styled.div`
 // 아이콘 스타일
 export const SettingsIcon = styled(FontAwesomeIcon)`
   font-size: 1.5rem;
-  color: ${lightTheme.fontBlack}
+  color: ${({ theme }) => theme.color.fontBlack};
 `;
 
 // 프로필 이미지
@@ -67,8 +65,8 @@ export const ProfileImage = styled.div`
 // 프로필 이름
 export const ProfileName = styled.div`
   font-size: 1.125rem;
-  font-family: ${lightTheme.fontSuitBold};
-  color: ${lightTheme.fontBlack};
+  font-family: ${({ theme }) => theme.font.fontSuitBold};
+  color: ${({ theme }) => theme.color.fontBlack};
   margin-bottom: 0.5rem;
 `;
 
@@ -77,12 +75,12 @@ export const FollowStats = styled.div`
   display: flex;
   gap: 1rem;
   font-size: 0.875rem;
-  font-family: ${lightTheme.fontSuitRegular};
-  color: ${lightTheme.fontGray};
+  font-family: ${({ theme }) => theme.font.fontSuitRegular};
+  color: ${({ theme }) => theme.color.fontGray};
 
   span {
-    font-family: ${lightTheme.fontSuitBold};
-    color: ${lightTheme.fontBlack};
+    font-family: ${({ theme }) => theme.font.fontSuitBold};
+    color: ${({ theme }) => theme.color.fontBlack};
   }
 `;
 
@@ -90,9 +88,9 @@ export const FollowStats = styled.div`
 export const FollowButton = styled.button`
   width: 100%;
   height: 2.5rem;
-  background-color: ${lightTheme.fontBlack};
-  font-family: ${lightTheme.fontSuitRegular};
-  color: ${lightTheme.fontWhite};
+  background-color: ${({ theme }) => theme.color.fontBlack};
+  font-family: ${({ theme }) => theme.font.fontSuitRegular};
+  color: ${({ theme }) => theme.color.fontWhite};
   border: none;
   border-radius: 0.25rem;
   display: flex;
@@ -103,8 +101,9 @@ export const FollowButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: ${lightTheme.fontGray};
-    color: ${lightTheme.fontBlack};
+    background-color: ${({ theme }) => theme.color.fontGray};
+    color: ${({ theme }) => theme.color.fontBlack};
+  }
 `;
 
 export const StatsContainerWrapper = styled.div`
@@ -113,7 +112,8 @@ export const StatsContainerWrapper = styled.div`
   margin-top: 1rem;
   margin-bottom: 1rem;
 
-  &::before, &::after {
+  &::before,
+  &::after {
     content: '';
     position: absolute;
     left: 0;
@@ -137,7 +137,6 @@ export const StatsContainer = styled.div`
   align-items: center;
 `;
 
-// 각 스탯 박스
 export const StatBox = styled.div`
   flex: 1;
   display: flex;
@@ -164,22 +163,17 @@ export const StatBox = styled.div`
 
 export const StatNumber = styled.span`
   font-size: 1.125rem;
-  font-weight: ${lightTheme.fontWeightBold};
-  font-family: ${lightTheme.fontSuitBold};
-  color: ${lightTheme.fontBlack};
+  font-weight: ${({ theme }) => theme.font.fontWeightBold};
+  font-family: ${({ theme }) => theme.font.fontSuitBold};
+  color: ${({ theme }) => theme.color.fontBlack};
   margin-top: 0.75rem;
 `;
 
 export const StatText = styled.p`
   font-size: 0.875rem;
-  font-weight: ${lightTheme.fontWeightRegular};
-  font-family: ${lightTheme.fontSuitRegular};
-  color: ${lightTheme.fontGray};
+  font-weight: ${({ theme }) => theme.font.fontWeightRegular};
+  font-family: ${({ theme }) => theme.font.fontSuitRegular};
+  color: ${({ theme }) => theme.color.fontGray};
   margin: 0;
   margin-bottom: 0.75rem;
 `;
-
-
-
-
-

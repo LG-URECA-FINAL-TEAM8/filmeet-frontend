@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import { lightTheme } from '../../../styles/themes';
 
 const Link = ({ value }) => {
-  return <AuthLink>{value}</AuthLink>;
+  return <S.AuthLink>{value}</S.AuthLink>;
 };
 
 export default Link;
 
-const AuthLink = styled.span`
-  font-size: 0.9rem;
-  font-weight: ${lightTheme.fontWeightBold};
-  color: ${lightTheme.fontPink};
-  margin-left: 0.3rem;
-  cursor: pointer;
-  font-family: ${lightTheme.fontSuitBold};
-`;
+const S = {
+  AuthLink: styled.span`
+    font-size: 0.9rem;
+    font-weight: ${({ theme }) => theme.font.fontWeightBold};
+    color: ${({ theme }) => theme.color.fontPink};
+    margin-left: 0.3rem;
+    cursor: pointer;
+    font-family: ${({ theme }) => theme.font.fontSuitBold};
+  `,
+};
