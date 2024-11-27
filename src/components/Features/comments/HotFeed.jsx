@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
+import { IcLikeFilled24, IcReplyFilled24 } from '../../../assets/svg';
 
 const sampleData = [
   {
@@ -36,93 +37,100 @@ const sampleData = [
 
 function HotFeed() {
   return (
-    <FeedContainer>
+    <S.FeedContainer>
       {sampleData.map((feed) => (
-        <FeedItem key={feed.id}>
-          <FeedUserSection>
+        <S.FeedItem key={feed.id}>
+          <S.FeedUserSection>
             <span className="user__span">{feed.userName}</span>
             <span className="user__span">{feed.rating}</span>
-          </FeedUserSection>
-          <FeedMainSection>
-            <ImageItem>
+          </S.FeedUserSection>
+          <S.FeedMainSection>
+            <S.ImageItem>
               <img src={feed.image} alt={feed.title} />
-            </ImageItem>
-            <CommentItem>
+            </S.ImageItem>
+            <S.CommentItem>
               <p>{feed.title}</p>
               <p>{feed.comment}</p>
-            </CommentItem>
-          </FeedMainSection>
-          <FeedStats>
-            <span>❤️ {feed.likes}</span>
-            <span>💬 {feed.comments}</span>
-          </FeedStats>
-        </FeedItem>
+            </S.CommentItem>
+          </S.FeedMainSection>
+          <S.FeedStats>
+            <span>
+              <IcLikeFilled24 width={'1rem'} height={'1rem'} /> {feed.likes}
+            </span>
+            <span>
+              <IcReplyFilled24 width={'1rem'} height={'1rem'} /> {feed.comments}
+            </span>
+          </S.FeedStats>
+        </S.FeedItem>
       ))}
-    </FeedContainer>
+    </S.FeedContainer>
   );
 }
 
-const FeedContainer = styled.div` 
-  height: auto;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
-`;
+const S = {
+  FeedContainer: styled.div`
+    height: auto;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+  `,
 
-const FeedItem = styled.div`
-  width: 100%;
-  height: auto;
-  padding: 1rem;
-  max-height: 12rem;
-  gap: 1rem;
-  border: ${lightTheme.defaultBorder};
-`;
-
-const FeedUserSection = styled.div`
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: space-between;
-  max-height: 1.25rem;
-  .user__span {
-    font-size: 1rem;
-    font-family: ${lightTheme.fontSuitRegular};
-    color: ${lightTheme.fontGray};
-  }
-`;
-
-const FeedMainSection = styled.section`
-  
-  display: flex;
-  flex-direction: row;
-  height: auto;
-`;
-const ImageItem = styled.div`
-  margin-top: 1rem;
-  width: 25%;
-  height: 100%;
-  img {
+  FeedItem: styled.div`
     width: 100%;
-    height: 100%;    
-    object-fit: cover;
-  }
-`;
+    height: auto;
+    padding: 1rem;
+    max-height: 12rem;
+    gap: 1rem;
+    border: ${lightTheme.defaultBorder};
+  `,
 
-const CommentItem = styled.div`
-  margin-left: 1rem;
-  margin-bottom : 1rem;
-  width: 75%;
-  height: auto;
-  max-height: 5.5rem;
-`;
+  FeedUserSection: styled.div`
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    max-height: 1.25rem;
+    .user__span {
+      font-size: 1rem;
+      font-family: ${lightTheme.fontSuitRegular};
+      color: ${lightTheme.fontGray};
+    }
+  `,
 
-const FeedStats = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: auto;
-  margin-top: 1rem;
-`;
+  FeedMainSection: styled.section`
+    display: flex;
+    flex-direction: row;
+    height: auto;
+  `,
+  ImageItem: styled.div`
+    margin-top: 1rem;
+    width: 25%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  `,
+
+  CommentItem: styled.div`
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    width: 75%;
+    height: auto;
+    max-height: 5.5rem;
+  `,
+
+  FeedStats: styled.div`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    margin-top: 1rem;
+    gap: 1rem;
+    cursor: pointer;
+  `,
+};
 
 export default HotFeed;
