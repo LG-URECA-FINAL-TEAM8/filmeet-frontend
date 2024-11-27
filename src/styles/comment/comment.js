@@ -18,4 +18,5 @@ export const CardContainer = styled.div`
     justify-content: flex-start;
     width: 100%;
     max-width: 40rem;
+    margin: 2.5rem 0 0 0;
 `

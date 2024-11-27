@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
 import SvgIcReplyFilled24 from "../../../assets/svg/IcReplyFilled24";
-import { lightTheme } from "../../../styles/themes";
-import { comments } from "../../../data/comments"; // 데이터를 임포트합니다.
+import { comments } from "../../../data/comments";
 
 const Comment = () => {
   return (
@@ -24,7 +23,7 @@ const Comment = () => {
               </S.GenreYear>
               <S.Comment>{item.comment}</S.Comment>
             </S.Content>
-            <S.Rating>★ {item.rating.toFixed(1)}</S.Rating>
+              <S.Rating>★ {item.rating.toFixed(1)}</S.Rating>
           </S.MainContent>
           <S.FeedStats>
             <S.Stat>
@@ -46,12 +45,12 @@ const S = {
     display: flex;
     flex-direction: column;
     width: 40rem;
-    height: 15rem;
-    margin-bottom: 1rem;
+    height: 16rem;
+    margin: 0rem 0 1rem 0;
     padding: 1rem;
     border: 0.01rem solid rgba(0, 0, 0, 0.1);
     border-radius: 0.3rem;
-    background-color: ${lightTheme.fontWhite};
+    background-color: ${(props) => props.theme.color.mainColor};
     box-sizing: border-box;
   `,
 
@@ -59,21 +58,20 @@ const S = {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   `,
 
   ProfileImage: styled.img`
     width: 1.8rem;
-    height: 1.875rem;
-    margin-right: 1rem;
+    height: 1.8rem;
+    margin: 0 0.5rem 0 0;
     border-radius: 50%;
     object-fit: cover;
   `,
 
   Nickname: styled.div`
-    font-size: 1rem;
-    font-weight: ${lightTheme.fontWeightMedium};
-    color: ${lightTheme.fontPrimary};
+    font: ${(props) => props.theme.font.fontSuitBold};
+    font-size: 0.9rem;
+    font-weight: ${(props) => props.theme.font.weightMedium};
   `,
 
   MainContent: styled.div`
@@ -81,11 +79,12 @@ const S = {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   `,
 
   ImageWrapper: styled.div`
-    margin-right: 1rem;
+    margin-right: 0.7rem;
   `,
 
   Image: styled.img`
@@ -93,6 +92,7 @@ const S = {
     height: 7.5rem;
     border-radius: 0.5rem;
     object-fit: cover;
+    margin: 0.5rem 0 0.7rem 0;
   `,
 
   Content: styled.div`
@@ -102,22 +102,24 @@ const S = {
   `,
 
   Title: styled.h3`
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: ${lightTheme.fontWeightBold};
-    color: ${lightTheme.fontPrimary};
+    margin: 0.5rem 0 0.3rem 0;
+    font: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1rem;
+    font-weight: ${(props) => props.theme.font.fontWeightMedium};
   `,
 
   GenreYear: styled.p`
-    margin: 0.5rem 0;
-    font-size: 0.9rem;
-    color: ${lightTheme.fontGray};
+    margin: 0 0 0.5rem 0;
+    font: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 0.8rem;
+    color: ${(props) => props.theme.color.fontGray};
   `,
 
   Comment: styled.p`
     margin-top: 0.5rem;
-    font-size: 1rem;
-    color: ${lightTheme.fontSecondary};
+    font: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 0.9rem;
+    color: ${(props) => props.theme.color.fontGray};
   `,
 
   Rating: styled.div`
@@ -128,9 +130,10 @@ const S = {
     align-items: center;
     justify-content: center;
     font-size: 1rem;
-    font-weight: ${lightTheme.fontWeightBold};
-    color: ${lightTheme.fontPink};
-    background: ${lightTheme.ratingBg};
+    font: ${(props) => props.theme.font.fontSuitRegular};
+    font-weight: ${(props) => props.theme.font.fontWeightMedium};
+    color: ${(props) => props.theme.color.fontPink};
+    background: ${(props) => props.theme.color.gray};
     border-radius: 50%;
   `,
 
@@ -138,16 +141,16 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 0.5rem;
+    margin: 1rem 0 0 0;
   `,
 
   Stat: styled.span`
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: ${lightTheme.fontGray};
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    color: ${(props) => props.theme.color.fontGray};
   `,
 };
 
