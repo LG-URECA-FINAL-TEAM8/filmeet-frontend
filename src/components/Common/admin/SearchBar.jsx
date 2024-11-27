@@ -1,52 +1,33 @@
-import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 
-function SearchBar({ onSearch }) {
-  const search = '검색';
+function SearchBar({ placeholder }) {
   return (
-    <SearchBarWrapper>
-      <SearchInput type="text" placeholder="검색" />
-      <SearchButton onClick={onSearch}>{search}</SearchButton>
-    </SearchBarWrapper>
+    <S.SearchBarWrapper>
+      <S.SearchInput type="text" placeholder={placeholder} />
+    </S.SearchBarWrapper>
   );
 }
 
-export default SearchBar;
-
-const SearchBarWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem 0;
-`;
-
-const SearchInput = styled.input`
-  width: calc(41rem - 4rem); 
-  height: 3rem; 
-  padding: 0 1rem;
-  font-size: 1rem;
-  border: ${lightTheme.defaultBorder};
-  border-radius: 0.25rem 0 0 0.25rem;
-  box-sizing: border-box;
-
-  &:focus {
+const S = {
+  SearchBarWrapper: styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  `,
+  
+  SearchInput: styled.input`
+    width: 25rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    font-size: 1rem;
     outline: none;
-    border-color: ${lightTheme.fontBlack};
-  }
-`;
+    
+    &:focus {
+      border-color: ${lightTheme.fontBlack};
+    }
+  `,
+};
 
-const SearchButton = styled.button`
-  width: 4rem;
-  height: 3rem; 
-  background-color:  ${lightTheme.fontBlack};
-  color: ${lightTheme.fontWhite};
-  border: none;
-  border-radius: 0 0.25rem 0.25rem 0;
-  font-size: 1rem;
-  cursor: pointer;
-  font-family: ${lightTheme.fontSuitRegular};
-  &:hover {
-    background-color: ${lightTheme.footerBlack};
-  }
-`;
+export default SearchBar;

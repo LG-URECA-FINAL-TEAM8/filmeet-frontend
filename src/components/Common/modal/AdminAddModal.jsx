@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 import { lightTheme } from '../../../styles/themes';
+import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 
-function AdminEditModal() {
-  const { selectedMovie, updateMovie, closeModal } = useAdminModalStore();
-  const [title, setTitle] = useState(selectedMovie?.title || '');
-  const [image, setImage] = useState(selectedMovie?.image || null);
-  const modaltitle = '영화 정보 수정';
-  const uploadButton = '포스터 이미지 업로드';
-  const movietitle = '영화 제목';
-  const moviesave = '저장';
-  
+function AdminAddModal() {
+  const { addModal, closeAddModal } = useAdminModalStore();
+  const { isOpen } = addModal;
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState(null);
+  const modalTitle = '새로운 영화 추가';
+  const uploadButton = '이미지 업로드';
+  const movieTitle = '영화 제목';
+  const saveButton = '추가';
+
   const handleSave = () => {
-    updateMovie({ title });
-    closeModal();
+    alert(`새로운 영화 추가: ${title}`);
+    closeAddModal();
   };
 
   const handleImageUpload = (e) => {
@@ -24,18 +25,20 @@ function AdminEditModal() {
     }
   };
 
+  if (!isOpen) return null;
+
   return (
     <S.ModalOverlay>
       <S.ModalContent>
         <S.ModalHeader>
-          <S.ModalTitle>{modaltitle}</S.ModalTitle>
-          <S.CloseButton onClick={closeModal}>✕</S.CloseButton>
+          <S.ModalTitle>{modalTitle}</S.ModalTitle>
+          <S.CloseButton onClick={closeAddModal}>✕</S.CloseButton>
         </S.ModalHeader>
         <S.ModalBody>
           <S.ImageUploadWrapper>
             <S.ImageUpload>
               <img
-                src={selectedMovie?.image || 'https://via.placeholder.com/150'}
+                src={'https://via.placeholder.com/150'}
                 alt="영화 포스터"
               />
             </S.ImageUpload>
@@ -45,24 +48,25 @@ function AdminEditModal() {
             </label>
           </S.ImageUploadWrapper>
           <S.InputWrapper>
-            <label htmlFor="title">{movietitle}</label>
+            <label htmlFor="title">{movieTitle}</label>
             <S.Input
               id="title"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="영화 제목"
+              placeholder="영화 제목 입력"
             />
           </S.InputWrapper>
         </S.ModalBody>
         <S.ModalFooter>
-          <S.SaveButton onClick={handleSave}>{moviesave}</S.SaveButton>
+          <S.SaveButton onClick={handleSave}>{saveButton}</S.SaveButton>
         </S.ModalFooter>
       </S.ModalContent>
     </S.ModalOverlay>
   );
 }
-const S ={
+
+const S = {
   ModalOverlay: styled.div`
     position: fixed;
     top: 0;
@@ -164,11 +168,11 @@ const S ={
     color: ${lightTheme.fontWhite};
     font-size: 0.9rem;
     border-radius: 0.25rem;
-
     &:hover {
       background-color: ${lightTheme.fontGray};
     }
   `,
+
   InputWrapper: styled.div`
     width: 100%;
 
@@ -194,7 +198,7 @@ const S ={
     }
   `,
 
-ModalFooter: styled.div`
+  ModalFooter: styled.div`
     padding: 1rem;
     display: flex;
     justify-content: center;
@@ -216,7 +220,6 @@ ModalFooter: styled.div`
       background-color: ${lightTheme.fontGray};
     }
   `,
-}
-export default AdminEditModal;
+};
 
-
+export default AdminAddModal;

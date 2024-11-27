@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../../../styles/themes';
 
@@ -9,32 +8,31 @@ function AdminHeaderComponent({
   onLikeManagementClick,
   showButtons = true,
 }) {
-  const clickmanagement = '전체 영화 목록';
-  const clickadd = '새로운 영화 추가';
-  const clicklike = '좋아요 관리';
+  const clickManagement = '전체 영화 목록';
+  const clickAdd = '새로운 영화 추가';
+  const clickLike = '좋아요 관리';
   return (
-    <AdminHeader>
-      <HeaderContent>
-        <AdminHeaderText>{text}</AdminHeaderText>
-      </HeaderContent>
+    <S.AdminHeader>
+      <S.HeaderContent>
+        <S.AdminHeaderText>{text}</S.AdminHeaderText>
+      </S.HeaderContent>
       {showButtons && (
-        <ButtonGroup>
-          <StyledButton onClick={onMovieManagementClick}>{clickmanagement}</StyledButton>
-          <StyledButton onClick={onAddNewMovieClick}>{clickadd}</StyledButton>
-          <StyledButton onClick={onLikeManagementClick}>{clicklike}</StyledButton>
-        </ButtonGroup>
+        <S.ButtonGroup>
+          <S.StyledButton onClick={onMovieManagementClick}>{clickManagement}</S.StyledButton>
+          <S.StyledButton onClick={onAddNewMovieClick}>{clickAdd}</S.StyledButton>
+          <S.StyledButton onClick={onLikeManagementClick}>{clickLike}</S.StyledButton>
+        </S.ButtonGroup>
       )}
-    </AdminHeader>
+    </S.AdminHeader>
   );
 }
 
-export default AdminHeaderComponent;
-
-const AdminHeader = styled.header`
+const S = {
+  AdminHeader: styled.header`
   max-width : 120rem;
-  width: 100%;
-  height: 4rem;
-  background-color: ${lightTheme.footerBlack};
+  width: 1920px;
+  height: 94px;
+  background-color: ${lightTheme.fontWhite};
   color: ${lightTheme.fontWhite};
   font-size: 1.5rem;
   font-weight: ${lightTheme.fontWeightBold};
@@ -43,40 +41,42 @@ const AdminHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-`;
-
-const HeaderContent = styled.div`
+  `,
+  
+  HeaderContent: styled.div`
   flex: 1; 
   display: flex;
   align-items: center;
-`;
-
-const AdminHeaderText = styled.h1`
+  `,
+  
+  AdminHeaderText: styled.h1`
   top: ${(props) => props.top || '50%'}; 
   left: ${(props) => props.left || '20%'}; 
-
+  
   font-weight: ${lightTheme.fontWeightBold};
   font-size: ${(props) => props.fontSize || '1.5rem'};
   font-family: ${lightTheme.fontSuitBold};
-  color: ${lightTheme.fontWhite};
+  color: ${lightTheme.fontBlack};
   margin: 0;
-`;
-
-const ButtonGroup = styled.div`
+  `,
+  
+  ButtonGroup: styled.div`
   display: flex;
   gap: 2rem;
-`;
-
-const StyledButton = styled.button`
+  `,
+  
+  StyledButton: styled.button`
   background: none;
-  color: ${lightTheme.fontWhite};
+  color: ${lightTheme.fontBlack};
   font-size: 1rem;
   border: none;
   cursor: pointer;
   font-family: ${lightTheme.fontSuitBold};
-
+  
   &:hover {
     text-decoration: underline;
-  }
-`;
+    }
+    `,
+};
+
+export default AdminHeaderComponent;

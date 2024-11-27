@@ -1,13 +1,5 @@
-import React from 'react';
 import AdminHeaderComponent from '../components/Common/header/AdminHeader';
-import {
-  AdminPage,
-  AdminContent,
-  AdminTitle,
-  AdminForm,
-  FormInputWrapper,
-  SubmitButton,
-} from '../styles/admin/adminlogin';
+import * as S from '../styles/admin/adminlogin';
 
 function AdminLoginPage() {
   const headertitle = '관리자 페이지';
@@ -18,23 +10,23 @@ function AdminLoginPage() {
     { type: 'password', placeholder: '비밀번호', required: true },
   ];
   return (
-    <AdminPage>
+    <S.AdminPage>
       <AdminHeaderComponent text = {headertitle} showButtons = {false}/>
-      <AdminContent>
-        <AdminTitle>{logintitle}</AdminTitle>
-        <AdminForm>
+      <S.AdminContent>
+        <S.AdminTitle>{logintitle}</S.AdminTitle>
+        <S.AdminForm>
         {formfields.map((field, index) => (
-          <FormInputWrapper 
+          <S.FormInputWrapper 
           key={index}
           type={field.type} 
           placeholder={field.placeholder} 
           required={field.required} 
         />
         ))}
-          <SubmitButton>{loginbutton}</SubmitButton>
-        </AdminForm>
-      </AdminContent>
-    </AdminPage>
+          <S.SubmitButton>{loginbutton}</S.SubmitButton>
+        </S.AdminForm>
+      </S.AdminContent>
+    </S.AdminPage>
   );
 }
 

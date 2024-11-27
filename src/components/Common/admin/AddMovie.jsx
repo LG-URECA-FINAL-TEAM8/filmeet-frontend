@@ -1,31 +1,34 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import SearchBar from './SearchBar';
-import List from './List';
+import List from './Table';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import moviesData from '../../../data/movies.json';
 import { lightTheme }from '../../../styles/themes';
+import AdminAddModal from '../modal/AdminAddModal';
+import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 
 function AddMovie({pageTitle}) {
   const { movies, setMovies } = useMovieStore();
+  const { openAddModal } = useAdminModalStore();
 
   useEffect(() => {
     setMovies(moviesData);
   }, [setMovies]);
 
   const handleAdd = (movie) => {
-    alert(`"${movie.title}" 영화가 추가되었습니다.`);
+    openAddModal(movie);
   };
   const handleSearch = (searchTerm) => {
-
+    
   };
 
   return (
-    <PageWrapper>
-      <PageTitle>{pageTitle}</PageTitle>
-      <SearchBarWrapper>
+    <S.PageWrapper>
+      <S.PageTitle>{pageTitle}</S.PageTitle>
+      <S.SearchBarWrapper>
         <SearchBar onSearch={handleSearch} />
-      </SearchBarWrapper>
+      </S.SearchBarWrapper>
         <List
           data={movies}
           columns={['영화 제목', '추가']}
@@ -33,27 +36,30 @@ function AddMovie({pageTitle}) {
             { label: '추가', onClick: handleAdd },
           ]}
         />
-    </PageWrapper>
+        <AdminAddModal />
+    </S.PageWrapper>
   );
 }
 
-export default AddMovie;
-
-const PageWrapper = styled.div`
+const S = {
+  PageWrapper: styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1rem;
   background-color: ${lightTheme.backgroundGray};
-`;
-
-const PageTitle = styled.h2`
+  `,
+  
+  PageTitle: styled.h2`
   font-size: 1.5rem;
   font-weight: ${lightTheme.fontWeightBold};
   margin-bottom: 1rem;
-`;
-
-const SearchBarWrapper = styled.div`
+  `,
+  
+  SearchBarWrapper: styled.div`
   width: 80%;
   margin-bottom: 1rem;
-`;
+  `,
+};
+
+export default AddMovie;

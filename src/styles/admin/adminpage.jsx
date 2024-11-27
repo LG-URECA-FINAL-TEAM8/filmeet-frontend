@@ -6,17 +6,21 @@ export const AdminPageWrapper = styled.div`
   flex-direction: column;
   align-items : center;
   width: 100%;
-  height: auto;
-  max-width: 120rem;
-  background-color: ${lightTheme.backgroundGray};
-  position : relative;
+  height: 100vh;
+  max-width: 1920px;
+  overflow-x: hidden;
+  margin: 0 auto;
+  background-color: ${lightTheme.mainColor};
+  position: relative;
 `;
 
 export const PageContent = styled.div`
   flex: 1;
-  padding: 1rem;
-  box-sizing: border-box;
-  width: 48%;
+  padding: 0 1rem;
+  box-sizing: border-box; 
+  width: 100%;
+  height: calc(100vh - 94px);
+  display: flex;
   justify-content: center;
   align-items: flex-start;
   overflow-y: hidden;
