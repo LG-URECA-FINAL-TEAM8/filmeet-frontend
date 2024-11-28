@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import { lightTheme } from '../themes';
 export const MainBody = styled.body`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: ${lightTheme.mainColor};
+  background-color: ${(props) => props.theme.color.mainColor};
   padding: 1rem 20rem;
-  color: ${lightTheme.fontBlack};
+  color: ${(props) => props.theme.color.fontBlack};
 `;
 
 export const PostContainer = styled.div`
