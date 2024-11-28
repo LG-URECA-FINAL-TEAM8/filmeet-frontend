@@ -1,5 +1,5 @@
-import Comment from "../../components/Features/comments/comment";
-import { CardContainer, CommentPageContainer } from "../../styles/comment/comment";
+import Comment from "../../../components/Features/comments/comment";
+import { CardContainer, CommentPageContainer } from "../../../styles/comment/comment";
 
 const CommentsPage = () => {
   return (

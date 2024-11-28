@@ -2,13 +2,24 @@ import styled from "styled-components";
 import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
 import SvgIcReplyFilled24 from "../../../assets/svg/IcReplyFilled24";
 import { comments } from "../../../data/comments";
+import { useNavigate } from "react-router-dom";
 
 const Comment = () => {
+  const navigate = useNavigate();
+
+  const handleProfileClick = (userId) => {
+    navigate(`/mypage`);
+  };
+
+  const handleCommentClick = (commentId) => {
+    navigate(`/mypage/comments/${commentId}`);
+  };
+
   return (
     <>
       {comments.map((item) => (
         <S.Card key={item.id}>
-          <S.ProfileSection>
+          <S.ProfileSection onClick={() => handleProfileClick(item.userId)}>
             <S.ProfileImage src={item.userImage} alt={`${item.userName}`} />
             <S.Nickname>{item.userName}</S.Nickname>
           </S.ProfileSection>
@@ -21,7 +32,7 @@ const Comment = () => {
               <S.GenreYear>
                 {item.genre} • {item.year}
               </S.GenreYear>
-              <S.Comment>{item.comment}</S.Comment>
+              <S.Comment onClick={() => handleCommentClick(item.id)}>{item.comment}</S.Comment>
             </S.Content>
               <S.Rating>★ {item.rating.toFixed(1)}</S.Rating>
           </S.MainContent>
@@ -50,7 +61,7 @@ const S = {
     padding: 1rem;
     border: 0.01rem solid rgba(0, 0, 0, 0.1);
     border-radius: 0.3rem;
-    background-color: ${(props) => props.theme.color.mainColor};
+    background-color: ${(props) => props.theme.color.commentColor};
     box-sizing: border-box;
   `,
 
@@ -66,12 +77,14 @@ const S = {
     margin: 0 0.5rem 0 0;
     border-radius: 50%;
     object-fit: cover;
+    cursor: pointer;
   `,
 
   Nickname: styled.div`
     font: ${(props) => props.theme.font.fontSuitBold};
     font-size: 0.9rem;
     font-weight: ${(props) => props.theme.font.weightMedium};
+    cursor: pointer;
   `,
 
   MainContent: styled.div`
@@ -120,6 +133,7 @@ const S = {
     font: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontGray};
+    cursor: pointer;
   `,
 
   Rating: styled.div`

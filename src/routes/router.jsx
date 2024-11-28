@@ -3,10 +3,11 @@ import Main from '../pages/Main';
 import DefaultLayout from '../components/Layout/DefaultLayout';
 import MyPage from '../pages/mypage/MyPage';
 import RatingsPage from '../pages/mypage/ratingpage/RatingsPage';
-import CommentsPage from '../pages/mypage/CommentsPage';
+import CommentsPage from '../pages/mypage/commentpage/CommentsPage';
 import CollectionsPage from '../pages/mypage/CollectionsPage';
 import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
 import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
+import CommentsDetailPage from '../pages/mypage/commentpage/CommentsDetailPage';
 
 
 const router = createBrowserRouter([
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: 'mypage/comments',
         element: <CommentsPage />,
+      },
+      {
+        path: 'mypage/comments/:commentId',
+        element: <CommentsDetailPage />,
       },
       {
         path: 'mypage/collections',

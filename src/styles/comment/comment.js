@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { lightTheme } from "../themes";
 
 export const CommentPageContainer = styled.div`
     width: 100%;
@@ -8,7 +7,19 @@ export const CommentPageContainer = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: ${lightTheme.mainColor};
+    background-color: ${(props) => props.theme.color.mainColor};
+`;
+
+export const CommentDetailContainer = styled.div`
+  width: 100%;
+  max-width: 82.5rem;
+  margin: 1.125rem auto 3.4rem auto;
+  background-color: ${(props) => props.theme.color.background};
+  border-radius: 0.5rem;  
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
 `;
 
 export const CardContainer = styled.div`
