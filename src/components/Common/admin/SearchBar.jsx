@@ -17,13 +17,13 @@ const S = {
   `,
   
   SearchInput: styled.input`
-    width: 25rem;
+    width: 18rem;
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 0.25rem;
     font-size: 1rem;
     outline: none;
-    
+    color: ${lightTheme.fontWhite};
     &:focus {
       border-color: ${lightTheme.fontBlack};
     }

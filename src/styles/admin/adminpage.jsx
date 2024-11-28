@@ -15,7 +15,6 @@ export const AdminPageWrapper = styled.div`
 `;
 
 export const PageContent = styled.div`
-  flex: 1;
   padding: 0 1rem;
   box-sizing: border-box; 
   width: 100%;

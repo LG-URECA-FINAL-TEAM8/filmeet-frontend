@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { lightTheme } from '../../../styles/themes';
 
 function Table({ data, columns, actions }) {
   return (
@@ -49,9 +50,9 @@ function Table({ data, columns, actions }) {
 export default Table;
 
 const TableWrapper = styled.div`
-  width: 100%;
+  width: 90%;
   max-width: 1303px;
-  height: 724px;
+  height: 600px;
   overflow-x: auto;
   overflow-y: auto;
   border: 1px solid #ddd;
@@ -61,13 +62,12 @@ const TableWrapper = styled.div`
 
 const StyledTable = styled.table`
   width: 100%;
-  min-width: 100%;
   border-collapse: collapse;
   background-color: white;
 `;
 
 const TableHeader = styled.tr`
-  background-color: #f7f7f7;
+  background-color: ${lightTheme.mainColor};
   border-bottom: 2px solid #eaeaea;
 `;
 
@@ -81,7 +81,7 @@ const HeaderCell = styled.th`
 `;
 
 const TableRow = styled.tr`
-  &:nth-child(even) {
+  &:hover {
     background-color: #fafafa;
   }
 `;
@@ -93,7 +93,7 @@ const TableCell = styled.td`
   border-bottom: 1px solid #ddd;
 
   &:last-child {
-    text-align: center;
+    text-align: left;
   }
 `;
 

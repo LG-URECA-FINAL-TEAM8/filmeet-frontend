@@ -1,12 +1,19 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import SearchBar from './SearchBar';
-import Table from './Table';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import moviesData from '../../../data/movies.json';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 import AdminEditModal from '../modal/AdminEditModal';
-import { lightTheme } from '../../../styles/themes';
 
 function MovieManagement() {
   const { movies, setMovies } = useMovieStore();
@@ -31,67 +38,74 @@ function MovieManagement() {
     alert(`"${movie.title}" 삭제 요청`);
   };
 
-  const columns = ['영화 이름', '좋아요 수', '댓글 수', '평균 평점', '장르', '개봉일', '액션'];
-
-  const data = movies.map((movie) => ({
-    name: movie.title,
-    likes: movie.likes || 0,
-    comments: movie.comments || 0,
-    rating: movie.rating || 'N/A',
-    genre: movie.genre || 'N/A',
-    releaseDate: movie.releaseDate || 'N/A',
-  }));
-
-  const actions = [
-    { label: '수정', onClick: handleEdit, color: 'blue' },
-    { label: '삭제', onClick: handleDelete, color: 'red' },
-  ];
-
   return (
-    <PageWrapper>
-        <Title>영화 관리</Title>
-        <SearchBarWrapper>
-        <SearchBar onSearch={handleSearch} placeholder="영화 검색" />
-        </SearchBarWrapper>
-      <TableWrapper>
-        <Table data={data} columns={columns} actions={actions} />
-      </TableWrapper>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, p: 3 }}>
+      {/* 제목 */}
+      <Typography variant="h4" gutterBottom>
+        영화 관리
+      </Typography>
+
+      {/* 검색 바 */}
+      <Box sx={{ width: '100%', maxWidth: '410px', mb: 1,ml:50  }}>
+        <TextField
+          fullWidth
+          label="영화 검색"
+          variant="outlined"
+          onChange={(e) => handleSearch(e.target.value)}
+          sx={{
+            height: '50px', // 높이를 50px로 설정
+            '& .MuiInputBase-root': {
+              height: '50px', // 내부 Input 영역의 높이를 설정
+            },
+          }}
+        />
+      </Box>
+
+      {/* 테이블 */}
+      <TableContainer component={Paper} sx={{ maxWidth: '1303px', width: '100%' }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>영화 이름</TableCell>
+              <TableCell>좋아요 수</TableCell>
+              <TableCell>댓글 수</TableCell>
+              <TableCell>평균 평점</TableCell>
+              <TableCell>장르</TableCell>
+              <TableCell>개봉일</TableCell>
+              <TableCell align="center">액션</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {movies.map((movie, index) => (
+              <TableRow key={index}>
+                <TableCell>{movie.title}</TableCell>
+                <TableCell>{movie.likes || 0}</TableCell>
+                <TableCell>{movie.comments || 0}</TableCell>
+                <TableCell>{movie.rating || 'N/A'}</TableCell>
+                <TableCell>{movie.genre || 'N/A'}</TableCell>
+                <TableCell>{movie.releaseDate || 'N/A'}</TableCell>
+                <TableCell align="center">
+                  <Button
+                    color="primary"
+                    onClick={() => handleEdit(movie)}
+                    sx={{ mr: 1 }}
+                  >
+                    수정
+                  </Button>
+                  <Button color="error" onClick={() => handleDelete(movie)}>
+                    삭제
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* 수정 모달 */}
       {isModalOpen && <AdminEditModal movie={selectedMovie} onClose={closeModal} />}
-    </PageWrapper>
+    </Box>
   );
 }
 
 export default MovieManagement;
-
-const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  background-color: ${lightTheme.backgroundGray};
-  padding: 2rem;
-  min-height: 100vh;
-  width: 1920px;
-  height: 986px;
-`;
-
-const Title = styled.h1`
-  font-size: 1.5rem;
-  font-weight: ${lightTheme.fontWeightBold};
-`;
-
-const TableWrapper = styled.div`
-  width: 100%;
-  max-width: 1303px; /* 테이블 크기를 명확히 지정 */
-  height: 100%;
-  overflow-x: auto; /* 가로 스크롤 필요 시 활성화 */
-  border: 1px solid ${lightTheme.borderDefault};
-  border-radius: 0.5rem;
-  margin: 0 auto; /* 테이블을 페이지 중앙에 배치 */
-`;
-const SearchBarWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 80%;
-  margin-bottom: 1rem;
-  margin-top: 0rem;
-`;

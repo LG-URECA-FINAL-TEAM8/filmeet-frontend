@@ -11,13 +11,13 @@
     "svgr": "npx @svgr/cli -d src/assets/svg --ignore-existing --no-dimensions --ext jsx public/assets"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
     "@fortawesome/fontawesome-svg-core": "^6.7.0",
     "@fortawesome/free-solid-svg-icons": "^6.7.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^6.1.7",
-    "@mui/material": "^6.1.7",
+    "@mui/material": "^6.1.8",
     "@tanstack/react-query": "^5.61.3",
     "@tanstack/react-query-devtools": "^5.61.3",
     "lucide-react": "^0.460.0",

@@ -30,7 +30,7 @@ function AdminHeaderComponent({
 const S = {
   AdminHeader: styled.header`
   max-width : 120rem;
-  width: 1920px;
+  width: 100%;
   height: 94px;
   background-color: ${lightTheme.fontWhite};
   color: ${lightTheme.fontWhite};
@@ -55,7 +55,7 @@ const S = {
   
   font-weight: ${lightTheme.fontWeightBold};
   font-size: ${(props) => props.fontSize || '1.5rem'};
-  font-weight: ${lightTheme.fontWeightBold};
+  font-weight: bold;
   font-family: ${lightTheme.fontSuitBold};
   color: ${lightTheme.fontBlack};
   margin: 0;
