@@ -2,25 +2,23 @@ import styled from "styled-components";
 import SvgIcLikeFilled24 from "../../assets/svg/IcLikeFilled24";
 import SvgComment from "../../assets/svg/Comment";
 import { pagecontents } from "../../data/pagecontents"
-import useLikesStore from "../../store/comment/useLikesStore";
+import { useLikesStore}  from "../../store/comment/useLikesStore";
 
-const CommentBody = ({ commentId, initialLikeCount }) => {
+const CommentBody = ({ commentData }) => {
   const { likes, toggleLike } = useLikesStore();
   const { like, comment } = pagecontents.commentPageContent;
-
-  const commentLikes = likes[commentId] || { count: initialLikeCount || 0, isLiked: false };
+  const commentLikes = likes[commentData.id] || { count: 0, isLiked: false };
 
   const handleLikeClick = () => {
-    toggleLike(commentId, initialLikeCount); // 상태 업데이트
-    console.log("Updated likes:", likes[commentId]);
+    toggleLike(commentData.id);
   };
 
   return (
     <Body>
       <ActionContainer onClick={handleLikeClick}>
-        <Action>
-          <SvgIcLikeFilled24 />
-          {like} {commentLikes.count}
+        <Action isLiked={commentLikes.isLiked}>
+          <StyledSvgIcLikeFilled24 isLiked={commentLikes.isLiked}/>
+          {like}
         </Action>
       </ActionContainer>
       <Divider />
@@ -43,6 +41,12 @@ export const Body = styled.div`
   background-color: ${(props) => props.theme.color.mainColor};
   border-top: ${(props) => props.theme.font.borderDefault};
   border-bottom: ${(props) => props.theme.font.borderDefault};
+`;
+
+export const StyledSvgIcLikeFilled24 = styled(SvgIcLikeFilled24)`
+  width: 1rem;
+  height: 1rem;
+  color: ${(props) => (props.isLiked ? props.theme.color.fontPink : props.theme.color.fontGray)};
 `;
 
 export const ActionContainer = styled.div`
@@ -72,7 +76,7 @@ export const Action = styled.div`
   align-items: center;
   gap: 0.5rem;
   font-size: 1rem;
-  color: ${(props) => props.theme.color.fontGray};
+  color: ${(props) => (props.isLiked ? props.theme.color.fontPink : props.theme.color.fontGray)};
 
   svg {
     width: 1rem;

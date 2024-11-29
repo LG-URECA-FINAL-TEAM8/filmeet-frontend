@@ -90,7 +90,7 @@ const S = {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: ${(props) => props.theme.font.borderDefault};
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   `,
 

@@ -5,7 +5,7 @@ import useCommentStore from "../../store/modal/useCommentStore";
 import { pagecontents } from "../../data/pagecontents"
 import { useNavigate } from "react-router-dom";
 import { createProfileClickHandler } from "../../utils/ratings/navigationHandlers";
-import useLikesStore from "../../store/comment/useLikesStore";
+import { useLikesStore } from "../../store/comment/useLikesStore";
 import CommentEditModal from "../Common/modal/CommentEditModal";
 import CommentDeleteModal from "../Common/modal/CommentDeleteModal";
 
@@ -26,53 +26,38 @@ const CommentHeader = ({ commentData }) => {
     openModal("delete", commentData); 
   };
 
-
 return (
   <>
-  <Header>
-    <MainContent>
-      <LeftContent>
-        <UserInfo>
-          <UserDetails>
-            <UserProfile src={commentData.userImage} alt={commentData.userName} onClick={handleProfileClick} />
-            <UserName onClick={handleProfileClick}>{commentData.userName}</UserName>
-            <CommentTime>{commentData.time}</CommentTime>
-          </UserDetails>
-        </UserInfo> 
-        <MovieDetails>
-          <MovieTitle>{commentData.title} ({commentData.year})</MovieTitle>
-          <MovieGenre>{commentData.genre}</MovieGenre>
-        </MovieDetails>
-      </LeftContent>
-        <MoviePoster src={commentData.image} alt={commentData.title} />
-    </MainContent>
-        <Content>{commentData.comment}</Content>
-      <ActionRow>
-        <ActionText>
-          {likeComment} {commentLikes.count} {comment} {count}
-        </ActionText>
-        <ActionButtons>
-          <EditButton onClick={handleEditClick}><SvgPencil/>{edit}</EditButton>
-          <DeleteButton onClick={handleDeleteClick}><SvgDelete/>{deleteText}</DeleteButton>
-        </ActionButtons>
-      </ActionRow>
-  </Header>
-
-    {/* 댓글 수정 모달 */}
-    <CommentEditModal
-        onSubmit={(updatedComment) => {
-          console.log("수정된 댓글:", updatedComment);
-          // 댓글 업데이트 로직 추가 가능
-        }}
-      />
-
-      {/* 댓글 삭제 모달 */}
-      <CommentDeleteModal
-        onDeleteConfirm={() => {
-          console.log("댓글 삭제됨:", commentData.id);
-          // 삭제 로직 추가 가능
-        }}
-      />
+    <Header>
+      <MainContent>
+        <LeftContent>
+          <UserInfo>
+            <UserDetails>
+              <UserProfile src={commentData.userImage} alt={commentData.userName} onClick={handleProfileClick} />
+              <UserName onClick={handleProfileClick}>{commentData.userName}</UserName>
+              <CommentTime>{commentData.time}</CommentTime>
+            </UserDetails>
+          </UserInfo> 
+          <MovieDetails>
+            <MovieTitle>{commentData.title} ({commentData.year})</MovieTitle>
+            <MovieGenre>{commentData.genre}</MovieGenre>
+          </MovieDetails>
+        </LeftContent>
+          <MoviePoster src={commentData.image} alt={commentData.title} />
+      </MainContent>
+          <Content>{commentData.comment}</Content>
+        <ActionRow>
+          <ActionText>
+            {likeComment} {commentLikes.count} {comment} {count}
+          </ActionText>
+          <ActionButtons>
+            <EditButton onClick={handleEditClick}><SvgPencil/>{edit}</EditButton>
+            <DeleteButton onClick={handleDeleteClick}><SvgDelete/>{deleteText}</DeleteButton>
+          </ActionButtons>
+        </ActionRow>
+    </Header>
+    <CommentEditModal/>
+    <CommentDeleteModal/>
   </>
   );
 };
