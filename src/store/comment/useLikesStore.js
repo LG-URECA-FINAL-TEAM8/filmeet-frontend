@@ -5,13 +5,14 @@ export const useLikesStore = create((set) => ({
   toggleLike: (commentId) =>
     set((state) => {
       const current = state.likes[commentId] || { count: 0, isLiked: false };
-      const isLiked = !current.isLiked;
-      const count = isLiked ? current.count + 1 : current.count - 1;
-
+      const updated = {
+        count: current.isLiked ? current.count - 1 : current.count + 1,
+        isLiked: !current.isLiked,
+      };
       return {
         likes: {
           ...state.likes,
-          [commentId]: { count, isLiked },
+          [commentId]: updated,
         },
       };
     }),

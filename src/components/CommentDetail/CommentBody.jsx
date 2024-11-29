@@ -1,28 +1,34 @@
 import styled from "styled-components";
 import SvgIcLikeFilled24 from "../../assets/svg/IcLikeFilled24";
 import SvgComment from "../../assets/svg/Comment";
-import { pagecontents } from "../../data/pagecontents"
-import { useLikesStore}  from "../../store/comment/useLikesStore";
+import { pagecontents } from "../../data/pagecontents";
+import { useLikesStore } from "../../store/comment/useLikesStore";
+import useCommentStore from "../../store/modal/useCommentStore";
 
 const CommentBody = ({ commentData }) => {
   const { likes, toggleLike } = useLikesStore();
   const { like, comment } = pagecontents.commentPageContent;
-  const commentLikes = likes[commentData.id] || { count: 0, isLiked: false };
+  const { openModal } = useCommentStore();
+  const commentLikes = likes[`body-${commentData.id}`] || { count: 0, isLiked: false };
 
   const handleLikeClick = () => {
-    toggleLike(commentData.id);
+    toggleLike(`body-${commentData.id}`); // body prefix를 추가하여 구분
+  };
+
+  const handleCommentClick = () => {
+    openModal("comment", commentData);
   };
 
   return (
     <Body>
       <ActionContainer onClick={handleLikeClick}>
         <Action isLiked={commentLikes.isLiked}>
-          <StyledSvgIcLikeFilled24 isLiked={commentLikes.isLiked}/>
+          <StyledSvgIcLikeFilled24 isLiked={commentLikes.isLiked} />
           {like}
         </Action>
       </ActionContainer>
       <Divider />
-      <ActionContainer>
+      <ActionContainer onClick={handleCommentClick}>
         <Action>
           <SvgComment />
           {comment}

@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 const useCommentStore = create((set) => ({
   isOpen: false,
-  modalType: null, 
+  modalType: null,
   comment: "",
   commentData: null,
 
@@ -11,7 +11,7 @@ const useCommentStore = create((set) => ({
       isOpen: true,
       modalType: type,
       commentData: data,
-      comment: data?.comment || "",
+      comment: type === "comment" ? "" : data?.comment || "",
     }),
   closeModal: () =>
     set({ isOpen: false, modalType: null, comment: "", commentData: null }),

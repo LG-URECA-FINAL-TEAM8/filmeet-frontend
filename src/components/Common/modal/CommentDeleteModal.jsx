@@ -1,4 +1,3 @@
-import React from "react";
 import ReactModal from "react-modal";
 import useCommentStore from "../../../store/modal/useCommentStore";
 import styled from "styled-components";
@@ -7,7 +6,9 @@ import styled from "styled-components";
 ReactModal.setAppElement("#root");
 
 const CommentDeleteModal = () => {
-  const { isOpen, closeModal } = useCommentStore();
+  const { isOpen, modalType, closeModal } = useCommentStore();
+
+  if (!isOpen || modalType !== "delete") return null;
 
   return (
     <ReactModal
@@ -19,7 +20,7 @@ const CommentDeleteModal = () => {
         },
         content: {
           width: "280px",
-          height: "120px", // 사진처럼 높이 조정
+          height: "120px",
           margin: "auto",
           borderRadius: "10px",
           padding: "20px 0 0 0",
@@ -29,7 +30,7 @@ const CommentDeleteModal = () => {
     >
       <Container>
         <Title>알림</Title>
-        <Comment>댓글을 삭제하시겠어요?</Comment>
+        <Comment>코멘트를 삭제하시겠어요?</Comment>
         <ButtonsContent>
           <CancelButton onClick={closeModal}>취소</CancelButton>
           <Divider />

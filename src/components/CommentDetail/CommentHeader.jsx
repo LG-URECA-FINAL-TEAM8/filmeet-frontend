@@ -13,7 +13,7 @@ const CommentHeader = ({ commentData }) => {
   const navigate = useNavigate(); 
   const { likes } = useLikesStore();
   const { openModal } = useCommentStore();
-  const commentLikes = likes[commentData.id] || { count: commentData.likeCount || 0, isLiked: false };
+  const commentLikes = likes[commentData.id] || { count: 0, isLiked: false };
   const { likeComment, comment, count, edit, deleteText } = pagecontents.commentPageContent;
 
   const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
