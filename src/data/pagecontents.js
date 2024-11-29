@@ -27,5 +27,14 @@ export const pagecontents = {
   moreRatingMovies: {
     noResults: "결과가 없습니다.",
   },
+
+  commentPageContent: {
+    likeComment: "가장 먼저 좋아요를 누르세요",
+    comment: "댓글",
+    like: "좋아요",
+    edit: "수정",
+    count: "0",
+    deleteText: "삭제",
+  },
 };
 

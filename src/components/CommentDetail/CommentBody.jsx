@@ -1,21 +1,24 @@
 import styled from "styled-components";
 import SvgIcLikeFilled24 from "../../assets/svg/IcLikeFilled24";
 import SvgComment from "../../assets/svg/Comment";
+import { pagecontents } from "../../data/pagecontents"
 
 const CommentBody = () => {
+  const { like, comment } = pagecontents.commentPageContent;
+
   return (
     <Body>
       <ActionContainer>
         <Action>
           <SvgIcLikeFilled24 />
-          좋아요
+          {like}
         </Action>
       </ActionContainer>
       <Divider />
       <ActionContainer>
         <Action>
           <SvgComment />
-          댓글
+          {comment}
         </Action>
       </ActionContainer>
     </Body>
@@ -44,6 +47,7 @@ export const ActionContainer = styled.div`
 
   &:hover {
     background-color: ${(props) => props.theme.color.commentColor};
+    border-radius: 0.3rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }
 `;

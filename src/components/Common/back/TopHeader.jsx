@@ -7,7 +7,7 @@ const TopHeader = ({ title }) => {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate(-1); // 이전 페이지로 이동
+    navigate(-1);
   };
 
   return (
@@ -47,9 +47,8 @@ const BackButton = styled.button`
 
 const TopTitle = styled.p`
   padding: 0.3rem;
-  font-weight: ${(props) => props.theme.font.fontWeightBold};
+  font-family: ${(props) => props.theme.font.fontSuitBold};
   font-size: 1.2rem;
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
 `;
 
 export default TopHeader;

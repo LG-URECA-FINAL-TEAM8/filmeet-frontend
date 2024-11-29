@@ -11,6 +11,7 @@ export const comments = [
     comment: "오늘 또 봐야지",
     likes: 120,
     comments: 55,
+    time: "5분전",
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ export const comments = [
     comment: "오늘 또 봐야지",
     likes: 120,
     comments: 55,
+    time: "5분전",
   },
   {
     id: 3,
@@ -37,6 +39,7 @@ export const comments = [
     comment: "오늘 또 봐야지",
     likes: 120,
     comments: 55,
+    time: "5분전",
   },
   {
     id: 4,
@@ -50,6 +53,7 @@ export const comments = [
     comment: "오늘 또 봐야지",
     likes: 120,
     comments: 55,
+    time: "5분전",
   },
   {
     id: 5,
@@ -63,6 +67,7 @@ export const comments = [
     comment: "오늘 또 봐야지",
     likes: 120,
     comments: 55,
+    time: "5분전",
   },
   {
     id: 6,
@@ -76,6 +81,7 @@ export const comments = [
     comment: "오늘 또 봐야지",
     likes: 120,
     comments: 55,
+    time: "5분전",
   },
   {
     id: 7,
@@ -89,6 +95,7 @@ export const comments = [
     comment: "오늘 또 봐야지",
     likes: 120,
     comments: 55,
+    time: "5분전",
   },
   {
     id: 8,
@@ -102,6 +109,7 @@ export const comments = [
     comment: "오늘 또 봐야지",
     likes: 120,
     comments: 55,
+    time: "5분전",
   },
   {
     id: 9,
@@ -115,6 +123,7 @@ export const comments = [
     comment: "오늘 또 봐야지",
     likes: 120,
     comments: 55,
+    time: "5분전",
   },
   {
     id: 10,
@@ -128,5 +137,6 @@ export const comments = [
     comment: "오늘 또 봐야지",
     likes: 120,
     comments: 55,
+    time: "5분전",
   },
 ];

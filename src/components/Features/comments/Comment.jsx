@@ -81,9 +81,8 @@ const S = {
   `,
 
   Nickname: styled.div`
-    font: ${(props) => props.theme.font.fontSuitBold};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
-    font-weight: ${(props) => props.theme.font.weightMedium};
     cursor: pointer;
   `,
 
@@ -116,21 +115,21 @@ const S = {
 
   Title: styled.h3`
     margin: 0.5rem 0 0.3rem 0;
-    font: ${(props) => props.theme.font.fontSuitRegular};
+    font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 1rem;
-    font-weight: ${(props) => props.theme.font.fontWeightMedium};
+    
   `,
 
   GenreYear: styled.p`
     margin: 0 0 0.5rem 0;
-    font: ${(props) => props.theme.font.fontSuitRegular};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.8rem;
     color: ${(props) => props.theme.color.fontGray};
   `,
 
   Comment: styled.p`
     margin-top: 0.5rem;
-    font: ${(props) => props.theme.font.fontSuitRegular};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontGray};
     cursor: pointer;
@@ -144,10 +143,8 @@ const S = {
     align-items: center;
     justify-content: center;
     font-size: 1rem;
-    font: ${(props) => props.theme.font.fontSuitRegular};
-    font-weight: ${(props) => props.theme.font.fontWeightMedium};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     color: ${(props) => props.theme.color.fontPink};
-    background: ${(props) => props.theme.color.gray};
     border-radius: 50%;
   `,
 
@@ -163,6 +160,7 @@ const S = {
     display: flex;
     align-items: center;
     gap: 0.3rem;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.8rem;
     color: ${(props) => props.theme.color.fontGray};
   `,

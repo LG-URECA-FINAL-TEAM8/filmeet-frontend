@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 export const CommentPageContainer = styled.div`
-    width: 100%;
-    max-width: 120rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: ${(props) => props.theme.color.mainColor};
+  width: 100%;
+  max-width: 120rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: ${(props) => props.theme.color.mainColor};
 `;
 
 export const CommentDetailContainer = styled.div`
@@ -22,11 +22,11 @@ export const CommentDetailContainer = styled.div`
 `;
 
 export const CardContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    max-width: 40rem;
-    margin: 2.5rem 0 0 0;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 40rem;
+  margin: 2.5rem 0 0 0;
+`;
