@@ -18,7 +18,6 @@ export const CommentDetailContainer = styled.div`
   border-radius: 0.5rem;  
   display: flex;
   flex-direction: column;
-  gap: 2rem;
   align-items: center;
 `;
 
