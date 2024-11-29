@@ -1,9 +1,8 @@
 import { create } from 'zustand';
 
-const useMovieStore = create((set) => ({
-  movies: [],
-  setMovies: (movies) => set({ movies }),
-  
+const useEditStore = create((set) => ({
+  editingRow: null,
+  setEditingRow: (movieId) => set({ editingRow: movieId }),
   updateMovieField: (movieId, field, value) =>
     set((state) => ({
       movies: state.movies.map((movie) =>
@@ -11,5 +10,4 @@ const useMovieStore = create((set) => ({
       ),
     })),
 }));
-
-export default useMovieStore;
+export default useEditStore;

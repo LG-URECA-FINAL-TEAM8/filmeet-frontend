@@ -1,17 +1,31 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import { lightTheme } from '../../../styles/themes';
+import { styled } from '@mui/system';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import TextField from '@mui/material/TextField';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
+import { lightTheme } from '../../../styles/themes';
 
 function AdminAddModal() {
-  const { addModal, closeAddModal } = useAdminModalStore();
-  const { isOpen } = addModal;
-  const [title, setTitle] = useState('');
-  const [image, setImage] = useState(null);
-  const modalTitle = '새로운 영화 추가';
-  const uploadButton = '이미지 업로드';
-  const movieTitle = '영화 제목';
-  const saveButton = '추가';
+  const {
+    addModal,
+    closeAddModal,
+    setAddModalTitle,
+    setAddModalImage,
+  } = useAdminModalStore();
+
+  const { isOpen, title, image } = addModal;
+
+  const modal = {
+    modalTitle: 'Upload Form',
+    modalSubTitle: '영화 포스터 이미지 업로드',
+    uploadTitle: '이미지 업로드',
+    uploadSubTitle: '여기로 드래그 앤 드롭',
+    uploadButton: '업로드',
+    saveButton: '저장',
+  };
 
   const handleSave = () => {
     alert(`새로운 영화 추가: ${title}`);
@@ -21,205 +35,140 @@ function AdminAddModal() {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(URL.createObjectURL(file));
+      const imageUrl = URL.createObjectURL(file);
+      setAddModalImage(imageUrl);
     }
   };
 
   if (!isOpen) return null;
 
   return (
-    <S.ModalOverlay>
-      <S.ModalContent>
-        <S.ModalHeader>
-          <S.ModalTitle>{modalTitle}</S.ModalTitle>
-          <S.CloseButton onClick={closeAddModal}>✕</S.CloseButton>
-        </S.ModalHeader>
-        <S.ModalBody>
-          <S.ImageUploadWrapper>
-            <S.ImageUpload>
-              <img
-                src={'https://via.placeholder.com/150'}
-                alt="영화 포스터"
-              />
-            </S.ImageUpload>
-            <label>
-              <S.HiddenFileInput type="file" accept="image/*" onChange={handleImageUpload} />
-              <S.UploadButton>{uploadButton}</S.UploadButton>
-            </label>
-          </S.ImageUploadWrapper>
-          <S.InputWrapper>
-            <label htmlFor="title">{movieTitle}</label>
-            <S.Input
-              id="title"
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="영화 제목 입력"
+    <ModalOverlay>
+      <StyledCard>
+        <StyledTitle>{modal.modalTitle}</StyledTitle>
+        <StyledSubtitle>{modal.modalSubTitle}</StyledSubtitle>
+        <StyledCardContent>
+          <StyledImagePreview>
+            <img
+              src={image || 'https://via.placeholder.com/150'}
+              alt="Preview"
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%',
+                objectFit: 'cover',
+              }}
             />
-          </S.InputWrapper>
-        </S.ModalBody>
-        <S.ModalFooter>
-          <S.SaveButton onClick={handleSave}>{saveButton}</S.SaveButton>
-        </S.ModalFooter>
-      </S.ModalContent>
-    </S.ModalOverlay>
+          </StyledImagePreview>
+          <StyledUploadTitle>{modal.uploadTitle}</StyledUploadTitle>
+          <StyledUploadSubtitle>{modal.uploadSubTitle}</StyledUploadSubtitle>
+          <input
+            accept="image/*"
+            type="file"
+            id="image-upload"
+            style={{ display: 'none' }}
+            onChange={handleImageUpload}
+          />
+          <label htmlFor="image-upload">
+            <UploadButton variant="contained" component="span">
+              {modal.uploadButton}
+            </UploadButton>
+          </label>
+        </StyledCardContent>
+        <StyledTextField
+          label="영화 제목"
+          variant="outlined"
+          fullWidth
+          value={title}
+          onChange={(e) => setAddModalTitle(e.target.value)}
+        />
+        <SaveButton variant="contained" fullWidth onClick={handleSave}>
+          {modal.saveButton}
+        </SaveButton>
+      </StyledCard>
+    </ModalOverlay>
   );
 }
 
-const S = {
-  ModalOverlay: styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  `,
-
-  ModalContent: styled.div`
-    width: 30rem;
-    background-color: ${lightTheme.mainColor};
-    border-radius: 0.5rem;
-    box-shadow: ${lightTheme.defaulBoxShadow};
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  `,
-
-  ModalHeader: styled.div`
-    background-color: ${lightTheme.footerBlack};
-    color: ${lightTheme.fontWhite};
-    font-size: 1.25rem;
-    font-weight: ${lightTheme.fontWeightBold};
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  `,
-
-  ModalTitle: styled.h3`
-    margin: 0;
-    font-size: 1.25rem;
-  `,
-
-  CloseButton: styled.button`
-    background: none;
-    border: none;
-    color: ${lightTheme.fontWhite};
-    font-size: 1.5rem;
-    cursor: pointer;
-
-    &:hover {
-      color: ${lightTheme.fontGray};
-    }
-  `,
-
-  ModalBody: styled.div`
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  `,
-
-  ImageUploadWrapper: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-
-    p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: ${lightTheme.fontGray};
-    }
-  `,
-
-  ImageUpload: styled.div`
-    width: 10rem;
-    height: 10rem;
-    background-color: ${lightTheme.backgroundGray};
-    border: 0.1rem dashed ${lightTheme.borderDefault};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.25rem;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 0.25rem;
-    }
-  `,
-
-  HiddenFileInput: styled.input`
-    display: none;
-  `,
-
-  UploadButton: styled.span`
-    cursor: pointer;
-    padding: 0.5rem;
-    background-color: ${lightTheme.footerBlack};
-    color: ${lightTheme.fontWhite};
-    font-size: 0.9rem;
-    border-radius: 0.25rem;
-    &:hover {
-      background-color: ${lightTheme.fontGray};
-    }
-  `,
-
-  InputWrapper: styled.div`
-    width: 100%;
-
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
-      font-weight: ${lightTheme.fontWeightMedium};
-      color: ${lightTheme.fontGray};
-    }
-  `,
-
-  Input: styled.input`
-    width: 100%;
-    padding: 0.5rem;
-    border: 0.1rem solid ${lightTheme.borderDefault};
-    border-radius: 0.25rem;
-    font-size: 1rem;
-
-    &:focus {
-      outline: none;
-      border-color: ${lightTheme.fontBlack};
-    }
-  `,
-
-  ModalFooter: styled.div`
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    background-color: ${lightTheme.mainColor};
-  `,
-
-  SaveButton: styled.button`
-    width: 100%;
-    padding: 0.75rem;
-    background-color: ${lightTheme.footerBlack};
-    color: ${lightTheme.fontWhite};
-    font-size: 1rem;
-    font-weight: ${lightTheme.fontWeightBold};
-    border: none;
-    border-radius: 0.25rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${lightTheme.fontGray};
-    }
-  `,
-};
-
 export default AdminAddModal;
+
+const ModalOverlay = styled(Box)({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100vw',
+  height: '100vh',
+  backgroundColor: lightTheme.color.backgroundBlack,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 1300,
+});
+
+const StyledCard = styled(Card)({
+  width: '22rem',
+  padding: '2rem',
+  borderRadius: '0.5rem',
+  boxShadow: lightTheme.box.defaulBoxShadow,
+});
+
+const StyledTitle = styled(Typography)({
+  fontWeight: lightTheme.font.fontWeightBold,
+  marginBottom: '1rem',
+});
+
+const StyledSubtitle = styled(Typography)({
+  color: lightTheme.color.fontGray,
+  marginBottom: '1rem',
+});
+
+const StyledCardContent = styled(CardContent)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  border: lightTheme.box.defaultBorder,
+  borderRadius: '0.5rem',
+  padding: '2rem',
+  marginBottom: '2rem',
+});
+
+const StyledImagePreview = styled(Box)({
+  width: '4rem',
+  height: '4rem',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: lightTheme.color.mainColor,
+  borderRadius: '2rem',
+  marginBottom: '1rem',
+});
+
+const StyledUploadTitle = styled(Typography)({
+  fontWeight: lightTheme.font.fontWeightBold,
+  marginBottom: '1rem',
+});
+
+const StyledUploadSubtitle = styled(Typography)({
+  color: lightTheme.color.fontGray,
+});
+
+const UploadButton = styled(Button)({
+  marginTop: '1rem',
+  backgroundColor: lightTheme.color.backgroundBlue,
+  color: lightTheme.color.fontWhite,
+  '&:hover': {
+    backgroundColor: lightTheme.color.backgroundButtonBlue,
+  },
+});
+
+const StyledTextField = styled(TextField)({
+  marginBottom: '2rem',
+});
+
+const SaveButton = styled(Button)({
+  backgroundColor: lightTheme.color.backgroundBlue,
+  color: lightTheme.color.fontWhite,
+  '&:hover': {
+    backgroundColor: lightTheme.color.backgroundButtonBlue,
+  },
+});

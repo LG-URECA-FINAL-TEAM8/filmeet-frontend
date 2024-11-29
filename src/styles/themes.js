@@ -15,6 +15,15 @@ export const lightTheme = {
     buttonPink: '#e02761',
     footerBlack: '#1C1D1F',
     fontDark: '#292a32',
+    badgeOrange: '#F77234',
+    badgePink: '#ff00ff',
+    badgeGreen: '#008000',
+    backgroundBlack: 'rgba(0, 0, 0, 0.5)',
+    backgroundOrange: 'rgba(247, 114, 52, 0.1)',
+    backgroundPink: 'rgba(255, 0, 255, 0.1)',
+    backgroundGreen: 'rgba(0, 255, 0, 0.1)',
+    backgroundBlue: '#427FFF',
+    backgroundButtonBlue: '#356ae6',
   },
 
   font: {
