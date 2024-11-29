@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useSignUp } from '../../../apis/auth/queries';
-
 const AuthButton = ({ value, userData, onClose }) => {
   const signupMutate = useSignUp();
 
