@@ -48,7 +48,7 @@ function UserModal() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Authbutton value={modalTitle} userData={userData} />
+        <Authbutton value={modalTitle} userData={userData} onClose={closeModal} />
         <AuthWrapper>
           <AuthMessage value={modalMessage} />
           <Authlink value={modalTitle === '로그인' ? '회원가입' : '로그인'} />

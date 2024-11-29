@@ -1,4 +1,4 @@
-const SignUp = async ({ username, password, nickname }) => {
+export const SignUp = async ({ username, password, nickname }) => {
   const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/signup`, {
     method: 'POST',
     headers: {
@@ -17,5 +17,3 @@ const SignUp = async ({ username, password, nickname }) => {
 
   return response.json();
 };
-
-export default SignUp;

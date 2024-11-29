@@ -1,34 +1,14 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { MainBody } from '../styles/main/main';
 import Title from '../components/features/main/title/Title';
 import Poster from '../components/Common/poster/Poster';
 import HotFeed from '../components/features/comments/HotFeed';
 import { movies } from '../data/movies';
-
-const UpComingMovies = async () => {
-  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/movies/upcoming`);
-  if (!response.ok) {
-    throw new Error('Movies data fetching failed');
-  }
-  return response.json();
-};
+import { useUpcoming } from '../apis/getMovies/queries';
 
 function Main() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['upcoming'],
-    queryFn: UpComingMovies,
-  });
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  const UpcomingData = data.data.content || [];
+  const { data } = useUpcoming();
+  const UpcomingData = data?.data?.content || [];
 
   const movieSections = [
     {
@@ -47,7 +27,10 @@ function Main() {
       title: '박스오피스 순위',
       component: <Poster caseType={3} movies={movies} />,
     },
-    { title: '지금 뜨는 코멘트', component: <HotFeed /> },
+    {
+      title: '지금 뜨는 코멘트',
+      component: <HotFeed />,
+    },
   ];
 
   return (

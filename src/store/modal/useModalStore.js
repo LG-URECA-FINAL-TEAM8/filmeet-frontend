@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import useAuthStore from '../auth/authStore';
 
 const useModalStore = create((set) => ({
   isModalOpen: false,
@@ -10,12 +11,14 @@ const useModalStore = create((set) => ({
       modalTitle: title,
       modalMessage: message,
     }),
-  closeModal: () =>
+  closeModal: () => {
+    useAuthStore.getState().resetAuthData();
     set({
       isModalOpen: false,
       modalTitle: '',
       modalMessage: '',
-    }),
+    });
+  },
 }));
 
 export default useModalStore;
