@@ -2,17 +2,30 @@ import styled from "styled-components";
 import SvgPencil from "../../assets/svg/Pencil";
 import SvgDelete from "../../assets/svg/Delete";
 import useCommentStore from "../../store/modal/useCommentStore";
-import CommentEditModal from "../Common/modal/CommentEditModal";
 import { pagecontents } from "../../data/pagecontents"
+import { useNavigate } from "react-router-dom";
+import { createProfileClickHandler } from "../../utils/ratings/navigationHandlers";
+import useLikesStore from "../../store/comment/useLikesStore";
+import CommentEditModal from "../Common/modal/CommentEditModal";
+import CommentDeleteModal from "../Common/modal/CommentDeleteModal";
 
 const CommentHeader = ({ commentData }) => {
+  const navigate = useNavigate(); 
+  const { likes } = useLikesStore();
   const { openModal } = useCommentStore();
-
+  const commentLikes = likes[commentData.id] || { count: commentData.likeCount || 0, isLiked: false };
   const { likeComment, comment, count, edit, deleteText } = pagecontents.commentPageContent;
 
+  const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
+
   const handleEditClick = () => {
-    openModal(commentData);
+    openModal("edit", commentData); 
   };
+
+  const handleDeleteClick = () => {
+    openModal("delete", commentData); 
+  };
+
 
 return (
   <>
@@ -20,9 +33,9 @@ return (
     <MainContent>
       <LeftContent>
         <UserInfo>
-          <UserProfile src={commentData.userImage} alt={commentData.userName} />
           <UserDetails>
-            <UserName>{commentData.userName}</UserName>
+            <UserProfile src={commentData.userImage} alt={commentData.userName} onClick={handleProfileClick} />
+            <UserName onClick={handleProfileClick}>{commentData.userName}</UserName>
             <CommentTime>{commentData.time}</CommentTime>
           </UserDetails>
         </UserInfo> 
@@ -36,20 +49,30 @@ return (
         <Content>{commentData.comment}</Content>
       <ActionRow>
         <ActionText>
-          {likeComment} {comment} {count}
+          {likeComment} {commentLikes.count} {comment} {count}
         </ActionText>
         <ActionButtons>
-        <EditButton onClick={handleEditClick}><SvgPencil/>{edit}</EditButton>
-        <DeleteButton><SvgDelete/>{deleteText}</DeleteButton>
+          <EditButton onClick={handleEditClick}><SvgPencil/>{edit}</EditButton>
+          <DeleteButton onClick={handleDeleteClick}><SvgDelete/>{deleteText}</DeleteButton>
         </ActionButtons>
       </ActionRow>
   </Header>
 
+    {/* 댓글 수정 모달 */}
     <CommentEditModal
-      onSubmit={(updatedComment) => {
-        console.log("수정된 댓글:", updatedComment);
-      }}
-    />
+        onSubmit={(updatedComment) => {
+          console.log("수정된 댓글:", updatedComment);
+          // 댓글 업데이트 로직 추가 가능
+        }}
+      />
+
+      {/* 댓글 삭제 모달 */}
+      <CommentDeleteModal
+        onDeleteConfirm={() => {
+          console.log("댓글 삭제됨:", commentData.id);
+          // 삭제 로직 추가 가능
+        }}
+      />
   </>
   );
 };
@@ -72,14 +95,14 @@ export const LeftContent = styled.div`
   height: 8rem; 
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   flex: 1;
 `;
 
 export const UserInfo = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
 
 export const UserProfile = styled.img`
@@ -87,24 +110,27 @@ export const UserProfile = styled.img`
   height: 1.8rem;
   border-radius: 50%;
   object-fit: cover;
+  cursor: pointer;
 `;
 
 export const UserDetails = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
+  flex-direction: flex-start;
+  justify-content: center;
+  gap: 0.2rem;
 `;
 
 export const UserName = styled.div`
   font-family: ${(props) => props.theme.font.fontSuitRegular};
   font-size: 0.8rem;
-  font-weight: bold;
-  line-height: 1;
+  line-height: 2;
+  cursor: pointer;
 `;
 
 export const CommentTime = styled.div`
   font-family: ${(props) => props.theme.font.fontSuitRegular};
   font-size: 0.8rem;
+  line-height: 2;
   color: ${(props) => props.theme.color.fontGray};
 `;
 
@@ -116,7 +142,7 @@ export const MovieDetails = styled.div`
 
 export const MovieTitle = styled.div`
   font-family: ${(props) => props.theme.font.fontSuitBold};
-  font-size: 1.4rem;
+  font-size: 1rem;
   `;
 
 export const MovieGenre = styled.div`
@@ -127,13 +153,14 @@ export const MovieGenre = styled.div`
 
 export const Content = styled.div`
   font-family: ${(props) => props.theme.font.fontSuitRegular};
-  font-size: 1rem;
+  font-size: 0.9rem;
+  color: ${(props) => props.theme.color.fontGray};
 `;
 
 export const MoviePoster = styled.img`
-  width: 6rem;
-  height: 8rem;
-  border-radius: 0.5rem;
+  width: 4.3rem;
+  height: 6.5rem;
+  border-radius: 0.2rem;
   object-fit: cover;
 `;
 
@@ -169,7 +196,7 @@ export const EditButton = styled.button`
 
   &:hover {
     background-color: ${(props) => props.theme.color.commentColor};
-    border-radius: 1rem;
+    border-radius: 0.3rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }
 
@@ -180,7 +207,7 @@ export const EditButton = styled.button`
   }
 `;
 
-export const  DeleteButton = styled.button`
+export const DeleteButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.3rem;

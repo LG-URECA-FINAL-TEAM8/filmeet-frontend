@@ -1,12 +1,20 @@
-import {create} from "zustand";
+import { create } from "zustand";
 
 const useCommentStore = create((set) => ({
   isOpen: false,
+  modalType: null, 
   comment: "",
   commentData: null,
-  openModal: (data) =>
-    set({ isOpen: true, commentData: data, comment: data.comment || "" }),
-  closeModal: () => set({ isOpen: false, comment: "", commentData: null }),
+
+  openModal: (type, data) =>
+    set({
+      isOpen: true,
+      modalType: type,
+      commentData: data,
+      comment: data?.comment || "",
+    }),
+  closeModal: () =>
+    set({ isOpen: false, modalType: null, comment: "", commentData: null }),
   setComment: (newComment) => set({ comment: newComment }),
 }));
 

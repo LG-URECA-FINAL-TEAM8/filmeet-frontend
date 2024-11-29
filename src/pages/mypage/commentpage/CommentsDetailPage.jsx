@@ -15,7 +15,7 @@ const CommentsDetailPage = () => {
   
     return (
       <CommentDetailContainer>
-        <CommentHeader commentData={commentData} />
+        <CommentHeader commentData={commentData} initialLikeCount={commentData.likeCount} />
         <CommentBody commentData={commentData} />
       </CommentDetailContainer>
     );

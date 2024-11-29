@@ -3,13 +3,12 @@ import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
 import SvgIcReplyFilled24 from "../../../assets/svg/IcReplyFilled24";
 import { comments } from "../../../data/comments";
 import { useNavigate } from "react-router-dom";
+import { createProfileClickHandler } from "../../../utils/ratings/navigationHandlers";
 
 const Comment = () => {
   const navigate = useNavigate();
-
-  const handleProfileClick = (userId) => {
-    navigate(`/mypage`);
-  };
+  
+  const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
 
   const handleCommentClick = (commentId) => {
     navigate(`/mypage/comments/${commentId}`);
@@ -19,7 +18,7 @@ const Comment = () => {
     <>
       {comments.map((item) => (
         <S.Card key={item.id}>
-          <S.ProfileSection onClick={() => handleProfileClick(item.userId)}>
+          <S.ProfileSection onClick={handleProfileClick}> {/* item.userId */}
             <S.ProfileImage src={item.userImage} alt={`${item.userName}`} />
             <S.Nickname>{item.userName}</S.Nickname>
           </S.ProfileSection>

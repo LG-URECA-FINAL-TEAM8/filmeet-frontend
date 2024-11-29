@@ -2,16 +2,25 @@ import styled from "styled-components";
 import SvgIcLikeFilled24 from "../../assets/svg/IcLikeFilled24";
 import SvgComment from "../../assets/svg/Comment";
 import { pagecontents } from "../../data/pagecontents"
+import useLikesStore from "../../store/comment/useLikesStore";
 
-const CommentBody = () => {
+const CommentBody = ({ commentId, initialLikeCount }) => {
+  const { likes, toggleLike } = useLikesStore();
   const { like, comment } = pagecontents.commentPageContent;
+
+  const commentLikes = likes[commentId] || { count: initialLikeCount || 0, isLiked: false };
+
+  const handleLikeClick = () => {
+    toggleLike(commentId, initialLikeCount); // 상태 업데이트
+    console.log("Updated likes:", likes[commentId]);
+  };
 
   return (
     <Body>
-      <ActionContainer>
+      <ActionContainer onClick={handleLikeClick}>
         <Action>
           <SvgIcLikeFilled24 />
-          {like}
+          {like} {commentLikes.count}
         </Action>
       </ActionContainer>
       <Divider />
@@ -32,8 +41,8 @@ export const Body = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.color.mainColor};
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: ${(props) => props.theme.font.borderDefault};
+  border-bottom: ${(props) => props.theme.font.borderDefault};
 `;
 
 export const ActionContainer = styled.div`
@@ -48,7 +57,7 @@ export const ActionContainer = styled.div`
   &:hover {
     background-color: ${(props) => props.theme.color.commentColor};
     border-radius: 0.3rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.12rem 0.37rem rgba(0, 0, 0, 0.2);
   }
 `;
 

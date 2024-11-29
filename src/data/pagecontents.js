@@ -29,7 +29,8 @@ export const pagecontents = {
   },
 
   commentPageContent: {
-    likeComment: "가장 먼저 좋아요를 누르세요",
+    likeComment: "좋아요",
+    likeCount: "0",
     comment: "댓글",
     like: "좋아요",
     edit: "수정",
