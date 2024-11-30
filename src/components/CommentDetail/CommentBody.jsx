@@ -16,7 +16,7 @@ const CommentBody = ({ commentData }) => {
   };
 
   const handleCommentClick = () => {
-    openModal("comment", commentData);
+    openModal("comment", { title: commentData.title, content: "" });
   };
 
   return (

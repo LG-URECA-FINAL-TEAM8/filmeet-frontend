@@ -1,14 +1,28 @@
 import ReactModal from "react-modal";
-import useCommentStore from "../../../store/modal/useCommentStore";
 import styled from "styled-components";
+import useCommentStore from "../../../store/modal/useCommentStore";
 
+const MODALTEXTS = {
+  modalTitle: "알림",
+  deleteComment: "댓글을 삭제하시겠어요?",
+  deleteCommentary: "코멘트를 삭제하시겠어요?",
+  cancel: "취소",
+  confirm: "확인",
+};
 
 ReactModal.setAppElement("#root");
 
-const CommentDeleteModal = () => {
-  const { isOpen, modalType, closeModal } = useCommentStore();
+const CommentDeleteModal = ({ onConfirm }) => {
+  const { isOpen, modalType, commentData, closeModal } = useCommentStore();
 
-  if (!isOpen || modalType !== "delete") return null;
+  if (!isOpen || !["deleteComment", "deleteCommentary"].includes(modalType)) return null;
+
+  const handleConfirm = () => {
+    if (onConfirm) {
+      onConfirm(commentData);
+    }
+    closeModal();
+  };
 
   return (
     <ReactModal
@@ -19,57 +33,52 @@ const CommentDeleteModal = () => {
           backgroundColor: "rgba(0, 0, 0, 0.6)",
         },
         content: {
-          width: "280px",
-          height: "120px",
+          width: "17.5rem",
+          height: "7.5rem",
           margin: "auto",
-          borderRadius: "10px",
-          padding: "20px 0 0 0",
+          borderRadius: "0.62rem",
+          padding: "1.25rem 0 0 0",
           overflow: "hidden",
         },
       }}
     >
       <Container>
-        <Title>알림</Title>
-        <Comment>코멘트를 삭제하시겠어요?</Comment>
-        <ButtonsContent>
-          <CancelButton onClick={closeModal}>취소</CancelButton>
+        <Title>{MODALTEXTS.modalTitle}</Title>
+        <Message>{MODALTEXTS[modalType]}</Message>
+        <ButtonGroup>
+          <CancelButton onClick={closeModal}>{MODALTEXTS.cancel}</CancelButton>
           <Divider />
-          <ConfirmButton>확인</ConfirmButton>
-        </ButtonsContent>
+          <ConfirmButton onClick={handleConfirm}>{MODALTEXTS.confirm}</ConfirmButton>
+        </ButtonGroup>
       </Container>
     </ReactModal>
   );
 };
 
+export default CommentDeleteModal;
+
 const Container = styled.div`
-  width: 240px;
+  width: 15rem;
   text-align: center;
-  margin: 0 20px 0 20px;
+  margin: 0 1.25rem;
 `;
 
 const Title = styled.h2`
-  font-size: 1.2rem;
-  font-weight: bold;
-  width: 240px;
-  height: 24px;
-  margin: 0 0 0 0;
   font-family: ${(props) => props.theme.font.fontSuitBold};
+  font-weight: ${(props) => props.theme.font.fontWeightBold};
+  font-size: 1.1rem;
+  margin: 0;
 `;
 
-const Comment = styled.div`
-  width: 240px;
-  height: 20px;
-  padding: 0 0 24px 0;
-  margin: 8px 0 0 0;
-  font-size: 15px;
-  color: #333;
-  line-height: 20px;
+const Message = styled.div`
   font-family: ${(props) => props.theme.font.fontSuitRegular};
+  font-size: 0.9rem;
+  color: ${(props) => props.theme.color.fontGray};
+  margin: 0.5rem 0 1.5rem;
 `;
 
-const ButtonsContent = styled.div`
-  width: 240px;
-  height: 44px;
+const ButtonGroup = styled.div`
+  width: 15rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -78,32 +87,28 @@ const ButtonsContent = styled.div`
 
 const CancelButton = styled.button`
   flex: 1;
-  font-size: 16px;
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
+  font-size: 1rem;
   color: ${(props) => props.theme.color.fontPink};
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0 0 0 0;
-  margin: 11px 0px;
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
+  margin: 0.69rem 0;
 `;
 
 const Divider = styled.div`
-  width: 1px;
-  height: 50%;
-  background-color: #ddd;
+  width: 0.1rem;
+  height: 1.5rem;
+  background-color: ${(props) => props.theme.color.commentColor};
 `;
 
 const ConfirmButton = styled.button`
   flex: 1;
-  font-size: 16px;
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
+  font-size: 1rem;
   color: ${(props) => props.theme.color.fontPink};
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0 0 0 0;
-  margin: 11px 0px;
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
+  margin: 0.69rem 0;
 `;
-
-export default CommentDeleteModal;

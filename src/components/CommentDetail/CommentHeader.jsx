@@ -23,7 +23,7 @@ const CommentHeader = ({ commentData }) => {
   };
 
   const handleDeleteClick = () => {
-    openModal("delete", commentData); 
+    openModal("deleteCommentary"); 
   };
 
 return (

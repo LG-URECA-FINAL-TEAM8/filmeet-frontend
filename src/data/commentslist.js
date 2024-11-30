@@ -4,7 +4,7 @@ export const commentslist = [
       userName: "홍길동",
       userImage: "https://via.placeholder.com/30",
       time: "5분 전",
-      content: "오늘 또 봐야지",
+      content: "와우",
       like: "좋아요",
     },
     {

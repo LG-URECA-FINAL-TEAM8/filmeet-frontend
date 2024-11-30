@@ -11,11 +11,15 @@ const useCommentStore = create((set) => ({
       isOpen: true,
       modalType: type,
       commentData: data,
-      comment: type === "comment" ? "" : data?.comment || "",
+      comment: data?.content || "", 
     }),
+
   closeModal: () =>
     set({ isOpen: false, modalType: null, comment: "", commentData: null }),
+
   setComment: (newComment) => set({ comment: newComment }),
+
+  clearComment: () => set({ comment: "", commentData: null }),
 }));
 
 export default useCommentStore;
