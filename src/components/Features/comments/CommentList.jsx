@@ -2,9 +2,14 @@ import styled from "styled-components";
 import SvgOption from "../../../assets/svg/Option";
 import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
 import { useLikesStore } from "../../../store/comment/useLikesStore";
+import { useMenuStore } from "../../../store/comment/useMenuStore";
+import useCommentStore from "../../../store/modal/useCommentStore";
+
 
 const CommentList = ({ comments }) => {
   const { likes, toggleLike } = useLikesStore();
+  const { openMenuId, openMenu, closeMenu } = useMenuStore();
+  const { openModal } = useCommentStore();
 
   if (!comments || comments.length === 0) {
     return <NoCommentMessage>댓글이 없습니다.</NoCommentMessage>;
@@ -14,10 +19,29 @@ const CommentList = ({ comments }) => {
     toggleLike(`list-${id}`);
   };
 
+  const handleMenuToggle = (id) => {
+    if (openMenuId === id) {
+      closeMenu();
+    } else {
+      openMenu(id);
+    }
+  };
+
+  const handleEditClick = (comment) => {
+    openModal("edit", {...comment});
+    closeMenu();
+  };
+
+  const handleDeleteClick = (comment) => {
+    openModal("delete", {...comment});
+    closeMenu();
+  };
+
   return (
     <CommentContainer>
       {comments.map((comment) => {
         const commentLikes = likes[`list-${comment.id}`] || { count: 0, isLiked: false };
+        const isMenuOpen = openMenuId === comment.id;
 
         return (
           <CommentWrapper key={comment.id}>
@@ -36,7 +60,13 @@ const CommentList = ({ comments }) => {
                     {commentLikes.count}
                   </LikeSection>
                   <SvgOptionWrapper>
-                    <SvgOption />
+                    <SvgOption onClick={() => handleMenuToggle(comment.id)} />
+                    {isMenuOpen && (
+                      <OptionsMenu>
+                        <MenuItem onClick={() => handleEditClick(comment)}>댓글 수정</MenuItem>
+                        <MenuItem onClick={() => handleDeleteClick(comment)}>댓글 삭제</MenuItem>
+                      </OptionsMenu>
+                    )}
                   </SvgOptionWrapper>
                 </ActionRow>
               </CommentContent>
@@ -47,6 +77,8 @@ const CommentList = ({ comments }) => {
     </CommentContainer>
   );
 };
+
+export default CommentList;
 
 const CommentContainer = styled.ul`
   display: flex;
@@ -135,6 +167,7 @@ const LikeSection = styled.div`
 `;
 
 const SvgOptionWrapper = styled.div`
+  position: relative;
   width: 20px;
   height: 20px;
   display: flex;
@@ -145,6 +178,28 @@ const SvgOptionWrapper = styled.div`
     width: 1rem;
     height: 1rem;
     color: ${(props) => props.theme.color.fontGray};
+    cursor: pointer;
+  }
+`;
+
+const OptionsMenu = styled.div`
+  position: absolute;
+  top: 1.5rem;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100px;
+  z-index: 10;
+`;
+
+const MenuItem = styled.div`
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  &:hover {
+    background-color: #f2f2f2;
   }
 `;
 
@@ -159,5 +214,3 @@ export const StyledSvgIcLikeFilled24 = styled(SvgIcLikeFilled24)`
   height: 1rem;
   color: ${(props) => (props.isLiked ? props.theme.color.fontPink : props.theme.color.fontGray)};
 `;
-
-export default CommentList;

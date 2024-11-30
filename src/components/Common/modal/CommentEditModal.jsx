@@ -25,7 +25,6 @@ const CommentEditModal = ({ onSubmit }) => {
     return "";
   };
   
-
   return (
     <ReactModal
       isOpen={isOpen}

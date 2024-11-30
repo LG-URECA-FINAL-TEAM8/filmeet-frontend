@@ -9,10 +9,10 @@ const CommentBody = ({ commentData }) => {
   const { likes, toggleLike } = useLikesStore();
   const { like, comment } = pagecontents.commentPageContent;
   const { openModal } = useCommentStore();
-  const commentLikes = likes[`body-${commentData.id}`] || { count: 0, isLiked: false };
+  const commentLikes = likes[commentData.id] || { count: 0, isLiked: false };
 
   const handleLikeClick = () => {
-    toggleLike(`body-${commentData.id}`); // body prefix를 추가하여 구분
+    toggleLike(commentData.id);
   };
 
   const handleCommentClick = () => {
