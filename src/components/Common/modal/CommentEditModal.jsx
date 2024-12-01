@@ -8,8 +8,6 @@ ReactModal.setAppElement("#root");
 const CommentEditModal = ({ onSubmit }) => {
   const { isOpen, modalType, commentData, comment, closeModal, setComment } = useCommentStore();
 
-  console.log(commentData)
-
   useEffect(() => {
     if ((modalType === "edit" || modalType === "comment") && isOpen && commentData?.comment) {
       setComment(commentData.comment);

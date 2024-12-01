@@ -2,6 +2,11 @@ import { useRef, useEffect } from "react";
 import styled from "styled-components";
 import useMenuStore from "../../store/comment/useMenuStore";
 
+const TEXTS = {
+  edit: "댓글 수정",
+  delete: "댓글 삭제",
+};
+
 const CommentOptions = ({ commentId }) => {
   const { openMenuId, openMenu, closeMenu, handleDocumentClick } = useMenuStore();
   const menuRef = useRef();
@@ -26,11 +31,11 @@ const CommentOptions = ({ commentId }) => {
 
   return (
     <Wrapper ref={menuRef}>
-      <MenuButton onClick={toggleMenu}>...</MenuButton>
+      <MenuButton onClick={toggleMenu}></MenuButton>
       {isOpen && (
         <OptionsMenu>
-          <MenuItem>댓글 수정</MenuItem>
-          <MenuItem>댓글 삭제</MenuItem>
+          <MenuItem>{TEXTS.edit}</MenuItem>
+          <MenuItem>{TEXTS.delete}</MenuItem>
         </OptionsMenu>
       )}
     </Wrapper>
@@ -55,11 +60,11 @@ const OptionsMenu = styled.div`
   position: absolute;
   top: 1.5rem;
   right: 0;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100px;
+  background: ${(props) => props.theme.color.mainColor};
+  border: 0.06rem solid #ccc;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.25rem 0.37rem rgba(0, 0, 0, 0.1);
+  width: 6.25rem;
   z-index: 10;
 `;
 
@@ -68,6 +73,6 @@ const MenuItem = styled.div`
   font-size: 0.9rem;
   cursor: pointer;
   &:hover {
-    background-color: #f2f2f2;
+    background-color: ${(props) => props.theme.color.commentColor};
   }
 `;

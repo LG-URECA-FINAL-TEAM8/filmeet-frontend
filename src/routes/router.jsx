@@ -9,7 +9,6 @@ import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
 import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
 import CommentsDetailPage from '../pages/mypage/commentpage/CommentsDetailPage';
 
-
 const router = createBrowserRouter([
   {
     path: '/',
