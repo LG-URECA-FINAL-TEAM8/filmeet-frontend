@@ -1,22 +1,13 @@
 import styled from 'styled-components';
-import { useSignUp } from '../../../apis/auth/queries';
+import { useSignUp, useLogin } from '../../../apis/auth/queries';
+import { handleAuthClick } from '../../../utils/auth/authHandler';
 const AuthButton = ({ value, userData, onClose }) => {
-  const signupMutate = useSignUp();
+  const { mutate: signupMutate } = useSignUp();
+  const { mutate: loginMutate } = useLogin();
 
   const handleClick = () => {
-    if (userData && value === '회원가입') {
-      signupMutate.mutate(userData, {
-        onSuccess: () => {
-          alert('회원가입에 성공하셨습니다.');
-          onClose();
-        },
-        onError: () => {
-          alert('회원가입에 실패했습니다. 다시 시도해주세요.');
-        },
-      });
-    }
+    handleAuthClick(value, userData, onClose, signupMutate, loginMutate);
   };
-
   return <S.StyledButton onClick={handleClick}>{value}</S.StyledButton>;
 };
 
