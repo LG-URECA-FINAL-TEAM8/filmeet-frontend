@@ -1,7 +1,11 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import Poster from "../Common/poster/Poster";
 import SvgOption from "../../assets/svg/Option";
 import useCollectionsMenuStore from "../../store/collections/useCollectionsMenuStore";
+import useCollectionsDeleteStore from "../../store/collections/useCollectionsDeleteStore";
+import CollectionsDeleteModal from "../Common/modal/CollectionsDeleteModal";
+import useCollectionsStore from "../../store/collections/useCollectionsStore";
 
 const CollectionsLabel = {
   Like: "좋아요",
@@ -9,10 +13,20 @@ const CollectionsLabel = {
   NoData: "데이터를 불러올 수 없습니다.",
   Movies: "작품들",
   count: "0",
+  Delete: "삭제",
+  Edit: "수정하기",
 };
 
 const CollectionDetail = ({ collectionData }) => {
+  const navigate = useNavigate();
+  const { setSelectedCollection, selectedCollection } = useCollectionsStore();  // 선택된 컬렉션 가져오기
   const { openMenuId, isOpen, openMenu, closeMenu } = useCollectionsMenuStore();
+  const { openModal } = useCollectionsDeleteStore();
+
+  const handleEditClick = () => {
+    setSelectedCollection(collectionData); // 선택된 컬렉션 상태 설정
+    navigate(`/mypage/collections/${collectionData.id}/edit`); // 수정 페이지로 이동
+  };
 
   if (!collectionData) {
     return <div>{CollectionsLabel.NoData}</div>;
@@ -36,6 +50,12 @@ const CollectionDetail = ({ collectionData }) => {
     }
   };
 
+  const handleDeleteClick = () => {
+    setSelectedCollection(collectionData); // 선택된 컬렉션 저장
+    openModal(); // 모달 열기
+    closeMenu(); // 메뉴 닫기
+  };
+
   return (
     <S.Container>
       <S.Header backgroundImage={bannerImage}>
@@ -49,11 +69,11 @@ const CollectionDetail = ({ collectionData }) => {
         </S.MoreOptions>
         {isOpen && openMenuId === collectionData.id && (
           <S.DropdownMenu>
-            <S.DropdownItem onClick={() => {  }}>
-              수정
+            <S.DropdownItem onClick={handleDeleteClick}>
+              {CollectionsLabel.Delete}
             </S.DropdownItem>
-            <S.DropdownItem onClick={() => {  }}>
-              삭제
+            <S.DropdownItem onClick={handleEditClick}>
+              {CollectionsLabel.Edit}
             </S.DropdownItem>
           </S.DropdownMenu>
         )}
@@ -74,11 +94,15 @@ const CollectionDetail = ({ collectionData }) => {
         </S.SectionHeader>
         <Poster caseType={4} movies={movies} />
       </S.MoviesSection>
+
+      {/* 삭제 모달 렌더링 */}
+      <CollectionsDeleteModal />
     </S.Container>
   );
 };
 
 export default CollectionDetail;
+
 const S = {
   Container: styled.div`
     width: 40rem;
@@ -233,19 +257,22 @@ const S = {
     font-size: 1rem;
   `,
 
-  DropdownMenu: styled.div`
-    position: absolute;
-    top: 2.5rem;
-    right: 1rem;
-    background: ${(props) => props.theme.color.mainColor};
-    box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
-    border-radius: 0.3rem;
-    z-index: 10;
-  `,
+DropdownMenu: styled.div`
+position: absolute;
+top: 2.5rem;
+right: 1rem;
+background: ${(props) => props.theme.color.mainColor};
+box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
+border-radius: 0.3rem;
+z-index: 10;
+`,
 
-  DropdownItem: styled.div`
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-  `,
+DropdownItem: styled.div`
+padding: 0.5rem 1rem;
+cursor: pointer;
+
+&:hover {
+  background: ${(props) => props.theme.color.collectionColor}; /* 호버 시 배경색 변경 */
+}
+`,
 };
-

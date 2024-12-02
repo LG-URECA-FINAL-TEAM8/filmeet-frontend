@@ -2,7 +2,6 @@ import { create } from "zustand";
 import collectionsData from "../../data/collections";
 
 const useCollectionsStore = create((set) => ({
-
   collections: collectionsData,
 
   isCreating: false,
@@ -53,6 +52,7 @@ const useCollectionsStore = create((set) => ({
         ),
       ],
     })),
+
   toggleMovieSelection: (movie) =>
     set((state) => ({
       tempSelectedMovies: state.tempSelectedMovies.find(
@@ -63,6 +63,7 @@ const useCollectionsStore = create((set) => ({
           )
         : [...state.tempSelectedMovies, movie],
     })),
+
   confirmTempSelectedMovies: () =>
     set((state) => ({
       selectedMovies: [
@@ -80,6 +81,7 @@ const useCollectionsStore = create((set) => ({
         ? state.moviesToRemove.filter((id) => id !== movieId)
         : [...state.moviesToRemove, movieId],
     })),
+
   removeSelectedMovies: () =>
     set((state) => ({
       selectedMovies: state.selectedMovies.filter(
@@ -101,6 +103,13 @@ const useCollectionsStore = create((set) => ({
 
   enableEditMode: () => set({ isEditing: true }),
   disableEditMode: () => set({ isEditing: false }),
+
+  // -------------------- 추가된 부분 --------------------
+  selectedCollection: null, // 선택된 컬렉션 상태 추가
+
+  // 선택된 컬렉션을 설정하는 함수 추가
+  setSelectedCollection: (collection) => set({ selectedCollection: collection }),
+  // ------------------------------------------------------
 }));
 
 export default useCollectionsStore;

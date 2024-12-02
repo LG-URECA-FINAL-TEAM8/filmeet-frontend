@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import MovieSearchModal from "../Common/modal/MovieSearchModal";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
+import { useEffect } from "react";
 
 const CollectionsLabel = {
-  NewCollection: "새 컬렉션",
-  Create: "만들기",
+  EditCollection: "컬렉션 수정",
+  Create: "수정 완료",
   CollectionTitlePlaceholder: "컬렉션 제목",
   CollectionDescriptionPlaceholder: "설명을 입력하기..",
   Movies: "작품들",
@@ -15,6 +16,7 @@ const CollectionsLabel = {
 
 const EditCollection = () => {
   const {
+    selectedCollection, // 선택된 컬렉션 데이터
     title,
     description,
     selectedMovies,
@@ -34,6 +36,13 @@ const EditCollection = () => {
     confirmTempSelectedMovies,
   } = useCollectionsStore();
 
+  useEffect(() => {
+    if (selectedCollection) {
+      setTitle(selectedCollection.name); // 선택된 컬렉션 이름 설정
+      setDescription(selectedCollection.description); // 선택된 컬렉션 설명 설정
+    }
+  }, [selectedCollection, setTitle, setDescription]);
+
   const handleSaveCollection = () => {
     if (title.trim()) {
       addCollection({
@@ -46,11 +55,14 @@ const EditCollection = () => {
     }
   };
 
+  // 입력 필드에 내용이 있는지 확인
+  const hasContent = title.trim() !== "" || description.trim() !== "";
+
   return (
     <S.Container>
       <S.HeaderContainer>
-        <S.Header>{CollectionsLabel.NewCollection}</S.Header>
-        <S.SaveButton onClick={handleSaveCollection}>
+        <S.Header>{CollectionsLabel.EditCollection}</S.Header>
+        <S.SaveButton hasContent={hasContent} onClick={handleSaveCollection}>
           {CollectionsLabel.Create}
         </S.SaveButton>
       </S.HeaderContainer>
@@ -151,12 +163,21 @@ const S = {
     padding: 0.3rem 0.9rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
-    color: ${(props) => props.theme.color.collectionColor};
+    color: ${(props) =>
+      props.hasContent ? props.theme.color.fontPink : props.theme.color.collectionColor};
     background-color: transparent;
-    border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
+    border: 0.1rem solid
+      ${(props) =>
+        props.hasContent ? props.theme.color.fontPink : props.theme.color.collectionColor};
     border-radius: 0.3rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+
+    /* 추가: 호버 시 색상 변경 */
+    &:hover {
+      background-color: ${(props) =>
+        props.hasContent ? props.theme.color.fontPink + "20" : "transparent"}; /* 20은 투명도 */
+    }
   `,
 
   InputContainer: styled.div`
@@ -208,15 +229,15 @@ const S = {
   SectionHeader: styled.div`
     display: flex;
     justify-content: space-between;
-    font-family: ${(props) => props.theme.font.fontSuitBold}; 
+    font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 1.4rem;
     color: ${(props) => props.theme.color.fontBlack};
   `,
 
   MoviesGrid: styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(6.1rem, 1fr)); 
-    gap:  0.6rem; 
+    grid-template-columns: repeat(auto-fill, minmax(6.1rem, 1fr));
+    gap: 0.6rem;
     margin-top: 1.5rem;
   `,
 
@@ -226,16 +247,16 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 6.25rem; 
-    height: 8.9rem; 
+    width: 6.25rem;
+    height: 8.9rem;
     border-radius: 0.3rem;
     cursor: pointer;
     text-align: center;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
-    border: 0.1rem solid ${(props) => props.theme.color.collectionColor}; 
-    background-color: ${(props) => props.theme.color.commentColor}; 
-    color: ${(props) => props.theme.color.collectionColor}; 
-   `,
+    border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
+    background-color: ${(props) => props.theme.color.commentColor};
+    color: ${(props) => props.theme.color.collectionColor};
+  `,
 
   PlusSign: styled.div`
     font-size: 3rem;
@@ -254,24 +275,24 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 6.25rem; 
+    width: 6.25rem;
     border-radius: 0.3rem;
     overflow: hidden;
     text-align: center;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
-    margin: 0 auto;  
+    margin: 0 auto;
   `,
 
   ThumbnailImage: styled.img`
     width: 100%;
-    height: 8.9rem; 
+    height: 8.9rem;
     object-fit: cover;
     border-radius: 0.3rem;
   `,
 
   ThumbnailTitle: styled.div`
-    margin-top: 0.4rem; 
-    font-size: 0.9rem; 
+    margin-top: 0.4rem;
+    font-size: 0.9rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     color: ${(props) => props.theme.color.fontBlack};
     text-align: center;
@@ -283,13 +304,13 @@ const S = {
 
   RemoveIcon: styled.div`
     position: absolute;
-    top: 0; 
-    right: 0; 
+    top: 0;
+    right: 0;
     font-size: 1rem;
     color: ${(props) => props.theme.color.fontPink};
     cursor: pointer;
-    padding: 0.3rem;  
-`,
+    padding: 0.3rem;
+  `,
 
   EditButton: styled.button`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
