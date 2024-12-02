@@ -1,61 +1,59 @@
-import React from "react";
 import styled from "styled-components";
 import { lightTheme } from "../../styles/themes";
-import useCollectionsStore from "../../store/collections/useCollectionsStore";
+import { useNavigate } from "react-router-dom";
 
 const CollectionsOverview = () => {
-  const { setIsCreating } = useCollectionsStore();
+  const navigate = useNavigate();
 
-  const handleAddCollection = () => {
-    setIsCreating(true);
-  };
-  const Collectionslabel = {
+  const CollectionsLabel = {
     CollectionManagement: "컬렉션",
     AddCollections: "새 컬렉션 추가",
   };
 
+  const handleAddClick = () => {
+    navigate("/mypage/collections/create");
+  }
+
   return (
-    <S.CollectionsContainer>
-      <S.CollectionsTitle>
-        {Collectionslabel.CollectionManagement}
-      </S.CollectionsTitle>
-      <S.NewCollectionButton onClick={handleAddCollection}>
-        {Collectionslabel.AddCollections}
-      </S.NewCollectionButton>
-    </S.CollectionsContainer>
+    <S.Container>
+      <S.Title>{CollectionsLabel.CollectionManagement}</S.Title>
+      <S.Button onClick={handleAddClick}>
+        {CollectionsLabel.AddCollections}
+      </S.Button>
+    </S.Container>
   );
 };
 
 export default CollectionsOverview;
 
 const S = {
-  CollectionsContainer: styled.section`
+  Container: styled.section`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 3rem;
+    margin: 1.5rem auto 3rem;
     max-width: 40rem;
-    margin: 0 auto;
     width: 100%;
-    margin-top: 1.5rem;
   `,
 
-  CollectionsTitle: styled.h1`
+  Title: styled.h1`
+    font-family: ${lightTheme.fontSuitBold};
     font-size: 1.5rem;
-    font-weight: ${lightTheme.fontWeightBold};
+    color: ${lightTheme.fontBlack};
     margin: 0;
   `,
 
-  NewCollectionButton: styled.button`
+  Button: styled.button`
     font-size: 1rem;
     color: ${lightTheme.fontPink};
     font-family: ${lightTheme.fontSuitRegular};
     background: none;
     border: none;
     cursor: pointer;
+    transition: color 0.3s ease;
 
     &:hover {
-      text-decoration: underline;
+      color: ${lightTheme.hoverPink};
     }
   `,
 };

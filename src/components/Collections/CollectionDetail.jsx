@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { lightTheme } from "../../styles/themes";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
@@ -30,12 +29,7 @@ const CollectionDetail = ({ collectionData }) => {
     likes = 0,
   } = collectionData;
 
-  
-
-  
-
   return (
-    <div>
       <S.Container>
         <S.Header backgroundImage={bannerImage}>
           <S.Overlay />
@@ -43,9 +37,7 @@ const CollectionDetail = ({ collectionData }) => {
             <S.ProfileImage src={profileImage} alt={`${name} 프로필`} />
             <S.UserName>{name}</S.UserName>
           </S.Profile>
-          <S.MoreOptions
-           
-          >
+          <S.MoreOptions>
             ⋮
           </S.MoreOptions>
         </S.Header>
@@ -70,7 +62,6 @@ const CollectionDetail = ({ collectionData }) => {
           </S.MoviesSection>
         </S.Content>
       </S.Container>
-    </div>
   );
 };
 
@@ -171,11 +162,11 @@ const S = {
   `,
 
   Divider: styled.div`
-   height: 0.1rem; 
-  background: ${lightTheme.fontGray}; 
-  margin: 1rem 0;
-  width: 100%; 
-`,
+    height: 0.1rem; 
+    background: ${lightTheme.fontGray}; 
+    margin: 1rem 0;
+    width: 100%; 
+  `,
 
   MoviesSection: styled.section`
     margin-top: 2rem;

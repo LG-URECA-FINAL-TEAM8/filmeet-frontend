@@ -41,12 +41,10 @@ const MovieSearchModal = ({ onAddMovies }) => {
       }));
   };
 
- 
   const handleMovieSelect = (movie) => {
     toggleMovieSelection(movie); 
   };
-
-  
+ 
   const handleAddMovies = () => {
     if (tempSelectedMovies.length > 0) {
       onAddMovies(tempSelectedMovies);
@@ -144,8 +142,7 @@ const S = {
     font-family: ${lightTheme.fontSuitRegular};
     font-size: 0.8rem;
     font-weight: ${lightTheme.fontWeightBold};
-    color: ${(props) =>
-      props.disabled ? lightTheme.fontGray : lightTheme.fontPink};
+    color: ${(props) => (props.disabled ? lightTheme.fontGray : lightTheme.fontPink)};
     cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
     user-select: none;
 

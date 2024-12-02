@@ -1,11 +1,10 @@
-import React from "react";
 import styled from "styled-components";
-import useCollectionsStore from "../../store/collections/useCollectionsStore";
 import { lightTheme } from "../../styles/themes";
+import { useNavigate } from "react-router-dom";
 
-const CollectionList = ({ onSelectCollection }) => {
-  const { collections } = useCollectionsStore();
- 
+const CollectionList = ({ collections  }) => {
+  const navigate = useNavigate();
+
   const CollectionsLabel = {
     Like: "좋아요",
     Comment: "댓글",
@@ -17,7 +16,7 @@ const CollectionList = ({ onSelectCollection }) => {
         {collections.map((collection) => (
           <S.CollectionCard
             key={collection.id}
-            onClick={() => onSelectCollection(collection)}
+            onClick={() => navigate(`/mypage/collections/${collection.id}`)}
           >
             <S.ImageSection>
               <S.Image src={collection.image} />
