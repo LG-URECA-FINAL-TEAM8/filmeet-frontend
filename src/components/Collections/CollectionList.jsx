@@ -1,15 +1,14 @@
 import styled from "styled-components";
-import { lightTheme } from "../../styles/themes";
 import { useNavigate } from "react-router-dom";
 
-const CollectionList = ({ collections  }) => {
+const CollectionList = ({ collections }) => {
   const navigate = useNavigate();
 
   const CollectionsLabel = {
     Like: "좋아요",
     Comment: "댓글",
   };
-  
+
   return (
     <S.Wrapper>
       <S.ListContainer>
@@ -29,7 +28,8 @@ const CollectionList = ({ collections  }) => {
               </S.Overlay>
             </S.ImageSection>
             <S.CardContent>
-              <S.CollectionName>{collection.CollectionsName}</S.CollectionName>
+              {/* 컬렉션 이름 출력 */}
+              <S.CollectionName>{collection.collectionsName}</S.CollectionName>
               <S.Description>
                 {collection.description || "컬렉션 설명 없음"}
               </S.Description>
@@ -48,6 +48,7 @@ const CollectionList = ({ collections  }) => {
     </S.Wrapper>
   );
 };
+
 export default CollectionList;
 
 const S = {
@@ -65,18 +66,18 @@ const S = {
 
   CollectionCard: styled.div`
     width: 100%;
-    border: ${lightTheme.borderDefault};
+    border: ${(props) => props.theme.box.defaultBorder};
     border-radius: 0.5rem;
     overflow: hidden;
-    background: ${lightTheme.mainColor};
-    box-shadow: ${lightTheme.defaulBoxShadow};
+    background: ${(props) => props.theme.color.mainColor};
+    box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
   `,
 
   ImageSection: styled.div`
     position: relative;
     width: 100%;
     height: 18rem;
-    background: ${lightTheme.fontGray};
+    background: ${(props) => props.theme.color.fontGray};
   `,
 
   Image: styled.img`
@@ -94,7 +95,7 @@ const S = {
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
-    color: ${lightTheme.fontWhite};
+    color: ${(props) => props.theme.color.mainColor};
   `,
 
   Profile: styled.div`
@@ -107,26 +108,26 @@ const S = {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    border: ${lightTheme.borderDefault};
+    border: ${(props) => props.theme.box.defaultBorder};
   `,
 
   ProfileName: styled.span`
+    font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 1rem;
-    font-weight: ${lightTheme.fontWeightBold};
-    color: ${lightTheme.fontWhite};
-    font-family: ${lightTheme.fontSuitBold};
+    font-weight: ${(props) => props.theme.font.fontWeightBold};
+    color: ${(props) => props.theme.color.mainColor};
   `,
 
   Badge: styled.div`
-    background: ${lightTheme.fontBlack};
-    color: ${lightTheme.fontWhite};
+    background: ${(props) => props.theme.color.fontBlack};
+    color: ${(props) => props.theme.color.fontWhite};
+    font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 0.8rem;
     padding: 0.2rem 0.5rem;
     border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: ${lightTheme.fontSuitRegular};
   `,
 
   CardContent: styled.div`
@@ -134,16 +135,16 @@ const S = {
   `,
 
   CollectionName: styled.h2`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1.2rem;
     margin: 0;
-    color: ${lightTheme.fontBlack};
-    font-family: ${lightTheme.fontSuitBold};
+    color: ${(props) => props.theme.color.fontBlack};
   `,
 
   Description: styled.p`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
-    color: ${lightTheme.fontGray};
-    font-family: ${lightTheme.fontSuitRegular};
+    color: ${(props) => props.theme.color.fontGray};
   `,
 
   CardActions: styled.div`
@@ -151,8 +152,8 @@ const S = {
     justify-content: space-between;
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
-    color: ${lightTheme.fontGray};
-    border-top: ${lightTheme.borderDefault};
+    color: ${(props) => props.theme.color.fontGray};
+    border-top: ${(props) => props.theme.box.defaultBorder};
   `,
 
   Action: styled.div`
@@ -161,7 +162,7 @@ const S = {
     gap: 0.5rem;
 
     span {
-      font-weight: ${lightTheme.fontWeightMedium};
+      font-weight: ${(props) => props.theme.font.fontWeightBold};
     }
   `,
 };

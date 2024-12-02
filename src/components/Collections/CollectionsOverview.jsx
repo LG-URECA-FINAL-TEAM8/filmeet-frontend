@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { lightTheme } from "../../styles/themes";
 import { useNavigate } from "react-router-dom";
 
 const CollectionsOverview = () => {
@@ -37,23 +36,18 @@ const S = {
   `,
 
   Title: styled.h1`
-    font-family: ${lightTheme.fontSuitBold};
+    font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 1.5rem;
-    color: ${lightTheme.fontBlack};
     margin: 0;
   `,
 
   Button: styled.button`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
-    color: ${lightTheme.fontPink};
-    font-family: ${lightTheme.fontSuitRegular};
+    color: ${(props) => props.theme.color.fontPink};
     background: none;
     border: none;
     cursor: pointer;
     transition: color 0.3s ease;
-
-    &:hover {
-      color: ${lightTheme.hoverPink};
-    }
   `,
 };

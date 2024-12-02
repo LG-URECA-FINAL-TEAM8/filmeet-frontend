@@ -72,12 +72,12 @@ const S = {
     width: 100%;
     max-width: 50rem;
     margin: 2rem auto 0;
-    background: ${lightTheme.fontWhite};
-    border: 1px solid ${lightTheme.fontWhite};
+    background: ${(props) => props.theme.color.mainColor};
+    border: 1px solid ${(props) => props.theme.color.mainColor};
     border-radius: 0.5rem;
     padding: 2rem 1rem 1rem;
     overflow: hidden;
-    box-shadow: ${lightTheme.defaulBoxShadow};
+    box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
   `,
 
   Header: styled.div`
@@ -110,21 +110,21 @@ const S = {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    border: 0.1rem solid ${lightTheme.fontWhite};
+    border: 0.1rem solid ${(props) => props.theme.color.mainColor};
     margin-right: 0.5rem;
   `,
 
   UserName: styled.span`
-    font-size: 1.2rem;
-    color: ${lightTheme.fontWhite};
-    font-weight: bold;
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+    font-size: 1rem;
+    color: ${(props) => props.theme.color.mainColor};
   `,
 
   MoreOptions: styled.div`
     position: absolute;
     top: 1rem;
     right: 1rem;
-    color: ${lightTheme.fontWhite};
+    color: ${(props) => props.theme.color.mainColor};
     font-size: 1.5rem;
     cursor: pointer;
     z-index: 2;
@@ -137,23 +137,23 @@ const S = {
   CollectionTitle: styled.h1`
     font-size: 1.5rem;
     margin: 0 0 0.5rem;
-    color: ${lightTheme.fontBlack};
-    font-family: ${lightTheme.fontSuitBold};
+    color: ${(props) => props.theme.color.fontBlack};
+    font-family: ${(props) => props.theme.font.fontSuitBold};
   `,
 
   Description: styled.p`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
-    color: ${lightTheme.fontGray};
+    color: ${(props) => props.theme.color.fontGray};
     margin: 0.5rem 0 1rem;
-    font-family: ${lightTheme.fontSuitRegular};
   `,
 
   Stats: styled.span`
     display: block;
     margin-top: 0.5rem;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
-    color: ${lightTheme.fontGray};
-    font-family: ${lightTheme.fontSuitRegular};
+    color: ${(props) => props.theme.color.fontGray};
   `,
 
   ActionSection: styled.div`
@@ -163,7 +163,7 @@ const S = {
 
   Divider: styled.div`
     height: 0.1rem; 
-    background: ${lightTheme.fontGray}; 
+    background: ${(props) => props.theme.color.collectionColor}; 
     margin: 1rem 0;
     width: 100%; 
   `,
@@ -178,7 +178,7 @@ const S = {
 
   SectionTitle: styled.h2`
     font-size: 1.2rem;
-    font-family: ${lightTheme.fontSuitBold};
+    font-family: ${(props) => props.theme.font.fontSuitBold};
   `,
 
   MovieGrid: styled.section`
@@ -211,8 +211,8 @@ const S = {
     position: absolute;
     top: 2.5rem;
     right: 1rem;
-    background: ${lightTheme.fontWhite};
-    box-shadow: ${lightTheme.defaultBoxShadow};
+    background: ${(props) => props.theme.color.mainColor};
+    box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
     border-radius: 0.3rem;
     z-index: 10;
   `,
@@ -220,9 +220,5 @@ const S = {
   DropdownItem: styled.div`
     padding: 0.5rem 1rem;
     cursor: pointer;
-
-    &:hover {
-      background: ${lightTheme.lightGray};
-    }
   `,
 };

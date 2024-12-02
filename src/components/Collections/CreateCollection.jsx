@@ -144,12 +144,13 @@ const S = {
   `,
 
   Header: styled.h1`
-    font-size: 1.6rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
+    font-size: 1.6rem;
   `,
 
   SaveButton: styled.button`
     padding: 0.3rem 0.9rem;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
     color: ${(props) => props.theme.color.collectionColor};
     background-color: transparent;
@@ -157,7 +158,6 @@ const S = {
     border-radius: 0.3rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 
   InputContainer: styled.div`
@@ -173,18 +173,19 @@ const S = {
   `,
 
   Input: styled.input`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
     padding: 0.4rem 0 1.2rem;
     border: none;
     border-bottom: 0.1rem solid ${(props) => props.theme.color.collectionColor};
     outline: none;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
     &::placeholder {
       color: ${(props) => props.theme.color.collectionColor};
     }
   `,
 
   Textarea: styled.textarea`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
     padding: 0.4rem 0 7rem;
     border: none;
@@ -194,7 +195,6 @@ const S = {
     height: 3.8rem;
     line-height: 1;
 
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
     &::placeholder {
       color: ${(props) => props.theme.color.collectionColor};
     }
@@ -209,9 +209,9 @@ const S = {
   SectionHeader: styled.div`
     display: flex;
     justify-content: space-between;
+    font-family: ${(props) => props.theme.font.fontSuitBold}; 
     font-size: 1.4rem;
     color: ${(props) => props.theme.color.fontBlack};
-    font-family: ${(props) => props.theme.font.fontSuitBold}; 
   `,
 
   MoviesGrid: styled.div`
@@ -244,10 +244,10 @@ const S = {
   `,
 
   AddText: styled.div`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
     color: ${(props) => props.theme.color.collectionColor};
     margin-top: 0.3rem;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 
   MovieThumbnail: styled.div`
@@ -273,14 +273,13 @@ const S = {
   ThumbnailTitle: styled.div`
     margin-top: 0.4rem; 
     font-size: 0.9rem; 
-    font-weight: ${lightTheme.fontWeightMedium};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     color: ${(props) => props.theme.color.fontBlack};
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 
   RemoveIcon: styled.div`
@@ -294,12 +293,12 @@ const S = {
 `,
 
   EditButton: styled.button`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.8rem;
     color: ${(props) => props.theme.color.fontPink};
     border: none;
     background: none;
     cursor: pointer;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 
   RemoveButton: styled.button`
