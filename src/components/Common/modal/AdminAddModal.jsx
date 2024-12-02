@@ -193,11 +193,8 @@ const S = {
 
   UploadButton: styled(Button)({
     marginTop: '1rem',
-    backgroundColor: lightTheme.color.backgroundBlue,
+    backgroundColor: lightTheme.color.buttonPink,
     color: lightTheme.color.fontWhite,
-    '&:hover': {
-      backgroundColor: lightTheme.color.backgroundButtonBlue,
-    },
   }),
 
   TextField: styled(TextField)({
@@ -205,10 +202,7 @@ const S = {
   }),
 
   SaveButton: styled(Button)({
-    backgroundColor: lightTheme.color.backgroundBlue,
+    backgroundColor: lightTheme.color.buttonPink,
     color: lightTheme.color.fontWhite,
-    '&:hover': {
-      backgroundColor: lightTheme.color.backgroundButtonBlue,
-    },
   }),
 };
