@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { lightTheme } from '../../../styles/themes';
 import { IcLikeFilled24, IcReplyFilled24 } from '../../../assets/svg';
 
 const sampleData = [
@@ -82,7 +81,7 @@ const S = {
     padding: 1rem;
     max-height: 12rem;
     gap: 1rem;
-    border: ${lightTheme.defaultBorder};
+    border: ${({ theme }) => theme.box.defaultBorder};
   `,
 
   FeedUserSection: styled.div`
@@ -93,8 +92,8 @@ const S = {
     max-height: 1.25rem;
     .user__span {
       font-size: 1rem;
-      font-family: ${lightTheme.fontSuitRegular};
-      color: ${lightTheme.fontGray};
+      font-family: ${({ theme }) => theme.font.fontSuitRegular};
+      color: ${({ theme }) => theme.color.fontGray};
     }
   `,
 
@@ -120,6 +119,8 @@ const S = {
     width: 75%;
     height: auto;
     max-height: 5.5rem;
+    font-family: ${({ theme }) => theme.font.fontSuitRegular};
+    color: ${({ theme }) => theme.color.fontBlack};
   `,
 
   FeedStats: styled.div`
@@ -130,6 +131,8 @@ const S = {
     margin-top: 1rem;
     gap: 1rem;
     cursor: pointer;
+    font-family: ${({ theme }) => theme.font.fontSuitRegular};
+    color: ${({ theme }) => theme.color.fontBlack};
   `,
 };
 

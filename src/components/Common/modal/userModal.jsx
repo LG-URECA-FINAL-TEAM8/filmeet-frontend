@@ -1,79 +1,104 @@
 import ReactModal from 'react-modal';
 import useModalStore from '../../../store/modal/useModalStore';
-import { lightTheme } from '../../../styles/themes';
+import useAuthStore from '../../../store/auth/authStore';
 import styled from 'styled-components';
 import ModalInput from '../../Features/auth/ModalInput';
 import Authbutton from '../../Features/auth/Authbutton';
 import AuthTitle from '../../Features/auth/AuthTitle';
 import AuthMessage from '../../Features/auth/AuthMessage';
 import Authlink from '../../Features/auth/Authlink';
+
 ReactModal.setAppElement('#root');
 
 function UserModal() {
   const { isModalOpen, closeModal, modalTitle, modalMessage } = useModalStore();
-  const DividerText = ['OR'];
+  const { nickname, email, password, setNickname, setEmail, setPassword } = useAuthStore();
+
+  const userData = {
+    username: email,
+    password,
+    nickname,
+  };
 
   return (
     <ReactModal
       isOpen={isModalOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      contentLabel="User Modal"
-    >
-      <AuthTitle value="로그인" />
-      <S.Container>
-        <ModalInput type="email" placeholder="이메일" />
-        <ModalInput type="password" placeholder="비밀번호" />
-        <Authbutton value="로그인" />
-        <S.AuthWrapper>
-          <AuthMessage value="계정이 없으신가요?" />
-          <Authlink value="회원가입" />
-        </S.AuthWrapper>
-      </S.Container>
-      <S.Divider>
-        <S.Line />
-        <S.DividerText>{DividerText[0]}</S.DividerText>
-        <S.Line />
-      </S.Divider>
+      contentLabel="User Modal">
+      <AuthTitle value={modalTitle} />
+      <Container>
+        {modalTitle === '회원가입' && (
+          <ModalInput
+            type="text"
+            placeholder="닉네임"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+          />
+        )}
+        <ModalInput
+          type="email"
+          placeholder="이메일"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <ModalInput
+          type="password"
+          placeholder="비밀번호"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Authbutton value={modalTitle} userData={userData} />
+        <AuthWrapper>
+          <AuthMessage value={modalMessage} />
+          <Authlink value={modalTitle === '로그인' ? '회원가입' : '로그인'} />
+        </AuthWrapper>
+      </Container>
+      <Divider>
+        <Line />
+        <Dividertext>OR</Dividertext>
+        <Line />
+      </Divider>
     </ReactModal>
   );
 }
 
 export default UserModal;
 
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
-const S = {
-  Container: styled.section`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  `,
-  Divider: styled.section`
-    display: flex;
-    align-items: center;
-    margin: 1.5rem 0;
-    width: 100%;
-  `,
-  Line: styled.div`
-    flex: 1;
-    height: 0.1rem;
-    background-color: ${lightTheme.fontGray};
-  `,
-  DividerText: styled.div`
-    margin: 0 1rem;
-    font-size: 0.9rem;
-    color: ${lightTheme.fontGray};
-    font-family: ${lightTheme.fontSuitRegular};
-  `,
-  AuthWrapper: styled.section`
-    text-align: center;
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-  `,
-};
+const Divider = styled.section`
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  width: 100%;
+`;
+
+const Line = styled.div`
+  flex: 1;
+  height: 0.1rem;
+  background-color: ${(props) => props.theme.color.fontGray};
+`;
+
+const Dividertext = styled.div`
+  margin: 0 1rem;
+  font-size: 0.9rem;
+  color: ${(props) => props.theme.color.fontGray};
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
+`;
+
+const AuthWrapper = styled.section`
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+`;
 
 const customStyles = {
   overlay: {
@@ -93,7 +118,7 @@ const customStyles = {
     height: 'auto',
     padding: '1rem',
     borderRadius: '0.5rem',
-    boxShadow: `${lightTheme.defaulBoxShadow}`,
+    boxShadow: `0px 4px 8px rgba(0, 0, 0, 0.1)`,
     overflow: 'auto',
   },
 };
