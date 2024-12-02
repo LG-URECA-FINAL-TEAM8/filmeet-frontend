@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { lightTheme } from "../../styles/themes";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
 import Poster from "../Common/poster/Poster";
 
@@ -20,11 +19,11 @@ const CollectionDetail = ({ collectionData }) => {
   }
 
   const {
-    profileImage = "https://via.placeholder.com/48",
+    profileImage = "https://via.placeholder.com/38x38",
     name = "알 수 없음",
     collectionName = "제목 없음",
     description = "설명 없음",
-    bannerImage = "https://via.placeholder.com/800x200",
+    bannerImage = "https://via.placeholder.com/640x260",
     movies = [],
     likes = 0,
   } = collectionData;
@@ -46,21 +45,19 @@ const CollectionDetail = ({ collectionData }) => {
           <S.CollectionTitle>{collectionName}</S.CollectionTitle>
           <S.Description>
             {description}
+          </S.Description>
             <S.Stats>
               {CollectionsLabel.Like} {likes} {CollectionsLabel.count}{" "}
               {CollectionsLabel.Comment} 0개
             </S.Stats>
-          </S.Description>
-
+        </S.Content>
           <S.Divider />
-
           <S.MoviesSection>
             <S.SectionHeader>
               <S.SectionTitle>{CollectionsLabel.Movies}</S.SectionTitle>
             </S.SectionHeader>
             <Poster caseType={4} movies={movies} /> 
           </S.MoviesSection>
-        </S.Content>
       </S.Container>
   );
 };
@@ -69,20 +66,18 @@ export default CollectionDetail;
 
 const S = {
   Container: styled.div`
-    width: 100%;
-    max-width: 50rem;
-    margin: 2rem auto 0;
+    width: 40rem;
+    height: auto;
     background: ${(props) => props.theme.color.mainColor};
     border: 1px solid ${(props) => props.theme.color.mainColor};
     border-radius: 0.5rem;
-    padding: 2rem 1rem 1rem;
     overflow: hidden;
     box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
   `,
 
   Header: styled.div`
     position: relative;
-    height: 12.5rem;
+    height: 16rem;
     background-image: url(${(props) => props.backgroundImage});
     background-size: cover;
     background-position: center;
@@ -107,8 +102,8 @@ const S = {
   `,
 
   ProfileImage: styled.img`
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
     border: 0.1rem solid ${(props) => props.theme.color.mainColor};
     margin-right: 0.5rem;
@@ -131,29 +126,34 @@ const S = {
   `,
 
   Content: styled.div`
-    padding: 1rem;
+    width: 37.5rem;
+    height: 6rem;
+    margin: 0 1.25rem 0 1.25rem;
   `,
 
   CollectionTitle: styled.h1`
-    font-size: 1.5rem;
-    margin: 0 0 0.5rem;
-    color: ${(props) => props.theme.color.fontBlack};
-    font-family: ${(props) => props.theme.font.fontSuitBold};
+    height: 1.5rem;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1.1rem;
+    margin: 1rem 0 0.4rem 0;
   `,
 
   Description: styled.p`
+    height: 1.1rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 1rem;
+    font-size: 0.7rem;
     color: ${(props) => props.theme.color.fontGray};
-    margin: 0.5rem 0 1rem;
+    margin: 0 0 0 0;
+    line-height: 1.5rem;
   `,
 
   Stats: styled.span`
+    height: 1.1rem;
     display: block;
-    margin-top: 0.5rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontGray};
+    line-height: 1.1rem;
   `,
 
   ActionSection: styled.div`
@@ -162,10 +162,10 @@ const S = {
   `,
 
   Divider: styled.div`
+    width: 37.5rem; 
     height: 0.1rem; 
     background: ${(props) => props.theme.color.collectionColor}; 
-    margin: 1rem 0;
-    width: 100%; 
+    margin: 1rem 1.25rem 0 1.25rem;
   `,
 
   MoviesSection: styled.section`
@@ -193,8 +193,8 @@ const S = {
   `,
 
   MoviePoster: styled.img`
-    width: 9.4rem;
-    height: 14rem;
+    width: 40rem;
+    height: 16rem;
     object-fit: cover;
     border-radius: 0.5rem;
   `,

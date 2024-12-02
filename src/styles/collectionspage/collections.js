@@ -1,26 +1,11 @@
 import styled from "styled-components";
-import { lightTheme } from "../themes";
 
-export const PageContainer = styled.div`
-  width: 100%;
-  max-width: 75rem; 
-  margin: 0 auto;
-  padding: 1.25rem; 
-  min-height: 100vh;
+export const Wrapper = styled.div`
+  width: 120rem;
   display: flex;
   flex-direction: column;
-  background-color: ${lightTheme.fontWhite}
-`;
-
-export const ContentContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem; 
-`;
-
-export const CollectionItem = styled.div`
-  font-size: 1rem;
-  padding: 0.6rem; 
-  border: 0.1rem solid ${lightTheme.fontGray}; 
-  border-radius: 0.3rem; 
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3.5rem 0 3.5rem 0;
+  background-color: ${(props) => props.theme.color.background};
 `;
