@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 import { lightTheme } from '../../../styles/themes';
-
+import SvgImagePreview from '../../../assets/svg/ImagePreview';
 function AdminAddModal() {
   const {
     addModal,
@@ -27,11 +27,14 @@ function AdminAddModal() {
     saveButton: '저장',
   };
 
-  const { isOpen, title, image, genre, releaseDate } = addModal;
-  const genres = ['액션', '호러', '코미디', '드라마', 
-                  '스릴러', '로맨스', '범죄', '판타지',
-                  '미스터리','애니메이션', 'SF', '모험',
-                  '다큐', '뮤지컬', '가족', '느와르'
+  const { isOpen, title, genre, releaseDate } = addModal;
+  const genres = ['액션', '호러', '공포', '코미디',
+                  '코메디','드라마', '스릴러', '로맨스',
+                  '범죄', '판타지', '미스터리','애니',
+                  'SF', '어드벤쳐', '뮤직', '전쟁',
+                  '다큐', '뮤지컬', '가족', '느와르',
+                  '에로', '시대극', '사극', '멜로드라마',
+                  '멜로', '로맨틱'
                 ];
   
   const handleSave = () => {
@@ -55,13 +58,14 @@ function AdminAddModal() {
   if (!isOpen) return null;
 
   return (
-    <ModalOverlay onClick={handleOverlayClick}>
-      <StyledCard onClick={(e) => e.stopPropagation()}>
-        <StyledSubtitle>{modal.modalSubTitle}</StyledSubtitle>
-        <StyledCardContent>
-          <StyledImagePreview>
+    <S.ModalOverlay onClick={handleOverlayClick}>
+      <S.Card onClick={(e) => e.stopPropagation()}>
+        <S.Subtitle>{modal.modalSubTitle}</S.Subtitle>
+        <S.CardContent>
+        <S.ImagePreview>
+          {addModal.image ? (
             <img
-              src={image || 'https://via.placeholder.com/150'}
+              src={addModal.image}
               alt="Preview"
               style={{
                 width: '100%',
@@ -70,9 +74,12 @@ function AdminAddModal() {
                 objectFit: 'cover',
               }}
             />
-          </StyledImagePreview>
-          <StyledUploadTitle>{modal.uploadTitle}</StyledUploadTitle>
-          <StyledUploadSubtitle>{modal.uploadSubTitle}</StyledUploadSubtitle>
+          ) : (
+            <SvgImagePreview />
+            )}
+          </S.ImagePreview>
+          <S.UploadTitle>{modal.uploadTitle}</S.UploadTitle>
+          <S.UploadSubtitle>{modal.uploadSubTitle}</S.UploadSubtitle>
           <input
             accept="image/*"
             type="file"
@@ -81,12 +88,12 @@ function AdminAddModal() {
             onChange={handleImageUpload}
           />
           <label htmlFor="image-upload">
-            <UploadButton variant="contained" component="span">
+            <S.UploadButton variant="contained" component="span">
               {modal.uploadButton}
-            </UploadButton>
+            </S.UploadButton>
           </label>
-        </StyledCardContent>
-        <StyledTextField
+        </S.CardContent>
+        <S.TextField
           label="영화 제목"
           variant="outlined"
           fullWidth
@@ -94,7 +101,7 @@ function AdminAddModal() {
           onChange={(e) => setAddModalTitle(e.target.value)}
         />
         <Box sx={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-          <StyledTextField
+          <S.TextField
             select
             label="장르 선택"
             variant="outlined"
@@ -107,8 +114,8 @@ function AdminAddModal() {
                 {g}
               </MenuItem>
             ))}
-          </StyledTextField>
-          <StyledTextField
+          </S.TextField>
+          <S.TextField
             type="date"
             label="개봉일 선택"
             variant="outlined"
@@ -118,88 +125,90 @@ function AdminAddModal() {
             onChange={(e) => setAddModalReleaseDate(e.target.value)}
           />
         </Box>
-        <SaveButton variant="contained" fullWidth onClick={handleSave}>
+        <S.SaveButton variant="contained" fullWidth onClick={handleSave}>
           {modal.saveButton}
-        </SaveButton>
-      </StyledCard>
-    </ModalOverlay>
+        </S.SaveButton>
+      </S.Card>
+    </S.ModalOverlay>
   );
 }
 
 export default AdminAddModal;
 
-const ModalOverlay = styled(Box)({
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100vw',
-  height: '100vh',
-  backgroundColor: lightTheme.color.backgroundBlack,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  zIndex: 1300,
-});
+const S = {
+  ModalOverlay: styled(Box)({
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: lightTheme.color.backgroundBlack,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1300,
+  }),
 
-const StyledCard = styled(Card)({
-  width: '22rem',
-  padding: '2rem',
-  borderRadius: '0.5rem',
-  boxShadow: lightTheme.box.defaulBoxShadow,
-});
+  Card: styled(Card)({
+    width: '22rem',
+    padding: '2rem',
+    borderRadius: '0.5rem',
+    boxShadow: lightTheme.box.defaulBoxShadow,
+  }),
 
-const StyledSubtitle = styled(Typography)({
-  color: lightTheme.color.fontGray,
-  marginBottom: '1rem',
-});
+  Subtitle: styled(Typography)({
+    color: lightTheme.color.fontGray,
+    marginBottom: '1rem',
+  }),
 
-const StyledCardContent = styled(CardContent)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  border: lightTheme.box.defaultBorder,
-  borderRadius: '0.5rem',
-  padding: '2rem',
-  marginBottom: '2rem',
-});
+  CardContent: styled(CardContent)({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    border: lightTheme.box.defaultBorder,
+    borderRadius: '0.5rem',
+    padding: '2rem',
+    marginBottom: '2rem',
+  }),
 
-const StyledImagePreview = styled(Box)({
-  width: '4rem',
-  height: '4rem',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: lightTheme.color.mainColor,
-  borderRadius: '2rem',
-  marginBottom: '1rem',
-});
+  ImagePreview: styled(Box)({
+    width: '4rem',
+    height: '4rem',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: lightTheme.color.mainColor,
+    borderRadius: '2rem',
+    marginBottom: '1rem',
+  }),
 
-const StyledUploadTitle = styled(Typography)({
-  fontWeight: lightTheme.font.fontWeightBold,
-  marginBottom: '1rem',
-});
+  UploadTitle: styled(Typography)({
+    fontWeight: lightTheme.font.fontWeightBold,
+    marginBottom: '1rem',
+  }),
 
-const StyledUploadSubtitle = styled(Typography)({
-  color: lightTheme.color.fontGray,
-});
+  UploadSubtitle: styled(Typography)({
+    color: lightTheme.color.fontGray,
+  }),
 
-const UploadButton = styled(Button)({
-  marginTop: '1rem',
-  backgroundColor: lightTheme.color.backgroundBlue,
-  color: lightTheme.color.fontWhite,
-  '&:hover': {
-    backgroundColor: lightTheme.color.backgroundButtonBlue,
-  },
-});
+  UploadButton: styled(Button)({
+    marginTop: '1rem',
+    backgroundColor: lightTheme.color.backgroundBlue,
+    color: lightTheme.color.fontWhite,
+    '&:hover': {
+      backgroundColor: lightTheme.color.backgroundButtonBlue,
+    },
+  }),
 
-const StyledTextField = styled(TextField)({
-  marginBottom: '2rem',
-});
+  TextField: styled(TextField)({
+    marginBottom: '2rem',
+  }),
 
-const SaveButton = styled(Button)({
-  backgroundColor: lightTheme.color.backgroundBlue,
-  color: lightTheme.color.fontWhite,
-  '&:hover': {
-    backgroundColor: lightTheme.color.backgroundButtonBlue,
-  },
-});
+  SaveButton: styled(Button)({
+    backgroundColor: lightTheme.color.backgroundBlue,
+    color: lightTheme.color.fontWhite,
+    '&:hover': {
+      backgroundColor: lightTheme.color.backgroundButtonBlue,
+    },
+  }),
+};

@@ -23,27 +23,27 @@ function AdminPage() {
   };
 
   return (
-    <StyledPage>
+    <S.Page>
       <AdminHeaderComponent
         onMovieManagementClick={() => setPage('movieManagement')}
         onAddNewMovieClick={() => setPage('addNewMovie')}
         onLikeManagementClick={() => setPage('likeManagement')}
       />
-      <StyledContent>{renderPage()}</StyledContent>
-    </StyledPage>
+      <S.Content>{renderPage()}</S.Content>
+    </S.Page>
   );
 }
 
 export default AdminPage;
-
-const StyledPage = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  minHeight: '100vh',
-});
-
-const StyledContent = styled(Box)({
-  flex: 1,
-  padding: '2rem 0',
-  marginTop: '4rem',
-});
+const S = {
+  Page: styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  }),
+  Content: styled(Box)({
+    flex: 1,
+    padding: '2rem 0',
+    marginTop: '4rem',
+  })
+};

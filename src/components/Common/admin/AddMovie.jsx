@@ -12,11 +12,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
+import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 import AdminAddModal from '../modal/AdminAddModal';
-import AddButton from '../../../assets/svg/Add';
 import AvgRatingBadge from './AvgRatingBadge';
 
 function AddMovie() {
@@ -64,46 +64,47 @@ function AddMovie() {
   const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
 
   return (
-    <StyledContainer>
-      <StyledSearchBox>
-        <StyledTextField
+    <S.Container>
+      <S.SearchBox>
+        <S.SearchBarTextField
           fullWidth
           label="영화 검색"
           variant="outlined"
           onChange={(e) => handleSearch(e.target.value)}
         />
-      </StyledSearchBox>
-      <StyledTableContainer component={Paper}>
+      </S.SearchBox>
+      <S.TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <StyledTableHeadCell>{tableHeader.movieName}</StyledTableHeadCell>
-              <StyledTableHeadCell>{tableHeader.avgRating}</StyledTableHeadCell>
-              <StyledTableHeadCell>{tableHeader.Genre}</StyledTableHeadCell>
-              <StyledTableHeadCell>{tableHeader.releaseDate}</StyledTableHeadCell>
-              <StyledTableHeadCell>{tableHeader.buttonAdd}</StyledTableHeadCell>
+              <S.TableHeadCell>{tableHeader.movieName}</S.TableHeadCell>
+              <S.TableHeadCell>{tableHeader.avgRating}</S.TableHeadCell>
+              <S.TableHeadCell>{tableHeader.Genre}</S.TableHeadCell>
+              <S.TableHeadCell>{tableHeader.releaseDate}</S.TableHeadCell>
+              <S.TableHeadCell>{tableHeader.buttonAdd}</S.TableHeadCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {currentMovies.map((movie, index) => (
               <TableRow key={index}>
-                <StyledTableBodyCell>{movie.title}</StyledTableBodyCell>
-                <StyledTableBodyCell>
+                <S.TableBodyCell>{movie.title}</S.TableBodyCell>
+                <S.TableBodyCell>
                   <AvgRatingBadge count={movie.rating || 'N/A'} />
-                </StyledTableBodyCell>
-                <StyledTableBodyCell>{movie.genre || 'N/A'}</StyledTableBodyCell>
-                <StyledTableBodyCell>{movie.releaseDate || 'N/A'}</StyledTableBodyCell>
-                <StyledTableBodyCell>
-                  <AddButton
+                </S.TableBodyCell>
+                <S.TableBodyCell>{movie.genre || 'N/A'}</S.TableBodyCell>
+                <S.TableBodyCell>{movie.releaseDate || 'N/A'}</S.TableBodyCell>
+                <S.TableBodyCell>
+                  <PlaylistAddOutlinedIcon
                     onClick={() => handleAdd(movie)}
+                    style={{cursor: 'pointer', marginRight: '1rem'}}
                   />
-                </StyledTableBodyCell>
+                </S.TableBodyCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </StyledTableContainer>
-      <StyledPagination
+      </S.TableContainer>
+      <S.Pagination
         count={Math.ceil(movies.length / moviesPerPage)}
         page={currentPage}
         onChange={handlePageChange}
@@ -114,57 +115,62 @@ function AddMovie() {
           onClose={closeAddModal}
         />
       )}
-    </StyledContainer>
+    </S.Container>
   );
 }
 
 export default AddMovie;
 
-const StyledContainer = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: '1rem',
-  padding: '1rem',
-});
 
-const StyledTextField = styled(TextField) ({
-  height: '2rem',
-  marginLeft: '6rem',
-  '& .MuiInputBase-root': {
-    height: '3rem',
-  },
-});
+const S = {
+  Container: styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '1rem',
+    padding: '1rem',
+  }),
 
-const StyledSearchBox = styled(Box)({
-  width: '100%',
-  maxWidth: '20rem',
-  marginBottom: '0.5rem',
-  marginLeft: '49rem',
-});
+  SearchBox: styled(Box)({
+    width: '100%',
+    maxWidth: '20rem',
+    marginBottom: '0.5rem',
+    marginLeft: '49rem',
+  }),
 
-const StyledTableContainer = styled(TableContainer)({
-  maxWidth: '81rem',
-  width: '100%',
-  fontFamily: lightTheme.font.fontSuitRegular,
-  fontSize: '1rem',
-});
+  SearchBarTextField: styled(TextField)({
+    height: '2rem',
+    marginLeft: '6rem',
+    '& .MuiInputBase-root': {
+      height: '3rem',
+    },
+  }),
 
-const StyledTableHeadCell = styled(TableCell)({
-  fontFamily: lightTheme.font.fontSuitRegular,
-  fontWeight: lightTheme.font.fontWeightBold,
-  fontSize: '1rem',
-  color: lightTheme.color.fontBlack,
-  textTransform: 'uppercase',
-});
+  TableContainer: styled(TableContainer)({
+    maxWidth: '81rem',
+    width: '100%',
+    fontFamily: lightTheme.font.fontSuitRegular,
+    fontSize: '1rem',
+    border: lightTheme.font.borderDefault,
+    overflow: 'hidden',
+  }),
 
-const StyledTableBodyCell = styled(TableCell)({
-  fontFamily: lightTheme.font.fontSuitRegular,
-  fontWeight: lightTheme.font.fontWeightRegular,
-  fontSize: '1rem',
-  color: lightTheme.color.fontBlack,
-});
+  TableHeadCell: styled(TableCell)({
+    fontFamily: lightTheme.font.fontSuitRegular,
+    fontWeight: lightTheme.font.fontWeightBold,
+    fontSize: '1rem',
+    color: lightTheme.color.fontBlack,
+    textTransform: 'uppercase',
+  }),
 
-const StyledPagination = styled(Pagination)({
-  margintop: '1rem',
-});
+  TableBodyCell: styled(TableCell)({
+    fontFamily: lightTheme.font.fontSuitRegular,
+    fontWeight: lightTheme.font.fontWeightRegular,
+    fontSize: '1rem',
+    color: lightTheme.color.fontBlack,
+  }),
+
+  Pagination: styled(Pagination)({
+    marginTop: '1rem',
+  }),
+};

@@ -22,11 +22,11 @@ function AdminHeaderComponent({
   const headerLike = '리뷰 관리';
   
   return (
-    <StyledAppBar position="fixed">
+    <S.AppBar position="fixed">
       <Toolbar>
       {showButtons && (
           <>
-            <StyledButton
+            <S.Button
               className="header-button"
               onClick={(e) => {
                 handleClick(e);
@@ -34,8 +34,8 @@ function AdminHeaderComponent({
               }}
             >
               {headerMovie}
-            </StyledButton>
-            <StyledButton
+            </S.Button>
+            <S.Button
               className="header-button"
               onClick={(e) => {
                 handleClick(e);
@@ -43,8 +43,8 @@ function AdminHeaderComponent({
               }}
             >
               {headerNewMovie}
-            </StyledButton>
-            <StyledButton
+            </S.Button>
+            <S.Button
               className="header-button"
               onClick={(e) => {
                 handleClick(e);
@@ -52,36 +52,38 @@ function AdminHeaderComponent({
               }}
             >
               {headerLike}
-            </StyledButton>
+            </S.Button>
           </>
         )}
       </Toolbar>
-    </StyledAppBar>
+    </S.AppBar>
   );
 }
 
 export default AdminHeaderComponent;
 
-const StyledAppBar = styled(AppBar)({
-  backgroundColor: lightTheme.color.mainColor,
-  boxShadow: lightTheme.box.defaulBoxShadow,
-});
+const S = {
+  AppBar: styled(AppBar)({
+    backgroundColor: lightTheme.color.mainColor,
+    boxShadow: lightTheme.box.defaulBoxShadow,
+  }),
 
-const StyledButton = styled(Button)({
-  color: lightTheme.color.fontDark,
-  fontWeight: lightTheme.font.fontWeightBold,
-  fontSize: '1rem',
-  fontFamily: lightTheme.font.fontSuitBold,
-  textTransform: 'none',
-  padding: '0.5rem 1rem',
-  transition: 'color 0.3s, background-color 0.3s',
+  Button: styled(Button)({
+    color: lightTheme.color.fontDark,
+    fontWeight: lightTheme.font.fontWeightRegular,
+    fontSize: '1rem',
+    fontFamily: lightTheme.font.fontSuitRegular,
+    textTransform: 'none',
+    padding: '0.5rem 1rem',
+    transition: 'color 0.3s, background-color 0.3s',
 
-  '&.active': {
-    color: lightTheme.color.fontGray,
-    backgroundColor: lightTheme.color.backgroundOrange,
-  },
+    '&.active': {
+      color: lightTheme.color.fontBlack,
+      fontFamily: lightTheme.font.fontSuitBold,
+    },
 
-  '&:hover': {
-    backgroundColor: lightTheme.color.accentLightColor,
-  },
-});
+    '&:hover': {
+      backgroundColor: lightTheme.color.accentLightColor,
+    },
+  }),
+};

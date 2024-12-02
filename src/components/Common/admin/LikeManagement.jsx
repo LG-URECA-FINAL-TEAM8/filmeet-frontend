@@ -14,8 +14,8 @@ import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
-import DeleteButton from '../../../assets/svg/Delete';
-import LockButton from '../../../assets/svg/Lock';
+import DeleteIcon from '@mui/icons-material/Delete';
+import LockIcon from '@mui/icons-material/Lock';
 import LikeBadge from './LikeBadge';
 import ReviewerBadge from './ReviewerBadge';
 
@@ -92,113 +92,113 @@ function LikeManagement() {
   const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
 
   return (
-    <StyledContainer>
-      <StyledSearchBox>
-        <StyledTextField
+    <S.Container>
+      <S.SearchBox>
+        <S.TextField
           fullWidth
           label="영화 검색"
           variant="outlined"
           onChange={(e) => handleSearch(e.target.value)}
         />
-      </StyledSearchBox>
-      <StyledTableContainer component={Paper}>
+      </S.SearchBox>
+      <S.TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <StyledTableHeadCell>{tableHeader.movieName}</StyledTableHeadCell>
-              <StyledTableHeadCell>{tableHeader.reviewer}</StyledTableHeadCell>
-              <StyledTableHeadCell>{tableHeader.likeNum}</StyledTableHeadCell>
-              <StyledTableHeadCell>{tableHeader.avgRating}</StyledTableHeadCell>
-              <StyledTableHeadCell>{tableHeader.createdDate}</StyledTableHeadCell>
-              <StyledTableHeadCell>{tableHeader.Action}</StyledTableHeadCell>
+              <S.TableHeadCell>{tableHeader.movieName}</S.TableHeadCell>
+              <S.TableHeadCell>{tableHeader.reviewer}</S.TableHeadCell>
+              <S.TableHeadCell>{tableHeader.likeNum}</S.TableHeadCell>
+              <S.TableHeadCell>{tableHeader.avgRating}</S.TableHeadCell>
+              <S.TableHeadCell>{tableHeader.createdDate}</S.TableHeadCell>
+              <S.TableHeadCell>{tableHeader.Action}</S.TableHeadCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {currentMovies.map((movie, index) => (
               <TableRow key={index}>
-                <StyledTableBodyCell>{movie.title}</StyledTableBodyCell>
-                <StyledTableBodyCell>
+                <S.TableBodyCell>{movie.title}</S.TableBodyCell>
+                <S.TableBodyCell>
                   <ReviewerBadge count={movie.reviewer} />
-                </StyledTableBodyCell>
-                <StyledTableBodyCell>
+                </S.TableBodyCell>
+                <S.TableBodyCell>
                   <LikeBadge count={movie.likes} />
-                </StyledTableBodyCell>
-                <StyledTableBodyCell>{movie.rating}</StyledTableBodyCell>
-                <StyledTableBodyCell>{movie.createdDate}</StyledTableBodyCell>
-                <StyledTableBodyCell>
-                  <StyledDeleteButton
+                </S.TableBodyCell>
+                <S.TableBodyCell>{movie.rating}</S.TableBodyCell>
+                <S.TableBodyCell>{movie.createdDate}</S.TableBodyCell>
+                <S.TableBodyCell>
+                  <DeleteIcon
                     onClick={() => handleDelete(movie)}
+                    style={{ cursor: 'pointer', color: lightTheme.color.buttonPink }}
                   />
-                  <LockButton
+                  <LockIcon
                     onClick={() => handleLock(movie)}
-                    style={{ marginLeft: '0.5rem' }}
+                    style={{ cursor: 'pointer', marginLeft: '1rem', color: lightTheme.color.fontGray }}
                   />
-                </StyledTableBodyCell>
+                </S.TableBodyCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </StyledTableContainer>
-      <StyledPagination
+      </S.TableContainer>
+      <S.Pagination
         count={Math.ceil(movies.length / moviesPerPage)}
         page={currentPage}
         onChange={handlePageChange}
       />
-    </StyledContainer>
+    </S.Container>
   );
 }
 
 export default LikeManagement;
 
-const StyledContainer = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: '1rem',
-  padding: '1rem',
-});
+const S = {
+  Container: styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '1rem',
+    padding: '1rem',
+  }),
 
-const StyledTextField = styled(TextField) ({
-  height: '2rem',
-  marginLeft: '6rem',
-  '& .MuiInputBase-root': {
-    height: '3rem',
-  },
-});
+  TextField: styled(TextField)({
+    height: '2rem',
+    marginLeft: '6rem',
+    '& .MuiInputBase-root': {
+      height: '3rem',
+    },
+  }),
 
-const StyledSearchBox = styled(Box)({
-  width: '100%',
-  maxWidth: '20rem',
-  marginBottom: '0.5rem',
-  marginLeft: '49rem',
-});
+  SearchBox: styled(Box)({
+    width: '100%',
+    maxWidth: '20rem',
+    marginBottom: '0.5rem',
+    marginLeft: '49rem',
+  }),
 
-const StyledTableContainer = styled(TableContainer)({
-  maxWidth: '81rem',
-  width: '100%',
-  fontFamily: lightTheme.font.fontSuitRegular,
-  fontSize: '1rem',
-});
+  TableContainer: styled(TableContainer)({
+    maxWidth: '81rem',
+    width: '100%',
+    fontFamily: lightTheme.font.fontSuitRegular,
+    fontSize: '1rem',
+    border: lightTheme.font.borderDefault,
+  }),
 
-const StyledTableHeadCell = styled(TableCell)({
-  fontFamily: lightTheme.font.fontSuitRegular,
-  fontWeight: lightTheme.font.fontWeightBold,
-  fontSize: '1rem',
-  color: lightTheme.color.fontBlack,
-  textTransform: 'uppercase',
-});
+  TableHeadCell: styled(TableCell)({
+    fontFamily: lightTheme.font.fontSuitRegular,
+    fontWeight: lightTheme.font.fontWeightBold,
+    fontSize: '1rem',
+    color: lightTheme.color.fontBlack,
+    textTransform: 'uppercase',
+  }),
 
-const StyledTableBodyCell = styled(TableCell)({
-  fontFamily: lightTheme.font.fontSuitRegular,
-  fontWeight: lightTheme.font.fontWeightRegular,
-  fontSize: '1rem',
-  color: lightTheme.color.fontBlack,
-});
+  TableBodyCell: styled(TableCell)({
+    fontFamily: lightTheme.font.fontSuitRegular,
+    fontWeight: lightTheme.font.fontWeightRegular,
+    fontSize: '1rem',
+    color: lightTheme.color.fontBlack,
+  }),
 
-const StyledDeleteButton = styled(DeleteButton)({
-  marginLeft: '0.5rem',
-})
-
-const StyledPagination = styled(Pagination) ({
-  marginTop: '1rem',
-});
+  Pagination: styled(Pagination)({
+    marginTop: '1rem',
+  }),
+};
