@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
 import Poster from "../Common/poster/Poster";
+import SvgOption from "../../assets/svg/Option";
 
 const CollectionsLabel = {
   Like: "좋아요",
@@ -35,9 +36,9 @@ const CollectionDetail = ({ collectionData }) => {
           <S.Profile>
             <S.ProfileImage src={profileImage} alt={`${name} 프로필`} />
             <S.UserName>{name}</S.UserName>
-          </S.Profile>
+          </S.Profile>      
           <S.MoreOptions>
-            ⋮
+            <S.StyledSvgOption />
           </S.MoreOptions>
         </S.Header>
 
@@ -110,7 +111,7 @@ const S = {
   `,
 
   UserName: styled.span`
-    font-family: ${(props) => props.theme.font.fontSuitBold};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
     color: ${(props) => props.theme.color.mainColor};
   `,
@@ -119,15 +120,30 @@ const S = {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    color: ${(props) => props.theme.color.mainColor};
-    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
     cursor: pointer;
     z-index: 2;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  `,
+
+  StyledSvgOption: styled(SvgOption)`
+    width: 1rem;
+    height: 1rem;
+    color: ${(props) => props.theme.color.mainColor};
+    cursor: pointer;
   `,
 
   Content: styled.div`
     width: 37.5rem;
-    height: 6rem;
+    height: 7rem;
     margin: 0 1.25rem 0 1.25rem;
   `,
 
@@ -138,22 +154,21 @@ const S = {
     margin: 1rem 0 0.4rem 0;
   `,
 
-  Description: styled.p`
-    height: 1.1rem;
+  Description: styled.article`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-weight: ${(props) => props.theme.font.fontWeightRegular};
     font-size: 0.7rem;
     color: ${(props) => props.theme.color.fontGray};
-    margin: 0 0 0 0;
-    line-height: 1.5rem;
+    margin: 0.7rem 0 0 0;
   `,
 
-  Stats: styled.span`
-    height: 1.1rem;
+  Stats: styled.ul`
     display: block;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
-    color: ${(props) => props.theme.color.fontGray};
-    line-height: 1.1rem;
+    color: ${(props) => props.theme.color.fontGray}; 
+    margin: 2rem 0 0 0;  
+    padding: 0 0 0 0;
   `,
 
   ActionSection: styled.div`
@@ -161,18 +176,17 @@ const S = {
     padding: 0.1rem 0;
   `,
 
-  Divider: styled.div`
-    width: 37.5rem; 
-    height: 0.1rem; 
-    background: ${(props) => props.theme.color.collectionColor}; 
-    margin: 1rem 1.25rem 0 1.25rem;
+  Divider: styled.hr`
+    width: 37.5rem;  
+    color: ${(props) => props.theme.font.borderDefault}; 
+    margin: 0 1.25rem 0 1.25rem;
   `,
 
   MoviesSection: styled.section`
-    margin-top: 2rem;
+    margin: 0 1.25rem;
   `,
 
-  SectionHeader: styled.section`
+  SectionHeader: styled.div`
     margin-bottom: 1rem;
   `,
 
@@ -190,17 +204,6 @@ const S = {
   MovieCard: styled.div`
     width: 9.3rem;
     text-align: center;
-  `,
-
-  MoviePoster: styled.img`
-    width: 40rem;
-    height: 16rem;
-    object-fit: cover;
-    border-radius: 0.5rem;
-  `,
-
-  MovieInfo: styled.div`
-    margin-top: 0.5rem;
   `,
 
   MovieTitle: styled.h4`
@@ -222,3 +225,4 @@ const S = {
     cursor: pointer;
   `,
 };
+

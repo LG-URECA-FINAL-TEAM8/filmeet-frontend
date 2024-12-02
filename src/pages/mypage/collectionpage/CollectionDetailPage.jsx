@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import useCollectionsStore from "../../../store/collections/useCollectionsStore";
 import CollectionDetail from "../../../components/Collections/CollectionDetail";
-import { Content, Wrapper } from "../../../styles/collectionspage/collections";
+import { Wrapper } from "../../../styles/collectionspage/collections";
 
 const CollectionDetailPage = () => {
   const { collectionId } = useParams();

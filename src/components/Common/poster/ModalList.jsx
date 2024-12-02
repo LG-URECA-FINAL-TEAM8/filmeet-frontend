@@ -1,7 +1,5 @@
-import React from "react";
 import styled from "styled-components";
 import { lightTheme } from "../../../styles/themes";
-
 
 const ListPoster = ({ movies, onMovieSelect }) => {
   return (
@@ -28,7 +26,6 @@ const ListPoster = ({ movies, onMovieSelect }) => {
 };
 
 export default ListPoster;
-
 
 const ListContainer = styled.div`
   display: flex;

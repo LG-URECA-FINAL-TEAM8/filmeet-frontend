@@ -13,7 +13,7 @@ const CollectionsLabel = {
   AddMovie: "작품 추가",
 };
 
-const CreateCollection = () => {
+const EditCollection = () => {
   const {
     title,
     description,
@@ -123,7 +123,7 @@ const CreateCollection = () => {
   );
 };
 
-export default CreateCollection;
+export default EditCollection;
 
 const S = {
   Container: styled.div`
