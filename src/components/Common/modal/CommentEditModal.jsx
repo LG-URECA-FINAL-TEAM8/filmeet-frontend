@@ -38,23 +38,7 @@ const CommentEditModal = ({ onSubmit }) => {
   
 
   return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={closeModal}
-      style={{
-        overlay: {
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        },
-        content: {
-          width: "40rem",
-          height: "29rem",
-          margin: "auto",
-          borderRadius: "0.62rem",
-          padding: "0",
-          overflow: "hidden",
-        },
-      }}
-    >
+    <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
       <Content>
         <CommentHeader>
           <CommentTitle>{modalType === "edit" ? (commentData?.title || "댓글 수정") : "댓글"}</CommentTitle>
@@ -78,6 +62,21 @@ const CommentEditModal = ({ onSubmit }) => {
 };
 
 export default CommentEditModal;
+
+const customStyles = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  content: {
+    width: "40rem",
+    height: "29rem",
+    margin: "auto",
+    borderRadius: "0.62rem",
+    padding: "0",
+    overflow: "hidden",
+  },
+};
+
 
 const Content = styled.div`
   width: 37.5rem;

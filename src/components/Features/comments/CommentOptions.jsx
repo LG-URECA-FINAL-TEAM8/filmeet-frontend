@@ -1,6 +1,5 @@
-import { useRef, useEffect } from "react";
 import styled from "styled-components";
-import useMenuStore from "../../store/comment/useMenuStore";
+import { useMenuStore } from "../../store/comment/useMenuStore";
 
 const TEXTS = {
   edit: "댓글 수정",
@@ -8,12 +7,12 @@ const TEXTS = {
 };
 
 const CommentOptions = ({ commentId }) => {
-  const { openMenuId, openMenu, closeMenu, handleDocumentClick } = useMenuStore();
-  const menuRef = useRef();
+  const { openMenuId, openMenu, closeMenu } = useMenuStore();
 
   const isOpen = openMenuId === commentId;
 
-  const toggleMenu = () => {
+  const handleMenuToggle = (e) => {
+    e.stopPropagation();
     if (isOpen) {
       closeMenu();
     } else {
@@ -21,17 +20,10 @@ const CommentOptions = ({ commentId }) => {
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (e) => handleDocumentClick(e, menuRef);
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [handleDocumentClick]);
-
   return (
-    <Wrapper ref={menuRef}>
-      <MenuButton onClick={toggleMenu}></MenuButton>
+    <Wrapper>
+      <MenuButton onClick={handleMenuToggle}>
+      </MenuButton>
       {isOpen && (
         <OptionsMenu>
           <MenuItem>{TEXTS.edit}</MenuItem>

@@ -25,23 +25,7 @@ const CommentDeleteModal = ({ onConfirm }) => {
   };
 
   return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={closeModal}
-      style={{
-        overlay: {
-          backgroundColor: "rgba(0, 0, 0, 0.6)",
-        },
-        content: {
-          width: "17.5rem",
-          height: "7.5rem",
-          margin: "auto",
-          borderRadius: "0.62rem",
-          padding: "1.25rem 0 0 0",
-          overflow: "hidden",
-        },
-      }}
-    >
+    <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
       <Container>
         <Title>{MODALTEXTS.modalTitle}</Title>
         <Message>{MODALTEXTS[modalType]}</Message>
@@ -56,6 +40,20 @@ const CommentDeleteModal = ({ onConfirm }) => {
 };
 
 export default CommentDeleteModal;
+
+const customStyles = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+  },
+  content: {
+    width: "17.5rem",
+    height: "7.5rem",
+    margin: "auto",
+    borderRadius: "0.62rem",
+    padding: "1.25rem 0 0 0",
+    overflow: "hidden",
+  },
+};
 
 const Container = styled.div`
   width: 15rem;
