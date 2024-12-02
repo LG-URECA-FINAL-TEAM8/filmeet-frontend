@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 import { lightTheme } from '../../../styles/themes';
 
@@ -14,19 +15,25 @@ function AdminAddModal() {
     closeAddModal,
     setAddModalTitle,
     setAddModalImage,
+    setAddModalGenre,
+    setAddModalReleaseDate,
   } = useAdminModalStore();
 
-  const { isOpen, title, image } = addModal;
-
   const modal = {
-    modalTitle: 'Upload Form',
-    modalSubTitle: '영화 포스터 이미지 업로드',
+    modalSubTitle: '영화 정보 입력',
     uploadTitle: '이미지 업로드',
     uploadSubTitle: '여기로 드래그 앤 드롭',
     uploadButton: '업로드',
     saveButton: '저장',
   };
 
+  const { isOpen, title, image, genre, releaseDate } = addModal;
+  const genres = ['액션', '호러', '코미디', '드라마', 
+                  '스릴러', '로맨스', '범죄', '판타지',
+                  '미스터리','애니메이션', 'SF', '모험',
+                  '다큐', '뮤지컬', '가족', '느와르'
+                ];
+  
   const handleSave = () => {
     alert(`새로운 영화 추가: ${title}`);
     closeAddModal();
@@ -45,7 +52,6 @@ function AdminAddModal() {
   return (
     <ModalOverlay>
       <StyledCard>
-        <StyledTitle>{modal.modalTitle}</StyledTitle>
         <StyledSubtitle>{modal.modalSubTitle}</StyledSubtitle>
         <StyledCardContent>
           <StyledImagePreview>
@@ -82,6 +88,31 @@ function AdminAddModal() {
           value={title}
           onChange={(e) => setAddModalTitle(e.target.value)}
         />
+        <Box sx={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+          <StyledTextField
+            select
+            label="장르 선택"
+            variant="outlined"
+            fullWidth
+            value={genre}
+            onChange={(e) => setAddModalGenre(e.target.value)}
+          >
+            {genres.map((g) => (
+              <MenuItem key={g} value={g}>
+                {g}
+              </MenuItem>
+            ))}
+          </StyledTextField>
+          <StyledTextField
+            type="date"
+            label="개봉일 선택"
+            variant="outlined"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+            value={releaseDate}
+            onChange={(e) => setAddModalReleaseDate(e.target.value)}
+          />
+        </Box>
         <SaveButton variant="contained" fullWidth onClick={handleSave}>
           {modal.saveButton}
         </SaveButton>
@@ -110,11 +141,6 @@ const StyledCard = styled(Card)({
   padding: '2rem',
   borderRadius: '0.5rem',
   boxShadow: lightTheme.box.defaulBoxShadow,
-});
-
-const StyledTitle = styled(Typography)({
-  fontWeight: lightTheme.font.fontWeightBold,
-  marginBottom: '1rem',
 });
 
 const StyledSubtitle = styled(Typography)({

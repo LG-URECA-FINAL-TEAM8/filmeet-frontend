@@ -16,7 +16,7 @@ import useMovieStore from '../../../store/admin/useMovieStore';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 import AdminAddModal from '../modal/AdminAddModal';
-import EditButton from '../../../assets/svg/Edit';
+import AddButton from '../../../assets/svg/Add';
 import AvgRatingBadge from './AvgRatingBadge';
 
 function AddMovie() {
@@ -94,7 +94,7 @@ function AddMovie() {
                 <StyledTableBodyCell>{movie.genre || 'N/A'}</StyledTableBodyCell>
                 <StyledTableBodyCell>{movie.releaseDate || 'N/A'}</StyledTableBodyCell>
                 <StyledTableBodyCell>
-                  <EditButton
+                  <AddButton
                     onClick={() => handleAdd(movie)}
                   />
                 </StyledTableBodyCell>
@@ -125,11 +125,12 @@ const StyledContainer = styled(Box)({
   flexDirection: 'column',
   alignItems: 'center',
   gap: '1rem',
-  padding: '1.5rem',
+  padding: '1rem',
 });
 
 const StyledTextField = styled(TextField) ({
-  height: '3rem',
+  height: '2rem',
+  marginLeft: '6rem',
   '& .MuiInputBase-root': {
     height: '3rem',
   },

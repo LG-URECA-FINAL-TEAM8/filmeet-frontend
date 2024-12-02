@@ -10,6 +10,12 @@ function AdminHeaderComponent({
   onAddNewMovieClick,
   onLikeManagementClick,
 }) {
+  const handleClick = (e) => {
+    const buttons = document.querySelectorAll('.header-button');
+    buttons.forEach((button) => button.classList.remove('active'));
+    e.currentTarget.classList.add('active');
+  };
+
   const headerMovie = '영화 관리';
   const headerNewMovie = '새로운 영화 추가';
   const headerLike = '리뷰 관리';
@@ -17,9 +23,27 @@ function AdminHeaderComponent({
   return (
     <StyledAppBar position="fixed">
       <Toolbar>
-        <StyledButton onClick={onMovieManagementClick}>{headerMovie}</StyledButton>
-        <StyledButton onClick={onAddNewMovieClick}>{headerNewMovie}</StyledButton>
-        <StyledButton onClick={onLikeManagementClick}>{headerLike}</StyledButton>
+        <StyledButton
+          className= "header-button"
+          onClick={(e) => {
+            handleClick(e);
+            onMovieManagementClick();
+          }}
+        >{headerMovie}</StyledButton>
+        <StyledButton
+          className= "header-button"
+          onClick={(e) => {
+            handleClick(e);
+            onAddNewMovieClick();
+          }}
+        >{headerNewMovie}</StyledButton>
+        <StyledButton
+          className= "header-button"
+          onClick={(e) => {
+            handleClick(e);
+            onLikeManagementClick();
+          }}
+        >{headerLike}</StyledButton>
       </Toolbar>
     </StyledAppBar>
   );
@@ -38,4 +62,15 @@ const StyledButton = styled(Button)({
   fontSize: '1rem',
   fontFamily: lightTheme.font.fontSuitBold,
   textTransform: 'none',
+  padding: '0.5rem 1rem',
+  transition: 'color 0.3s, background-color 0.3s',
+
+  '&.active': {
+    color: lightTheme.color.fontGray,
+    backgroundColor: lightTheme.color.backgroundOrange,
+  },
+
+  '&:hover': {
+    backgroundColor: lightTheme.color.accentLightColor,
+  },
 });

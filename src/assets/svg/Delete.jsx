@@ -2,13 +2,13 @@ const SvgDelete = ({ onClick, ...props }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    viewBox="0 0 25 25"
+    viewBox="0 0 24 24"
     width= "1.5rem"
     height= "1.5rem"
     onClick={onClick}
     style=
     {{ 
-      cursor: 'pointer', 
+      cursor: 'pointer',
       ...props.style 
     }}
     {...props}

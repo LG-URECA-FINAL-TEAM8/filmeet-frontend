@@ -126,9 +126,8 @@ function LikeManagement() {
                 <StyledTableBodyCell>{movie.rating}</StyledTableBodyCell>
                 <StyledTableBodyCell>{movie.createdDate}</StyledTableBodyCell>
                 <StyledTableBodyCell>
-                  <DeleteButton
+                  <StyledDeleteButton
                     onClick={() => handleDelete(movie)}
-                    style={{ marginLeft: '0.5rem' }}
                   />
                   <LockButton
                     onClick={() => handleLock(movie)}
@@ -160,7 +159,8 @@ const StyledContainer = styled(Box)({
 });
 
 const StyledTextField = styled(TextField) ({
-  height: '3rem',
+  height: '2rem',
+  marginLeft: '6rem',
   '& .MuiInputBase-root': {
     height: '3rem',
   },
@@ -194,6 +194,10 @@ const StyledTableBodyCell = styled(TableCell)({
   fontSize: '1rem',
   color: lightTheme.color.fontBlack,
 });
+
+const StyledDeleteButton = styled(DeleteButton)({
+  marginLeft: '0.5rem',
+})
 
 const StyledPagination = styled(Pagination) ({
   marginTop: '1rem',

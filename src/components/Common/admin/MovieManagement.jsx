@@ -126,67 +126,14 @@ function MovieManagement() {
                   )}
                 </StyledTableBodyCell>
                 <StyledTableBodyCell>
-                  {editingRow === movie.id ? (
-                    <StyledTextField
-                      value={movie.comments}
-                      onChange={(e) =>
-                        handleInputChange(movie.id, 'comments', e.target.value)
-                      }
-                      type="number"
-                    />
-                  ) : (
-                    <CommentBadge count={movie.comments || 0} />
-                  )}
+                  <CommentBadge count={movie.comments || 0} />
                 </StyledTableBodyCell>
                 <StyledTableBodyCell>
-                  {editingRow === movie.id ? (
-                    <StyledTextField
-                      value={movie.likes}
-                      onChange={(e) =>
-                        handleInputChange(movie.id, 'likes', e.target.value)
-                      }
-                      type="number"
-                    />
-                  ) : (
-                    <LikeBadge count={movie.likes || 0} />
-                  )}
+                  <LikeBadge count={movie.likes || 0} />
                 </StyledTableBodyCell>
-                <StyledTableBodyCell>
-                  {editingRow === movie.id ? (
-                    <StyledTextField
-                      value={movie.rating}
-                      onChange={(e) =>
-                        handleInputChange(movie.id, 'rating', e.target.value)
-                      }
-                    />
-                  ) : (
-                    movie.rating
-                  )}
-                </StyledTableBodyCell>
-                <StyledTableBodyCell>
-                  {editingRow === movie.id ? (
-                    <StyledTextField
-                      value={movie.genre}
-                      onChange={(e) =>
-                        handleInputChange(movie.id, 'genre', e.target.value)
-                      }
-                    />
-                  ) : (
-                    movie.genre
-                  )}
-                </StyledTableBodyCell>
-                <StyledTableBodyCell>
-                  {editingRow === movie.id ? (
-                    <StyledTextField
-                      value={movie.releaseDate}
-                      onChange={(e) =>
-                        handleInputChange(movie.id, 'releaseDate', e.target.value)
-                      }
-                    />
-                  ) : (
-                    movie.releaseDate
-                  )}
-                </StyledTableBodyCell>
+                <StyledTableBodyCell>{movie.rating}</StyledTableBodyCell>
+                <StyledTableBodyCell>{movie.genre}</StyledTableBodyCell>
+                <StyledTableBodyCell>{movie.releaseDate}</StyledTableBodyCell>
                 <StyledTableBodyCell>
                   {editingRow === movie.id ? (
                     <StyledSaveButton onClick={handleSave}>
@@ -200,6 +147,7 @@ function MovieManagement() {
                   )}
                   <DeleteButton
                     onClick={() => handleDelete(movie)}
+                    style={{ marginLeft: '0.5rem' }}
                   />
                 </StyledTableBodyCell>
               </TableRow>
@@ -223,14 +171,14 @@ const StyledContainer = styled(Box)({
   flexDirection: 'column',
   alignItems: 'center',
   gap: '1rem',
-  padding: '1.5rem',
+  padding: '1rem',
 });
 
 const StyledTextField = styled(TextField)({
   '& .MuiInputBase-root': {
-    height: '3rem',
+    width: '20rem',
+    height: '2rem',
     fontSize: '1rem',
-    padding: '0.25rem',
   },
 });
 
@@ -242,7 +190,8 @@ const StyledSearchBox = styled(Box)({
 });
 
 const StyledSearchBarTextField = styled(TextField) ({
-  height: '3rem',
+  height: '2rem',
+  marginLeft: '6rem',
   '& .MuiInputBase-root': {
     height: '3rem',
   },
