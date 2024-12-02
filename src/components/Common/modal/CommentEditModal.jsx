@@ -33,12 +33,11 @@ const CommentEditModal = ({ onSubmit }) => {
     } else if (modalType === "comment") {
       return `"${commentData?.title || "제목 없음"}"에 대한 생각을 표현해주세요.`;
     }
-    return ""; // 기본값 반환
+    return "";
   };
   
-
   return (
-    <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
+    <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={modalCustom}>
       <Content>
         <CommentHeader>
           <CommentTitle>{modalType === "edit" ? (commentData?.title || "댓글 수정") : "댓글"}</CommentTitle>
@@ -63,7 +62,7 @@ const CommentEditModal = ({ onSubmit }) => {
 
 export default CommentEditModal;
 
-const customStyles = {
+const modalCustom = {
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
@@ -76,7 +75,6 @@ const customStyles = {
     overflow: "hidden",
   },
 };
-
 
 const Content = styled.div`
   width: 37.5rem;

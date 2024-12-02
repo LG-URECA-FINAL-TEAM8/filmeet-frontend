@@ -25,7 +25,7 @@ const CommentDeleteModal = ({ onConfirm }) => {
   };
 
   return (
-    <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
+    <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={modalCustom}>
       <Container>
         <Title>{MODALTEXTS.modalTitle}</Title>
         <Message>{MODALTEXTS[modalType]}</Message>
@@ -41,7 +41,7 @@ const CommentDeleteModal = ({ onConfirm }) => {
 
 export default CommentDeleteModal;
 
-const customStyles = {
+const modalCustom = {
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.6)",
   },
