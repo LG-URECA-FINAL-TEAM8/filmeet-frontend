@@ -1,19 +1,18 @@
 import styled from "styled-components";
-import useCollectionsStore from "../../store/collections/useCollectionsStore";
 import Poster from "../Common/poster/Poster";
 import SvgOption from "../../assets/svg/Option";
+import useCollectionsMenuStore from "../../store/collections/useCollectionsMenuStore";
 
 const CollectionsLabel = {
   Like: "좋아요",
   Comment: "댓글",
   NoData: "데이터를 불러올 수 없습니다.",
   Movies: "작품들",
-  count: "개",
+  count: "0",
 };
 
 const CollectionDetail = ({ collectionData }) => {
-  const { isDropdownOpen, openDropdownMenu, closeDropdownMenu } =
-    useCollectionsStore();
+  const { openMenuId, isOpen, openMenu, closeMenu } = useCollectionsMenuStore();
 
   if (!collectionData) {
     return <div>{CollectionsLabel.NoData}</div>;
@@ -29,42 +28,57 @@ const CollectionDetail = ({ collectionData }) => {
     likes = 0,
   } = collectionData;
 
-  return (
-      <S.Container>
-        <S.Header backgroundImage={bannerImage}>
-          <S.Overlay />
-          <S.Profile>
-            <S.ProfileImage src={profileImage} alt={`${name} 프로필`} />
-            <S.UserName>{name}</S.UserName>
-          </S.Profile>      
-          <S.MoreOptions>
-            <S.StyledSvgOption />
-          </S.MoreOptions>
-        </S.Header>
+  const handleMenuToggle = () => {
+    if (isOpen && openMenuId === collectionData.id) {
+      closeMenu();
+    } else {
+      openMenu(collectionData.id);
+    }
+  };
 
-        <S.Content>
-          <S.CollectionTitle>{collectionName}</S.CollectionTitle>
-          <S.Description>
-            {description}
-          </S.Description>
-            <S.Stats>
-              {CollectionsLabel.Like} {likes} {CollectionsLabel.count}{" "}
-              {CollectionsLabel.Comment} 0개
-            </S.Stats>
-        </S.Content>
-          <S.Divider />
-          <S.MoviesSection>
-            <S.SectionHeader>
-              <S.SectionTitle>{CollectionsLabel.Movies}</S.SectionTitle>
-            </S.SectionHeader>
-            <Poster caseType={4} movies={movies} /> 
-          </S.MoviesSection>
-      </S.Container>
+  return (
+    <S.Container>
+      <S.Header backgroundImage={bannerImage}>
+        <S.Overlay />
+        <S.Profile>
+          <S.ProfileImage src={profileImage} alt={`${name} 프로필`} />
+          <S.UserName>{name}</S.UserName>
+        </S.Profile>
+        <S.MoreOptions onClick={handleMenuToggle}>
+          <S.StyledSvgOption />
+        </S.MoreOptions>
+        {isOpen && openMenuId === collectionData.id && (
+          <S.DropdownMenu>
+            <S.DropdownItem onClick={() => {  }}>
+              수정
+            </S.DropdownItem>
+            <S.DropdownItem onClick={() => {  }}>
+              삭제
+            </S.DropdownItem>
+          </S.DropdownMenu>
+        )}
+      </S.Header>
+
+      <S.Content>
+        <S.CollectionTitle>{collectionName}</S.CollectionTitle>
+        <S.Description>{description}</S.Description>
+        <S.Stats>
+          {CollectionsLabel.Like} {likes} {CollectionsLabel.Comment} {CollectionsLabel.count}
+        </S.Stats>
+      </S.Content>
+      <S.Divider />
+      <S.MoviesSection>
+        <S.SectionHeader>
+          <S.SectionTitle>{CollectionsLabel.Movies}</S.SectionTitle>
+          <S.TitleCount>{movies.length}</S.TitleCount>
+        </S.SectionHeader>
+        <Poster caseType={4} movies={movies} />
+      </S.MoviesSection>
+    </S.Container>
   );
 };
 
 export default CollectionDetail;
-
 const S = {
   Container: styled.div`
     width: 40rem;
@@ -150,6 +164,7 @@ const S = {
   CollectionTitle: styled.h1`
     height: 1.5rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-weight: ${(props) => props.theme.font.fontWeightRegular};
     font-size: 1.1rem;
     margin: 1rem 0 0.4rem 0;
   `,
@@ -187,12 +202,20 @@ const S = {
   `,
 
   SectionHeader: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
     margin-bottom: 1rem;
   `,
 
   SectionTitle: styled.h2`
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
+  `,
+
+  TitleCount: styled.span`
+    color: ${(props) => props.theme.color.fontGray}; 
   `,
 
   MovieGrid: styled.section`
