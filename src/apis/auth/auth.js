@@ -34,5 +34,11 @@ export const Login = async ({ username, password }) => {
     throw new Error('로그인 실패');
   }
 
-  return response.json();
+  const result = await response.json();
+
+  const { accessToken, refreshToken } = result.data;
+  localStorage.setItem('accessToken', accessToken);
+  localStorage.setItem('refreshToken', refreshToken);
+
+  return result;
 };
