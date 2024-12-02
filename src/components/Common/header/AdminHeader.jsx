@@ -9,6 +9,7 @@ function AdminHeaderComponent({
   onMovieManagementClick,
   onAddNewMovieClick,
   onLikeManagementClick,
+  showButtons = true,
 }) {
   const handleClick = (e) => {
     const buttons = document.querySelectorAll('.header-button');
@@ -23,27 +24,37 @@ function AdminHeaderComponent({
   return (
     <StyledAppBar position="fixed">
       <Toolbar>
-        <StyledButton
-          className= "header-button"
-          onClick={(e) => {
-            handleClick(e);
-            onMovieManagementClick();
-          }}
-        >{headerMovie}</StyledButton>
-        <StyledButton
-          className= "header-button"
-          onClick={(e) => {
-            handleClick(e);
-            onAddNewMovieClick();
-          }}
-        >{headerNewMovie}</StyledButton>
-        <StyledButton
-          className= "header-button"
-          onClick={(e) => {
-            handleClick(e);
-            onLikeManagementClick();
-          }}
-        >{headerLike}</StyledButton>
+      {showButtons && (
+          <>
+            <StyledButton
+              className="header-button"
+              onClick={(e) => {
+                handleClick(e);
+                onMovieManagementClick();
+              }}
+            >
+              {headerMovie}
+            </StyledButton>
+            <StyledButton
+              className="header-button"
+              onClick={(e) => {
+                handleClick(e);
+                onAddNewMovieClick();
+              }}
+            >
+              {headerNewMovie}
+            </StyledButton>
+            <StyledButton
+              className="header-button"
+              onClick={(e) => {
+                handleClick(e);
+                onLikeManagementClick();
+              }}
+            >
+              {headerLike}
+            </StyledButton>
+          </>
+        )}
       </Toolbar>
     </StyledAppBar>
   );

@@ -47,11 +47,16 @@ function AdminAddModal() {
     }
   };
 
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeAddModal();
+    }
+  };
   if (!isOpen) return null;
 
   return (
-    <ModalOverlay>
-      <StyledCard>
+    <ModalOverlay onClick={handleOverlayClick}>
+      <StyledCard onClick={(e) => e.stopPropagation()}>
         <StyledSubtitle>{modal.modalSubTitle}</StyledSubtitle>
         <StyledCardContent>
           <StyledImagePreview>

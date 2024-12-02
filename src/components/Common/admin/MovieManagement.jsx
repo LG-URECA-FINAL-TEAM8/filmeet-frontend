@@ -14,6 +14,7 @@ import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import EditButton from '../../../assets/svg/Edit';
 import DeleteButton from '../../../assets/svg/Delete';
+import SaveButton from '../../../assets/svg/Save';
 import LikeBadge from './LikeBadge';
 import CommentBadge from './CommentBadge';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
@@ -136,9 +137,10 @@ function MovieManagement() {
                 <StyledTableBodyCell>{movie.releaseDate}</StyledTableBodyCell>
                 <StyledTableBodyCell>
                   {editingRow === movie.id ? (
-                    <StyledSaveButton onClick={handleSave}>
-                      {saveButton}
-                    </StyledSaveButton>
+                    <SaveButton
+                    onClick={handleSave}
+                    style={{ marginLeft: '0.5rem' }}
+                  />
                   ) : (
                     <EditButton 
                       onClick={() => handleEdit(movie.id)} 
