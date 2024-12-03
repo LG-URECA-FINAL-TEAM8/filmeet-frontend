@@ -5,6 +5,7 @@ export const useUpcoming = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['upcoming'],
     queryFn: UpComingMovies,
+    refetchOnWindowFocus: false,
   });
 
   return { data, isLoading, error };
