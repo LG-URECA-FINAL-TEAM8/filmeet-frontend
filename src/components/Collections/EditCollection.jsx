@@ -38,10 +38,11 @@ const EditCollection = () => {
 
   useEffect(() => {
     if (selectedCollection) {
-      setTitle(selectedCollection.name); // 선택된 컬렉션 이름 설정
-      setDescription(selectedCollection.description); // 선택된 컬렉션 설명 설정
+      setTitle(selectedCollection.name); 
+      setDescription(selectedCollection.description);
+      addMovies(selectedCollection.movies || []);
     }
-  }, [selectedCollection, setTitle, setDescription]);
+  }, [selectedCollection, setTitle, setDescription, addMovies]);
 
   const handleSaveCollection = () => {
     if (title.trim()) {
@@ -55,7 +56,6 @@ const EditCollection = () => {
     }
   };
 
-  // 입력 필드에 내용이 있는지 확인
   const hasContent = title.trim() !== "" || description.trim() !== "";
 
   return (
@@ -166,9 +166,7 @@ const S = {
     color: ${(props) =>
       props.hasContent ? props.theme.color.fontPink : props.theme.color.collectionColor};
     background-color: transparent;
-    border: 0.1rem solid
-      ${(props) =>
-        props.hasContent ? props.theme.color.fontPink : props.theme.color.collectionColor};
+    border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
     border-radius: 0.3rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;

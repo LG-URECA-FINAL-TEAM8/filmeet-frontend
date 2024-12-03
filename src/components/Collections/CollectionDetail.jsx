@@ -24,8 +24,8 @@ const CollectionDetail = ({ collectionData }) => {
   const { openModal } = useCollectionsDeleteStore();
 
   const handleEditClick = () => {
-    setSelectedCollection(collectionData); // 선택된 컬렉션 상태 설정
-    navigate(`/mypage/collections/${collectionData.id}/edit`); // 수정 페이지로 이동
+    setSelectedCollection(collectionData);
+    navigate(`/mypage/collections/${collectionData.id}/edit`);
   };
 
   if (!collectionData) {

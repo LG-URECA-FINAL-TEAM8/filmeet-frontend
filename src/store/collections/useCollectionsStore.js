@@ -16,7 +16,11 @@ const useCollectionsStore = create((set) => ({
 
   addCollection: (newCollection) =>
     set((state) => ({
-      collections: [...state.collections, newCollection],
+      collections: state.collections.some(
+        (collection) => collection.id === newCollection.id
+      )
+        ? state.collections
+        : [...state.collections, newCollection],
     })),
 
   addMoviesToCollection: (collectionId, moviesToAdd) =>
@@ -25,7 +29,12 @@ const useCollectionsStore = create((set) => ({
         collection.id === collectionId
           ? {
               ...collection,
-              movies: [...collection.movies, ...moviesToAdd],
+              movies: [
+                ...collection.movies,
+                ...moviesToAdd.filter(
+                  (movie) => !collection.movies.some((m) => m.id === movie.id)
+                ),
+              ],
             }
           : collection
       ),
@@ -55,7 +64,7 @@ const useCollectionsStore = create((set) => ({
 
   toggleMovieSelection: (movie) =>
     set((state) => ({
-      tempSelectedMovies: state.tempSelectedMovies.find(
+      tempSelectedMovies: state.tempSelectedMovies.some(
         (selectedMovie) => selectedMovie.id === movie.id
       )
         ? state.tempSelectedMovies.filter(
@@ -67,10 +76,10 @@ const useCollectionsStore = create((set) => ({
   confirmTempSelectedMovies: () =>
     set((state) => ({
       selectedMovies: [
-        ...state.selectedMovies,
-        ...state.tempSelectedMovies.filter(
-          (movie) => !state.selectedMovies.some((m) => m.id === movie.id)
-        ),
+        ...new Set([
+          ...state.selectedMovies,
+          ...state.tempSelectedMovies,
+        ]),
       ],
       tempSelectedMovies: [],
     })),
@@ -99,17 +108,21 @@ const useCollectionsStore = create((set) => ({
       moviesToRemove: [],
       searchTerm: "",
       tempSelectedMovies: [],
+      selectedCollection: null,
     }),
 
   enableEditMode: () => set({ isEditing: true }),
   disableEditMode: () => set({ isEditing: false }),
 
-  // -------------------- 추가된 부분 --------------------
-  selectedCollection: null, // 선택된 컬렉션 상태 추가
+  selectedCollection: null,
 
-  // 선택된 컬렉션을 설정하는 함수 추가
-  setSelectedCollection: (collection) => set({ selectedCollection: collection }),
-  // ------------------------------------------------------
+  setSelectedCollection: (collection) =>
+    set({
+      selectedCollection: collection,
+      title: collection.name || "",
+      description: collection.description || "",
+      selectedMovies: collection.movies || [],
+    }),
 }));
 
 export default useCollectionsStore;

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import MovieSearchModal from "../Common/modal/MovieSearchModal";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const CollectionsLabel = {
   NewCollection: "새 컬렉션",
@@ -34,6 +36,15 @@ const CreateCollection = () => {
     confirmTempSelectedMovies,
   } = useCollectionsStore();
 
+  const location = useLocation();
+
+  // 페이지 렌더링 시 상태 초기화
+  useEffect(() => {
+    if (location.pathname === "/mypage/collections/create") {
+      resetFields();
+    }
+  }, [location, resetFields]);
+
   const handleSaveCollection = () => {
     if (title.trim()) {
       addCollection({
@@ -46,11 +57,13 @@ const CreateCollection = () => {
     }
   };
 
+  const hasContent = title.trim() !== "" || description.trim() !== "";
+
   return (
     <S.Container>
       <S.HeaderContainer>
         <S.Header>{CollectionsLabel.NewCollection}</S.Header>
-        <S.SaveButton onClick={handleSaveCollection}>
+        <S.SaveButton hasContent={hasContent} onClick={handleSaveCollection}>
           {CollectionsLabel.Create}
         </S.SaveButton>
       </S.HeaderContainer>
@@ -151,7 +164,8 @@ const S = {
     padding: 0.3rem 0.9rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
-    color: ${(props) => props.theme.color.collectionColor};
+    color: ${(props) =>
+      props.hasContent ? props.theme.color.fontPink : props.theme.color.collectionColor};
     background-color: transparent;
     border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
     border-radius: 0.3rem;
