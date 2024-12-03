@@ -1,14 +1,20 @@
 import styled from 'styled-components';
 import Button from './Button';
-import useModalStore from '../../../store/modal/useModalStore';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
-  const { openModal } = useModalStore();
   const [activeButton, setActiveButton] = useState(null);
+  const navigate = useNavigate();
 
   const buttons = [
-    { title: '홈', onClick: () => setActiveButton('홈') },
+    {
+      title: '홈',
+      onClick: () => {
+        setActiveButton('홈');
+        navigate('/');
+      },
+    },
     { title: '탐색', onClick: () => setActiveButton('탐색') },
     { title: '장르별', onClick: () => setActiveButton('장르별') },
   ];
@@ -16,11 +22,11 @@ function Header() {
   const authButtons = [
     {
       title: '로그인',
-      onClick: () => openModal('로그인', '계정이 없으신가요?'),
+      onClick: () => navigate('/login'),
     },
     {
       title: '회원가입',
-      onClick: () => openModal('회원가입', '계정이 이미 있으신가요?'),
+      onClick: () => navigate('/register'),
     },
   ];
 
