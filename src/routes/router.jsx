@@ -7,6 +7,7 @@ import CommentsPage from '../pages/mypage/CommentsPage';
 import CollectionsPage from '../pages/mypage/CollectionsPage';
 import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
 import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
+import GenrePage from '../pages/generepage';
 
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: 'mypage/collections',
         element: <CollectionsPage />,
+      },
+      {
+        path: 'genere',
+        element: <GenrePage />,
       },
     ],
   },
