@@ -10,6 +10,7 @@ import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRating
 import FollowersPage from '../pages/followpage/FollowerPage';
 import FollowerPage from '../pages/followpage/FollowerPage';
 import FollowingPage from '../pages/followpage/FollowingPage';
+import AlarmHistoryPage from '../pages/AlarmHistoryPage';
 
 
 const router = createBrowserRouter([
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: 'followings',
         element: <FollowingPage />,
+      },
+      {
+        path: 'alarmhistorys',
+        element: <AlarmHistoryPage />,
       },
     ],
   },

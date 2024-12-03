@@ -7,7 +7,7 @@ const FollowersList = () => {
   const { followStates, initializeFollowStates, toggleFollow } = useFollowStore();
 
   useEffect(() => {
-    initializeFollowStates(Followers.map(() => false)); // 기본 상태: '팔로우'
+    initializeFollowStates(Followers.map(() => false));
   }, [initializeFollowStates]);
 
   return (
@@ -98,7 +98,6 @@ const S = {
     background-color: ${(props) =>
       props.isFollowing ? props.theme.color.mainColor : '#ffe0e9'};
 
-    /* hover 효과 */
     &:hover {
       background-color: ${(props) =>
         props.isFollowing ? '#ffe0e9' : props.theme.color.fontPink};
