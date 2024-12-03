@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Poster from "../Common/poster/Poster";
 import SvgOption from "../../assets/svg/Option";
 import useCollectionsMenuStore from "../../store/collections/useCollectionsMenuStore";
 import useCollectionsDeleteStore from "../../store/collections/useCollectionsDeleteStore";
 import CollectionsDeleteModal from "../Common/modal/CollectionsDeleteModal";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
+import { useEffect } from "react";
 
 const CollectionsLabel = {
   Like: "좋아요",
@@ -19,13 +20,39 @@ const CollectionsLabel = {
 
 const CollectionDetail = ({ collectionData }) => {
   const navigate = useNavigate();
-  const { setSelectedCollection, selectedCollection } = useCollectionsStore();
+  const location = useLocation();
+  const { setSelectedCollection } = useCollectionsStore();
   const { openMenuId, isOpen, openMenu, closeMenu } = useCollectionsMenuStore();
   const { openModal } = useCollectionsDeleteStore();
 
+  useEffect(() => {
+    closeMenu();
+  }, [location, closeMenu]);
+
   const handleEditClick = () => {
     setSelectedCollection(collectionData);
+    closeMenu();
     navigate(`/mypage/collections/${collectionData.id}/edit`);
+  };
+
+  const handleDeleteClick = () => {
+    setSelectedCollection(collectionData);
+    openModal();
+    closeMenu();
+  };
+
+  const handleMenuToggle = () => {
+    if (isOpen && openMenuId === collectionData.id) {
+      closeMenu();
+    } else {
+      openMenu(collectionData.id);
+    }
+  };
+
+  const handlePageClick = (e) => {
+    if (isOpen && !e.target.closest("[data-menu-toggle]")) {
+      closeMenu();
+    }
   };
 
   if (!collectionData) {
@@ -42,29 +69,15 @@ const CollectionDetail = ({ collectionData }) => {
     likes = 0,
   } = collectionData;
 
-  const handleMenuToggle = () => {
-    if (isOpen && openMenuId === collectionData.id) {
-      closeMenu();
-    } else {
-      openMenu(collectionData.id);
-    }
-  };
-
-  const handleDeleteClick = () => {
-    setSelectedCollection(collectionData);
-    openModal();
-    closeMenu();
-  };
-
   return (
-    <S.Container>
+    <S.Container onClick={handlePageClick}>
       <S.Header backgroundImage={bannerImage}>
         <S.Overlay />
         <S.Profile>
           <S.ProfileImage src={profileImage} alt={`${name} 프로필`} />
           <S.UserName>{name}</S.UserName>
         </S.Profile>
-        <S.MoreOptions onClick={handleMenuToggle}>
+        <S.MoreOptions onClick={handleMenuToggle} data-menu-toggle>
           <S.StyledSvgOption />
         </S.MoreOptions>
         {isOpen && openMenuId === collectionData.id && (
@@ -83,7 +96,8 @@ const CollectionDetail = ({ collectionData }) => {
         <S.CollectionTitle>{collectionName}</S.CollectionTitle>
         <S.Description>{description}</S.Description>
         <S.Stats>
-          {CollectionsLabel.Like} {likes} {CollectionsLabel.Comment} {CollectionsLabel.count}
+          {CollectionsLabel.Like} {likes} {CollectionsLabel.Comment}{" "}
+          {CollectionsLabel.count}
         </S.Stats>
       </S.Content>
       <S.Divider />

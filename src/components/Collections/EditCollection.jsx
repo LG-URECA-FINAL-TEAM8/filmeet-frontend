@@ -31,6 +31,7 @@ const EditCollection = () => {
     toggleMovieToRemove,
     removeSelectedMovies,
     enableEditMode,
+    disableEditMode,
     resetFields,
     addCollection,
     confirmTempSelectedMovies,
@@ -55,6 +56,19 @@ const EditCollection = () => {
       resetFields();
     }
   };
+
+  const handleCancelEdit = () => {
+    disableEditMode(); // 수정 모드 종료
+  };
+
+  const handleRemoveSelectedMovies = () => {
+    if (moviesToRemove.length === 0) {
+      // 선택된 영화가 없으면 수정 모드 유지
+      return;
+    }
+    removeSelectedMovies();
+  };
+
 
   const hasContent = title.trim() !== "" || description.trim() !== "";
 
@@ -84,14 +98,19 @@ const EditCollection = () => {
         </S.InputBox>
       </S.InputContainer>
       <S.Section>
-        <S.SectionHeader>
+      <S.SectionHeader>
           <span>{CollectionsLabel.Movies}</span>
           {selectedMovies.length > 0 &&
             (isEditing ? (
-              <S.RemoveButton onClick={removeSelectedMovies}>
-                {moviesToRemove.length}
-                {CollectionsLabel.RemoveSelected}
-              </S.RemoveButton>
+              <S.ActionButtons>
+                <S.CancelButton onClick={handleCancelEdit}>
+                  취소
+                </S.CancelButton>
+                <S.RemoveButton onClick={handleRemoveSelectedMovies}>
+                  {moviesToRemove.length}
+                  {CollectionsLabel.RemoveSelected}
+                </S.RemoveButton>
+              </S.ActionButtons>
             ) : (
               <S.EditButton onClick={enableEditMode}>
                 {CollectionsLabel.Edit}
@@ -161,20 +180,15 @@ const S = {
 
   SaveButton: styled.button`
     padding: 0.3rem 0.9rem;
-    border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
-    border-radius: 0.3rem;
-    background-color: transparent;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
     color: ${(props) =>
       props.hasContent ? props.theme.color.fontPink : props.theme.color.collectionColor};
+    background-color: transparent;
+    border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
+    border-radius: 0.3rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-
-    &:hover {
-      background-color: ${(props) =>
-        props.hasContent ? props.theme.color.fontPink + "20" : "transparent"};
-    }
   `,
 
   InputContainer: styled.div`
@@ -302,12 +316,17 @@ const S = {
 
   RemoveIcon: styled.div`
     position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0.3rem;
-    font-size: 1rem;
-    color: ${(props) => props.theme.color.fontPink};
-    cursor: pointer;
+  top: 0.3rem;
+  right: 0.3rem;
+  font-size: 1rem;
+  color: ${(props) =>
+    props.isSelected ? props.theme.color.fontPink : props.theme.color.fontWhite}; /* 선택 여부에 따라 색상 변경 */
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: ${(props) => props.theme.color.fontPink}; /* Hover 시 핑크 */
+  }
   `,
 
   EditButton: styled.button`
@@ -324,7 +343,21 @@ const S = {
     background: none;
     font-size: 0.8rem;
     color: ${(props) => props.theme.color.fontPink};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     cursor: pointer;
   `,
-};
+  ActionButtons: styled.div`
+  display: flex;
+  align-items: center;
+`,
 
+CancelButton: styled.button`
+  border: none;
+  background: none;
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
+  font-size: 0.8rem;
+  color: ${(props) => props.theme.color.fontPink};
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+`,
+};

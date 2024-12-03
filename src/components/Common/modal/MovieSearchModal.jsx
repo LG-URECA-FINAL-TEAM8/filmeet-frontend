@@ -168,10 +168,6 @@ const S = {
     background: none;
     border: none;
     cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
-
-    &:hover {
-      text-decoration: ${(props) => (props.disabled ? "none" : "underline")};
-    }
   `,
 
   SearchWrapper: styled.label`
