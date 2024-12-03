@@ -12,6 +12,7 @@ const CollectionsLabel = {
   Edit: "수정하기",
   RemoveSelected: "개 제거",
   AddMovie: "작품 추가",
+  Cancel: "취소",
 };
 
 const EditCollection = () => {
@@ -58,17 +59,15 @@ const EditCollection = () => {
   };
 
   const handleCancelEdit = () => {
-    disableEditMode(); // 수정 모드 종료
+    disableEditMode();
   };
 
   const handleRemoveSelectedMovies = () => {
     if (moviesToRemove.length === 0) {
-      // 선택된 영화가 없으면 수정 모드 유지
       return;
     }
     removeSelectedMovies();
   };
-
 
   const hasContent = title.trim() !== "" || description.trim() !== "";
 
@@ -104,9 +103,9 @@ const EditCollection = () => {
             (isEditing ? (
               <S.ActionButtons>
                 <S.CancelButton onClick={handleCancelEdit}>
-                  취소
+                  {CollectionsLabel.Cancel}
                 </S.CancelButton>
-                <S.RemoveButton onClick={handleRemoveSelectedMovies}>
+                <S.RemoveButton onClick={handleRemoveSelectedMovies} disabled={moviesToRemove.length === 0}>
                   {moviesToRemove.length}
                   {CollectionsLabel.RemoveSelected}
                 </S.RemoveButton>
@@ -342,7 +341,10 @@ const S = {
     border: none;
     background: none;
     font-size: 0.8rem;
-    color: ${(props) => props.theme.color.fontPink};
+    color: ${(props) =>
+    props.disabled
+      ? props.theme.color.collectionColor
+      : props.theme.color.fontPink};
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     cursor: pointer;
   `,
