@@ -13,6 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
+import tableHeaders from '../../../data/admintableheaders';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
@@ -23,14 +24,7 @@ function AddMovie() {
   const { movies, setMovies } = useMovieStore();
   const { addModal, openAddModal, closeAddModal } = useAdminModalStore();
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
-
-  const tableHeader = {
-    movieName: '영화 이름',
-    avgRating: '평균 평점',
-    Genre: '장르',
-    releaseDate: '개봉일',
-    buttonAdd: '추가',
-  };
+  const tableHeader = tableHeaders.addMovie;
 
   useEffect(() => {
     const enhancedMovies = moviesData.map(({ ...rest }) => ({
@@ -77,11 +71,9 @@ function AddMovie() {
         <Table>
           <TableHead>
             <TableRow>
-              <S.TableHeadCell>{tableHeader.movieName}</S.TableHeadCell>
-              <S.TableHeadCell>{tableHeader.avgRating}</S.TableHeadCell>
-              <S.TableHeadCell>{tableHeader.Genre}</S.TableHeadCell>
-              <S.TableHeadCell>{tableHeader.releaseDate}</S.TableHeadCell>
-              <S.TableHeadCell>{tableHeader.buttonAdd}</S.TableHeadCell>
+              {Object.values(tableHeader).map((header) => (
+                  <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
+                ))}
             </TableRow>
           </TableHead>
           <TableBody>

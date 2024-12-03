@@ -6,9 +6,11 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import genres from '../../../data/admingenres';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 import { lightTheme } from '../../../styles/themes';
 import SvgImagePreview from '../../../assets/svg/ImagePreview';
+
 function AdminAddModal() {
   const {
     addModal,
@@ -19,7 +21,7 @@ function AdminAddModal() {
     setAddModalReleaseDate,
   } = useAdminModalStore();
 
-  const modal = {
+  const modalContent = {
     modalSubTitle: '영화 정보 입력',
     uploadTitle: '이미지 업로드',
     uploadSubTitle: '여기로 드래그 앤 드롭',
@@ -28,14 +30,6 @@ function AdminAddModal() {
   };
 
   const { isOpen, title, genre, releaseDate } = addModal;
-  const genres = ['액션', '호러', '공포', '코미디',
-                  '코메디','드라마', '스릴러', '로맨스',
-                  '범죄', '판타지', '미스터리','애니',
-                  'SF', '어드벤쳐', '뮤직', '전쟁',
-                  '다큐', '뮤지컬', '가족', '느와르',
-                  '에로', '시대극', '사극', '멜로드라마',
-                  '멜로', '로맨틱'
-                ];
   
   const handleSave = () => {
     alert(`새로운 영화 추가: ${title}`);
@@ -60,52 +54,38 @@ function AdminAddModal() {
   return (
     <S.ModalOverlay onClick={handleOverlayClick}>
       <S.Card onClick={(e) => e.stopPropagation()}>
-        <S.Subtitle>{modal.modalSubTitle}</S.Subtitle>
+        <S.Subtitle>{modalContent.modalSubTitle}</S.Subtitle>
         <S.CardContent>
         <S.ImagePreview>
           {addModal.image ? (
-            <img
-              src={addModal.image}
-              alt="Preview"
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: '50%',
-                objectFit: 'cover',
-              }}
-            />
+            <S.Image src={addModal.image} alt="Preview"/>
           ) : (
             <SvgImagePreview />
             )}
           </S.ImagePreview>
-          <S.UploadTitle>{modal.uploadTitle}</S.UploadTitle>
-          <S.UploadSubtitle>{modal.uploadSubTitle}</S.UploadSubtitle>
-          <input
+          <S.UploadTitle>{modalContent.uploadTitle}</S.UploadTitle>
+          <S.UploadSubtitle>{modalContent.uploadSubTitle}</S.UploadSubtitle>
+          <S.HiddenInput
             accept="image/*"
             type="file"
             id="image-upload"
-            style={{ display: 'none' }}
             onChange={handleImageUpload}
           />
           <label htmlFor="image-upload">
             <S.UploadButton variant="contained" component="span">
-              {modal.uploadButton}
+              {modalContent.uploadButton}
             </S.UploadButton>
           </label>
         </S.CardContent>
         <S.TextField
           label="영화 제목"
-          variant="outlined"
-          fullWidth
           value={title}
           onChange={(e) => setAddModalTitle(e.target.value)}
         />
-        <Box sx={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        <S.Box>
           <S.TextField
             select
             label="장르 선택"
-            variant="outlined"
-            fullWidth
             value={genre}
             onChange={(e) => setAddModalGenre(e.target.value)}
           >
@@ -118,15 +98,13 @@ function AdminAddModal() {
           <S.TextField
             type="date"
             label="개봉일 선택"
-            variant="outlined"
-            fullWidth
             InputLabelProps={{ shrink: true }}
             value={releaseDate}
             onChange={(e) => setAddModalReleaseDate(e.target.value)}
           />
-        </Box>
+        </S.Box>
         <S.SaveButton variant="contained" fullWidth onClick={handleSave}>
-          {modal.saveButton}
+          {modalContent.saveButton}
         </S.SaveButton>
       </S.Card>
     </S.ModalOverlay>
@@ -171,6 +149,12 @@ const S = {
     marginBottom: '2rem',
   }),
 
+  Box: styled(Box)({
+    display: 'flex',
+    gap: '1rem', 
+    marginBottom: '1rem'
+  }),
+
   ImagePreview: styled(Box)({
     width: '4rem',
     height: '4rem',
@@ -180,6 +164,17 @@ const S = {
     backgroundColor: lightTheme.color.mainColor,
     borderRadius: '2rem',
     marginBottom: '1rem',
+  }),
+
+  Image: styled('img')({
+    width: '100%',
+    height: '100%',
+    borderRadius: '50%',
+    objectFit: 'cover',
+  }),
+
+  HiddenInput: styled('input')({
+    display: 'none',
   }),
 
   UploadTitle: styled(Typography)({
@@ -199,6 +194,9 @@ const S = {
 
   TextField: styled(TextField)({
     marginBottom: '2rem',
+    width: '100%',
+    variant: 'outlined',
+    fullWidth: true,     
   }),
 
   SaveButton: styled(Button)({

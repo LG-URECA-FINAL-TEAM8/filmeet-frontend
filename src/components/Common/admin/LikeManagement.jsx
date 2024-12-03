@@ -12,6 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
+import tableHeaders from '../../../data/admintableheaders';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -22,15 +23,7 @@ import ReviewerBadge from './ReviewerBadge';
 function LikeManagement() {
   const { movies, setMovies } = useMovieStore();
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
-
-  const tableHeader = {
-    movieName: '영화 이름',
-    reviewer: '작성자',
-    likeNum: '좋아요 수',
-    avgRating: '평점',
-    createdDate: '작성일',
-    Action: '삭제 / 숨김',
-  };
+  const tableHeader = tableHeaders.likeManagement;
 
   useEffect(() => {
     const enhancedMovies = moviesData.map(({ ...rest }) => ({
@@ -105,12 +98,9 @@ function LikeManagement() {
         <Table>
           <TableHead>
             <TableRow>
-              <S.TableHeadCell>{tableHeader.movieName}</S.TableHeadCell>
-              <S.TableHeadCell>{tableHeader.reviewer}</S.TableHeadCell>
-              <S.TableHeadCell>{tableHeader.likeNum}</S.TableHeadCell>
-              <S.TableHeadCell>{tableHeader.avgRating}</S.TableHeadCell>
-              <S.TableHeadCell>{tableHeader.createdDate}</S.TableHeadCell>
-              <S.TableHeadCell>{tableHeader.Action}</S.TableHeadCell>
+              {Object.values(tableHeader).map((header) => (
+                  <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
+                ))}
             </TableRow>
           </TableHead>
           <TableBody>

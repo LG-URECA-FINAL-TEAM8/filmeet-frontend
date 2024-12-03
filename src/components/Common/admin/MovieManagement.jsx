@@ -17,6 +17,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import LikeBadge from './LikeBadge';
 import CommentBadge from './CommentBadge';
+import tableHeaders from '../../../data/admintableheaders';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import useEditStore from '../../../store/admin/useEditStore';
@@ -25,16 +26,7 @@ function MovieManagement() {
   const { movies, setMovies, updateMovieField } = useMovieStore();
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
   const { editingRow, setEditingRow } = useEditStore();
-
-  const tableHeader = {
-    movieName: '영화 이름',
-    commentNum: '댓글 수',
-    likeNum: '좋아요 수',
-    avgRating: '평균 평점',
-    genre: '장르',
-    releaseDate: '개봉일',
-    action: '수정 / 삭제',
-  };
+  const tableHeader = tableHeaders.movieManagement;
 
   useEffect(() => {
     const enhancedMovies = moviesData.map(({ ...rest }) => ({
