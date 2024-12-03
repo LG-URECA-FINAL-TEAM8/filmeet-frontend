@@ -61,9 +61,7 @@ function AddMovie() {
     <S.Container>
       <S.SearchBox>
         <S.SearchBarTextField
-          fullWidth
           label="영화 검색"
-          variant="outlined"
           onChange={(e) => handleSearch(e.target.value)}
         />
       </S.SearchBox>
@@ -86,10 +84,7 @@ function AddMovie() {
                 <S.TableBodyCell>{movie.genre || 'N/A'}</S.TableBodyCell>
                 <S.TableBodyCell>{movie.releaseDate || 'N/A'}</S.TableBodyCell>
                 <S.TableBodyCell>
-                  <PlaylistAddOutlinedIcon
-                    onClick={() => handleAdd(movie)}
-                    style={{cursor: 'pointer', marginRight: '1rem'}}
-                  />
+                  <S.AddIcon onClick={() => handleAdd(movie)} />
                 </S.TableBodyCell>
               </TableRow>
             ))}
@@ -131,6 +126,8 @@ const S = {
   }),
 
   SearchBarTextField: styled(TextField)({
+    variant: "outlined",
+    fullWidth: true,
     height: '2rem',
     marginLeft: '6rem',
     '& .MuiInputBase-root': {
@@ -160,6 +157,11 @@ const S = {
     fontWeight: lightTheme.font.fontWeightRegular,
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
+  }),
+  
+  AddIcon: styled(PlaylistAddOutlinedIcon)({
+    cursor: 'pointer',
+    marginRight: '1rem',
   }),
 
   Pagination: styled(Pagination)({

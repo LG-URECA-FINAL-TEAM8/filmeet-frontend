@@ -88,9 +88,7 @@ function MovieManagement() {
     <S.Container>
       <S.SearchBox>
         <S.SearchBarTextField
-          fullWidth
           label="영화 검색"
-          variant="outlined"
           onChange={(e) => handleSearch(e.target.value)}
         />
       </S.SearchBox>
@@ -129,20 +127,11 @@ function MovieManagement() {
                 <S.TableBodyCell>{movie.releaseDate}</S.TableBodyCell>
                 <S.TableBodyCell>
                   {editingRow === movie.id ? (
-                    <CheckIcon
-                      onClick={handleSave}
-                      style={{ cursor: 'pointer', marginRight: '1.5rem', color: lightTheme.color.fontBlack }}
-                    />
+                    <S.CheckIcon onClick={handleSave} />
                   ) : (
-                    <ModeEditTwoToneIcon
-                      onClick={() => handleEdit(movie.id)}
-                      style={{ cursor: 'pointer', marginRight: '1.5rem', color: lightTheme.color.fontGray }}
-                    />
+                    <S.ModeEditTwoToneIcon onClick={() => handleEdit(movie.id)} />
                   )}
-                  <DeleteIcon
-                    onClick={() => handleDelete(movie)}
-                    style={{ cursor: 'pointer', color: lightTheme.color.buttonPink }}
-                  />
+                  <S.DeleteIcon onClick={() => handleDelete(movie)} />
                 </S.TableBodyCell>
               </TableRow>
             ))}
@@ -185,6 +174,8 @@ const S = {
   }),
 
   SearchBarTextField: styled(TextField) ({
+    fullWidth: true,
+    variant: "outlined",
     height: '2rem',
     marginLeft: '6rem',
     '& .MuiInputBase-root': {
@@ -213,6 +204,23 @@ const S = {
     fontWeight: lightTheme.font.fontWeightRegular,
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
+  }),
+
+  CheckIcon: styled(CheckIcon)({
+    cursor: 'pointer', 
+    marginRight: '1.5rem', 
+    color: lightTheme.color.fontBlack,
+  }),
+
+  ModeEditTwoToneIcon : styled(ModeEditTwoToneIcon) ({
+    cursor: 'pointer', 
+    marginRight: '1.5rem', 
+    color: lightTheme.color.fontGray,
+  }),
+
+  DeleteIcon: styled(DeleteIcon)({
+    cursor: 'pointer', 
+    color: lightTheme.color.buttonPink
   }),
 
   Pagination: styled(Pagination)({

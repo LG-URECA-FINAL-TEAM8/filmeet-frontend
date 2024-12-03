@@ -88,9 +88,7 @@ function LikeManagement() {
     <S.Container>
       <S.SearchBox>
         <S.TextField
-          fullWidth
           label="영화 검색"
-          variant="outlined"
           onChange={(e) => handleSearch(e.target.value)}
         />
       </S.SearchBox>
@@ -116,14 +114,8 @@ function LikeManagement() {
                 <S.TableBodyCell>{movie.rating}</S.TableBodyCell>
                 <S.TableBodyCell>{movie.createdDate}</S.TableBodyCell>
                 <S.TableBodyCell>
-                  <DeleteIcon
-                    onClick={() => handleDelete(movie)}
-                    style={{ cursor: 'pointer', color: lightTheme.color.buttonPink }}
-                  />
-                  <LockIcon
-                    onClick={() => handleLock(movie)}
-                    style={{ cursor: 'pointer', marginLeft: '1rem', color: lightTheme.color.fontGray }}
-                  />
+                  <S.DeleteIcon onClick={() => handleDelete(movie)} />
+                  <S.LockIcon onClick={() => handleLock(movie)} />
                 </S.TableBodyCell>
               </TableRow>
             ))}
@@ -151,6 +143,8 @@ const S = {
   }),
 
   TextField: styled(TextField)({
+    fullWidth: true,
+    variant: "outlined",
     height: '2rem',
     marginLeft: '6rem',
     '& .MuiInputBase-root': {
@@ -186,6 +180,17 @@ const S = {
     fontWeight: lightTheme.font.fontWeightRegular,
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
+  }),
+
+  DeleteIcon: styled(DeleteIcon)({
+    cursor: 'pointer',
+    color: lightTheme.color.buttonPink,
+  }),
+
+  LockIcon: styled(LockIcon)({
+    cursor: 'pointer',
+    marginLeft: '1rem',
+    color: lightTheme.color.fontGray,
   }),
 
   Pagination: styled(Pagination)({
