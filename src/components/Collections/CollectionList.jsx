@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import NoResult from "./NoResult"; // NoResult 컴포넌트 임포트
+import NoResult from "./NoResult";
 
 const CollectionList = ({ collections }) => {
   const navigate = useNavigate();
@@ -10,7 +10,6 @@ const CollectionList = ({ collections }) => {
     Comment: "댓글",
   };
 
-  // 데이터가 없는 경우 NoResult를 반환
   if (!collections || collections.length === 0) {
     return (
       <S.Wrapper>
@@ -74,10 +73,10 @@ const S = {
 
   CollectionCard: styled.div`
     width: 100%;
-    border: ${(props) => props.theme.box.defaultBorder};
-    border-radius: 0.5rem;
     overflow: hidden;
     background: ${(props) => props.theme.color.mainColor};
+    border: ${(props) => props.theme.box.defaultBorder};
+    border-radius: 0.5rem;
     box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
   `,
 
@@ -100,8 +99,8 @@ const S = {
     left: 0;
     right: 0;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding: 0.5rem 1rem;
     color: ${(props) => props.theme.color.mainColor};
   `,
@@ -127,15 +126,15 @@ const S = {
   `,
 
   Badge: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
     background: ${(props) => props.theme.color.fontBlack};
     color: ${(props) => props.theme.color.fontWhite};
     font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 0.8rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   `,
 
   CardContent: styled.div`
@@ -143,9 +142,9 @@ const S = {
   `,
 
   CollectionName: styled.h2`
+    margin: 0;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1.2rem;
-    margin: 0;
     color: ${(props) => props.theme.color.fontBlack};
   `,
 
@@ -159,9 +158,9 @@ const S = {
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 1rem;
+    border-top: ${(props) => props.theme.box.defaultBorder};
     font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontGray};
-    border-top: ${(props) => props.theme.box.defaultBorder};
   `,
 
   Action: styled.div`
@@ -174,3 +173,4 @@ const S = {
     }
   `,
 };
+

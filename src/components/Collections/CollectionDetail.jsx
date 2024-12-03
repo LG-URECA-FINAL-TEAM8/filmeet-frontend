@@ -19,7 +19,7 @@ const CollectionsLabel = {
 
 const CollectionDetail = ({ collectionData }) => {
   const navigate = useNavigate();
-  const { setSelectedCollection, selectedCollection } = useCollectionsStore();  // 선택된 컬렉션 가져오기
+  const { setSelectedCollection, selectedCollection } = useCollectionsStore();
   const { openMenuId, isOpen, openMenu, closeMenu } = useCollectionsMenuStore();
   const { openModal } = useCollectionsDeleteStore();
 
@@ -51,9 +51,9 @@ const CollectionDetail = ({ collectionData }) => {
   };
 
   const handleDeleteClick = () => {
-    setSelectedCollection(collectionData); // 선택된 컬렉션 저장
-    openModal(); // 모달 열기
-    closeMenu(); // 메뉴 닫기
+    setSelectedCollection(collectionData);
+    openModal();
+    closeMenu();
   };
 
   return (
@@ -94,8 +94,6 @@ const CollectionDetail = ({ collectionData }) => {
         </S.SectionHeader>
         <Poster caseType={4} movies={movies} />
       </S.MoviesSection>
-
-      {/* 삭제 모달 렌더링 */}
       <CollectionsDeleteModal />
     </S.Container>
   );
@@ -107,10 +105,10 @@ const S = {
   Container: styled.div`
     width: 40rem;
     height: auto;
+    overflow: hidden;
     background: ${(props) => props.theme.color.mainColor};
     border: 1px solid ${(props) => props.theme.color.mainColor};
     border-radius: 0.5rem;
-    overflow: hidden;
     box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
   `,
 
@@ -135,9 +133,9 @@ const S = {
     position: absolute;
     bottom: 1rem;
     left: 1rem;
+    z-index: 2;
     display: flex;
     align-items: center;
-    z-index: 2;
   `,
 
   ProfileImage: styled.img`
@@ -158,13 +156,13 @@ const S = {
     position: absolute;
     top: 1rem;
     right: 1rem;
+    z-index: 2;
+    width: 2rem;
+    height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
     cursor: pointer;
-    z-index: 2;
 
     svg {
       width: 1rem;
@@ -187,27 +185,27 @@ const S = {
 
   CollectionTitle: styled.h1`
     height: 1.5rem;
+    margin: 1rem 0 0.4rem 0;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-weight: ${(props) => props.theme.font.fontWeightRegular};
     font-size: 1.1rem;
-    margin: 1rem 0 0.4rem 0;
   `,
 
   Description: styled.article`
+    margin: 0.7rem 0 0 0;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-weight: ${(props) => props.theme.font.fontWeightRegular};
     font-size: 0.7rem;
     color: ${(props) => props.theme.color.fontGray};
-    margin: 0.7rem 0 0 0;
   `,
 
   Stats: styled.ul`
+    margin: 2rem 0 0 0;
+    padding: 0 0 0 0;
     display: block;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
-    color: ${(props) => props.theme.color.fontGray}; 
-    margin: 2rem 0 0 0;  
-    padding: 0 0 0 0;
+    color: ${(props) => props.theme.color.fontGray};
   `,
 
   ActionSection: styled.div`
@@ -216,9 +214,9 @@ const S = {
   `,
 
   Divider: styled.hr`
-    width: 37.5rem;  
-    color: ${(props) => props.theme.font.borderDefault}; 
+    width: 37.5rem;
     margin: 0 1.25rem 0 1.25rem;
+    color: ${(props) => props.theme.font.borderDefault};
   `,
 
   MoviesSection: styled.section`
@@ -226,11 +224,11 @@ const S = {
   `,
 
   SectionHeader: styled.div`
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 0.5rem;
-    margin-bottom: 1rem;
   `,
 
   SectionTitle: styled.h2`
@@ -239,7 +237,7 @@ const S = {
   `,
 
   TitleCount: styled.span`
-    color: ${(props) => props.theme.color.fontGray}; 
+    color: ${(props) => props.theme.color.fontGray};
   `,
 
   MovieGrid: styled.section`
@@ -261,10 +259,10 @@ const S = {
     position: absolute;
     top: 2.5rem;
     right: 1rem;
+    z-index: 10;
     background: ${(props) => props.theme.color.mainColor};
     box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
     border-radius: 0.3rem;
-    z-index: 10;
   `,
 
   DropdownItem: styled.div`
@@ -276,3 +274,4 @@ const S = {
     }
   `,
 };
+

@@ -34,22 +34,23 @@ const S = {
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
-    padding: 0.75rem, 0, 0.87rem 0;
+    padding: 0.75rem 0 0.87rem 0;
   `,
 
   Title: styled.h1`
+    margin: 0;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 1.5rem;
-    margin: 0; 
   `,
 
   Button: styled.a`
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 1rem;
-    color: ${(props) => props.theme.color.fontPink};
     background: none;
     border: none;
     cursor: pointer;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1rem;
+    color: ${(props) => props.theme.color.fontPink};
     transition: color 0.3s ease;
   `,
 };
+

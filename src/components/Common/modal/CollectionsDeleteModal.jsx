@@ -57,8 +57,8 @@ const customStyles = {
 const S = {
   Container: styled.div`
     width: 15rem;
-    text-align: center;
     margin: 0 1.25rem;
+    text-align: center;
   `,
   Title: styled.h2`
     font-family: ${(props) => props.theme.font.fontSuitBold};
@@ -73,10 +73,10 @@ const S = {
     margin: 0.5rem 0 1.5rem;
   `,
   ButtonGroup: styled.div`
-    width: 15rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 15rem;
     border-top: ${(props) => props.theme.font.borderDefault};
   `,
   CancelButton: styled.button`
@@ -105,3 +105,4 @@ const S = {
     margin: 0.69rem 0;
   `,
 };
+

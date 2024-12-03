@@ -180,26 +180,25 @@ const S = {
   `,
 
   InputBox: styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
-    position: relative;
   `,
 
   Input: styled.input`
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 1rem;
     padding: 0.4rem 0 1.2rem;
     border: none;
     border-bottom: 0.1rem solid ${(props) => props.theme.color.collectionColor};
     outline: none;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1rem;
+
     &::placeholder {
       color: ${(props) => props.theme.color.collectionColor};
     }
   `,
 
   Textarea: styled.textarea`
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 1rem;
     padding: 0.4rem 0 7rem;
     border: none;
     border-bottom: 0.1rem solid ${(props) => props.theme.color.collectionColor};
@@ -207,6 +206,8 @@ const S = {
     resize: none;
     height: 3.8rem;
     line-height: 1;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1rem;
 
     &::placeholder {
       color: ${(props) => props.theme.color.collectionColor};
@@ -222,34 +223,34 @@ const S = {
   SectionHeader: styled.div`
     display: flex;
     justify-content: space-between;
-    font-family: ${(props) => props.theme.font.fontSuitBold}; 
+    font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 1.4rem;
     color: ${(props) => props.theme.color.fontBlack};
   `,
 
   MoviesGrid: styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(6.1rem, 1fr)); 
-    gap:  0.6rem; 
+    grid-template-columns: repeat(auto-fill, minmax(6.1rem, 1fr));
+    gap: 0.6rem;
     margin-top: 1.5rem;
   `,
 
   AddCard: styled.div`
-    margin: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 6.25rem; 
-    height: 8.9rem; 
+    width: 6.25rem;
+    height: 8.9rem;
+    margin: 0;
     border-radius: 0.3rem;
-    cursor: pointer;
+    border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
+    background-color: ${(props) => props.theme.color.commentColor};
+    color: ${(props) => props.theme.color.collectionColor};
     text-align: center;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
-    border: 0.1rem solid ${(props) => props.theme.color.collectionColor}; 
-    background-color: ${(props) => props.theme.color.commentColor}; 
-    color: ${(props) => props.theme.color.collectionColor}; 
-   `,
+    cursor: pointer;
+  `,
 
   PlusSign: styled.div`
     font-size: 3rem;
@@ -257,10 +258,10 @@ const S = {
   `,
 
   AddText: styled.div`
+    margin-top: 0.3rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
     color: ${(props) => props.theme.color.collectionColor};
-    margin-top: 0.3rem;
   `,
 
   MovieThumbnail: styled.div`
@@ -268,57 +269,58 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 6.25rem; 
+    width: 6.25rem;
+    margin: 0 auto;
     border-radius: 0.3rem;
     overflow: hidden;
     text-align: center;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
-    margin: 0 auto;  
   `,
 
   ThumbnailImage: styled.img`
     width: 100%;
-    height: 8.9rem; 
+    height: 8.9rem;
     object-fit: cover;
     border-radius: 0.3rem;
   `,
 
   ThumbnailTitle: styled.div`
-    margin-top: 0.4rem; 
-    font-size: 0.9rem; 
+    margin-top: 0.4rem;
+    width: 100%;
+    font-size: 0.9rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     color: ${(props) => props.theme.color.fontBlack};
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 100%;
   `,
 
   RemoveIcon: styled.div`
     position: absolute;
-    top: 0; 
-    right: 0; 
+    top: 0;
+    right: 0;
+    padding: 0.3rem;
     font-size: 1rem;
     color: ${(props) => props.theme.color.fontPink};
     cursor: pointer;
-    padding: 0.3rem;  
-`,
+  `,
 
   EditButton: styled.button`
+    border: none;
+    background: none;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.8rem;
     color: ${(props) => props.theme.color.fontPink};
-    border: none;
-    background: none;
     cursor: pointer;
   `,
 
   RemoveButton: styled.button`
-    font-size: 0.8rem;
-    color: ${(props) => props.theme.color.fontPink};
     border: none;
     background: none;
+    font-size: 0.8rem;
+    color: ${(props) => props.theme.color.fontPink};
     cursor: pointer;
   `,
 };
+

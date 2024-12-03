@@ -100,12 +100,12 @@ const customStyles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: "1.5rem 0 1.5rem 0",
+    padding: "1.5rem 0",
     zIndex: 1000,
   },
   content: {
     position: "",
-    width: "375px",
+    width: "23.43rem",
     maxWidth: "90%",
     height: "37.5rem",
     borderRadius: "0.3rem",
@@ -123,12 +123,12 @@ const S = {
     background-color: ${(props) => props.theme.color.fontWhite};
     border-radius: 0.3rem;
     overflow: hidden;
-    box-sizing: border-box; // 박스 크기 포함
+    box-sizing: border-box;
   `,
 
   ButtonWrapper: styled.div`
     display: flex;
-    padding: 10px 16px 4px;
+    padding: 0.62rem 1rem 0.25rem;
   `,
 
   CloseButton: styled.button`
@@ -137,7 +137,7 @@ const S = {
     font-size: 1.2rem;
     cursor: pointer;
     color: ${(props) => props.theme.color.fontPink};
-    padding: 6px;
+    padding: 0.37rem;
   `,
 
   Header: styled.header`
@@ -147,7 +147,7 @@ const S = {
     align-items: stretch;
     padding: 0 1.25rem;
     background-color: ${(props) => props.theme.color.lightGray};
-    border-bottom: 1px solid ${(props) => props.theme.color.lineColor};
+    border-bottom: 0.06rem solid ${(props) => props.theme.color.lineColor};
   `,
 
   Title: styled.h2`
@@ -156,7 +156,7 @@ const S = {
     align-items: center;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 1.25rem;
-    margin: 2px 0 12px;
+    margin: 0.12rem 0 0.75rem;
   `,
 
   AddButton: styled.button`
@@ -178,18 +178,18 @@ const S = {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 44px;
+    height: 2.75rem;
     background-color: ${(props) => props.theme.color.commentColor};
-    margin: 0 0 10px;
-    padding: 10px 12px 10px 48px;
-    border-radius: 6px;
+    margin: 0 0 0.62rem;
+    padding: 0.62rem 0.75rem 0.62rem 3rem;
+    border-radius: 0.37rem;
     box-sizing: border-box;
     position: relative;
   `,
 
   SearchInput: styled.input`
     width: 100%;
-    padding: 8px;
+    padding: 0.5rem;
     font-size: 1rem;
     border: none;
     background-color: transparent;
@@ -205,56 +205,20 @@ const S = {
   SearchIcon: styled(SvgSearch)`
     position: absolute;
     top: 50%;
-    left: 12px;
+    left: 0.75rem;
     transform: translateY(-50%);
     width: 1.3rem;
     height: 1.3rem;
     color: ${(props) => props.theme.color.fontGray};
   `,
 
-MovieList: styled.div`
-  flex: 1;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow-y: auto;
-  background: ${(props) => props.theme.color.mainColor};
-`,
-
-MovieItem: styled.li`
-  width: 345px;
-  height: 128px;
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  border-bottom: 1px solid ${(props) => props.theme.color.borderGray};
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${(props) => props.theme.color.collectionColor};
-  }
-
-  img {
-    width: 50px;
-    height: 75px;
-    margin: 10px 16px 10px 0;
-    border-radius: 4px;
-  }
-
-  .movie-info {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .movie-title {
-    font-size: 1rem;
-    font-weight: bold;
-    color: ${(props) => props.theme.color.fontBlack};
-  }
-
-  .movie-year {
-    font-size: 0.9rem;
-    color: ${(props) => props.theme.color.fontGray};
-  }
-`,
+  MovieList: styled.div`
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+    background: ${(props) => props.theme.color.mainColor};
+  `,
 };
+
