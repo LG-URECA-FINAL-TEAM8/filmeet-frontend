@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-const NoAccountText = ({ value }) => {
+const AuthMessage = ({ value }) => {
   return <S.Text>{value}</S.Text>;
 };
 
-export default NoAccountText;
+export default AuthMessage;
 
 const S = {
   Text: styled.p`

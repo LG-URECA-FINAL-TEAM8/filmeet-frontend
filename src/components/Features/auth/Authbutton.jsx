@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 import { useSignUp, useLogin } from '../../../apis/auth/queries';
 import { handleAuthClick } from '../../../utils/auth/authHandler';
-const AuthButton = ({ value, userData, onClose }) => {
+import useLoginStore from '../../../store/auth/loginStore';
+import { useNavigate } from 'react-router-dom';
+const AuthButton = ({ value, userData }) => {
   const { mutate: signupMutate } = useSignUp();
   const { mutate: loginMutate } = useLogin();
+  const setLoggedIn = useLoginStore((state) => state.setLoggedIn);
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    handleAuthClick(value, userData, onClose, signupMutate, loginMutate);
+    handleAuthClick(value, userData, navigate, setLoggedIn, signupMutate, loginMutate);
   };
   return <S.StyledButton onClick={handleClick}>{value}</S.StyledButton>;
 };

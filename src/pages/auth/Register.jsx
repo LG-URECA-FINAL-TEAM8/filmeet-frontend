@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import ModalInput from '../../components/features/auth/ModalInput';
+import AuthInput from '../../components/features/auth/AuthInput';
 import AuthButton from '../../components/features/auth/Authbutton';
 import AuthTitle from '../../components/features/auth/AuthTitle';
 import AuthMessage from '../../components/features/auth/AuthMessage';
@@ -25,19 +25,19 @@ function Register() {
       <S.AuthBody>
         <AuthTitle value={registerInput.title} />
         <S.Container>
-          <ModalInput
+          <AuthInput
             type="nickname"
             placeholder="이름"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
-          <ModalInput
+          <AuthInput
             type="email"
             placeholder="이메일"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <ModalInput
+          <AuthInput
             type="password"
             placeholder="비밀번호"
             value={password}
