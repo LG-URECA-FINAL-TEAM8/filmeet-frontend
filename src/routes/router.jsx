@@ -7,6 +7,9 @@ import CommentsPage from '../pages/mypage/CommentsPage';
 import CollectionsPage from '../pages/mypage/CollectionsPage';
 import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
 import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
+import FollowersPage from '../pages/followpage/FollowerPage';
+import FollowerPage from '../pages/followpage/FollowerPage';
+import FollowingPage from '../pages/followpage/FollowingPage';
 
 
 const router = createBrowserRouter([
@@ -41,6 +44,14 @@ const router = createBrowserRouter([
       {
         path: 'mypage/collections',
         element: <CollectionsPage />,
+      },
+      {
+        path: 'followers',
+        element: <FollowerPage />,
+      },
+      {
+        path: 'followings',
+        element: <FollowingPage />,
       },
     ],
   },

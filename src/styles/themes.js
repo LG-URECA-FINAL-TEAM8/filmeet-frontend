@@ -15,6 +15,7 @@ export const lightTheme = {
     buttonPink: '#e02761',
     footerBlack: '#1C1D1F',
     fontDark: '#292a32',
+    mainGray: 'F0F0F3'
   },
 
   font: {

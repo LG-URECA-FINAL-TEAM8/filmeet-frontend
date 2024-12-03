@@ -77,6 +77,7 @@ export const FollowStats = styled.div`
   font-size: 0.875rem;
   font-family: ${({ theme }) => theme.font.fontSuitRegular};
   color: ${({ theme }) => theme.color.fontGray};
+  cursor: pointer;
 
   span {
     font-family: ${({ theme }) => theme.font.fontSuitBold};
