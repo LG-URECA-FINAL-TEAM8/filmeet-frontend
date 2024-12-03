@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import NoResult from "./NoResult"; // NoResult 컴포넌트 임포트
 
 const CollectionList = ({ collections }) => {
   const navigate = useNavigate();
@@ -8,6 +9,15 @@ const CollectionList = ({ collections }) => {
     Like: "좋아요",
     Comment: "댓글",
   };
+
+  // 데이터가 없는 경우 NoResult를 반환
+  if (!collections || collections.length === 0) {
+    return (
+      <S.Wrapper>
+        <NoResult />
+      </S.Wrapper>
+    );
+  }
 
   return (
     <S.Wrapper>
@@ -28,7 +38,6 @@ const CollectionList = ({ collections }) => {
               </S.Overlay>
             </S.ImageSection>
             <S.CardContent>
-              {/* 컬렉션 이름 출력 */}
               <S.CollectionName>{collection.collectionsName}</S.CollectionName>
               <S.Description>
                 {collection.description || "컬렉션 설명 없음"}

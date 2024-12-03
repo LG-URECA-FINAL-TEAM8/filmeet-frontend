@@ -2,8 +2,8 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 import { movies } from "../../../data/movies";
 import useCollectionsStore from "../../../store/collections/useCollectionsStore";
-import ModalList from "../poster/ModalList";
 import SvgSearch from "../../../assets/svg/Search";
+import ListPoster from "../poster/ModalList";
 
 ReactModal.setAppElement("#root");
 
@@ -85,15 +85,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
           </S.SearchWrapper>
         </S.Header>
         <S.MovieList>
-          {getFilteredMovies().map((movie) => (
-            <S.MovieItem key={movie.id} onClick={() => handleMovieSelect(movie)}>
-              <img src={movie.posterUrl} alt={movie.title} />
-              <div className="movie-info">
-                <span className="movie-title">{movie.title}</span>
-                <span className="movie-year">{movie.year}</span>
-              </div>
-            </S.MovieItem>
-          ))}
+          <ListPoster movies={getFilteredMovies()} onMovieSelect={toggleMovieSelection}/>           
         </S.MovieList>
       </S.ModalContainer>
     </ReactModal>
@@ -108,10 +100,11 @@ const customStyles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    padding: "1.5rem 0 1.5rem 0",
     zIndex: 1000,
   },
   content: {
-    position: "relative",
+    position: "",
     width: "375px",
     maxWidth: "90%",
     height: "37.5rem",
@@ -130,6 +123,7 @@ const S = {
     background-color: ${(props) => props.theme.color.fontWhite};
     border-radius: 0.3rem;
     overflow: hidden;
+    box-sizing: border-box; // 박스 크기 포함
   `,
 
   ButtonWrapper: styled.div`
@@ -153,7 +147,7 @@ const S = {
     align-items: stretch;
     padding: 0 1.25rem;
     background-color: ${(props) => props.theme.color.lightGray};
-    border-bottom: 1px solid ${(props) => props.theme.color.borderGray};
+    border-bottom: 1px solid ${(props) => props.theme.color.lineColor};
   `,
 
   Title: styled.h2`

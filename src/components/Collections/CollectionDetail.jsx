@@ -257,22 +257,22 @@ const S = {
     font-size: 1rem;
   `,
 
-DropdownMenu: styled.div`
-position: absolute;
-top: 2.5rem;
-right: 1rem;
-background: ${(props) => props.theme.color.mainColor};
-box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
-border-radius: 0.3rem;
-z-index: 10;
-`,
+  DropdownMenu: styled.div`
+    position: absolute;
+    top: 2.5rem;
+    right: 1rem;
+    background: ${(props) => props.theme.color.mainColor};
+    box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
+    border-radius: 0.3rem;
+    z-index: 10;
+  `,
 
-DropdownItem: styled.div`
-padding: 0.5rem 1rem;
-cursor: pointer;
+  DropdownItem: styled.div`
+    padding: 0.5rem 1rem;
+    cursor: pointer;
 
-&:hover {
-  background: ${(props) => props.theme.color.collectionColor}; /* 호버 시 배경색 변경 */
-}
-`,
+    &:hover {
+      background: ${(props) => props.theme.color.collectionColor};
+    }
+  `,
 };

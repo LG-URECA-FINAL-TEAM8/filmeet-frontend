@@ -1,100 +1,108 @@
 import styled from "styled-components";
 import { lightTheme } from "../../../styles/themes";
+import SvgCircle from "../../../assets/svg/Circle";
 
 const ListPoster = ({ movies, onMovieSelect }) => {
   return (
-    <ListContainer>
+    <MovieList>
       {movies.map((movie) => (
-        <ListItem
+        <MovieItem
           key={movie.id}
           onClick={() => onMovieSelect(movie)}
           isSelected={movie.isSelected}
         >
+        <CheckboxWrapper>
           <Checkbox isSelected={movie.isSelected} />
-          <ListImage
-            src={movie.image || "https://via.placeholder.com/300x400"}
+        </CheckboxWrapper>
+          <MovieImage
+            src={movie.image || "https://via.placeholder.com/70x100"}
             alt={movie.title || "제목 없음"}
           />
-          <ListDetails>
-            <ListTitle>{movie.title || "제목 없음"}</ListTitle>
-            <ListSubTitle>{movie.year || "년도 없음"}</ListSubTitle>
-          </ListDetails>
-        </ListItem>
+          <MovieDetails>
+            <MovieTitle>{movie.title || "제목 없음"}</MovieTitle>
+            <MovieSubTitle>{movie.releaseDate || "년도 없음"}</MovieSubTitle>
+          </MovieDetails>
+        </MovieItem>
       ))}
-    </ListContainer>
+    </MovieList>
   );
 };
 
 export default ListPoster;
 
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+const MovieList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 10px;
 `;
 
-const ListItem = styled.div`
+const MovieItem = styled.li`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 345px;
+  height: 128px;
   background: ${(props) =>
-    props.isSelected ? lightTheme.lightPink : "transparent"};
+    props.isSelected ? lightTheme.lightPink : props.theme.color.fontWhite};
   cursor: pointer;
-  border: 1px solid ${lightTheme.borderGray};
+  padding: 0 15px;
   border-radius: 8px;
-
   &:hover {
     background: ${lightTheme.lightGray};
   }
 `;
 
-const Checkbox = styled.div`
-  position: relative; 
+const CheckboxWrapper = styled.div`
+  width: 24px;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px 0 0;
+`;
+
+const Checkbox = ({ isSelected }) => (
+  <StyledCheckbox>
+    <SvgCircle isSelected={isSelected} />
+  </StyledCheckbox>
+);
+
+const StyledCheckbox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 24px;
   height: 24px;
-  border: 1px solid
-    ${(props) =>
-      props.isSelected ? lightTheme.fontPink : lightTheme.fontGray}; 
-  background: ${(props) =>
-    props.isSelected ? lightTheme.fontPink : "transparent"}; 
-  border-radius: 50%;
-
-  &::after {
-    content: ${(props) => (props.isSelected ? '"✓"' : '""')}; 
-    display: block; 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-40%, -40%);
-    font-size: 10px; 
-    color: white; 
-    font-weight: bold; 
-  }
 `;
 
-const ListImage = styled.img`
-  width: 60px;
+const MovieImage = styled.img`
+  width: 70px;
   height: 100px;
   object-fit: cover;
+  margin-right: 15px;
+  border-radius: 4px;
 `;
 
-const ListDetails = styled.div`
+const MovieDetails = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 수직 중앙 정렬 */
-  margin-top: 0.5rem;
-  width: 100%; 
-  border-bottom: 1px solid ${lightTheme.fontGray}; 
-  padding: 2.2rem 0; 
-
+  justify-content: center;
+  align-items: flex-start;
+  width: 220px;
+  height: 127px;
+  background-color: ${(props) => props.theme.color.mainColor};
+  box-sizing: border-box;
+  border-bottom: ${(props) => props.theme.font.borderDefault};
 `;
 
-const ListTitle = styled.div`
+const MovieTitle = styled.div`
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
   font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 0.4rem; 
+  margin-bottom: 5px;
 `;
 
-const ListSubTitle = styled.div`
-  font-size: 0.8rem;
-  color: ${lightTheme.fontGray};
+const MovieSubTitle = styled.div`
+font-family: ${(props) => props.theme.font.fontSuitRegular};
+  font-size: 0.9rem;
+  color: ${(props) => props.theme.color.fontGray};
 `;
