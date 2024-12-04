@@ -36,19 +36,20 @@ const TopContainer = styled.div`
 const BackButton = styled.button`
   display: flex;
   align-items: center;
-  margin: 0.7rem 0;
+  margin: 1rem 4px;
   padding: 0;
   background: none;
   border: none;
   cursor: pointer;
   color: ${(props) => props.theme.color.fontPink};
-  font-size: 1rem;
+  font-size: 1.2rem;
 `;
 
 const TopTitle = styled.p`
-  padding: 0.3rem;
+  padding: 0 0 0 0;
   font-family: ${(props) => props.theme.font.fontSuitBold};
   font-size: 1.2rem;
+  margin: 0 4px 10px;
 `;
 
 export default TopHeader;

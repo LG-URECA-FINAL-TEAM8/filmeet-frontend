@@ -7,6 +7,10 @@ import CommentsPage from '../pages/mypage/commentpage/CommentsPage';
 import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
 import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
 import GenrePage from '../pages/generepage';
+import FollowersPage from '../pages/followpage/FollowerPage';
+import FollowerPage from '../pages/followpage/FollowerPage';
+import FollowingPage from '../pages/followpage/FollowingPage';
+import AlarmHistoryPage from '../pages/AlarmHistoryPage';
 import CommentsDetailPage from '../pages/mypage/commentpage/CommentsDetailPage';import CollectionsPage from '../pages/mypage/collectionpage/CollectionsPage';
 import CollectionCreatePage from '../pages/mypage/collectionpage/CollectionCreatePage';
 import CollectionDetailPage from '../pages/mypage/collectionpage/CollectionDetailPage';
@@ -72,6 +76,18 @@ const router = createBrowserRouter([
       {
         path: 'genere',
         element: <GenrePage />,
+      },
+      {
+        path: 'followers',
+        element: <FollowerPage />,
+      },
+      {
+        path: 'followings',
+        element: <FollowingPage />,
+      },
+      {
+        path: 'alarmhistorys',
+        element: <AlarmHistoryPage />,
       },
     ],
   },
