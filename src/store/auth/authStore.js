@@ -7,7 +7,12 @@ const useAuthStore = create((set) => ({
   setNickname: (nickname) => set({ nickname }),
   setEmail: (email) => set({ email }),
   setPassword: (password) => set({ password }),
-  resetAuth: () => set({ nickname: '', email: '', password: '' }),
+  resetAuthData: () =>
+    set({
+      nickname: '',
+      email: '',
+      password: '',
+    }),
 }));
 
 export default useAuthStore;
