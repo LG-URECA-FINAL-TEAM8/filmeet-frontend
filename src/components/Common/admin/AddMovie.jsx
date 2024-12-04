@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { movies as moviesData } from '../../../data/movies';
+import { useState } from 'react';
 import { lightTheme } from '../../../styles/themes';
 import { styled } from '@mui/system';
+import { useRegisterMovies, useSearchMovies } from '../../../apis/admin/addmovie/queries';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
@@ -17,45 +17,42 @@ import Button from '@mui/material/Button';
 import tableHeaders from '../../../data/admintableheaders';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
+import useSelectionStore from '../../../store/admin/useSelectionStore';
 import AvgRatingBadge from './AvgRatingBadge';
 
 function AddMovie() {
-  const { movies, setMovies } = useMovieStore();
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
-  const [selectedMovies, setSelectedMovies] = useState([]);
+  const { selectedMovies, addMovie, removeMovie, clearSelection } = useSelectionStore();
+  const [ searchTerm, setSearchTerm ] = useState('');
   const tableHeader = tableHeaders.addMovie;
 
-  useEffect(() => {
-    setMovies(moviesData);
-  }, [setMovies]);
+  const { data: movies = [], isLoading: isSearching } = useSearchMovies(searchTerm);
+  const { mutate: registerMovies, isLoading: isRegistering } = useRegisterMovies();
 
   const handleSearch = (term) => {
-    if (term.trim() === '') {
-      setMovies(moviesData);
-      return;
-    }
-    const filteredMovies = moviesData.filter((movie) =>
-      movie.title.toLowerCase().includes(term.toLowerCase())
-    );
-    setMovies(filteredMovies);
-    setCurrentPage(1);
+    setSearchTerm(term);
+    setCurrentPage(1); // Reset to first page on new search
   };
 
   const handleCheckboxChange = (movieId) => {
-    setSelectedMovies((prev) =>
-      prev.includes(movieId)
-        ? prev.filter((id) => id !== movieId)
-        : [...prev, movieId]
-    );
+    if (selectedMovies.includes(movieId)) {
+      removeMovie(movieId);
+    } else {
+      addMovie(movieId);
+    }
   };
 
   const handleRegister = () => {
-    const selectedMovieData = movies.filter((movie) =>
-      selectedMovies.includes(movie.id)
-    );
-    console.log('등록된 영화:', selectedMovieData);
-    alert(`${selectedMovieData.length}개의 영화가 등록되었습니다.`);
-    setSelectedMovies([]);
+    const selectedMovieData = movies.filter((movie) => selectedMovies.includes(movie.id));
+    registerMovies(selectedMovieData, {
+      onSuccess: () => {
+        alert('영화 등록이 완료되었습니다.');
+        clearSelection();
+      },
+      onError: (error) => {
+        alert(`등록 실패: ${error.message}`);
+      },
+    });
   };
 
   const handlePageChange = (event, value) => {
@@ -77,36 +74,42 @@ function AddMovie() {
         />
       </S.SearchBox>
       <S.TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <S.TableHeadCell>
-                <S.CustomCheckbox disabled />
-              </S.TableHeadCell>
-              {Object.values(tableHeader).map((header) => (
-                <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {currentMovies.map((movie) => (
-              <TableRow key={movie.id}>
-                <S.TableBodyCell>
-                  <S.CustomCheckbox
-                    checked={selectedMovies.includes(movie.id)}
-                    onChange={() => handleCheckboxChange(movie.id)}
-                  />
-                </S.TableBodyCell>
-                <S.TableBodyCell>{movie.title}</S.TableBodyCell>
-                <S.TableBodyCell>
-                  <AvgRatingBadge count={movie.rating || 'N/A'} />
-                </S.TableBodyCell>
-                <S.TableBodyCell>{movie.genre || 'N/A'}</S.TableBodyCell>
-                <S.TableBodyCell>{movie.releaseDate || 'N/A'}</S.TableBodyCell>
+      {isSearching ? (
+          <S.NoResults>검색 중...</S.NoResults>
+        ) : movies.length > 0 ? (
+          <Table>
+            <TableHead>
+              <TableRow>
+                <S.TableHeadCell>
+                  <S.CustomCheckbox disabled />
+                </S.TableHeadCell>
+                {Object.values(tableHeader).map((header) => (
+                  <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {currentMovies.map((movie) => (
+                <TableRow key={movie.id}>
+                  <S.TableBodyCell>
+                    <S.CustomCheckbox
+                      checked={selectedMovies.includes(movie.id)}
+                      onChange={() => handleCheckboxChange(movie.id)}
+                    />
+                  </S.TableBodyCell>
+                  <S.TableBodyCell>{movie.title}</S.TableBodyCell>
+                  <S.TableBodyCell>
+                    <AvgRatingBadge count={movie.rating || 'N/A'} />
+                  </S.TableBodyCell>
+                  <S.TableBodyCell>{movie.genre || 'N/A'}</S.TableBodyCell>
+                  <S.TableBodyCell>{movie.releaseDate || 'N/A'}</S.TableBodyCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <S.NoResults>검색 결과가 없습니다.</S.NoResults>
+        )}
       </S.TableContainer>
       <S.Pagination
         count={Math.ceil(movies.length / moviesPerPage)}
@@ -116,9 +119,9 @@ function AddMovie() {
       <S.RegisterButton
         variant="contained"
         onClick={handleRegister}
-        disabled={selectedMovies.length === 0}
+        disabled={selectedMovies.length === 0 || isRegistering}
       >
-        등록
+        {isRegistering ? '등록 중...' : '등록'}
       </S.RegisterButton>
     </S.Container>
   );
@@ -139,12 +142,10 @@ const S = {
     width: '100%',
     maxWidth: '20rem',
     marginBottom: '0.5rem',
-    marginLeft: '49rem',
   }),
 
   SearchBarTextField: styled(TextField)({
     height: '2rem',
-    marginLeft: '6rem',
     '& .MuiInputBase-root': {
       height: '3rem',
     },
@@ -190,5 +191,12 @@ const S = {
     '&:disabled': {
       backgroundColor: lightTheme.color.fontGray,
     },
+  }),
+
+  NoResults: styled('div')({
+    padding: '2rem',
+    textAlign: 'center',
+    color: lightTheme.color.fontGray,
+    fontSize: '1.2rem',
   }),
 };
