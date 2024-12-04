@@ -9,16 +9,24 @@ import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRating
 import CollectionsPage from '../pages/mypage/collectionpage/CollectionsPage';
 import CollectionCreatePage from '../pages/mypage/collectionpage/CollectionCreatePage';
 import CollectionDetailPage from '../pages/mypage/collectionpage/CollectionDetailPage';
-import CollectionEditPage from '../pages/mypage/collectionpage/CollectionEditPage';
-
+import CollectionEditPage from '../pages/mypage/collectionpage/CollectionEditPage';import Login from '../pages/auth/Login';
+import Register from '../pages/auth/Register';
 const router = createBrowserRouter([
   {
     path: '/',
     element: <DefaultLayout />,
     children: [
       {
-        path: '',
+        path: '/',
         element: <Main />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
       },
       {
         path: 'mypage',
