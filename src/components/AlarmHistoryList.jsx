@@ -4,17 +4,26 @@ import { AlarmHistorys } from '../data/alarmhistory';
 const AlarmHistoryList = () => {
   return (
     <S.ListWrapper>
-      {AlarmHistorys.map((AlarmHistorys) => (
-        <S.ListItem key={AlarmHistorys.id}>
+      {AlarmHistorys.map((AlarmHistory) => (
+        <S.ListItem key={AlarmHistory.id}>
           <S.AvatarWrapper>
-            <S.Avatar src={AlarmHistorys.avatar} alt="알림 아바타" />
+            <S.Avatar src={AlarmHistory.avatar} alt="알림 아바타" />
           </S.AvatarWrapper>
           <S.MessageWrapper>
             <S.TextWrapper>
-              <S.Message>{AlarmHistorys.message}</S.Message>
-              <S.TimeAgo>{AlarmHistorys.timeAgo}</S.TimeAgo>
+              <S.Message>
+                {AlarmHistory.message.split(/(좋아요|팔로우|댓글)/).map((part, index) =>
+                  part === '댓글' ? (
+                    <S.BoldHighlight key={index}>{part}</S.BoldHighlight>
+                  ) : ['좋아요', '팔로우'].includes(part) ? (
+                    <S.Highlight key={index}>{part}</S.Highlight>
+                  ) : (
+                    part
+                  )
+                )}
+              </S.Message>
+              <S.TimeAgo>{AlarmHistory.timeAgo}</S.TimeAgo>
             </S.TextWrapper>
-            
           </S.MessageWrapper>
         </S.ListItem>
       ))}
@@ -29,66 +38,77 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 640px;
-    border: 1px so;
-    list-style: none;
+    width: 40rem;
     padding: 1rem 0;
     margin: 0;
   `,
 
   ListItem: styled.li`
-    width: 100%;
-    max-width: 38rem;
-    height: auto;
     display: flex;
     align-items: center;
-    padding: 0 0.9rem;
+    width: 38.75rem;
+    max-width: 38rem;
+    height: auto;
+    padding: 0 0 0 15rem;
+    margin: 0;
   `,
 
   AvatarWrapper: styled.div`
-    width: 50px;
-    height: 50px;
-    margin-right: 0.7rem;
+    width: 3.12rem;
+    height: 3.12rem;
+    margin-right: 0.43rem;
   `,
 
   Avatar: styled.img`
-    width: 50px;
-    height: 50px;
+    width: 3.12rem;
+    height: 3.12rem;
     border-radius: 50%;
   `,
 
   MessageWrapper: styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between; /* 텍스트와 이모티콘 간격을 양 끝으로 */
+    justify-content: space-between;
     width: 100%;
-    height: 78px;
+    height: 4.87rem;
   `,
 
   TextWrapper: styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center; /* 수직 중앙 정렬 */
-    flex: 1; /* 남은 공간 채우기 */
+    justify-content: center;
+    flex: 1;
   `,
 
   Message: styled.div`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.8rem;
     color: ${(props) => props.theme.color.fontBlack};
-    margin: 0 0 2px;
+    margin: 0 0 0.12rem;
+  `,
+
+  Highlight: styled.span`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    color: ${(props) => props.theme.color.fontPink};
+  `,
+
+  BoldHighlight: styled.span`
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+    color: ${(props) => props.theme.color.fontBlack};
   `,
 
   TimeAgo: styled.div`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.7rem;
     color: ${(props) => props.theme.color.fontGray};
   `,
 
   Emoji: styled.span`
-    font-size: 1.2rem;
     display: flex;
-    align-items: center; /* 수직 가운데 정렬 */
-    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
     margin-left: 1rem;
   `,
 };
+

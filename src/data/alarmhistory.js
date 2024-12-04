@@ -44,7 +44,7 @@ export const AlarmHistorys = [
     {
       id: 7,
       avatar: 'https://via.placeholder.com/70',
-      message: '이성혁님이 댓글에 댓글을 남겼습니다.',
+      message: '이성혁님이 컬렉션에 댓글을 남겼습니다.',
       emoji: '💬',
       timeAgo: '약 3시간 전',
     },
