@@ -20,6 +20,7 @@ const StyledAgeButton = styled.button`
       ? "0px 4px 6px rgba(33, 150, 243, 0.3)"
       : "0px 8px 6px rgba(0, 0, 0, 0.3)"}; /* 그림자 */
   transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
 
   &:hover {
     background: ${(props) => (props.isSelected ? "#bbdefb" : "#e6e6e6")}; /* 호버 시 색상 변화 */

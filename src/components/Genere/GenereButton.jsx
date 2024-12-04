@@ -9,11 +9,12 @@ const StyledGenreButton = styled.button`
   border: 2px solid ${(props) => (props.isSelected ? "#2196f3" : "#EDEDED")};
   border-radius: 10px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.8rem;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
   background: ${(props) => (props.isSelected ? "#e3f2fd" : "#fff")};
   box-shadow: ${(props) =>
     props.isSelected
@@ -35,12 +36,11 @@ const StyledGenreButton = styled.button`
 `;
 
 const GenreButton = ({ label, emoji }) => {
-  const { selectedGenre, selectGenre } = useGenereStore();
-  const isSelected = selectedGenre === label;
+  const { selectedGenres, selectMultipleGenres } = useGenereStore();
+  const isSelected = selectedGenres.includes(label);
 
   const handleClick = () => {
-    console.log("Clicked Genre:", label);
-    selectGenre(label);
+    selectMultipleGenres(label);
   };
 
   return (

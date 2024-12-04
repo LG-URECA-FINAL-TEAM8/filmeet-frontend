@@ -4,6 +4,7 @@ import { GenrePageWrapper } from '../styles/genere/genere';
 import GenreSection from '../components/Genere/GenereSection';
 import MbtiSection from '../components/Genere/MbtiSection';
 import AgeSection from '../components/Genere/AgeSection';
+import ProceedButtonComponent from '../components/Genere/ProceedButton';
 
 const GenrePage = () => {
   return (
@@ -11,6 +12,7 @@ const GenrePage = () => {
       <GenreSection />
       <MbtiSection />
       <AgeSection  />
+      <ProceedButtonComponent/>
     </GenrePageWrapper>
   );
 };
