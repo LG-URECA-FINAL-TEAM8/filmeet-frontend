@@ -30,7 +30,7 @@ const S = {
     flex-direction: column;
     align-items: center;
     width: 640px;
-    border: 1px solid black;
+    border: 1px so;
     list-style: none;
     padding: 1rem 0;
     margin: 0;

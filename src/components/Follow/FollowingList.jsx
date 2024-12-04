@@ -8,7 +8,6 @@ const FollowingList = () => {
   const { followStates, initializeFollowStates, toggleFollow } = useFollowStore();
 
   useEffect(() => {
-    // 초기 상태: 모든 버튼은 '팔로잉'
     initializeFollowStates(Followings.map(() => true));
   }, [initializeFollowStates, Followings]);
 
@@ -53,18 +52,18 @@ const S = {
     height: 6.5rem;
     display: flex;
     align-items: center;
-    padding: 0 0.9rem;
+    padding: 0 0.56rem;
   `,
 
   AvatarWrapper: styled.div`
-    width: 70px;
-    height: 70px;
-    margin-right: 0.7rem;
+    width: 4.37rem;
+    height: 4.37rem;
+    margin-right: 0.43rem;
   `,
 
   Avatar: styled.img`
-    width: 70px;
-    height: 70px;
+    width: 4.37rem;
+    height: 4.37rem;
     border-radius: 50%;
   `,
 
@@ -73,35 +72,33 @@ const S = {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 104px;
-    border-bottom: 1px solid #ddd;
+    height: 6.5rem;
+    border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
 
   Name: styled.div`
-    width: 450px;
+    width: 28.12rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
-    margin: 0 0 2px;
-    padding: 0 10px 0 0;
+    margin: 0 0 0.12rem;
+    padding: 0 0.62rem 0 0;
   `,
 
   FollowButton: styled.button`
-    width: 65px;
-    height: 28px;
-    padding: 0 11px;
+    width: 4.06rem;
+    height: 1.75rem;
+    padding: 0 0.68rem;
     border: none;
-    border-radius: 20px;
-    font-size: 0.875rem;
+    border-radius: 1.25rem;
+    font-size: 0.87rem;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 
-    /* 초기 상태: 팔로잉 */
     color: ${(props) =>
       props.isFollowing ? props.theme.color.fontGray : props.theme.color.fontPink};
     background-color: ${(props) =>
       props.isFollowing ? props.theme.color.mainColor : '#ffe0e9'};
 
-    /* hover 상태 */
     &:hover {
       background-color: ${(props) =>
         props.isFollowing ? '#ffe0e9' : props.theme.color.fontPink};
@@ -109,3 +106,4 @@ const S = {
     }
   `,
 };
+

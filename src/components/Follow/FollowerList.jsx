@@ -55,14 +55,14 @@ const S = {
   `,
 
   AvatarWrapper: styled.div`
-    width: 70px;
-    height: 70px;
+    width: 4.375rem;
+    height: 4.375rem;
     margin-right: 0.7rem;
   `,
 
   Avatar: styled.img`
-    width: 70px;
-    height: 70px;
+    width: 4.375rem;
+    height: 4.375rem;
     border-radius: 50%;
   `,
 
@@ -71,24 +71,24 @@ const S = {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 104px;
-    border-bottom: 1px solid #ddd;
+    height: 6.5rem;
+    border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
 
   Name: styled.div`
-    width: 450px;
+    width: 28.12rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
-    margin: 0 0 2px;
-    padding: 0 10px 0 0;
+    margin: 0 0 0.12rem;
+    padding: 0 0.62rem 0 0;
   `,
 
   FollowButton: styled.button`
-    width: 65px;
-    height: 28px;
-    padding: 0 11px;
+    width: 4.06rem;
+    height: 1.75rem;
+    padding: 0 0.68rem;
     border: none;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     font-size: 0.875rem;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
