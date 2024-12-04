@@ -6,6 +6,7 @@ import RatingsPage from '../pages/mypage/ratingpage/RatingsPage';
 import CommentsPage from '../pages/mypage/commentpage/CommentsPage';
 import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
 import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
+import GenrePage from '../pages/generepage';
 import FollowersPage from '../pages/followpage/FollowerPage';
 import FollowerPage from '../pages/followpage/FollowerPage';
 import FollowingPage from '../pages/followpage/FollowingPage';
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: 'mypage/collections/:collectionId/edit',
         element: <CollectionEditPage />,
+      },
+      {
+        path: 'genere',
+        element: <GenrePage />,
       },
       {
         path: 'followers',
