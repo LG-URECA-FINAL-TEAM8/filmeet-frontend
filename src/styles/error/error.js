@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const ErrorContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -10,7 +10,7 @@ export const Container = styled.div`
   padding-top: 6rem;
 `;
 
-export const ContentArea = styled.div`
+export const ErrorContentArea = styled.div`
   width: 100%;
   max-width: 60rem;
   height: 100%;
