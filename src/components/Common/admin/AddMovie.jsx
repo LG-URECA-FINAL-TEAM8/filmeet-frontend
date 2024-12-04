@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { movies as moviesData } from '../../../data/movies';
 import { lightTheme } from '../../../styles/themes';
 import { styled } from '@mui/system';
@@ -11,26 +11,22 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Checkbox from '@mui/material/Checkbox';
 import Pagination from '@mui/material/Pagination';
-import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
+import Button from '@mui/material/Button';
 import tableHeaders from '../../../data/admintableheaders';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
-import useAdminModalStore from '../../../store/modal/useAdminModalStore';
-import AdminAddModal from '../modal/AdminAddModal';
 import AvgRatingBadge from './AvgRatingBadge';
 
 function AddMovie() {
   const { movies, setMovies } = useMovieStore();
-  const { addModal, openAddModal, closeAddModal } = useAdminModalStore();
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
+  const [selectedMovies, setSelectedMovies] = useState([]);
   const tableHeader = tableHeaders.addMovie;
 
   useEffect(() => {
-    const enhancedMovies = moviesData.map(({ ...rest }) => ({
-      ...rest,
-    }));
-    setMovies(enhancedMovies);
+    setMovies(moviesData);
   }, [setMovies]);
 
   const handleSearch = (term) => {
@@ -42,11 +38,24 @@ function AddMovie() {
       movie.title.toLowerCase().includes(term.toLowerCase())
     );
     setMovies(filteredMovies);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
-  const handleAdd = (movie) => {
-    openAddModal(movie);
+  const handleCheckboxChange = (movieId) => {
+    setSelectedMovies((prev) =>
+      prev.includes(movieId)
+        ? prev.filter((id) => id !== movieId)
+        : [...prev, movieId]
+    );
+  };
+
+  const handleRegister = () => {
+    const selectedMovieData = movies.filter((movie) =>
+      selectedMovies.includes(movie.id)
+    );
+    console.log('등록된 영화:', selectedMovieData);
+    alert(`${selectedMovieData.length}개의 영화가 등록되었습니다.`);
+    setSelectedMovies([]);
   };
 
   const handlePageChange = (event, value) => {
@@ -61,7 +70,9 @@ function AddMovie() {
     <S.Container>
       <S.SearchBox>
         <S.SearchBarTextField
+          fullWidth
           label="영화 검색"
+          variant="outlined"
           onChange={(e) => handleSearch(e.target.value)}
         />
       </S.SearchBox>
@@ -69,23 +80,29 @@ function AddMovie() {
         <Table>
           <TableHead>
             <TableRow>
+              <S.TableHeadCell>
+                <S.CustomCheckbox disabled />
+              </S.TableHeadCell>
               {Object.values(tableHeader).map((header) => (
-                  <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
-                ))}
+                <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentMovies.map((movie, index) => (
-              <TableRow key={index}>
+            {currentMovies.map((movie) => (
+              <TableRow key={movie.id}>
+                <S.TableBodyCell>
+                  <S.CustomCheckbox
+                    checked={selectedMovies.includes(movie.id)}
+                    onChange={() => handleCheckboxChange(movie.id)}
+                  />
+                </S.TableBodyCell>
                 <S.TableBodyCell>{movie.title}</S.TableBodyCell>
                 <S.TableBodyCell>
                   <AvgRatingBadge count={movie.rating || 'N/A'} />
                 </S.TableBodyCell>
                 <S.TableBodyCell>{movie.genre || 'N/A'}</S.TableBodyCell>
                 <S.TableBodyCell>{movie.releaseDate || 'N/A'}</S.TableBodyCell>
-                <S.TableBodyCell>
-                  <S.AddIcon onClick={() => handleAdd(movie)} />
-                </S.TableBodyCell>
               </TableRow>
             ))}
           </TableBody>
@@ -96,18 +113,18 @@ function AddMovie() {
         page={currentPage}
         onChange={handlePageChange}
       />
-      {addModal.isOpen && (
-        <AdminAddModal
-          movie={addModal.selectedMovie}
-          onClose={closeAddModal}
-        />
-      )}
+      <S.RegisterButton
+        variant="contained"
+        onClick={handleRegister}
+        disabled={selectedMovies.length === 0}
+      >
+        등록
+      </S.RegisterButton>
     </S.Container>
   );
 }
 
 export default AddMovie;
-
 
 const S = {
   Container: styled(Box)({
@@ -126,8 +143,6 @@ const S = {
   }),
 
   SearchBarTextField: styled(TextField)({
-    variant: "outlined",
-    fullWidth: true,
     height: '2rem',
     marginLeft: '6rem',
     '& .MuiInputBase-root': {
@@ -158,13 +173,22 @@ const S = {
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
   }),
-  
-  AddIcon: styled(PlaylistAddOutlinedIcon)({
-    cursor: 'pointer',
-    marginRight: '1rem',
+
+  CustomCheckbox: styled(Checkbox)({
+    transform: 'scale(0.8)',
+    padding: '0.2rem',
   }),
 
   Pagination: styled(Pagination)({
     marginTop: '1rem',
+  }),
+
+  RegisterButton: styled(Button)({
+    marginTop: '1rem',
+    backgroundColor: lightTheme.color.buttonPink,
+    color: lightTheme.color.fontWhite,
+    '&:disabled': {
+      backgroundColor: lightTheme.color.fontGray,
+    },
   }),
 };

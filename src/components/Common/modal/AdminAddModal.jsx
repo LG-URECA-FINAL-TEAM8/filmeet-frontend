@@ -72,7 +72,7 @@ function AdminAddModal() {
             onChange={handleImageUpload}
           />
           <label htmlFor="image-upload">
-            <S.UploadButton>
+            <S.UploadButton variant="contained" component="span">
               {modalContent.uploadButton}
             </S.UploadButton>
           </label>
@@ -103,7 +103,7 @@ function AdminAddModal() {
             onChange={(e) => setAddModalReleaseDate(e.target.value)}
           />
         </S.Box>
-        <S.SaveButton onClick={handleSave}>
+        <S.SaveButton variant="contained" fullWidth onClick={handleSave}>
           {modalContent.saveButton}
         </S.SaveButton>
       </S.Card>
@@ -187,8 +187,6 @@ const S = {
   }),
 
   UploadButton: styled(Button)({
-    variant:"contained",
-    component: "span",
     marginTop: '1rem',
     backgroundColor: lightTheme.color.buttonPink,
     color: lightTheme.color.fontWhite,
@@ -202,8 +200,6 @@ const S = {
   }),
 
   SaveButton: styled(Button)({
-    variant: "contained", 
-    fullWidth: true,
     backgroundColor: lightTheme.color.buttonPink,
     color: lightTheme.color.fontWhite,
   }),

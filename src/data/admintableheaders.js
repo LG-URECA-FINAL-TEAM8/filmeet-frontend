@@ -13,7 +13,6 @@ const tableHeaders = {
       avgRating: '평균 평점',
       genre: '장르',
       releaseDate: '개봉일',
-      buttonAdd: '추가',
     },
     likeManagement: {
       movieName: '영화 이름',

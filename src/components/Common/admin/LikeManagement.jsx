@@ -88,6 +88,8 @@ function LikeManagement() {
     <S.Container>
       <S.SearchBox>
         <S.TextField
+          variant="outlined"
+          fullWidth
           label="영화 검색"
           onChange={(e) => handleSearch(e.target.value)}
         />
@@ -143,8 +145,6 @@ const S = {
   }),
 
   TextField: styled(TextField)({
-    fullWidth: true,
-    variant: "outlined",
     height: '2rem',
     marginLeft: '6rem',
     '& .MuiInputBase-root': {
