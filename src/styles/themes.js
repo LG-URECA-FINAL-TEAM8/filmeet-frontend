@@ -8,6 +8,9 @@ export const darkTheme = {
 export const lightTheme = {
   color: {
     mainColor: '#FFFFFF',
+    collectionColor: '#cacaca',
+    commentColor: '#F5F5F5',
+    lineColor: '#ededed',
     commentColor: '#F5F5F5',
     fontGray: '#7E7E7E',
     fontWhite: '#FFFFFF',
