@@ -1,141 +1,76 @@
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { groupMovies } from '../../../utils/poster/posterGroup';
 
-function Poster({ caseType = 0, movies = { movies } }) {
-  const movieGroups = groupMovies(movies, 5);
+function Poster({ caseType = 0, movies }) {
+  const movieGroups = useMemo(() => groupMovies(movies, 5), [movies]);
 
-  if (caseType == 1) {
-    return (
-      <S.CarouselContainer>
-        <Carousel
-          showThumbs={false}
-          showStatus={false}
-          showIndicators={false}
-          infiniteLoop={false}
-          centerMode={false}
-          swipeable={true}
-          emulateTouch={true}
-          renderArrowPrev={(clickHandler, hasPrev) =>
-            hasPrev && (
-              <S.NavButton className="prev" onClick={clickHandler}>
-                <ChevronLeft color={'#7E7E7E'} />
-              </S.NavButton>
-            )
-          }
-          renderArrowNext={(clickHandler, hasNext) =>
-            hasNext && (
-              <S.NavButton className="next" onClick={clickHandler}>
-                <ChevronRight color={'#7E7E7E'} />
-              </S.NavButton>
-            )
-          }>
-          {movieGroups.map((group, groupIndex) => (
-            <S.SlideContainer key={groupIndex}>
-              {group.map((movie) => (
-                <S.PostItem key={movie.id}>
-                  <S.PostCardImg src={movie.image} alt={movie.title} />
-                  <S.PostTitle>{movie.title}</S.PostTitle>
-                  <S.GrayField>{movie.rating}</S.GrayField>
-                </S.PostItem>
-              ))}
-            </S.SlideContainer>
-          ))}
-        </Carousel>
-      </S.CarouselContainer>
-    );
-  }
-  //case 2 개봉예정일
-  if (caseType == 2) {
-    return (
-      <S.CarouselContainer>
-        <Carousel
-          showThumbs={false}
-          showStatus={false}
-          showIndicators={false}
-          infiniteLoop={false}
-          centerMode={false}
-          swipeable={true}
-          emulateTouch={true}
-          renderArrowPrev={(clickHandler, hasPrev) =>
-            hasPrev && (
-              <S.NavButton className="prev" onClick={clickHandler}>
-                <ChevronLeft color={(props) => props.theme.color.fontGray} />
-              </S.NavButton>
-            )
-          }
-          renderArrowNext={(clickHandler, hasNext) =>
-            hasNext && (
-              <S.NavButton className="next" onClick={clickHandler}>
-                <ChevronRight color={(props) => props.theme.color.fontGray} />
-              </S.NavButton>
-            )
-          }>
-          {movieGroups.map((group, groupIndex) => (
-            <S.SlideContainer key={groupIndex}>
-              {group.map((movie) => (
-                <S.PostItem key={movie.movieId}>
-                  <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
-                  <S.PostTitle>{movie.title}</S.PostTitle>
-                  <S.PinkField>{`개봉일정 ${movie.releaseDate}`}</S.PinkField>
-                </S.PostItem>
-              ))}
-            </S.SlideContainer>
-          ))}
-        </Carousel>
-      </S.CarouselContainer>
-    );
-  }
-  //case : 3 누적관객
-  if (caseType == 3) {
-    return (
-      <S.CarouselContainer>
-        <Carousel
-          showThumbs={false}
-          showStatus={false}
-          showIndicators={false}
-          infiniteLoop={false}
-          centerMode={false}
-          swipeable={true}
-          emulateTouch={true}
-          renderArrowPrev={(clickHandler, hasPrev) =>
-            hasPrev && (
-              <S.NavButton className="prev" onClick={clickHandler}>
-                <ChevronLeft color={(props) => props.theme.color.fontGray} />
-              </S.NavButton>
-            )
-          }
-          renderArrowNext={(clickHandler, hasNext) =>
-            hasNext && (
-              <S.NavButton className="next" onClick={clickHandler}>
-                <ChevronRight color={(props) => props.theme.color.fontGray} />
-              </S.NavButton>
-            )
-          }>
-          {movieGroups.map((group, groupIndex) => (
-            <S.SlideContainer key={groupIndex}>
-              {group.map((movie) => {
-                const formattedAudience = `${Math.floor(movie.totalAudience / 10000)}만 명`;
-                return (
-                  <S.PostItem key={movie.id}>
-                    <S.PostCardImg src={movie.image} alt={movie.title} />
-                    <S.PostTitle>{movie.title}</S.PostTitle>
-                    <S.GrayField>{`누적 관객 ${formattedAudience}`}</S.GrayField>
-                  </S.PostItem>
-                );
-              })}
-            </S.SlideContainer>
-          ))}
-        </Carousel>
-      </S.CarouselContainer>
-    );
-  }
+  const renderCarousel = (renderItem) => (
+    <S.CarouselContainer>
+      <Carousel
+        showThumbs={false}
+        showStatus={false}
+        showIndicators={false}
+        infiniteLoop={false}
+        centerMode={false}
+        swipeable={true}
+        emulateTouch={true}
+        renderArrowPrev={(clickHandler, hasPrev) =>
+          hasPrev && (
+            <S.NavButton className="prev" onClick={clickHandler}>
+              <ChevronLeft color={'#7E7E7E'} />
+            </S.NavButton>
+          )
+        }
+        renderArrowNext={(clickHandler, hasNext) =>
+          hasNext && (
+            <S.NavButton className="next" onClick={clickHandler}>
+              <ChevronRight color={'#7E7E7E'} />
+            </S.NavButton>
+          )
+        }>
+        {movieGroups.map((group, groupIndex) => (
+          <S.SlideContainer key={groupIndex}>{group.map(renderItem)}</S.SlideContainer>
+        ))}
+      </Carousel>
+    </S.CarouselContainer>
+  );
 
-  //case 4 마이페이지
-  if (caseType == 4) {
-    return (
+  const renderCases = {
+    1: () =>
+      renderCarousel((movie) => (
+        <S.PostItem key={movie.id}>
+          <S.PostCardImg src={movie.image} alt={movie.title} />
+          <S.PostTitle>{movie.title}</S.PostTitle>
+          <S.GrayField>{movie.rating}</S.GrayField>
+        </S.PostItem>
+      )),
+
+    2: () =>
+      renderCarousel((movie) => (
+        <S.PostItem key={movie.movieId}>
+          <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
+          <S.PostTitle>{movie.title}</S.PostTitle>
+          <S.PinkField>{`개봉일정 ${movie.releaseDate}`}</S.PinkField>
+        </S.PostItem>
+      )),
+
+    3: () =>
+      renderCarousel((movie) => {
+        const formattedAudience = `${Math.floor((movie.totalAudience || 0) / 10000)}만 명`;
+        return (
+          <S.PostItem key={movie.id}>
+            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostTitle>{movie.title}</S.PostTitle>
+            <S.GrayField>{`누적 관객 ${formattedAudience}`}</S.GrayField>
+          </S.PostItem>
+        );
+      }),
+
+    4: () => (
       <S.SlideContainer>
         {movies.map((movie) => (
           <S.PostItem key={movie.id}>
@@ -145,11 +80,9 @@ function Poster({ caseType = 0, movies = { movies } }) {
           </S.PostItem>
         ))}
       </S.SlideContainer>
-    );
-  }
-  //case 5 이미지
-  if (caseType == 5) {
-    return (
+    ),
+
+    5: () => (
       <S.SlideContainer>
         {movies.map((movie) => (
           <S.PostItem key={movie.id}>
@@ -157,12 +90,9 @@ function Poster({ caseType = 0, movies = { movies } }) {
           </S.PostItem>
         ))}
       </S.SlideContainer>
-    );
-  }
+    ),
 
-  //case 6 (case 4 grid 버전)
-  if (caseType == 6) {
-    return (
+    6: () => (
       <S.GridContainer>
         {movies.map((movie) => (
           <S.GridItem key={movie.id}>
@@ -172,12 +102,9 @@ function Poster({ caseType = 0, movies = { movies } }) {
           </S.GridItem>
         ))}
       </S.GridContainer>
-    );
-  }
+    ),
 
-  //case 6 (case 5 grid 버전)
-  if (caseType == 7) {
-    return (
+    7: () => (
       <S.GridContainer>
         {movies.map((movie) => (
           <S.GridItem key={movie.id}>
@@ -186,10 +113,10 @@ function Poster({ caseType = 0, movies = { movies } }) {
           </S.GridItem>
         ))}
       </S.GridContainer>
-    );
-  }
+    ),
+  };
 
-  return (
+  const defaultRender = () => (
     <>
       {movies.map((movie) => (
         <S.PostItem key={movie.id}>
@@ -199,6 +126,8 @@ function Poster({ caseType = 0, movies = { movies } }) {
       ))}
     </>
   );
+
+  return (renderCases[caseType] || defaultRender)();
 }
 
 const S = {
