@@ -1,22 +1,37 @@
 import styled from 'styled-components';
-import { useSignUpMutation } from '../../../hooks/auth/useSignUpMutation';
+import { useSignUp, useLogin } from '../../../apis/auth/queries';
+import { handleAuthClick } from '../../../utils/auth/authHandler';
+import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
+import useLoginStore from '../../../store/auth/loginStore';
+import { useUserInfo } from '../../../apis/users/queries';
 
-const Authbutton = ({ value, userData }) => {
-  const signupMutate = useSignUpMutation(value);
+const AuthButton = ({ value, userData }) => {
+  const { mutate: signupMutate } = useSignUp();
+  const { mutate: loginMutate } = useLogin();
+  const queryClient = useQueryClient();
+  const { setLoggedIn } = useLoginStore();
+  const { refetch: refetchUserInfo } = useUserInfo();
+
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    console.log('보낼 데이터:', userData);
-    if (userData && value === '회원가입') {
-      signupMutate.mutate(userData);
-    } else {
-      console.error('잘못된 데이터');
-    }
+    handleAuthClick(
+      value,
+      userData,
+      navigate,
+      signupMutate,
+      loginMutate,
+      queryClient,
+      setLoggedIn,
+      refetchUserInfo
+    );
   };
 
   return <S.StyledButton onClick={handleClick}>{value}</S.StyledButton>;
 };
 
-export default Authbutton;
+export default AuthButton;
 
 const S = {
   StyledButton: styled.button`

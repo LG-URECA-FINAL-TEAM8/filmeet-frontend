@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-const LoginTitle = ({ value }) => {
+const AuthTitle = ({ value }) => {
   return <S.AuthTitle>{value}</S.AuthTitle>;
 };
 
-export default LoginTitle;
+export default AuthTitle;
 
 const S = {
   AuthTitle: styled.h2`

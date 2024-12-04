@@ -4,10 +4,14 @@ import DefaultLayout from '../components/Layout/DefaultLayout';
 import AdminLoginPage from '../pages/AdminLoginPage';
 import MyPage from '../pages/mypage/MyPage';
 import RatingsPage from '../pages/mypage/ratingpage/RatingsPage';
-import CommentsPage from '../pages/mypage/CommentsPage';
-import CollectionsPage from '../pages/mypage/CollectionsPage';
+import CommentsPage from '../pages/mypage/commentpage/CommentsPage';
 import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
 import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
+import CommentsDetailPage from '../pages/mypage/commentpage/CommentsDetailPage';import CollectionsPage from '../pages/mypage/collectionpage/CollectionsPage';
+import CollectionCreatePage from '../pages/mypage/collectionpage/CollectionCreatePage';
+import CollectionDetailPage from '../pages/mypage/collectionpage/CollectionDetailPage';
+import CollectionEditPage from '../pages/mypage/collectionpage/CollectionEditPage';import Login from '../pages/auth/Login';
+import Register from '../pages/auth/Register';
 
 import AdminPage from '../pages/AdminPage';
 
@@ -17,8 +21,16 @@ const router = createBrowserRouter([
     element: <DefaultLayout />,
     children: [
       {
-        path: '',
+        path: '/',
         element: <Main />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
       },
       {
         path: 'mypage',
@@ -41,8 +53,24 @@ const router = createBrowserRouter([
         element: <CommentsPage />,
       },
       {
+        path: 'mypage/comments/:commentId',
+        element: <CommentsDetailPage />,
+      },
+      {
         path: 'mypage/collections',
         element: <CollectionsPage />,
+      },
+      {
+        path: 'mypage/collections/create',
+        element: <CollectionCreatePage />,
+      },
+      {
+        path: 'mypage/collections/:collectionId',
+        element: <CollectionDetailPage />,
+      },
+      {
+        path: 'mypage/collections/:collectionId/edit',
+        element: <CollectionEditPage />,
       },
     ],
   },
