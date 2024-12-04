@@ -45,12 +45,22 @@ const S = {
     border: 0.06rem solid ${(props) => props.theme.color.lineColor};
   `,
 
-  MovieCard: styled.div`
+  MovieCard: styled.li`
     display: flex;
     align-items: center;
     padding: 0.75rem 1.25rem;
     background-color: ${(props) => props.theme.color.mainColor};
-    border-bottom: ${(props) => props.theme.font.borderDefault};
+    position: relative;
+
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 1.25rem;
+      right: 1.25rem;
+      height: 0.06rem;
+      background-color: ${(props) => props.theme.color.lineColor};
+    }
   `,
 
   MoviePoster: styled.div`
@@ -111,4 +121,6 @@ const StyledRate = styled(Rate)`
     color: ${(props) => props.theme.color.fontPink};
   }
 `;
+
+
 
