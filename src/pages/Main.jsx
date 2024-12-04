@@ -4,29 +4,11 @@ import Title from '../components/features/main/title/Title';
 import Poster from '../components/Common/poster/Poster';
 import HotFeed from '../components/features/comments/HotFeed';
 import { movies } from '../data/movies';
-// import { useUpcoming } from '../apis/getMovies/queries';
-import { useUserInfo } from '../apis/users/queries';
-import useLoginStore from '../store/auth/loginStore';
-import useUserStore from '../store/user/userStore';
-let accessToken = localStorage.getItem('accessToken');
-function Main() {
-  // const { data } = useUpcoming();
-  // const UpcomingData = data?.data?.content || [];
-  const { data } = useUserInfo();
-  const isLoggedIn = useLoginStore((state) => state.isLoggedIn);
-  const setUserInfo = useUserStore((state) => state.setUserInfo);
+import { useUpcoming } from '../apis/getMovies/queries';
 
-  useEffect(() => {
-    if (accessToken) {
-      console.log(data?.data);
-      setUserInfo({
-        id: data?.data.id,
-        nickname: data?.data.nickname,
-        role: data?.data.role,
-        username: data?.data.username,
-      });
-    }
-  }, [accessToken, data, isLoggedIn]);
+function Main() {
+  const { result } = useUpcoming();
+  const UpcomingData = result?.data?.content || [];
 
   const movieSections = [
     {
@@ -39,7 +21,7 @@ function Main() {
     },
     {
       title: '공개 예정작',
-      component: <Poster caseType={2} movies={movies} />,
+      component: <Poster caseType={2} movies={UpcomingData} />,
     },
     {
       title: '박스오피스 순위',

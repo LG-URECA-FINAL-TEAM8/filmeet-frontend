@@ -2,10 +2,14 @@ import styled from 'styled-components';
 import Button from './Button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useLoginStore from '../../../store/auth/loginStore';
+import useUserStore from '../../../store/user/userStore';
 
 function Header() {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
+  const { isLoggedIn } = useLoginStore();
+  const userInfo = useUserStore((state) => state.userInfo);
 
   const buttons = [
     {
@@ -37,10 +41,26 @@ function Header() {
       </Button>
     ));
 
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
   return (
     <S.DefaultHeader>
       <S.HeaderSection>{renderButtons(buttons, true)}</S.HeaderSection>
-      <S.HeaderSection>{renderButtons(authButtons)}</S.HeaderSection>
+      <S.HeaderSection>
+        {isLoggedIn ? (
+          <S.MyButton onClick={handleProfileClick}>
+            <S.ProfileImg
+              src={userInfo?.profileImage || 'https://via.placeholder.com/40'}
+              alt="프로필 이미지"
+            />
+            <S.ProfileName>{userInfo?.nickname || '사용자'}</S.ProfileName>
+          </S.MyButton>
+        ) : (
+          renderButtons(authButtons)
+        )}
+      </S.HeaderSection>
     </S.DefaultHeader>
   );
 }
@@ -60,6 +80,31 @@ const S = {
     width: 12rem;
     display: flex;
     align-items: center;
+  `,
+  MyButton: styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 6.5rem;
+    height: 2rem;
+    border-radius: 19px;
+    border: none;
+    cursor: pointer;
+  `,
+  ProfileImg: styled.img`
+    width: 2rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
+  ProfileName: styled.p`
+    flex: 7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   `,
 };
 

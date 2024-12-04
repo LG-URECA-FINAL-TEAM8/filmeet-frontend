@@ -1,17 +1,33 @@
 import styled from 'styled-components';
 import { useSignUp, useLogin } from '../../../apis/auth/queries';
 import { handleAuthClick } from '../../../utils/auth/authHandler';
-import useLoginStore from '../../../store/auth/loginStore';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
+import useLoginStore from '../../../store/auth/loginStore';
+import { useUserInfo } from '../../../apis/users/queries';
+
 const AuthButton = ({ value, userData }) => {
   const { mutate: signupMutate } = useSignUp();
   const { mutate: loginMutate } = useLogin();
-  const setLoggedIn = useLoginStore((state) => state.setLoggedIn);
+  const queryClient = useQueryClient();
+  const { setLoggedIn } = useLoginStore();
+  const { refetch: refetchUserInfo } = useUserInfo();
+
   const navigate = useNavigate();
 
   const handleClick = () => {
-    handleAuthClick(value, userData, navigate, setLoggedIn, signupMutate, loginMutate);
+    handleAuthClick(
+      value,
+      userData,
+      navigate,
+      signupMutate,
+      loginMutate,
+      queryClient,
+      setLoggedIn,
+      refetchUserInfo
+    );
   };
+
   return <S.StyledButton onClick={handleClick}>{value}</S.StyledButton>;
 };
 

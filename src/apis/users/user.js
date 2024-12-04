@@ -1,7 +1,12 @@
+import useUserStore from '../../store/user/userStore';
 let accessToken = localStorage.getItem('accessToken');
 
 export const getUserInfo = async () => {
+  const setUserInfo = useUserStore.getState().setUserInfo;
+
+  let accessToken = localStorage.getItem('accessToken');
   if (!accessToken) {
+    console.error('로그인이 필요합니다.');
     throw new Error('로그인이 필요합니다.');
   }
 
@@ -14,10 +19,12 @@ export const getUserInfo = async () => {
 
   // AccessToken 만료 처리
   if (response.status === 401) {
+    console.warn('AccessToken 만료됨. 갱신 시도 중...');
     const refreshToken = localStorage.getItem('refreshToken');
     await postRefresh(refreshToken);
 
     // 갱신된 토큰으로 다시 요청
+    accessToken = localStorage.getItem('accessToken'); // 갱신된 토큰 다시 가져오기
     response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/info`, {
       method: 'GET',
       headers: {
@@ -27,10 +34,20 @@ export const getUserInfo = async () => {
   }
 
   if (!response.ok) {
+    console.error('유저 정보를 불러오는 데 실패:', response.statusText);
     throw new Error('유저 정보를 불러오지 못했습니다.');
   }
 
-  return response.json();
+  const userInfo = await response.json();
+
+  setUserInfo({
+    id: userInfo?.data.id,
+    nickname: userInfo?.data.nickname,
+    role: userInfo?.data.role,
+    username: userInfo?.username,
+  });
+
+  return userInfo;
 };
 
 // 토큰 갱신 함수
