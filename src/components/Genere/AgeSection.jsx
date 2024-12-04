@@ -1,71 +1,71 @@
-import React from "react";
 import { ageOptions } from "../../data/generedata";
 import AgeButton from "./AgeButton";
 import styled from "styled-components";
 
-// 섹션 컨테이너 스타일
-const AgeSectionContainer = styled.div`
-  width: 100%;
-  max-width: 60rem;
-  height: 320px; /* 섹션 높이 설정 */
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  margin: 0px auto;
-`;
+const AgeLabel = {
+  title: "나이를 선택해주세요!",
+  subtitle: "당신의 나이는?",
+  label: "나이",
+};
 
-// 버튼 그룹 컨테이너 스타일
-const ButtonGroupContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* 버튼 그룹을 수평 중앙 정렬 */
-  gap: 15px; /* 버튼 간 간격 */
-  margin-top: 40px; /* 버튼 그룹을 아래로 내리기 */
-`;
-
-const Title = styled.h1`
-  font-size: 30px;
-  font-weight: bold;
-  margin: 0 0 12px 0; 
-  color: #333;
-  text-align: left; /* 제목 왼쪽 정렬 */
-  font-family: ${(props) => props.theme.font.fontSuitBold};
-`;
-
-const Subtitle = styled.p`
-  font-size: 1.2rem;
-  color: #666;
-  text-align: left; /* 부제목 왼쪽 정렬 */
-  margin: 0 0 20px 0; /* 부제목과 버튼 간 간격 */
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
-`;
-
-const Label = styled.h3`
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin: 0 0 10px 0; /* 부제목 아래 간격 추가 */
-  color: #333;
-  text-align: left; /* 왼쪽 정렬 */
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
-`;
-
-// 컴포넌트 정의
 const AgeSection = () => {
   return (
-    <AgeSectionContainer>
-      <Title>나이를 선택해주세요!</Title>
-      <Subtitle>당신의 나이는?</Subtitle>
-      <Label>나이</Label>
-      <ButtonGroupContainer>
+    <S.AgeSectionContainer>
+      <S.Title>{AgeLabel.title}</S.Title>
+      <S.Subtitle>{AgeLabel.subtitle}</S.Subtitle>
+      <S.Label>{AgeLabel.label}</S.Label>
+      <S.ButtonGroupContainer>
         {ageOptions.map((option, index) => (
           <AgeButton key={index} label={option.label} emoji={option.emoji} />
         ))}
-      </ButtonGroupContainer>
-    </AgeSectionContainer>
+      </S.ButtonGroupContainer>
+    </S.AgeSectionContainer>
   );
 };
 
 export default AgeSection;
+
+const S = {
+  AgeSectionContainer: styled.div`
+    width: 100%;
+    max-width: 60rem;
+    height: 20rem;
+    margin: 0 auto;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    background: ${(props) => props.theme.color.mainColor};
+    border-radius: 0.625rem;
+    box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
+  `,
+  ButtonGroupContainer: styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.95rem;
+    margin-top: 2.5rem;
+  `,
+  Title: styled.h1`
+    font-size: 1.7rem;
+    margin: 0 0 0.75rem 0;
+    text-align: left;
+    color: ${(props) => props.theme.color.fontDark};
+    font-weight: ${(props) => props.theme.font.fontWeightBold};
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+  `,
+  Subtitle: styled.p`
+    font-size: 1.2rem;
+    margin: 0 0 1.25rem 0;
+    text-align: left;
+    color: ${(props) => props.theme.color.fontGray};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+  `,
+  Label: styled.h3`
+    font-size: 1.2rem;
+    margin: 0 0 0.62rem 0;
+    text-align: left;
+    color: ${(props) => props.theme.color.fontDark};
+    font-weight: ${(props) => props.theme.font.fontWeightBold};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+  `,
+};

@@ -1,63 +1,66 @@
-import React from "react";
 import { genreOptions } from "../../data/generedata";
 import GenreButton from "./GenereButton";
 import styled from "styled-components";
 
-const GenereSectionContainer = styled.div`
-  width: 100%;
-  max-width: 60rem;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 0px auto;
-`;
-
-const ButtonGroupContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-`;
-
-const Title = styled.h1`
-  font-size: 30px;
-  font-weight: bold;
-  margin: 0 0 12px 0; 
-  color: #333;
-  text-align: left; 
-  font-family: ${(props) => props.theme.font.fontSuitBold};
-`;
-
-const Subtitle = styled.p`
-  font-size: 1.2rem;
-  color: #666;
-  text-align: left; /* 왼쪽 정렬 */
-  margin: 0 0 20px 0; /* 부제목 아래 간격 추가 */
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
-`;
-
-const Label = styled.h3`
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin: 0 0 10px 0; /* 부제목 아래 간격 추가 */
-  color: #333;
-  text-align: left; /* 왼쪽 정렬 */
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
-`;
+const GenereLabel = {
+  title: "어떤 영화 장르를 좋아하나요?",
+  subtitle: "마음에 드는 장르를 최대 3개까지 골라주세요",
+  label: "장르",
+};
 
 const GenreSection = () => {
   return (
-    <GenereSectionContainer>
-      <Title>어떤 영화 장르를 좋아하나요?</Title>
-      <Subtitle>마음에 드는 장르를 최대 3개까지 골라주세요</Subtitle>
-      <Label>장르</Label>
-      <ButtonGroupContainer>
+    <S.GenereSectionContainer>
+      <S.Title>{GenereLabel.title}</S.Title>
+      <S.Subtitle>{GenereLabel.subtitle}</S.Subtitle>
+      <S.Label>{GenereLabel.label}</S.Label>
+      <S.ButtonGroupContainer>
         {genreOptions.map((option, index) => (
           <GenreButton key={index} label={option.label} emoji={option.emoji} />
         ))}
-      </ButtonGroupContainer>
-    </GenereSectionContainer>
+      </S.ButtonGroupContainer>
+    </S.GenereSectionContainer>
   );
 };
 
 export default GenreSection;
+
+const S = {
+  GenereSectionContainer: styled.div`
+    width: 100%;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 1.25rem;
+    background: ${(props) => props.theme.color.mainColor};
+    border-radius: 0.62rem;
+    box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
+  `,
+  ButtonGroupContainer: styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  `,
+  Title: styled.h1`
+    font-size: 1.7rem;
+    font-weight: ${(props) => props.theme.font.fontWeightBold};
+    margin: 0 0 0.75rem 0;
+    text-align: left;
+    color: ${(props) => props.theme.color.fontDark};
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+  `,
+  Subtitle: styled.p`
+    font-size: 1.2rem;
+    margin: 0 0 1.25rem 0;
+    text-align: left;
+    color: ${(props) => props.theme.color.fontGray};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+  `,
+  Label: styled.h3`
+    font-size: 1.2rem;
+    font-weight: ${(props) => props.theme.font.fontWeightBold};
+    margin: 0 0 0.62rem 0;
+    text-align: left;
+    color: ${(props) => props.theme.color.fontDark};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+  `,
+};

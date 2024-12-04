@@ -9,3 +9,10 @@ export const GenrePageWrapper = styled.div`
   background-color: #F0F0F3;
   min-height: 100vh; /* 화면 전체 높이 최소 확보 */
 `;
+export const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+`;

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { GenrePageWrapper } from '../styles/genere/genere';
 import GenreSection from '../components/Genere/GenereSection';
 import MbtiSection from '../components/Genere/MbtiSection';
