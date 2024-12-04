@@ -42,7 +42,7 @@ function Header() {
     ));
 
   const handleProfileClick = () => {
-    navigate('/profile');
+    navigate('/mypage');
   };
 
   return (
@@ -87,13 +87,14 @@ const S = {
     justify-content: space-between;
     width: 6.5rem;
     height: 2rem;
+    padding: 0;
     border-radius: 19px;
     border: none;
     cursor: pointer;
   `,
   ProfileImg: styled.img`
-    width: 2rem;
-    height: 1.8rem;
+    width: 2.5rem;
+    height: 2rem;
     border-radius: 50%;
     flex: 3;
     display: flex;
@@ -105,6 +106,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 };
 
