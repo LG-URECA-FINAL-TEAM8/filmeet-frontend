@@ -7,16 +7,24 @@ import CommentsPage from '../pages/mypage/CommentsPage';
 import CollectionsPage from '../pages/mypage/CollectionsPage';
 import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
 import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
-
-
+import Login from '../pages/auth/Login';
+import Register from '../pages/auth/Register';
 const router = createBrowserRouter([
   {
     path: '/',
     element: <DefaultLayout />,
     children: [
       {
-        path: '',
+        path: '/',
         element: <Main />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
       },
       {
         path: 'mypage',
