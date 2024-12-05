@@ -13,7 +13,7 @@ const S = {
     display: flex;
     width: 100%;
     height: 2rem;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     justify-content: flex-start;
     align-items: center;
     margin-left: 12px;

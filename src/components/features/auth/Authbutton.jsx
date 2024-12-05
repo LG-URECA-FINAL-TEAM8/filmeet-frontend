@@ -2,15 +2,14 @@ import styled from 'styled-components';
 import { useSignUp, useLogin } from '../../../apis/auth/queries';
 import { handleAuthClick } from '../../../utils/auth/authHandler';
 import { useNavigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 import useLoginStore from '../../../store/auth/loginStore';
 import { useUserInfo } from '../../../apis/users/queries';
-
+import useErrorStore from '../../../store/auth/errorStore';
 const AuthButton = ({ value, userData, disabled }) => {
   const { mutate: signupMutate } = useSignUp();
   const { mutate: loginMutate } = useLogin();
-  const queryClient = useQueryClient();
   const { setLoggedIn } = useLoginStore();
+  const { setCode } = useErrorStore();
   const { refetch: refetchUserInfo } = useUserInfo();
 
   const navigate = useNavigate();
@@ -23,16 +22,18 @@ const AuthButton = ({ value, userData, disabled }) => {
       navigate,
       signupMutate,
       loginMutate,
-      queryClient,
       setLoggedIn,
-      refetchUserInfo
+      refetchUserInfo,
+      setCode
     );
   };
 
   return (
-    <S.StyledButton onClick={handleClick} disabled={disabled}>
-      {value}
-    </S.StyledButton>
+    <>
+      <S.StyledButton onClick={handleClick} disabled={disabled}>
+        {value}
+      </S.StyledButton>
+    </>
   );
 };
 export default AuthButton;

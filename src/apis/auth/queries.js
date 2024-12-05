@@ -9,7 +9,9 @@ export const useSignUp = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
-    onError: (error) => error,
+    onError: (error) => {
+      return error;
+    },
   });
 };
 

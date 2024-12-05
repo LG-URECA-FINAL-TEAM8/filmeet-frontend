@@ -9,10 +9,11 @@ import useAuthStore from '../../store/auth/authStore';
 import { registerInput } from '../../data/auth/input';
 import Message from '../../components/Common/message/message';
 import { validateEmail, validatePassword } from '../../utils/auth/registerHandler';
-
+import useErrorStore from '../../store/auth/errorStore';
 function Register() {
   const { nickname, email, password, setEmail, setPassword, setNickname, resetAuthData } =
     useAuthStore();
+  const ErrorCode = useErrorStore();
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -39,6 +40,12 @@ function Register() {
     setPasswordError(validatePassword(newPassword));
   };
 
+  useEffect(() => {
+    if (ErrorCode.code === 40202) {
+      setEmailError('중복된 이메일입니다');
+    }
+  }, [ErrorCode.code]);
+
   const isFormValid = validateEmail(email) === '' && validatePassword(password) === '';
 
   return (
@@ -52,6 +59,7 @@ function Register() {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
+          {ErrorCode.code === 40203 && <Message text={'중복된 닉네임입니다.'} />}
           <AuthInput type="email" placeholder="이메일" value={email} onChange={handleEmailChange} />
           {emailError && <Message text={emailError} />}
           <AuthInput

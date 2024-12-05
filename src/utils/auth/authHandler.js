@@ -4,16 +4,20 @@ export const handleAuthClick = (
   navigate,
   signupMutate,
   loginMutate,
-  queryClient,
   setLoggedIn,
-  refetchUserInfo
+  refetchUserInfo,
+  setCode
 ) => {
   if (userData && value === '회원가입') {
     signupMutate(userData, {
       onSuccess: () => {
         navigate('/login');
       },
-      onError: () => {},
+      onError: (error) => {
+        if (error.code) {
+          setCode(error.code);
+        }
+      },
     });
   }
 
