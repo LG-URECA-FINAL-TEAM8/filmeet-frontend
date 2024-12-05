@@ -1,17 +1,16 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { fetchMovies, registerMovies } from './addMovie';
+import { registerMovies } from './addMovie';
+import { fetchMovies } from './searchMovies';
 
-// 영화 검색 쿼리
 export const useSearchMovies = (searchTerm) => {
   return useQuery({
-    queryKey: ['searchMovies', searchTerm],
+    queryKey: ['searchMovies'],
     queryFn: () => fetchMovies(searchTerm),
-    enabled: !!searchTerm, // searchTerm이 있을 때만 실행
+    enabled: !!searchTerm,
     refetchOnWindowFocus: false,
   });
 };
 
-// 영화 등록 뮤테이션
 export const useRegisterMovies = () => {
   return useMutation({
     mutationFn: registerMovies,

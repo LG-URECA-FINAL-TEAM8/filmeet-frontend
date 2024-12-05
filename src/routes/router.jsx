@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Main from '../pages/Main';
 import DefaultLayout from '../components/Layout/DefaultLayout';
-import AdminLoginPage from '../pages/AdminLoginPage';
+import AdminLoginPage from '../pages/admin/AdminLoginPage';
 import MyPage from '../pages/mypage/MyPage';
 import RatingsPage from '../pages/mypage/ratingpage/RatingsPage';
 import CommentsPage from '../pages/mypage/commentpage/CommentsPage';
@@ -18,7 +18,7 @@ import CollectionDetailPage from '../pages/mypage/collectionpage/CollectionDetai
 import CollectionEditPage from '../pages/mypage/collectionpage/CollectionEditPage';import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
 
-import AdminPage from '../pages/AdminPage';
+import AdminPage from '../pages/admin/AdminPage';
 
 const router = createBrowserRouter([
   {

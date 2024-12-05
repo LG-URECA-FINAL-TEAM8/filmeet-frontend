@@ -1,10 +1,10 @@
-import AdminHeaderComponent from '../components/Common/header/AdminHeader';
+import AdminHeaderComponent from '../../components/Common/header/AdminHeader';
 import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
-import MovieManagement from '../components/Common/admin/MovieManagement';
-import AddNewMovie from '../components/Common/admin/AddMovie';
-import LikeManagement from '../components/Common/admin/LikeManagement';
-import usePageStore from '../store/admin/usePagestore';
+import MovieManagement from '../../components/Common/admin/MovieManagement';
+import AddNewMovie from '../../components/Common/admin/AddMovie';
+import LikeManagement from '../../components/Common/admin/LikeManagement';
+import usePageStore from '../../store/admin/usePagestore';
 
 function AdminPage() {
   const { currentPage, setPage } = usePageStore();

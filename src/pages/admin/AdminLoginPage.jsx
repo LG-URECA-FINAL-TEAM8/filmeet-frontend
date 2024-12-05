@@ -1,5 +1,5 @@
-import AdminHeaderComponent from '../components/Common/header/AdminHeader';
-import * as S from '../styles/admin/adminlogin';
+import AdminHeaderComponent from '../../components/Common/header/AdminHeader';
+import * as S from '../../styles/admin/adminlogin';
 
 function AdminLoginPage() {
   const headertitle = '관리자 페이지';
