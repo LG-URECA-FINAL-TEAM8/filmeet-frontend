@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-function Message() {
+function Message({ text }) {
   return (
     <>
-      <S.MessageSection>이메일 양식으로 입력</S.MessageSection>
+      <S.MessageSection>{text}</S.MessageSection>
     </>
   );
 }

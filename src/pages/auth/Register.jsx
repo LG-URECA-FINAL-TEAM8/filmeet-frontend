@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import AuthInput from '../../components/features/auth/AuthInput';
 import AuthButton from '../../components/features/auth/Authbutton';
 import AuthTitle from '../../components/features/auth/AuthTitle';
@@ -8,19 +8,39 @@ import Authlink from '../../components/features/auth/Authlink';
 import useAuthStore from '../../store/auth/authStore';
 import { registerInput } from '../../data/auth/input';
 import Message from '../../components/Common/message/message';
+import { validateEmail, validatePassword } from '../../utils/auth/registerHandler';
 
 function Register() {
   const { nickname, email, password, setEmail, setPassword, setNickname, resetAuthData } =
     useAuthStore();
+
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const userData = {
     nickname,
     username: email,
     password,
   };
+
   useEffect(() => {
     resetAuthData();
   }, []);
+
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    setEmailError(validateEmail(newEmail));
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setPasswordError(validatePassword(newPassword));
+  };
+
+  const isFormValid = validateEmail(email) === '' && validatePassword(password) === '';
+
   return (
     <>
       <S.AuthBody>
@@ -32,22 +52,16 @@ function Register() {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
-          <Message />
-          <AuthInput
-            type="email"
-            placeholder="이메일"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Message />
+          <AuthInput type="email" placeholder="이메일" value={email} onChange={handleEmailChange} />
+          {emailError && <Message text={emailError} />}
           <AuthInput
             type="password"
             placeholder="비밀번호"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
           />
-          <Message />
-          <AuthButton value={registerInput.title} userData={userData} />
+          {passwordError && <Message text={passwordError} />}
+          <AuthButton value={registerInput.title} userData={userData} disabled={!isFormValid} />
           <S.AuthWrapper>
             <AuthMessage value={registerInput.message} />
             <Authlink
@@ -67,6 +81,7 @@ function Register() {
 }
 
 export default Register;
+
 const S = {
   AuthBody: styled.div`
     width: 20rem;
