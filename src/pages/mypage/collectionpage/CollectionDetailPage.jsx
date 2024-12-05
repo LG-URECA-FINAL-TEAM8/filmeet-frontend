@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom";
-import useCollectionsStore from "../../../store/collections/useCollectionsStore";
-import CollectionDetail from "../../../components/collections/CollectionDetail";
-import { Wrapper } from "../../../styles/collectionspage/collections";
+import { useParams } from 'react-router-dom';
+import useCollectionsStore from '../../../store/collections/useCollectionsStore';
+import CollectionDetail from '../../../components/collection/CollectionDetail';
+import { Wrapper } from '../../../styles/collectionspage/collections';
 
 const CollectionDetailPage = () => {
   const { collectionId } = useParams();
@@ -13,8 +13,8 @@ const CollectionDetailPage = () => {
   }
 
   return (
-    <Wrapper>      
-        <CollectionDetail collectionData={collectionData} />
+    <Wrapper>
+      <CollectionDetail collectionData={collectionData} />
     </Wrapper>
   );
 };

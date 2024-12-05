@@ -1,9 +1,7 @@
-import CreateCollection from "../../../components/collections/CreateCollection";
+import CreateCollection from '../../../components/collection/CreateCollection';
 
 const CollectionCreatePage = () => {
-  return (
-    <CreateCollection />    
-  );
+  return <CreateCollection />;
 };
 
 export default CollectionCreatePage;
