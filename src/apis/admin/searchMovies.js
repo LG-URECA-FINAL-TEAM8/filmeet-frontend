@@ -1,4 +1,4 @@
-import { postRefresh } from "../../users/user";
+import { postRefresh } from "../users/user";
 
 export const fetchMovies = async (searchTerm) => {
   let accessToken = localStorage.getItem('accessToken');

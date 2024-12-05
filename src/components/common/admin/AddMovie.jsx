@@ -11,8 +11,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/system';
-import { useState, useEffect } from 'react';
-import { useRegisterMovies, useSearchMovies } from '../../../apis/admin/addmovie/queries';
+import { useState, useEffect, useMemo } from 'react';
+import { useAdminRegisterMovies, useAdminSearchMovies } from '../../../apis/admin/queries';
 import tableHeaders from '../../../data/admintableheaders';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useSelectionStore from '../../../store/admin/useSelectionStore';
@@ -23,105 +23,97 @@ function AddMovie() {
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
   const { selectedMovies, addMovie, removeMovie, clearSelection } = useSelectionStore();
   const [searchTerm, setSearchTerm] = useState('');
-  const [submittedTerm, setSubmittedTerm] = useState(''); // 검색 버튼 클릭 시 사용할 검색어
-  const tableHeader = tableHeaders.addMovie;
+  const [submittedTerm, setSubmittedTerm] = useState('');
+  const [isAllSelected, setIsAllSelected] = useState(false);
+  const { data, isLoading: isSearching, error } = useAdminSearchMovies(submittedTerm);
+  const { mutate: registerMovies, isLoading: isRegistering } = useAdminRegisterMovies();
 
-  const { data, isLoading: isSearching, error } = useSearchMovies(submittedTerm);
-  const { mutate: registerMovies, isLoading: isRegistering } = useRegisterMovies();
-
-  // 서버에서 받은 영화 데이터를 안전하게 처리
-  const movies =
-    data?.data.map((movie) => ({
-      id: movie.titleEng || movie.title,
-      title: movie.title,
-      rating: movie.rating || 'N/A',
-      genre: movie.genre || 'N/A',
-      releaseDate: movie.repRlsDate || '미정',
-    })) || [];
-
-  const totalMovies = movies.length;
-
-  const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleSearch = () => {
-    if (searchTerm.trim() === '') {
-      alert('검색어를 입력하세요.');
-      return;
-    }
-    setSubmittedTerm(searchTerm); // 입력된 검색어를 제출
-    setCurrentPage(1); // 검색 시 페이지를 첫 번째로 초기화
-  };
-
-  const handleClearSearch = () => {
-    setSearchTerm(''); // 검색 필드 초기화
-    setSubmittedTerm(''); // 검색 결과 초기화
-    setCurrentPage(1);
-  };
-
-  const handleCheckboxChange = (movieId) => {
-    if (selectedMovies.includes(movieId)) {
-      removeMovie(movieId);
-    } else {
-      addMovie(movieId);
-    }
-  };
-
-  const handleRegister = () => {
-    const selectedMovieData = movies
-      .filter((movie) => selectedMovies.includes(movie.id))
-      .map((movie) => ({
+  const movies = useMemo(() => {
+    return (
+      data?.data.map((movie) => ({
+        id: movie.titleEng || movie.title,
         title: movie.title,
         titleEng: movie.titleEng || "",
-        repRlsDate: movie.releaseDate || "",
+        repRlsDate: movie.repRlsDate || "미정",
         staffs: movie.staffs || [],
         nation: movie.nation || "",
         plots: movie.plots || [],
         runtime: movie.runtime || "",
-        rating: movie.rating || "",
-        genre: movie.genre || "",
+        rating: movie.rating || "N/A",
+        genre: movie.genre || "N/A",
         posters: movie.posters || [],
-      }));
-  
+      })) || []
+    );
+  }, [data]);
+
+
+  const totalMovies = movies.length;
+
+  useEffect(() => {
+    setIsAllSelected(selectedMovies.length === totalMovies && totalMovies > 0);
+  }, [selectedMovies, totalMovies]);
+
+  const handleSearch = () => {
+    if (!searchTerm.trim()) return alert('검색어를 입력하세요.');
+    setSubmittedTerm(searchTerm);
+    setCurrentPage(1);
+  };
+
+  const handleSelectAll = () => {
+    if (isAllSelected) {
+      clearSelection();
+      setIsAllSelected(false); // 명시적으로 해제 상태로 설정
+    } else {
+      movies.forEach((movie) => addMovie(movie.id));
+      setIsAllSelected(true); // 명시적으로 전체 선택 상태로 설정
+    }
+  };
+
+  useEffect(() => {
+  const allSelected = movies.length > 0 && movies.every((movie) => selectedMovies.includes(movie.id));
+  setIsAllSelected(allSelected);
+}, [selectedMovies, movies]);
+
+  const handleCheckboxChange = (movieId) => {
+    selectedMovies.includes(movieId) ? removeMovie(movieId) : addMovie(movieId);
+  };
+
+  const handleRegister = () => {
+    const selectedMovieData = currentMovies.filter((movie) =>
+      selectedMovies.includes(movie.id)
+    );
+    if (selectedMovieData.length === 0) {
+      alert('등록할 영화를 선택해주세요.');
+      return;
+    }
     registerMovies(selectedMovieData, {
-      onSuccess: (response) => {
-        const registeredCount = response?.length || selectedMovieData.length;
-        alert(`${registeredCount}개의 영화가 성공적으로 등록되었습니다.`);
+      onSuccess: () => {
+        alert(`${selectedMovieData.length}개의 영화가 성공적으로 등록되었습니다.`);
         clearSelection();
       },
-      onError: (error) => {
-        console.error("등록 실패:", error.message);
-        alert(`등록 실패: ${error.message}`);
-      },
+      onError: (error) => alert(`등록 실패: ${error.message}`),
     });
   };
-
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
-
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+  const currentMovies = useMemo(() => {
+    const indexOfLast = currentPage * moviesPerPage;
+    const indexOfFirst = indexOfLast - moviesPerPage;
+    return movies.slice(indexOfFirst, indexOfLast);
+  }, [movies, currentPage, moviesPerPage]);
 
   return (
     <S.Container>
       <S.SearchBox>
-        <S.SearchBarTextField
+        <TextField
           fullWidth
           label="영화 검색(영화 제목, 감독명, 배우명)"
           variant="outlined"
           value={searchTerm}
-          onChange={handleInputChange}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <S.SearchButton variant="contained" onClick={handleSearch}>
-          검색
-        </S.SearchButton>
-        <S.ClearButton variant="outlined" onClick={handleClearSearch}>
-          초기화
-        </S.ClearButton>
+        <Button variant="contained" onClick={handleSearch}>검색</Button>
+        <Button variant="outlined" onClick={() => setSearchTerm('')}>초기화</Button>
       </S.SearchBox>
+
       <S.TableContainer component={Paper}>
         {isSearching ? (
           <S.NoResults>검색 중...</S.NoResults>
@@ -132,28 +124,34 @@ function AddMovie() {
             <TableHead>
               <TableRow>
                 <S.TableHeadCell>
-                  <S.CustomCheckbox disabled />
+                  <Checkbox
+                    checked={isAllSelected}
+                    indeterminate={
+                      selectedMovies.length > 0 && selectedMovies.length < totalMovies
+                    }
+                    onChange={handleSelectAll}
+                  />
                 </S.TableHeadCell>
-                {Object.values(tableHeader).map((header) => (
+                {Object.values(tableHeaders.addMovie).map((header) => (
                   <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentMovies.map((movie, index) => (
-                <TableRow key={index}>
-                  <S.TableBodyCell>
-                    <S.CustomCheckbox
+              {currentMovies.map((movie) => (
+                <TableRow key={movie.id}>
+                  <TableCell>
+                    <Checkbox
                       checked={selectedMovies.includes(movie.id)}
                       onChange={() => handleCheckboxChange(movie.id)}
                     />
-                  </S.TableBodyCell>
-                  <S.TableBodyCell>{movie.title}</S.TableBodyCell>
-                  <S.TableBodyCell>
-                    <AvgRatingBadge count={movie.rating || 'N/A'} />
-                  </S.TableBodyCell>
-                  <S.TableBodyCell>{movie.genre || 'N/A'}</S.TableBodyCell>
-                  <S.TableBodyCell>{movie.releaseDate || 'N/A'}</S.TableBodyCell>
+                  </TableCell>
+                  <TableCell>{movie.title}</TableCell>
+                  <TableCell>
+                    <AvgRatingBadge count={movie.rating} />
+                  </TableCell>
+                  <TableCell>{movie.genre}</TableCell>
+                  <TableCell>{movie.releaseDate}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -162,18 +160,20 @@ function AddMovie() {
           <S.NoResults>검색 결과가 없습니다.</S.NoResults>
         )}
       </S.TableContainer>
-      <S.Pagination
+
+      <Pagination
         count={Math.ceil(totalMovies / moviesPerPage)}
         page={currentPage}
-        onChange={handlePageChange}
+        onChange={(e, page) => setCurrentPage(page)}
       />
-      <S.RegisterButton
+
+      <Button
         variant="contained"
         onClick={handleRegister}
-        disabled={selectedMovies.length === 0 || isRegistering}
+        disabled={!selectedMovies.length || isRegistering}
       >
         {isRegistering ? '등록 중...' : '등록'}
-      </S.RegisterButton>
+      </Button>
     </S.Container>
   );
 }
@@ -188,81 +188,24 @@ const S = {
     gap: '1rem',
     padding: '1rem',
   }),
-
   SearchBox: styled(Box)({
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '30%',
     gap: '1rem',
     marginBottom: '1rem',
+    alignItems: 'center',
+    width: '30%',
   }),
-
-  SearchBarTextField: styled(TextField)({
-    flex: 1,
-  }),
-
-  SearchButton: styled(Button)({
-    backgroundColor: lightTheme.color.buttonPink,
-    color: lightTheme.color.fontWhite,
-    '&:hover': {
-      backgroundColor: lightTheme.color.buttonPink,
-    },
-  }),
-
-  ClearButton: styled(Button)({
-    color: lightTheme.color.buttonPink,
-    borderColor: lightTheme.color.buttonPink,
-    '&:hover': {
-      backgroundColor: lightTheme.color.buttonLightPink,
-    },
-  }),
-
   TableContainer: styled(TableContainer)({
-    maxWidth: '800px',
+    maxWidth: '1300px',
     width: '100%',
-    fontFamily: lightTheme.font.fontSuitRegular,
-    fontSize: '1rem',
-    border: lightTheme.font.borderDefault,
   }),
-
   TableHeadCell: styled(TableCell)({
-    fontFamily: lightTheme.font.fontSuitRegular,
-    fontWeight: lightTheme.font.fontWeightBold,
-    fontSize: '1rem',
-    color: lightTheme.color.fontBlack,
+    fontWeight: 'bold',
     textTransform: 'uppercase',
   }),
-
-  TableBodyCell: styled(TableCell)({
-    fontFamily: lightTheme.font.fontSuitRegular,
-    fontWeight: lightTheme.font.fontWeightRegular,
-    fontSize: '1rem',
-    color: lightTheme.color.fontBlack,
-  }),
-
-  CustomCheckbox: styled(Checkbox)({
-    transform: 'scale(0.8)',
-    padding: '0.2rem',
-  }),
-
-  Pagination: styled(Pagination)({
-    marginTop: '1rem',
-  }),
-
-  RegisterButton: styled(Button)({
-    marginTop: '1rem',
-    backgroundColor: lightTheme.color.buttonPink,
-    color: lightTheme.color.fontWhite,
-    '&:disabled': {
-      backgroundColor: lightTheme.color.fontGray,
-    },
-  }),
-
   NoResults: styled('div')({
     padding: '2rem',
     textAlign: 'center',
     color: lightTheme.color.fontGray,
-    fontSize: '1.2rem',
   }),
 };

@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { registerMovies } from './addMovie';
 import { fetchMovies } from './searchMovies';
 
-export const useSearchMovies = (searchTerm) => {
+export const useAdminSearchMovies = (searchTerm) => {
   return useQuery({
     queryKey: ['searchMovies'],
     queryFn: () => fetchMovies(searchTerm),
@@ -11,7 +11,7 @@ export const useSearchMovies = (searchTerm) => {
   });
 };
 
-export const useRegisterMovies = () => {
+export const useAdminRegisterMovies = () => {
   return useMutation({
     mutationKey: ['registerMovies'],
     mutationFn: registerMovies,
