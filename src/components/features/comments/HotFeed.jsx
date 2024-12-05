@@ -1,63 +1,33 @@
 import styled from 'styled-components';
 import { IcLikeFilled24, IcReplyFilled24 } from '../../../assets/svg';
 
-const sampleData = [
-  {
-    id: 1,
-    userName: 'Alice',
-    rating: 4.5,
-    image: 'https://via.placeholder.com/150',
-    title: 'Delicious Burger',
-    comment: 'The best burger I’ve ever had! The best burger I’ve ever had!',
-    likes: 120,
-    comments: 25,
-  },
-  {
-    id: 2,
-    userName: 'Bob',
-    rating: 3.8,
-    image: 'https://via.placeholder.com/150',
-    title: 'Refreshing Drinks',
-    comment: 'Loved the smoothies, especially the strawberry one.',
-    likes: 85,
-    comments: 10,
-  },
-  {
-    id: 3,
-    userName: 'Charlie',
-    rating: 5,
-    image: 'https://via.placeholder.com/150',
-    title: 'Tasty Fries',
-    comment: 'Crispy and perfectly salted fries. A must-try!',
-    likes: 200,
-    comments: 45,
-  },
-];
-
-function HotFeed() {
+function HotFeed({ reviews }) {
+  console.log(reviews);
   return (
     <S.FeedContainer>
-      {sampleData.map((feed) => (
-        <S.FeedItem key={feed.id}>
+      {reviews.slice(0, 3).map((review) => (
+        <S.FeedItem key={review.id}>
           <S.FeedUserSection>
-            <span className="user__span">{feed.userName}</span>
-            <span className="user__span">{feed.rating}</span>
+            <span className="user__span">{review.nickname}</span>
+            <span className="user__span">{review.popularityScore}</span>
           </S.FeedUserSection>
           <S.FeedMainSection>
-            <S.ImageItem>
-              <img src={feed.image} alt={feed.title} />
-            </S.ImageItem>
+            <S.ImageItem
+              style={{
+                backgroundImage: `url(${review.posterUrl})`,
+              }}
+            />
             <S.CommentItem>
-              <p>{feed.title}</p>
-              <p>{feed.comment}</p>
+              <p>{review.title}</p>
+              <p>{review.content}</p>
             </S.CommentItem>
           </S.FeedMainSection>
           <S.FeedStats>
             <span>
-              <IcLikeFilled24 width={'1rem'} height={'1rem'} /> {feed.likes}
+              <IcLikeFilled24 width={'1rem'} height={'1rem'} /> {review.likeCounts}
             </span>
             <span>
-              <IcReplyFilled24 width={'1rem'} height={'1rem'} /> {feed.comments}
+              <IcReplyFilled24 width={'1rem'} height={'1rem'} /> {review.commentCounts}
             </span>
           </S.FeedStats>
         </S.FeedItem>
@@ -100,17 +70,16 @@ const S = {
   FeedMainSection: styled.section`
     display: flex;
     flex-direction: row;
-    height: auto;
+    height: 6rem;
   `,
   ImageItem: styled.div`
     margin-top: 1rem;
-    width: 25%;
-    height: 100%;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    width: 4rem;
+    height: 5rem;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;
   `,
 
   CommentItem: styled.div`
