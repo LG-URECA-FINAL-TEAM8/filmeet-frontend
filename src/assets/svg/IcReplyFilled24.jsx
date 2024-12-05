@@ -1,4 +1,3 @@
-import * as React from 'react';
 const SvgIcReplyFilled24 = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 17" {...props}>
     <path

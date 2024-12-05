@@ -1,16 +1,16 @@
-import ReactModal from "react-modal";
-import styled from "styled-components";
-import { movies } from "../../../data/movies";
-import useCollectionsStore from "../../../store/collections/useCollectionsStore";
-import SvgSearch from "../../../assets/svg/Search";
-import ListPoster from "../poster/ModalList";
+import ReactModal from 'react-modal';
+import styled from 'styled-components';
+import { movies } from '../../../data/movies';
+import useCollectionsStore from '../../../store/collections/useCollectionsStore';
+import SvgSearch from '../../../assets/svg/Search';
+import ListPoster from '../poster/ModalList';
 
-ReactModal.setAppElement("#root");
+ReactModal.setAppElement('#root');
 
 const CollectionsLabel = {
-  AddMovies: "작품 추가",
-  AddMoviesButton: "개 추가하기",
-  SearchPlaceholder: "검색하여 작품 추가하기",
+  AddMovies: '작품 추가',
+  AddMoviesButton: '개 추가하기',
+  SearchPlaceholder: '검색하여 작품 추가하기',
 };
 
 const MovieSearchModal = ({ onAddMovies }) => {
@@ -34,9 +34,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
       )
       .map((movie) => ({
         ...movie,
-        isSelected: tempSelectedMovies.some(
-          (selectedMovie) => selectedMovie.id === movie.id
-        ),
+        isSelected: tempSelectedMovies.some((selectedMovie) => selectedMovie.id === movie.id),
       }));
   };
 
@@ -57,8 +55,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
       isOpen={isModalOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      contentLabel="Movie Search Modal"
-    >
+      contentLabel="Movie Search Modal">
       <S.ModalContainer>
         <S.ButtonWrapper>
           <S.CloseButton onClick={closeModal}>✕</S.CloseButton>
@@ -66,10 +63,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
         <S.Header>
           <S.Title>
             {CollectionsLabel.AddMovies}
-            <S.AddButton
-              disabled={tempSelectedMovies.length === 0}
-              onClick={handleAddMovies}
-            >
+            <S.AddButton disabled={tempSelectedMovies.length === 0} onClick={handleAddMovies}>
               {tempSelectedMovies.length}
               {CollectionsLabel.AddMoviesButton}
             </S.AddButton>
@@ -85,7 +79,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
           </S.SearchWrapper>
         </S.Header>
         <S.MovieList>
-          <ListPoster movies={getFilteredMovies()} onMovieSelect={toggleMovieSelection}/>           
+          <ListPoster movies={getFilteredMovies()} onMovieSelect={handleMovieSelect} />
         </S.MovieList>
       </S.ModalContainer>
     </ReactModal>
@@ -96,21 +90,21 @@ export default MovieSearchModal;
 
 const customStyles = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "1.5rem 0",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '1.5rem 0',
     zIndex: 1000,
   },
   content: {
-    position: "",
-    width: "23.43rem",
-    maxWidth: "90%",
-    height: "37.5rem",
-    borderRadius: "0.3rem",
-    padding: "0",
-    overflow: "hidden",
+    position: '',
+    width: '23.43rem',
+    maxWidth: '90%',
+    height: '37.5rem',
+    borderRadius: '0.3rem',
+    padding: '0',
+    overflow: 'hidden',
   },
 };
 
@@ -163,11 +157,10 @@ const S = {
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
     font-weight: ${(props) => props.theme.font.fontWeightRegular};
-    color: ${(props) =>
-      props.disabled ? props.theme.color.fontGray : props.theme.color.fontPink};
+    color: ${(props) => (props.disabled ? props.theme.color.fontGray : props.theme.color.fontPink)};
     background: none;
     border: none;
-    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   `,
 
   SearchWrapper: styled.label`
@@ -217,4 +210,3 @@ const S = {
     background: ${(props) => props.theme.color.mainColor};
   `,
 };
-

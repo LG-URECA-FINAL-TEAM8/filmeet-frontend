@@ -7,6 +7,7 @@ import AuthMessage from '../../components/features/auth/AuthMessage';
 import Authlink from '../../components/features/auth/Authlink';
 import useAuthStore from '../../store/auth/authStore';
 import { registerInput } from '../../data/auth/input';
+import Message from '../../components/Common/message/message';
 
 function Register() {
   const { nickname, email, password, setEmail, setPassword, setNickname, resetAuthData } =
@@ -31,18 +32,21 @@ function Register() {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
+          <Message />
           <AuthInput
             type="email"
             placeholder="이메일"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <Message />
           <AuthInput
             type="password"
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <Message />
           <AuthButton value={registerInput.title} userData={userData} />
           <S.AuthWrapper>
             <AuthMessage value={registerInput.message} />
@@ -66,7 +70,7 @@ export default Register;
 const S = {
   AuthBody: styled.div`
     width: 20rem;
-    height: 30rem;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
