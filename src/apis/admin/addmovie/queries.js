@@ -13,12 +13,11 @@ export const useSearchMovies = (searchTerm) => {
 
 export const useRegisterMovies = () => {
   return useMutation({
+    mutationKey: ['registerMovies'],
     mutationFn: registerMovies,
     onSuccess: () => {
-      alert('영화 등록 성공');
     },
-    onError: (error) => {
-      alert(`등록 실패: ${error.message}`);
+    onError: () => {
     },
   });
 };

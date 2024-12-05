@@ -22,10 +22,15 @@ import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import useEditStore from '../../../store/admin/useEditStore';
 
+
+import useAdminModalStore from '../../../store/modal/useAdminModalStore';
+import AdminEditModal from '../modal/AdminEditModal';
+
 function MovieManagement() {
   const { movies, setMovies, updateMovieField } = useMovieStore();
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
   const { editingRow, setEditingRow } = useEditStore();
+  const { isOpen, openModal, setModalData } = useAdminModalStore(); // 모달 상태 관리
   const tableHeader = tableHeaders.movieManagement;
 
   useEffect(() => {
@@ -38,8 +43,14 @@ function MovieManagement() {
     setMovies(enhancedMovies);
   }, [setMovies]);
 
-  const handleEdit = (movieId) => {
-    setEditingRow(movieId);
+  const handleEdit = (movie) => {
+    setEditingRow(movie.id);
+    setModalData({
+      title: movie.title,
+      genre: movie.genre,
+      releaseDate: movie.releaseDate,
+    }); // 모달에 영화 데이터를 전달
+    openModal();
   };
 
   const handleSave = () => {
@@ -47,8 +58,8 @@ function MovieManagement() {
   };
 
   const handleDelete = (movie) => {
-    alert(`"${movie.title}" 삭제 요청`)
-  }
+    alert(`"${movie.title}" 삭제 요청`);
+  };
 
   const handleInputChange = (movieId, field, value) => {
     updateMovieField(movieId, field, value);
@@ -85,71 +96,77 @@ function MovieManagement() {
   const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
 
   return (
-    <S.Container>
-      <S.SearchBox>
-        <S.SearchBarTextField
-          variant="outlined"
-          fullWidth
-          label="영화 검색"
-          onChange={(e) => handleSearch(e.target.value)}
-        />
-      </S.SearchBox>
-      <S.TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {Object.values(tableHeader).map((header) => (
-                <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {currentMovies.map((movie) => (
-              <TableRow key={movie.id}>
-                <S.TableBodyCell>
-                  {editingRow === movie.id ? (
-                    <S.TextField
-                      value={movie.title}
-                      onChange={(e) =>
-                        handleInputChange(movie.id, 'title', e.target.value)
-                      }
-                    />
-                  ) : (
-                    movie.title
-                  )}
-                </S.TableBodyCell>
-                <S.TableBodyCell>
-                  <CommentBadge count={movie.comments || 0} />
-                </S.TableBodyCell>
-                <S.TableBodyCell>
-                  <LikeBadge count={movie.likes || 0} />
-                </S.TableBodyCell>
-                <S.TableBodyCell>{movie.rating}</S.TableBodyCell>
-                <S.TableBodyCell>{movie.genre}</S.TableBodyCell>
-                <S.TableBodyCell>{movie.releaseDate}</S.TableBodyCell>
-                <S.TableBodyCell>
-                  {editingRow === movie.id ? (
-                    <S.CheckIcon onClick={handleSave} />
-                  ) : (
-                    <S.ModeEditTwoToneIcon onClick={() => handleEdit(movie.id)} />
-                  )}
-                  <S.DeleteIcon onClick={() => handleDelete(movie)} />
-                </S.TableBodyCell>
+    <>
+      <AdminEditModal isOpen={isOpen} /> {/* 모달 컴포넌트 추가 */}
+      <S.Container>
+        <S.SearchBox>
+          <S.SearchBarTextField
+            variant="outlined"
+            fullWidth
+            label="영화 검색"
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+        </S.SearchBox>
+        <S.TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {Object.values(tableHeader).map((header) => (
+                  <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </S.TableContainer>
-      <S.Pagination
-        count={Math.ceil(movies.length / moviesPerPage)}
-        page={currentPage}
-        onChange={(event, value) => setCurrentPage(value)}
-      />
-    </S.Container>
+            </TableHead>
+            <TableBody>
+              {currentMovies.map((movie) => (
+                <TableRow key={movie.id}>
+                  <S.TableBodyCell>
+                    {editingRow === movie.id ? (
+                      <S.TextField
+                        value={movie.title}
+                        onChange={(e) =>
+                          handleInputChange(movie.id, 'title', e.target.value)
+                        }
+                      />
+                    ) : (
+                      movie.title
+                    )}
+                  </S.TableBodyCell>
+                  <S.TableBodyCell>
+                    <CommentBadge count={movie.comments || 0} />
+                  </S.TableBodyCell>
+                  <S.TableBodyCell>
+                    <LikeBadge count={movie.likes || 0} />
+                  </S.TableBodyCell>
+                  <S.TableBodyCell>{movie.rating}</S.TableBodyCell>
+                  <S.TableBodyCell>{movie.genre}</S.TableBodyCell>
+                  <S.TableBodyCell>{movie.releaseDate}</S.TableBodyCell>
+                  <S.TableBodyCell>
+                    {editingRow === movie.id ? (
+                      <S.CheckIcon onClick={handleSave} />
+                    ) : (
+                      <S.ModeEditTwoToneIcon
+                        onClick={() => handleEdit(movie)} 
+                      />
+                    )}
+                    <S.DeleteIcon onClick={() => handleDelete(movie)} />
+                  </S.TableBodyCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </S.TableContainer>
+        <S.Pagination
+          count={Math.ceil(movies.length / moviesPerPage)}
+          page={currentPage}
+          onChange={(event, value) => setCurrentPage(value)}
+        />
+      </S.Container>
+    </>
   );
 }
 
 export default MovieManagement;
+
 
 const S = {
   Container: styled(Box)({

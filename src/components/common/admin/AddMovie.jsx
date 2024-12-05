@@ -11,7 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/system';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRegisterMovies, useSearchMovies } from '../../../apis/admin/addmovie/queries';
 import tableHeaders from '../../../data/admintableheaders';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
@@ -23,25 +23,41 @@ function AddMovie() {
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
   const { selectedMovies, addMovie, removeMovie, clearSelection } = useSelectionStore();
   const [searchTerm, setSearchTerm] = useState('');
+  const [submittedTerm, setSubmittedTerm] = useState(''); // 검색 버튼 클릭 시 사용할 검색어
   const tableHeader = tableHeaders.addMovie;
 
-  const { data, isLoading: isSearching, error } = useSearchMovies(searchTerm);
+  const { data, isLoading: isSearching, error } = useSearchMovies(submittedTerm);
   const { mutate: registerMovies, isLoading: isRegistering } = useRegisterMovies();
 
   // 서버에서 받은 영화 데이터를 안전하게 처리
-  const movies = data?.data.map((movie) => ({
-    id: movie.titleEng || movie.title,
-    title: movie.title,
-    rating: movie.rating || 'N/A',
-    genre: movie.genre || 'N/A',
-    releaseDate: movie.repRlsDate || '미정',
-  })) || [];
+  const movies =
+    data?.data.map((movie) => ({
+      id: movie.titleEng || movie.title,
+      title: movie.title,
+      rating: movie.rating || 'N/A',
+      genre: movie.genre || 'N/A',
+      releaseDate: movie.repRlsDate || '미정',
+    })) || [];
 
   const totalMovies = movies.length;
 
-  const handleSearch = (e) => {
+  const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
+  };
+
+  const handleSearch = () => {
+    if (searchTerm.trim() === '') {
+      alert('검색어를 입력하세요.');
+      return;
+    }
+    setSubmittedTerm(searchTerm); // 입력된 검색어를 제출
     setCurrentPage(1); // 검색 시 페이지를 첫 번째로 초기화
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm(''); // 검색 필드 초기화
+    setSubmittedTerm(''); // 검색 결과 초기화
+    setCurrentPage(1);
   };
 
   const handleCheckboxChange = (movieId) => {
@@ -53,13 +69,29 @@ function AddMovie() {
   };
 
   const handleRegister = () => {
-    const selectedMovieData = movies.filter((movie) => selectedMovies.includes(movie.id));
+    const selectedMovieData = movies
+      .filter((movie) => selectedMovies.includes(movie.id))
+      .map((movie) => ({
+        title: movie.title,
+        titleEng: movie.titleEng || "",
+        repRlsDate: movie.releaseDate || "",
+        staffs: movie.staffs || [],
+        nation: movie.nation || "",
+        plots: movie.plots || [],
+        runtime: movie.runtime || "",
+        rating: movie.rating || "",
+        genre: movie.genre || "",
+        posters: movie.posters || [],
+      }));
+  
     registerMovies(selectedMovieData, {
-      onSuccess: () => {
-        alert('영화 등록이 완료되었습니다.');
+      onSuccess: (response) => {
+        const registeredCount = response?.length || selectedMovieData.length;
+        alert(`${registeredCount}개의 영화가 성공적으로 등록되었습니다.`);
         clearSelection();
       },
       onError: (error) => {
+        console.error("등록 실패:", error.message);
         alert(`등록 실패: ${error.message}`);
       },
     });
@@ -78,11 +110,17 @@ function AddMovie() {
       <S.SearchBox>
         <S.SearchBarTextField
           fullWidth
-          label="영화 검색"
+          label="영화 검색(영화 제목, 감독명, 배우명)"
           variant="outlined"
           value={searchTerm}
-          onChange={handleSearch}
+          onChange={handleInputChange}
         />
+        <S.SearchButton variant="contained" onClick={handleSearch}>
+          검색
+        </S.SearchButton>
+        <S.ClearButton variant="outlined" onClick={handleClearSearch}>
+          초기화
+        </S.ClearButton>
       </S.SearchBox>
       <S.TableContainer component={Paper}>
         {isSearching ? (
@@ -152,15 +190,31 @@ const S = {
   }),
 
   SearchBox: styled(Box)({
-    width: '100%',
-    maxWidth: '400px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '30%',
+    gap: '1rem',
     marginBottom: '1rem',
   }),
 
   SearchBarTextField: styled(TextField)({
-    height: '2rem',
-    '& .MuiInputBase-root': {
-      height: '3rem',
+    flex: 1,
+  }),
+
+  SearchButton: styled(Button)({
+    backgroundColor: lightTheme.color.buttonPink,
+    color: lightTheme.color.fontWhite,
+    '&:hover': {
+      backgroundColor: lightTheme.color.buttonPink,
+    },
+  }),
+
+  ClearButton: styled(Button)({
+    color: lightTheme.color.buttonPink,
+    borderColor: lightTheme.color.buttonPink,
+    '&:hover': {
+      backgroundColor: lightTheme.color.buttonLightPink,
     },
   }),
 
@@ -211,5 +265,4 @@ const S = {
     color: lightTheme.color.fontGray,
     fontSize: '1.2rem',
   }),
-
 };
