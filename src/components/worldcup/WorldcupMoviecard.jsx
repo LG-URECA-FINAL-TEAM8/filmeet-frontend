@@ -8,94 +8,103 @@ const { Meta } = Card;
 
 const WorldcupMoviecard = ({ image, title, rating, likes, comments }) => {
   return (
-    <StyledCard
-      hoverable
-      cover={<StyledImage alt={title} src={image} />}
-    >
-      <StyledMeta
-        title={<CardTitle>{title}</CardTitle>}
+    <S.StyledCard hoverable cover={<S.StyledImage alt={title} src={image} />}>
+      <S.StyledMeta
+        title={<S.CardTitle>{title}</S.CardTitle>}
         description={
-          <CardDetails>
-            <StarItem>
+          <S.CardDetails>
+            <S.StarItem>
               <SvgStar width={20} height={20} /> {rating.toFixed(1)}
-            </StarItem>
-            <DetailItem>
+            </S.StarItem>
+            <S.DetailItem>
               <SvgIcLikeFilled24 width={24} height={24} /> {likes}
-            </DetailItem>
-            <DetailItem>
+            </S.DetailItem>
+            <S.DetailItem>
               <SvgComment width={24} height={24} /> {comments}
-            </DetailItem>
-          </CardDetails>
+            </S.DetailItem>
+          </S.CardDetails>
         }
       />
-    </StyledCard>
+    </S.StyledCard>
   );
 };
 
 export default WorldcupMoviecard;
 
-const StyledCard = styled(Card)`
-  width: 500px;
-  height: 600px;
-  border-radius: 0.5rem;
-  overflow: hidden;
+const S = {
+  StyledCard: styled(Card)`
+    width: 31.25rem;
+    height: 37.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 0.25rem 0.37rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  .ant-card-body {
-    padding: 1rem;
-  }
-`;
+    .ant-card-body {
+      padding: 1rem;
+    }
 
-const StyledImage = styled.img`
-  height: 470px;
-  object-fit: cover;
-`;
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0.37rem 0.93rem rgba(0, 0, 0, 0.2);
+    }
 
-const StyledMeta = styled(Meta)`
-  height: 70px;
-  display: flex;
-  flex-direction: flex-start;
-  justify-content: space-between;
+    &:active {
+      transform: scale(1.02);
+      box-shadow: 0 0.25rem 0.62rem rgba(0, 0, 0, 0.2);
+    }
+  `,
 
-  .ant-card-meta-title {
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
+  StyledImage: styled.img`
+    height: 29.37rem;
+    object-fit: cover;
+  `,
+
+  StyledMeta: styled(Meta)`
+    height: 4.37rem;
+    display: flex;
+    flex-direction: flex-start;
+    justify-content: space-between;
+
+    .ant-card-meta-title {
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+      font-family: ${(props) => props.theme.font.fontSuitBold};
+    }
+
+    .ant-card-meta-description {
+      font-size: 0.9rem;
+      color: ${(props) => props.theme.color.fontGray};
+    }
+  `,
+
+  CardTitle: styled.h3`
     font-family: ${(props) => props.theme.font.fontSuitBold};
-  }
+    font-size: 1.2rem;
+    margin: 0;
+  `,
 
-  .ant-card-meta-description {
-    font-size: 0.9rem;
+  CardDetails: styled.div`
+    display: flex;
+    flex-direction: flex-start;
+    gap: 0.5rem;
+  `,
+
+  StarItem: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1rem;
+    color: ${(props) => props.theme.color.fontPink};
+  `,
+
+  DetailItem: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1rem;
     color: ${(props) => props.theme.color.fontGray};
-  }
-`;
-
-const CardTitle = styled.h3`
-  font-family: ${(props) => props.theme.font.fontSuitBold};
-  font-size: 1.2rem;
-  margin: 0;
-`;
-
-const CardDetails = styled.div`
-  display: flex;
-  flex-direction: flex-start;
-  gap: 0.5rem;
-`;
-
-const StarItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
-  font-size: 1rem;
-  color: ${(props) => props.theme.color.fontPink};
-`;
-
-const DetailItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
-  font-size: 1rem;
-  color: ${(props) => props.theme.color.fontGray};
-`;
-
-
+  `,
+};
