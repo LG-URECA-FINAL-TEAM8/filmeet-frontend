@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Main from '../pages/Main';
-import DefaultLayout from '../components/Layout/DefaultLayout';
+import DefaultLayout from '../components/layout/DefaultLayout';
 import MyPage from '../pages/mypage/MyPage';
 import RatingsPage from '../pages/mypage/ratingpage/RatingsPage';
 import CommentsPage from '../pages/mypage/commentpage/CommentsPage';
@@ -18,6 +18,9 @@ import CollectionEditPage from '../pages/mypage/collectionpage/CollectionEditPag
 import Register from '../pages/auth/Register';
 import ErrorPage from '../pages/errorpage/ErrorPage';
 import StarRatingPage from '../pages/StarRatingPage';
+import AdminPage from '../pages/admin/AdminPage';
+import AdminLoginPage from '../pages/admin/AdminLoginPage';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -101,6 +104,15 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: 'adminlogin',
+    element: <AdminLoginPage />,
+  },
+  {
+    path: 'admin',
+    element: <AdminPage />,
+  },
+
 ]);
 
 export default router;
