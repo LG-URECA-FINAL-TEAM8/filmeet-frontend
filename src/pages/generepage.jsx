@@ -1,8 +1,8 @@
 import { GenrePageWrapper } from '../styles/genere/genere';
-import GenreSection from '../components/Genere/GenereSection';
-import MbtiSection from '../components/Genere/MbtiSection';
-import AgeSection from '../components/Genere/AgeSection';
-import ProceedButtonComponent from '../components/Genere/ProceedButton';
+import GenreSection from '../components/genere/GenereSection';
+import MbtiSection from '../components/genere/MbtiSection';
+import AgeSection from '../components/genere/AgeSection';
+import ProceedButtonComponent from '../components/genere/ProceedButton';
 
 const GenrePage = () => {
   return (
