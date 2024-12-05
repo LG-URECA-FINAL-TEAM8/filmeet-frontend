@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
-const VersusText = ({ text = "VS" }) => {
-  return <S.StyledVersusText>{text}</S.StyledVersusText>;
+const VersusText = () => {
+  const VSText = "VS"
+  return <S.StyledVersusText>{VSText}</S.StyledVersusText>;
 };
 
 export default VersusText;
