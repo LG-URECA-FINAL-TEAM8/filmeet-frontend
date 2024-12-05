@@ -17,6 +17,7 @@ import CollectionDetailPage from '../pages/mypage/collectionpage/CollectionDetai
 import CollectionEditPage from '../pages/mypage/collectionpage/CollectionEditPage';import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
 import ErrorPage from '../pages/errorpage/ErrorPage';
+import StarRatingPage from '../pages/StarRatingPage';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
       {
         path: 'error',
         element: <ErrorPage />,
+      },
+      {
+        path: 'review',
+        element: <StarRatingPage />,
       },
     ],
   },
