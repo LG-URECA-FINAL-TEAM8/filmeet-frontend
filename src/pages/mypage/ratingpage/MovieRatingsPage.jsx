@@ -1,7 +1,7 @@
 import * as S from "../../../styles/rating/rating";
-import MovieRatingList from "../../../components/Rating/MovieRatingList";
+import MovieRatingList from "../../../components/rating/MovieRatingList";
 import useRatingsStore from "../../../store/rating/useRatingsStore";
-import ByRatingList from "../../../components/Rating/ByRatingList";
+import ByRatingList from "../../../components/rating/ByRatingList";
 
 const MovieRatingsPage = () => {
   const { activeFilter } = useRatingsStore();

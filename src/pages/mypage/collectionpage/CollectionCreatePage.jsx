@@ -1,4 +1,4 @@
-import CreateCollection from "../../../components/Collections/CreateCollection";
+import CreateCollection from "../../../components/collections/CreateCollection";
 
 const CollectionCreatePage = () => {
   return (
