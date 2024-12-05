@@ -7,7 +7,6 @@ import CommentsPage from '../pages/mypage/commentpage/CommentsPage';
 import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
 import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
 import GenrePage from '../pages/generepage';
-import FollowersPage from '../pages/followpage/FollowerPage';
 import FollowerPage from '../pages/followpage/FollowerPage';
 import FollowingPage from '../pages/followpage/FollowingPage';
 import AlarmHistoryPage from '../pages/AlarmHistoryPage';
@@ -18,6 +17,7 @@ import CollectionEditPage from '../pages/mypage/collectionpage/CollectionEditPag
 import Register from '../pages/auth/Register';
 import ErrorPage from '../pages/errorpage/ErrorPage';
 import StarRatingPage from '../pages/StarRatingPage';
+import WorldcupPage from '../pages/WorldcupPage';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -98,6 +98,10 @@ const router = createBrowserRouter([
       {
         path: 'review',
         element: <StarRatingPage />,
+      },
+      {
+        path: 'worldcup',
+        element: <WorldcupPage />,
       },
     ],
   },
