@@ -20,6 +20,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
     searchTerm,
     setSearchTerm,
     tempSelectedMovies,
+    toggleMovieSelection,
     confirmTempSelectedMovies,
   } = useCollectionsStore();
 
@@ -35,6 +36,10 @@ const MovieSearchModal = ({ onAddMovies }) => {
         ...movie,
         isSelected: tempSelectedMovies.some((selectedMovie) => selectedMovie.id === movie.id),
       }));
+  };
+
+  const handleMovieSelect = (movie) => {
+    toggleMovieSelection(movie);
   };
 
   const handleAddMovies = () => {
@@ -74,7 +79,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
           </S.SearchWrapper>
         </S.Header>
         <S.MovieList>
-          <ListPoster movies={getFilteredMovies()} />
+          <ListPoster movies={getFilteredMovies()} onMovieSelect={handleMovieSelect} />
         </S.MovieList>
       </S.ModalContainer>
     </ReactModal>
