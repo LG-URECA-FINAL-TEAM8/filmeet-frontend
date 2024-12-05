@@ -1,5 +1,5 @@
 import TopHeader from '../../components/Common/back/TopHeader';
-import FollowingList from '../../components/Follow/FollowingList';
+import FollowingList from '../../components/follow/FollowingList';
 import { FollowPageWrapper } from '../../styles/follow/follow';
 
 const FollowingPage = () => {

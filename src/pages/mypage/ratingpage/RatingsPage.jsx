@@ -1,5 +1,5 @@
 import * as S from "../../../styles/rating/rating";
-import Rating from "../../../components/Rating/Rating";
+import Rating from "../../../components/rating/Rating";
 
 const RatingsPage = () => {
 

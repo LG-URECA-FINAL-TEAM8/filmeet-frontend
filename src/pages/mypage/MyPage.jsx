@@ -1,5 +1,5 @@
 import { MyPageContainer, ProfileContainer } from '../../styles/profile/profile';
-import ProfileHeader from '../../components/Profile/ProfileHeader';
+import ProfileHeader from '../../components/profile/ProfileHeader';
 
 const MyPage = () => {
   return (

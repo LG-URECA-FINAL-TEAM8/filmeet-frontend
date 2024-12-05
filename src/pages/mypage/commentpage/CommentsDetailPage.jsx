@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import CommentBody from "../../../components/CommentDetail/CommentBody";
-import CommentHeader from "../../../components/CommentDetail/CommentHeader";
+import CommentBody from "../../../components/commentDetail/CommentBody";
+import CommentHeader from "../../../components/commentDetail/CommentHeader";
 import { CommentDetailContainer } from "../../../styles/comment/comment";
 import { comments } from "../../../data/comments";
 import CommentList from "../../../components/Features/comments/CommentList";

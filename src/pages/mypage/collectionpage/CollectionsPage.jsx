@@ -1,6 +1,6 @@
-import CollectionsOverview from "../../../components/Collections/CollectionsOverview";
+import CollectionsOverview from "../../../components/collections/CollectionsOverview";
 import useCollectionsStore from "../../../store/collections/useCollectionsStore";
-import CollectionList from "../../../components/Collections/CollectionList";
+import CollectionList from "../../../components/collections/CollectionList";
 import { CollectionPageWrapper } from "../../../styles/collectionspage/collections";
 
 

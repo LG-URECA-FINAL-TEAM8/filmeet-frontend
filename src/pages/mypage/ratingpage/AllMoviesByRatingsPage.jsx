@@ -1,4 +1,4 @@
-import MoreRatingMovies from '../../../components/Rating/MoreRatingMovies';
+import MoreRatingMovies from '../../../components/rating/MoreRatingMovies';
 import * as S from '../../../styles/rating/rating';
 
 const AllMoviesByRatingsPage = () => { 
