@@ -16,6 +16,7 @@ import CollectionCreatePage from '../pages/mypage/collectionpage/CollectionCreat
 import CollectionDetailPage from '../pages/mypage/collectionpage/CollectionDetailPage';
 import CollectionEditPage from '../pages/mypage/collectionpage/CollectionEditPage';import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
+import ErrorPage from '../pages/errorpage/ErrorPage';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
       {
         path: 'alarmhistorys',
         element: <AlarmHistoryPage />,
+      },
+      {
+        path: 'error',
+        element: <ErrorPage />,
       },
     ],
   },
