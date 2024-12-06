@@ -12,7 +12,11 @@ export const SignUp = async ({ username, password, nickname }) => {
   });
 
   if (!response.ok) {
-    throw new Error('회원가입 실패');
+    const errorData = await response.json();
+
+    const error = new Error(errorData.message || '회원가입 실패');
+    error.code = errorData.code;
+    throw error;
   }
 
   return response.json();

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const SvgCircle = ({ isSelected }) => {
-  console.log('isSelected:', isSelected); // 값 확인
   return (
     <StyledSvg isSelected={isSelected}>
       <circle cx="12" cy="12" r="11" />
