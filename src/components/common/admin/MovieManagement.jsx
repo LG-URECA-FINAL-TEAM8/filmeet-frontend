@@ -14,23 +14,18 @@ import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CheckIcon from '@mui/icons-material/Check';
 import LikeBadge from './LikeBadge';
 import CommentBadge from './CommentBadge';
 import tableHeaders from '../../../data/admintableheaders';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useMovieStore from '../../../store/admin/useMovieStore';
-import useEditStore from '../../../store/admin/useEditStore';
-
-
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 import AdminEditModal from '../modal/AdminEditModal';
 
 function MovieManagement() {
-  const { movies, setMovies, updateMovieField } = useMovieStore();
+  const { movies, setMovies } = useMovieStore();
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
-  const { editingRow, setEditingRow } = useEditStore();
-  const { isOpen, openModal, setModalData } = useAdminModalStore(); // 모달 상태 관리
+  const { isOpen, openModal, setModalData } = useAdminModalStore();
   const tableHeader = tableHeaders.movieManagement;
 
   useEffect(() => {
@@ -44,25 +39,16 @@ function MovieManagement() {
   }, [setMovies]);
 
   const handleEdit = (movie) => {
-    setEditingRow(movie.id);
     setModalData({
       title: movie.title,
       genre: movie.genre,
       releaseDate: movie.releaseDate,
-    }); // 모달에 영화 데이터를 전달
+    });
     openModal();
-  };
-
-  const handleSave = () => {
-    setEditingRow(null);
   };
 
   const handleDelete = (movie) => {
     alert(`"${movie.title}" 삭제 요청`);
-  };
-
-  const handleInputChange = (movieId, field, value) => {
-    updateMovieField(movieId, field, value);
   };
 
   const handleSearch = (term) => {
@@ -97,7 +83,7 @@ function MovieManagement() {
 
   return (
     <>
-      <AdminEditModal isOpen={isOpen} /> {/* 모달 컴포넌트 추가 */}
+      <AdminEditModal isOpen={isOpen} />
       <S.Container>
         <S.SearchBox>
           <S.SearchBarTextField
@@ -119,18 +105,7 @@ function MovieManagement() {
             <TableBody>
               {currentMovies.map((movie) => (
                 <TableRow key={movie.id}>
-                  <S.TableBodyCell>
-                    {editingRow === movie.id ? (
-                      <S.TextField
-                        value={movie.title}
-                        onChange={(e) =>
-                          handleInputChange(movie.id, 'title', e.target.value)
-                        }
-                      />
-                    ) : (
-                      movie.title
-                    )}
-                  </S.TableBodyCell>
+                  <S.TableBodyCell>{movie.title}</S.TableBodyCell>
                   <S.TableBodyCell>
                     <CommentBadge count={movie.comments || 0} />
                   </S.TableBodyCell>
@@ -141,13 +116,7 @@ function MovieManagement() {
                   <S.TableBodyCell>{movie.genre}</S.TableBodyCell>
                   <S.TableBodyCell>{movie.releaseDate}</S.TableBodyCell>
                   <S.TableBodyCell>
-                    {editingRow === movie.id ? (
-                      <S.CheckIcon onClick={handleSave} />
-                    ) : (
-                      <S.ModeEditTwoToneIcon
-                        onClick={() => handleEdit(movie)} 
-                      />
-                    )}
+                    <S.ModeEditTwoToneIcon onClick={() => handleEdit(movie)} />
                     <S.DeleteIcon onClick={() => handleDelete(movie)} />
                   </S.TableBodyCell>
                 </TableRow>
@@ -175,14 +144,6 @@ const S = {
     alignItems: 'center',
     gap: '1rem',
     padding: '1rem',
-  }),
-
-  TextField: styled(TextField)({
-    '& .MuiInputBase-root': {
-      width: '20rem',
-      height: '2rem',
-      fontSize: '1rem',
-    },
   }),
 
   SearchBox: styled(Box)({
@@ -220,12 +181,6 @@ const S = {
     fontFamily: lightTheme.font.fontSuitRegular,
     fontWeight: lightTheme.font.fontWeightRegular,
     fontSize: '1rem',
-    color: lightTheme.color.fontBlack,
-  }),
-
-  CheckIcon: styled(CheckIcon)({
-    cursor: 'pointer', 
-    marginRight: '1.5rem', 
     color: lightTheme.color.fontBlack,
   }),
 
