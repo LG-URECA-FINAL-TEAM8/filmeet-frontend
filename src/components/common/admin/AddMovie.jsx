@@ -30,8 +30,8 @@ function AddMovie() {
 
   const movies = useMemo(() => {
     return (
-      data?.data.map((movie) => ({
-        id: movie.titleEng || movie.title,
+      data?.data.map((movie, index) => ({
+        id: movie.id || `${movie.title}-${index}`,
         title: movie.title,
         titleEng: movie.titleEng || "",
         repRlsDate: movie.repRlsDate || "미정",
@@ -54,18 +54,21 @@ function AddMovie() {
   }, [selectedMovies, totalMovies]);
 
   const handleSearch = () => {
-    if (!searchTerm.trim()) return alert('검색어를 입력하세요.');
-    setSubmittedTerm(searchTerm);
+    if (!searchTerm.trim()) {
+      alert('검색어를 입력하세요.');
+      return;
+    }
+    setSubmittedTerm('');
+    setTimeout(() => setSubmittedTerm(searchTerm), 0);
     setCurrentPage(1);
   };
 
   const handleSelectAll = () => {
     if (isAllSelected) {
-      clearSelection();
-      setIsAllSelected(false); // 명시적으로 해제 상태로 설정
+      clearSelection(); // 전체 선택 해제
     } else {
-      movies.forEach((movie) => addMovie(movie.id));
-      setIsAllSelected(true); // 명시적으로 전체 선택 상태로 설정
+      const movieIds = movies.map((movie) => movie.id); // 현재 페이지 영화들의 ID
+      movieIds.forEach((id) => addMovie(id)); // 전체 선택
     }
   };
 
@@ -75,25 +78,41 @@ function AddMovie() {
 }, [selectedMovies, movies]);
 
   const handleCheckboxChange = (movieId) => {
-    selectedMovies.includes(movieId) ? removeMovie(movieId) : addMovie(movieId);
+    if (selectedMovies.includes(movieId)) {
+      removeMovie(movieId);
+    } else {
+      addMovie(movieId);
+    }
   };
 
   const handleRegister = () => {
-    const selectedMovieData = currentMovies.filter((movie) =>
-      selectedMovies.includes(movie.id)
-    );
-    if (selectedMovieData.length === 0) {
-      alert('등록할 영화를 선택해주세요.');
-      return;
-    }
-    registerMovies(selectedMovieData, {
-      onSuccess: () => {
-        alert(`${selectedMovieData.length}개의 영화가 성공적으로 등록되었습니다.`);
-        clearSelection();
-      },
-      onError: (error) => alert(`등록 실패: ${error.message}`),
-    });
-  };
+    const selectedMovieData = movies
+      .filter((movie) => selectedMovies.includes(movie.id))
+      .map((movie) => ({
+        title: movie.title,
+        titleEng: movie.titleEng || "",
+        repRlsDate: movie.releaseDate || "",
+        staffs: movie.staffs || [],
+        nation: movie.nation || "",
+        plots: movie.plots || [],
+        runtime: movie.runtime || "",
+        rating: movie.rating || "",
+        genre: movie.genre || "",
+        posters: movie.posters || [],
+      }));
+      registerMovies(selectedMovieData, {
+        onSuccess: (response) => {
+          const registeredCount = response?.length || selectedMovieData.length;
+          alert(`${registeredCount}개의 영화가 성공적으로 등록되었습니다.`);
+          clearSelection();
+        },
+        onError: (error) => {
+          console.error("등록 실패:", error.message);
+          alert(`등록 실패: ${error.message}`);
+        },
+      });
+    };
+    
   const currentMovies = useMemo(() => {
     const indexOfLast = currentPage * moviesPerPage;
     const indexOfFirst = indexOfLast - moviesPerPage;
@@ -102,17 +121,20 @@ function AddMovie() {
 
   return (
     <S.Container>
-      <S.SearchBox>
-        <TextField
-          fullWidth
-          label="영화 검색(영화 제목, 감독명, 배우명)"
-          variant="outlined"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <Button variant="contained" onClick={handleSearch}>검색</Button>
-        <Button variant="outlined" onClick={() => setSearchTerm('')}>초기화</Button>
-      </S.SearchBox>
+     <S.SearchBox>
+      <TextField
+      fullWidth
+      label="영화 검색(영화 제목, 감독명, 배우명)"
+      variant="outlined"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          handleSearch(); // Enter 키를 누르면 검색 실행
+       }
+      }}
+    />
+    </S.SearchBox>
 
       <S.TableContainer component={Paper}>
         {isSearching ? (
@@ -141,17 +163,17 @@ function AddMovie() {
               {currentMovies.map((movie) => (
                 <TableRow key={movie.id}>
                   <TableCell>
-                    <Checkbox
-                      checked={selectedMovies.includes(movie.id)}
-                      onChange={() => handleCheckboxChange(movie.id)}
-                    />
+                  <Checkbox
+                    checked={selectedMovies.includes(movie.id)} // 선택 여부 반영
+                    onChange={() => handleCheckboxChange(movie.id)} // 개별 체크박스 변경
+                  />
                   </TableCell>
                   <TableCell>{movie.title}</TableCell>
                   <TableCell>
                     <AvgRatingBadge count={movie.rating} />
                   </TableCell>
                   <TableCell>{movie.genre}</TableCell>
-                  <TableCell>{movie.releaseDate}</TableCell>
+                  <TableCell>{movie.repRlsDate}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
