@@ -18,6 +18,7 @@ import CollectionEditPage from '../pages/mypage/collectionpage/CollectionEditPag
 import Register from '../pages/auth/Register';
 import ErrorPage from '../pages/errorpage/ErrorPage';
 import StarRatingPage from '../pages/StarRatingPage';
+import FCMTestPage from '../pages/fcmTestPage';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
       {
         path: 'review',
         element: <StarRatingPage />,
+      },
+      {
+        path: 'fcm',
+        element: <FCMTestPage />,
       },
     ],
   },
