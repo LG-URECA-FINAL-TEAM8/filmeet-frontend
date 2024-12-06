@@ -1,14 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MainBody } from '../styles/main/main';
 import Title from '../components/features/main/title/Title';
 import Poster from '../components/Common/poster/Poster';
 import HotFeed from '../components/features/comments/HotFeed';
 import { movies } from '../data/movies';
-import { useUpcoming } from '../apis/getMovies/queries';
-
+import { useUpcoming, useBoxOffice, useTopTen } from '../apis/getMovies/queries';
+import { useHotReview } from '../apis/reviews/queries';
 function Main() {
-  const { result } = useUpcoming();
-  const UpcomingData = result?.data?.content || [];
+  const { data: upComing } = useUpcoming();
+  const { data: boxOffice } = useBoxOffice();
+  const { data: TopTen } = useTopTen();
+  const { data: HotReview } = useHotReview();
+  const UpcomingData = upComing?.data?.content || [];
+  const BoxOfficeData = boxOffice?.data?.content || [];
+  const TopTenData = TopTen?.data || [];
+  const ReviewData = HotReview?.data?.content || [];
+
+  console.log(ReviewData);
 
   const movieSections = [
     {
@@ -17,7 +25,7 @@ function Main() {
     },
     {
       title: '필밋 TOP 10',
-      component: <Poster caseType={1} movies={movies} />,
+      component: <Poster caseType={1} movies={TopTenData} />,
     },
     {
       title: '공개 예정작',
@@ -25,11 +33,11 @@ function Main() {
     },
     {
       title: '박스오피스 순위',
-      component: <Poster caseType={3} movies={movies} />,
+      component: <Poster caseType={3} movies={BoxOfficeData} />,
     },
     {
       title: '지금 뜨는 코멘트',
-      component: <HotFeed />,
+      component: <HotFeed reviews={ReviewData} />,
     },
   ];
 
