@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/system';
-import { movies as moviesData } from '../../../data/movies';
+import { useAdminSelectMovies } from '../../../apis/admin/queries';
 import { lightTheme } from '../../../styles/themes';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -14,29 +14,20 @@ import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
 import DeleteIcon from '@mui/icons-material/Delete';
-import LikeBadge from './LikeBadge';
-import CommentBadge from './CommentBadge';
-import tableHeaders from '../../../data/admintableheaders';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
-import useMovieStore from '../../../store/admin/useMovieStore';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 import AdminEditModal from '../modal/AdminEditModal';
 
 function MovieManagement() {
-  const { movies, setMovies } = useMovieStore();
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
+  const [searchTerm, setSearchTerm] = useState('');
   const { isOpen, openModal, setModalData } = useAdminModalStore();
-  const tableHeader = tableHeaders.movieManagement;
 
-  useEffect(() => {
-    const enhancedMovies = moviesData.map(({ ...rest }) => ({
-      ...rest,
-      likes: rest.likes || 0,
-      comments: rest.comments || 0,
-      genre: rest.genre || 'N/A',
-    }));
-    setMovies(enhancedMovies);
-  }, [setMovies]);
+  // API 호출
+  const { data, isLoading, error } = useAdminSelectMovies(currentPage, moviesPerPage, searchTerm);
+
+  const movies = data?.content || []; // API의 응답 데이터에서 영화 목록 추출
+  const totalPages = data?.totalPages || 1;
 
   const handleEdit = (movie) => {
     setModalData({
@@ -52,34 +43,12 @@ function MovieManagement() {
   };
 
   const handleSearch = (term) => {
-    if (term.trim() === '') {
-      const enhancedMovies = moviesData.map(({ ...rest }) => ({
-        ...rest,
-        likes: rest.likes || 0,
-        comments: rest.comments || 0,
-        genre: rest.genre || 'N/A',
-      }));
-      setMovies(enhancedMovies);
-      setCurrentPage(1);
-      return;
-    }
-
-    const filteredMovies = moviesData
-      .filter((movie) => movie.title.toLowerCase().includes(term.toLowerCase()))
-      .map(({ ...rest }) => ({
-        ...rest,
-        likes: rest.likes || 0,
-        comments: rest.comments || 0,
-        genre: rest.genre || 'N/A',
-      }));
-
-    setMovies(filteredMovies);
-    setCurrentPage(1);
+    setCurrentPage(1); // 검색 시 페이지를 첫 번째로 설정
+    setSearchTerm(term);
   };
 
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>에러 발생: {error.message}</div>;
 
   return (
     <>
@@ -97,21 +66,17 @@ function MovieManagement() {
           <Table>
             <TableHead>
               <TableRow>
-                {Object.values(tableHeader).map((header) => (
-                  <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
-                ))}
+                <S.TableHeadCell>제목</S.TableHeadCell>
+                <S.TableHeadCell>평점</S.TableHeadCell>
+                <S.TableHeadCell>장르</S.TableHeadCell>
+                <S.TableHeadCell>개봉일</S.TableHeadCell>
+                <S.TableHeadCell>작업</S.TableHeadCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentMovies.map((movie) => (
+              {movies.map((movie) => (
                 <TableRow key={movie.id}>
                   <S.TableBodyCell>{movie.title}</S.TableBodyCell>
-                  <S.TableBodyCell>
-                    <CommentBadge count={movie.comments || 0} />
-                  </S.TableBodyCell>
-                  <S.TableBodyCell>
-                    <LikeBadge count={movie.likes || 0} />
-                  </S.TableBodyCell>
                   <S.TableBodyCell>{movie.rating}</S.TableBodyCell>
                   <S.TableBodyCell>{movie.genre}</S.TableBodyCell>
                   <S.TableBodyCell>{movie.releaseDate}</S.TableBodyCell>
@@ -125,7 +90,7 @@ function MovieManagement() {
           </Table>
         </S.TableContainer>
         <S.Pagination
-          count={Math.ceil(movies.length / moviesPerPage)}
+          count={totalPages}
           page={currentPage}
           onChange={(event, value) => setCurrentPage(value)}
         />
@@ -135,7 +100,6 @@ function MovieManagement() {
 }
 
 export default MovieManagement;
-
 
 const S = {
   Container: styled(Box)({
@@ -153,7 +117,7 @@ const S = {
     marginLeft: '49rem',
   }),
 
-  SearchBarTextField: styled(TextField) ({
+  SearchBarTextField: styled(TextField)({
     height: '2rem',
     marginLeft: '6rem',
     '& .MuiInputBase-root': {
@@ -184,15 +148,15 @@ const S = {
     color: lightTheme.color.fontBlack,
   }),
 
-  ModeEditTwoToneIcon : styled(ModeEditTwoToneIcon) ({
-    cursor: 'pointer', 
-    marginRight: '1.5rem', 
+  ModeEditTwoToneIcon: styled(ModeEditTwoToneIcon)({
+    cursor: 'pointer',
+    marginRight: '1.5rem',
     color: lightTheme.color.fontGray,
   }),
 
   DeleteIcon: styled(DeleteIcon)({
-    cursor: 'pointer', 
-    color: lightTheme.color.buttonPink
+    cursor: 'pointer',
+    color: lightTheme.color.buttonPink,
   }),
 
   Pagination: styled(Pagination)({

@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { movies as moviesData } from '../../../data/movies';
 import { lightTheme } from '../../../styles/themes';
 import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
@@ -19,54 +18,43 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LockIcon from '@mui/icons-material/Lock';
 import LikeBadge from './LikeBadge';
 import ReviewerBadge from './ReviewerBadge';
+import { useAdminShowReviewList } from '../../../apis/admin/queries'; 
+import { useQueryClient } from '@tanstack/react-query';
 
 function LikeManagement() {
   const { movies, setMovies } = useMovieStore();
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
   const tableHeader = tableHeaders.likeManagement;
+  const queryClient = useQueryClient();
+
+  const { data, isLoading, isError, refetch } = useAdminShowReviewList({
+    page: currentPage,
+    size: moviesPerPage,
+    movieTitle: '', // 검색어
+    createdAt: '2024-12-06', // 특정 날짜
+    sort: 'asc',
+  });
 
   useEffect(() => {
-    const enhancedMovies = moviesData.map(({ ...rest }) => ({
-      ...rest,
-      reviewer: 'Admin',
-      likes: rest.likes || 0,
-      rating: rest.rating || 'N/A',
-      genre: rest.genre || 'N/A',
-      createdDate: rest.createdDate || '2024-12-01',
-    }));
-    setMovies(enhancedMovies);
-  }, [setMovies]);
+    if (data && Array.isArray(data.reviews)) {
+        // 서버에서 가져온 데이터를 상태로 설정
+        const enhancedMovies = data.reviews.map(({ ...rest }) => ({
+            ...rest,
+            reviewer: 'Admin',
+            likes: rest.likes || 0,
+            rating: rest.rating || 'N/A',
+            createdDate: rest.createdDate || 'N/A',
+        }));
+        setMovies(enhancedMovies);
+    } else {
+        console.warn('Unexpected data structure:', data); // 데이터 구조 확인용 로그
+    }
+}, [data, setMovies]);
 
   const handleSearch = (term) => {
-    if (term.trim() === '') {
-      const enhancedMovies = moviesData.map(({ ...rest }) => ({
-        ...rest,
-        reviewer: 'Admin',
-        likes: rest.likes || 0,
-        rating: rest.rating || 'N/A',
-        genre: rest.genre || 'N/A',
-        createdDate: rest.createdDate || '2024-12-01',
-      }));
-      setMovies(enhancedMovies);
-      return;
-    }
-
-    const filteredMovies = moviesData
-      .filter((movie) =>
-        movie.title.toLowerCase().includes(term.toLowerCase())
-      )
-      .map(({ ...rest }) => ({
-        ...rest,
-        reviewer: 'Admin',
-        likes: rest.likes || 0,
-        rating: rest.rating || 'N/A',
-        genre: rest.genre || 'N/A',
-        createdDate: rest.createdDate || '2024-12-01',
-      }));
-
-    setMovies(filteredMovies);
+    queryClient.invalidateQueries(['reviewList', { page: currentPage, size: moviesPerPage, movieTitle: term, createdAt: '', sort: 'asc' }]);
     setCurrentPage(1);
-  };
+};
 
   const handleDelete = (movie) => {
     alert(`"${movie.title}" 삭제 요청`);
@@ -78,11 +66,19 @@ function LikeManagement() {
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
+    refetch({
+      page: value,
+      size: moviesPerPage,
+      movieTitle: '', // 현재 검색어 유지
+      createdAt: '',
+      sort: 'asc',
+    });
   };
 
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error occurred while fetching data.</p>;
+
+  const currentMovies = movies || [];
 
   return (
     <S.Container>
@@ -99,8 +95,8 @@ function LikeManagement() {
           <TableHead>
             <TableRow>
               {Object.values(tableHeader).map((header) => (
-                  <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
-                ))}
+                <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -125,7 +121,7 @@ function LikeManagement() {
         </Table>
       </S.TableContainer>
       <S.Pagination
-        count={Math.ceil(movies.length / moviesPerPage)}
+        count={Math.ceil((data?.total || 0) / moviesPerPage)}
         page={currentPage}
         onChange={handlePageChange}
       />
