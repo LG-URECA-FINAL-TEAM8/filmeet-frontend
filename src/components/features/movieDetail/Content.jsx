@@ -2,49 +2,59 @@ import styled from "styled-components";
 import { Rate } from "antd";
 import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
 import SvgPencil from "../../../assets/svg/Pencil";
+import useMovieCommentStore from "../../../store/moviedetail/useMovieCommentStore";
+import MovieDetailModal from "../../common/modal/MovieDetailModal";
+
 
 function Content() {
+  const { openModal } = useMovieCommentStore();
+
   return (
-    <S.ContentContainer>
-      <S.MovieSection>
-        <S.MoviePoster>
-          <img src="https://via.placeholder.com/300x400" alt="Movie Poster" />
-        </S.MoviePoster>
-        <S.StatAndSynopsis>
-          <S.StatSection>
-            <S.StatItem>
-              <S.RatingStars>
-                <StyledRate allowHalf />
-              </S.RatingStars>
-              <S.StatDescription>평가하기</S.StatDescription>
-            </S.StatItem>
-            <S.StatItem>
-              <S.StatScore>
-                2.8
-                <S.StatDescription>평균 평점 (2,437명)</S.StatDescription>
-              </S.StatScore>
-            </S.StatItem>
-            <S.IconContainer>
-              <S.StatItemBox>
-                <SvgIcLikeFilled24 />
-                <S.StatDescription>좋아요</S.StatDescription>
-              </S.StatItemBox>
-              <S.StatItemBox>
-                <SvgPencil />
-                <S.StatDescription>코멘트</S.StatDescription>
-              </S.StatItemBox>
-            </S.IconContainer>
-          </S.StatSection>
-          <S.SynopsisSection>
-            <S.SynopsisContent>
-              자신의 진정한 힘을 미처 발견하지 못한 엘리피아(신시아 에리보) 자신을 진정한 본성을 아직 발견하지 못한 클리다(아리아나
-              그란데) 전혀 다른 두 사람은 마법 같은 우정을 쌓아간다. 그러나 어느 날, 아바샤의 초대를 받아 에메랄드 시티로 가게
-              되고 운명을 예상치 못한 위기와 모험으로 두 사람을 이끄는데… 마법 같은 운명의 시작, 누구나 세상을 놀라게 할 수 있어!
-            </S.SynopsisContent>
-          </S.SynopsisSection>
-        </S.StatAndSynopsis>
-      </S.MovieSection>
-    </S.ContentContainer>
+    <>
+      <S.ContentContainer>
+        <S.MovieSection>
+          <S.MoviePoster>
+            <img src="https://via.placeholder.com/300x400" alt="Movie Poster" />
+          </S.MoviePoster>
+          <S.StatAndSynopsis>
+            <S.StatSection>
+              <S.StatItem>
+                <S.RatingStars>
+                  <StyledRate allowHalf />
+                </S.RatingStars>
+                <S.StatDescription>평가하기</S.StatDescription>
+              </S.StatItem>
+              <S.StatItem>
+                <S.StatScore>
+                  2.8
+                  <S.StatDescription>평균 평점 (2,437명)</S.StatDescription>
+                </S.StatScore>
+              </S.StatItem>
+              <S.IconContainer>
+                <S.StatItemBox>
+                  <SvgIcLikeFilled24 />
+                  <S.StatDescription>좋아요</S.StatDescription>
+                </S.StatItemBox>
+                <S.StatItemBox>
+                  <SvgPencil onClick={openModal} />
+                  <S.StatDescription>코멘트</S.StatDescription>
+                </S.StatItemBox>
+              </S.IconContainer>
+            </S.StatSection>
+            <S.SynopsisSection>
+              <S.SynopsisContent>
+                자신의 진정한 힘을 미처 발견하지 못한 엘리피아(신시아 에리보) 자신을 진정한 본성을 아직 발견하지 못한 클리다(아리아나
+                그란데) 전혀 다른 두 사람은 마법 같은 우정을 쌓아간다. 그러나 어느 날, 아바샤의 초대를 받아 에메랄드 시티로 가게
+                되고 운명을 예상치 못한 위기와 모험으로 두 사람을 이끄는데… 마법 같은 운명의 시작, 누구나 세상을 놀라게 할 수 있어!
+              </S.SynopsisContent>
+            </S.SynopsisSection>
+          </S.StatAndSynopsis>
+        </S.MovieSection>
+      </S.ContentContainer>
+
+      {/* MovieDetailModal 렌더링 */}
+      <MovieDetailModal />
+    </>
   );
 }
 
