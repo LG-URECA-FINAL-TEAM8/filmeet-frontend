@@ -36,7 +36,6 @@ function Content() {
             </S.IconContainer>
           </S.StatSection>
           <S.SynopsisSection>
-            <S.SynopsisTitle>줄거리</S.SynopsisTitle>
             <S.SynopsisContent>
               자신의 진정한 힘을 미처 발견하지 못한 엘리피아(신시아 에리보) 자신을 진정한 본성을 아직 발견하지 못한 클리다(아리아나
               그란데) 전혀 다른 두 사람은 마법 같은 우정을 쌓아간다. 그러나 어느 날, 아바샤의 초대를 받아 에메랄드 시티로 가게
@@ -55,11 +54,11 @@ const S = {
   ContentContainer: styled.div`
     width: 100%;
     max-width: 1320px;
-    margin: 0 auto;
+    margin: 0 300px;
     padding: 30px 0 60px;
     display: flex;
     justify-content: flex-start;
-    background-color: ${(props) => props.theme.color.mainColor};
+    background-color: ${(props) => props.theme.color.commentColor};
   `,
 
   MovieSection: styled.div`
