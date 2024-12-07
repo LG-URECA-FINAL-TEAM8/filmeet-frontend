@@ -24,6 +24,7 @@ const pageComponents = {
   AlarmHistoryPage: () => import('../pages/AlarmHistoryPage'),
   StarRatingPage: () => import('../pages/StarRatingPage'),
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
+  MovieComment: () => import('../pages/movieDetail/MovieComment'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -78,6 +79,7 @@ const routes = [
       { path: 'error', element: <ErrorPage /> },
       { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
       { path: 'moviedetail', element: createLazyComponent(pageComponents.MovieDetail) },
+      { path: 'moviedetail/moviecomment', element: createLazyComponent(pageComponents.MovieComment) },
     ],
     errorElement: <ErrorPage />,
   },
