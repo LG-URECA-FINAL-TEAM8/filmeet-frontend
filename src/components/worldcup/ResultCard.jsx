@@ -1,40 +1,20 @@
 import { Card } from "antd";
 import styled from "styled-components";
-import SvgComment from "../../assets/svg/Comment";
-import SvgIcLikeFilled24 from "../../assets/svg/IcLikeFilled24";
-import SvgStar from "../../assets/svg/Star";
 
 const { Meta } = Card;
 
-const WorldcupMoviecard = ({ image, title, rating, likes, comments }) => {
+const ResultCard = ({ image, title }) => {
   return (
-    <S.StyledCard hoverable cover={<S.StyledImage alt={title} src={image} />}>
-      <S.StyledMeta
-        title={<S.CardTitle>{title}</S.CardTitle>}
-        description={
-          <S.CardDetails>
-            <S.StarItem>
-              <SvgStar width={20} height={20} /> {rating.toFixed(1)}
-            </S.StarItem>
-            <S.DetailItem>
-              <SvgIcLikeFilled24 width={24} height={24} /> {likes}
-            </S.DetailItem>
-            <S.DetailItem>
-              <SvgComment width={24} height={24} /> {comments}
-            </S.DetailItem>
-          </S.CardDetails>
-        }
-      />
-    </S.StyledCard>
+    <S.StyledCard hoverable cover={<S.StyledImage alt={title} src={image} />}></S.StyledCard>
   );
 };
 
-export default WorldcupMoviecard;
+export default ResultCard;
 
 const S = {
   StyledCard: styled(Card)`
-    width: 25rem;
-    height: 31rem;
+    width: 20rem;
+    height: 25rem;
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 0.25rem 0.37rem rgba(0, 0, 0, 0.1);

@@ -10,6 +10,8 @@ export default WorldcupFooter;
 
 const S = {
   Footer: styled.footer`
+    width: 100%;
+    height: 300px;
     text-align: center;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
