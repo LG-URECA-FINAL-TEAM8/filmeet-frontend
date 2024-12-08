@@ -6,49 +6,48 @@ import useMovieCommentStore from "../../../store/moviedetail/useMovieCommentStor
 import MovieDetailModal from "../../common/modal/MovieDetailModal";
 import { movieDetailData } from "../../../data/moviedetail";
 
-
 function Content() {
-  const { openModal } = useMovieCommentStore();
+  const { openModal, isLiked, toggleLike } = useMovieCommentStore();
   const { rating, score, ratingavg, like, comment, synopsis, posterUrl } = movieDetailData.content;
 
   return (
     <>
       <S.ContentContainer>
-      <S.MovieSection>
-        <S.MoviePoster>
-          <img src={posterUrl} alt="Movie Poster" />
-        </S.MoviePoster>
-        <S.StatAndSynopsis>
-          <S.StatSection>
-            <S.StatItem>
-              <S.RatingStars>
-                <StyledRate allowHalf />
-              </S.RatingStars>
-              <S.StatDescription>{rating}</S.StatDescription>
-            </S.StatItem>
-            <S.StatItem>
-              <S.StatScore>
-                {score}
-                <S.StatDescription>{ratingavg}</S.StatDescription>
-              </S.StatScore>
-            </S.StatItem>
-            <S.IconContainer>
-              <S.StatItemBox>
-                <SvgIcLikeFilled24 />
-                <S.StatDescription>{like}</S.StatDescription>
-              </S.StatItemBox>
-              <S.StatItemBox>
-                <SvgPencil onClick={openModal} />
-                <S.StatDescription>{comment}</S.StatDescription>
-              </S.StatItemBox>
-            </S.IconContainer>
-          </S.StatSection>
-          <S.SynopsisSection>
-            <S.SynopsisContent>{synopsis}</S.SynopsisContent>
-          </S.SynopsisSection>
-        </S.StatAndSynopsis>
-      </S.MovieSection>
-    </S.ContentContainer>
+        <S.MovieSection>
+          <S.MoviePoster>
+            <img src={posterUrl} alt="Movie Poster" />
+          </S.MoviePoster>
+          <S.StatAndSynopsis>
+            <S.StatSection>
+              <S.StatItem>
+                <S.RatingStars>
+                  <StyledRate allowHalf />
+                </S.RatingStars>
+                <S.StatDescription>{rating}</S.StatDescription>
+              </S.StatItem>
+              <S.StatItem>
+                <S.StatScore>
+                  {score}
+                  <S.StatDescription>{ratingavg}</S.StatDescription>
+                </S.StatScore>
+              </S.StatItem>
+              <S.IconContainer>
+                <S.StatItemBox onClick={toggleLike} isLiked={isLiked}>
+                  <SvgIcLikeFilled24 />
+                  <S.StatDescription>{like}</S.StatDescription>
+                </S.StatItemBox>
+                <S.StatItemBox>
+                  <SvgPencil onClick={openModal} />
+                  <S.StatDescription>{comment}</S.StatDescription>
+                </S.StatItemBox>
+              </S.IconContainer>
+            </S.StatSection>
+            <S.SynopsisSection>
+              <S.SynopsisContent>{synopsis}</S.SynopsisContent>
+            </S.SynopsisSection>
+          </S.StatAndSynopsis>
+        </S.MovieSection>
+      </S.ContentContainer>
 
       {/* MovieDetailModal 렌더링 */}
       <MovieDetailModal />
@@ -119,6 +118,7 @@ const S = {
     border-radius: 0.5rem;
     text-align: center;
     cursor: pointer;
+    color: ${(props) => (props.isLiked ? props.theme.color.fontPink : props.theme.color.fontGray)};
 
     svg {
       width: 3.12rem;
@@ -159,13 +159,6 @@ const S = {
   SynopsisSection: styled.div`
     flex-grow: 1;
     margin: 0 0 1.87rem;
-  `,
-
-  SynopsisTitle: styled.h2`
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    font-family: ${(props) => props.theme.font.fontSuitBold};
-    color: ${(props) => props.theme.color.fontBlack};
   `,
 
   SynopsisContent: styled.p`
