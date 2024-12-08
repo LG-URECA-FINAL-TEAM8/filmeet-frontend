@@ -1,6 +1,6 @@
 import { getToken } from "firebase/messaging";
 import { messaging } from "./firebase";
-import { postRefresh } from "../apis/users/user"; // 토큰 갱신 로직을 처리하는 함수 import
+import { postRefresh } from "../apis/users/user";
 
 const VAPID_KEY = import.meta.env.VITE_VAPID_KEY;
 const SERVER_URL = `${import.meta.env.VITE_API_BASE_URL}/notifications/token`;
@@ -24,6 +24,12 @@ export const registerFCMToken = async () => {
 
     const payload = { token };
 
+    console.log("Payload:", payload);
+    console.log("Headers:", {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     // 서버에 FCM 토큰 등록
     let response = await fetch(SERVER_URL, {
       method: "POST",
@@ -34,7 +40,7 @@ export const registerFCMToken = async () => {
       body: JSON.stringify(payload),
     });
 
-    // Access Token 만료 시 갱신 로직 처리
+    // Access Token 만료 처리
     if (response.status === 401) {
       console.warn("AccessToken 만료됨. 갱신 시도 중...");
       const refreshToken = localStorage.getItem("refreshToken");
@@ -43,12 +49,11 @@ export const registerFCMToken = async () => {
         throw new Error("Refresh Token이 없습니다. 다시 로그인하세요.");
       }
 
-      await postRefresh(refreshToken); // Refresh Token을 이용한 Access Token 갱신
+      await postRefresh(refreshToken);
 
-      // 갱신된 Access Token 가져오기
+      // 갱신된 Access Token으로 다시 요청
       accessToken = localStorage.getItem("accessToken");
 
-      // 다시 서버에 요청
       response = await fetch(SERVER_URL, {
         method: "POST",
         headers: {
@@ -60,9 +65,10 @@ export const registerFCMToken = async () => {
     }
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error("FCM 토큰 등록 실패:", errorData);
-      throw new Error("FCM 토큰 등록 실패");
+      const errorData = await response.json().catch(() => null); // 응답이 JSON 형식이 아니어도 에러 방지
+      console.error("서버 응답 상태 코드:", response.status);
+      console.error("서버 응답 데이터:", errorData);
+      throw new Error(`FCM 토큰 등록 실패: ${errorData?.message || response.statusText}`);
     }
 
     console.log("FCM 토큰 등록 성공");
