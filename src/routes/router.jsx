@@ -23,6 +23,8 @@ const pageComponents = {
   FollowingPage: () => import('../pages/followpage/FollowingPage'),
   AlarmHistoryPage: () => import('../pages/AlarmHistoryPage'),
   StarRatingPage: () => import('../pages/StarRatingPage'),
+  WorldcupPage: () => import('../pages/WorldcupPage'),
+  WorldcupFinishPage: () => import('../pages/WorldcupFinishPage'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -76,6 +78,8 @@ const routes = [
       { path: 'alarmhistorys', element: createLazyComponent(pageComponents.AlarmHistoryPage) },
       { path: 'error', element: <ErrorPage /> },
       { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
+      { path: 'worldcup', element: createLazyComponent(pageComponents.WorldcupPage) },
+      { path: 'worldcupfinish', element: createLazyComponent(pageComponents.WorldcupFinishPage) },
     ],
     errorElement: <ErrorPage />,
   },
