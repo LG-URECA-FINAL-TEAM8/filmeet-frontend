@@ -49,20 +49,22 @@ const S = {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 318px;
-    height: 260px;
-    margin: 0rem 0 1rem 0;
+    width: 19.87rem;
+    height: 16.25rem;
+    margin: 0 0 1rem;
     padding: 1rem;
     border: 0.01rem solid rgba(0, 0, 0, 0.1);
     border-radius: 0.3rem;
     background-color: ${(props) => props.theme.color.commentColor};
     box-sizing: border-box;
   `,
+
   ProfileSection: styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
   `,
+
   ProfileImage: styled.img`
     width: 1.8rem;
     height: 1.8rem;
@@ -71,11 +73,13 @@ const S = {
     object-fit: cover;
     cursor: pointer;
   `,
+
   Nickname: styled.div`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
     cursor: pointer;
   `,
+
   MainContent: styled.div`
     display: flex;
     flex-direction: row;
@@ -84,35 +88,41 @@ const S = {
     border-top: ${(props) => props.theme.font.borderDefault};
     border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
+
   ImageWrapper: styled.div`
-    margin-right: 0.7rem;
+    margin-right: 0.43rem;
   `,
+
   Image: styled.img`
     width: 5.6rem;
     height: 7.5rem;
+    margin: 0.5rem 0 0.7rem;
     border-radius: 0.5rem;
     object-fit: cover;
-    margin: 0.5rem 0 0.7rem 0;
   `,
+
   Content: styled.div`
-    width: 300px;
-    height: 120px;
-    margin: 12px 0 15px;
-    flex: 1;
     display: flex;
     flex-direction: column;
+    width: 18.75rem;
+    height: 7.5rem;
+    margin: 0.75rem 0 0.93rem;
+    flex: 1;
   `,
+
   Title: styled.h3`
-    margin: 0.5rem 0 0.3rem 0;
+    margin: 0.5rem 0 0.3rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 1rem;
   `,
+
   GenreYear: styled.p`
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.5rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.8rem;
     color: ${(props) => props.theme.color.fontGray};
   `,
+
   Comments: styled.p`
     margin-top: 0.5rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
@@ -120,6 +130,7 @@ const S = {
     color: ${(props) => props.theme.color.fontGray};
     cursor: pointer;
   `,
+
   Rating: styled.div`
     position: absolute;
     top: 1rem;
@@ -132,14 +143,16 @@ const S = {
     color: ${(props) => props.theme.color.fontPink};
     border-radius: 50%;
   `,
+
   FeedStats: styled.div`
-    width: 300px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 0.5rem;
-    margin: 1rem 0 0 0;
+    width: 18.75rem;
+    margin: 1rem 0 0;
   `,
+
   Stat: styled.span`
     display: flex;
     align-items: center;
@@ -149,3 +162,5 @@ const S = {
     color: ${(props) => props.theme.color.fontGray};
   `,
 };
+
+

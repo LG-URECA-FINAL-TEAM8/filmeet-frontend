@@ -1,24 +1,15 @@
 import styled from "styled-components";
+import { movieDetailData } from "../../../data/moviedetail";
 
 function CastAndCrew() {
-  const castList = [
-    { name: "서현진", role: "출연 | 노은지", image: "https://via.placeholder.com/50" },
-    { name: "공유", role: "출연 | 한정원", image: "https://via.placeholder.com/50" },
-    { name: "정윤하", role: "출연", image: "https://via.placeholder.com/50" },
-    { name: "김동원", role: "출연", image: "https://via.placeholder.com/50" },
-    { name: "전혜진", role: "출연", image: "https://via.placeholder.com/50" },
-    { name: "조이건", role: "출연", image: "https://via.placeholder.com/50" },
-    { name: "홍우진", role: "출연", image: "https://via.placeholder.com/50" },
-    { name: "양대혁", role: "출연", image: "https://via.placeholder.com/50" },
-    { name: "주민경", role: "출연", image: "https://via.placeholder.com/50" },
-    { name: "최윤지", role: "출연", image: "https://via.placeholder.com/50" },
-    { name: "최윤지", role: "출연", image: "https://via.placeholder.com/50" },
-    { name: "최윤지", role: "출연", image: "https://via.placeholder.com/50" },
-  ];
+  const castTitle = {
+    title: "출연 / 제작",
+  }
+  const castList = movieDetailData.castAndCrew;
 
   return (
     <S.CastAndCrewContainer>
-      <S.SectionTitle>출연 / 제작</S.SectionTitle>
+      <S.SectionTitle>{castTitle.title}</S.SectionTitle>
       <S.CastList>
         {castList.map((cast, index) => (
           <S.CastItem key={index}>
@@ -39,36 +30,36 @@ export default CastAndCrew;
 const S = {
   CastAndCrewContainer: styled.div`
     width: 100%;
-    height: 338px;
-    max-width: 1320px;
-    margin: 60px 0 0 300px;
-    padding: 0 0 40px;
+    max-width: 82.5rem;
+    height: 21.12rem;
+    margin: 3.75rem 0 0 18.75rem;
+    padding: 0 0 2.5rem;
   `,
 
   SectionTitle: styled.header`
+    margin: 0 0 1.25rem;
     font-size: 1.5rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     color: ${(props) => props.theme.color.fontBlack};
-    margin: 0 0 20px;
   `,
 
   CastList: styled.div`
-    height: 268px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 한 행에 4명씩 배치 */
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
+    height: 16.75rem;
   `,
 
   CastItem: styled.div`
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.62rem;
   `,
 
   CastImage: styled.img`
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
+    width: 3.12rem;
+    height: 3.12rem;
+    border-radius: 0.5rem;
     object-fit: cover;
   `,
 
@@ -77,8 +68,8 @@ const S = {
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    border-bottom: ${(props) => props.theme.font.borderDefault};
     padding-bottom: 0.5rem;
+    border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
 
   CastName: styled.div`
@@ -88,9 +79,10 @@ const S = {
   `,
 
   CastRole: styled.div`
+    margin: 0.25rem 0 0;
     font-size: 0.8rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     color: ${(props) => props.theme.color.fontGray};
-    margin: 4px 0 0;
   `,
 };
+

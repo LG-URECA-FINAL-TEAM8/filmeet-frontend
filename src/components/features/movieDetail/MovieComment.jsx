@@ -9,14 +9,19 @@ function MovieComment({ comments }) {
         navigate(`/moviedetail/moviecomment`);
       };
 
+    const moviecomment = {
+      comment: "코멘트",
+      more: "더보기",
+    }
+
   return (
     <S.MovieCommentContainer>
       <S.CommentHeader>
         <S.SectionTitle>
-          코멘트 
+          {moviecomment.comment} 
           <S.CommentCount>{comments.length}+</S.CommentCount>
         </S.SectionTitle>
-        <S.ShowMoreButton onClick={handleMoreClick}>더보기</S.ShowMoreButton>
+        <S.ShowMoreButton onClick={handleMoreClick}>{moviecomment.more}</S.ShowMoreButton>
       </S.CommentHeader>
       <S.CommentGrid>
         {comments.map((item) => (
@@ -35,10 +40,10 @@ const S = {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 1320px;
-    height: 632px;
-    margin: 0 300px;
-    padding: 0 0 40px;
+    max-width: 82.5rem;
+    height: 39.5rem;
+    margin: 0 18.75rem;
+    padding: 0 0 2.5rem;
   `,
 
   CommentHeader: styled.div`
@@ -46,39 +51,41 @@ const S = {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 44px;
-    margin-bottom: 20px;
+    height: 2.75rem;
+    margin-bottom: 1.25rem;
   `,
 
   SectionTitle: styled.header`
+    display: flex;
+    align-items: center;
     font-size: 1.5rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     color: ${(props) => props.theme.color.fontBlack};
-    display: flex;
-    align-items: center;
   `,
 
   CommentCount: styled.div`
+    margin-left: 0.5rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     color: ${(props) => props.theme.color.fontPink};
-    margin-left: 0.5rem;
   `,
 
   CommentGrid: styled.div`
-    width: 100%;
-    height: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
   `,
 
   ShowMoreButton: styled.div`
     padding: 0.5rem 1rem;
     border: none;
-    color: ${(props) => props.theme.color.fontPink};
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    color: ${(props) => props.theme.color.fontPink};
     cursor: pointer;
   `,
 };
+
+
