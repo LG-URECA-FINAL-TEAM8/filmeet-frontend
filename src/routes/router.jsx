@@ -3,7 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import DefaultLayout from '../components/Layout/DefaultLayout';
 import ErrorPage from '../pages/errorpage/ErrorPage';
 
-//컴포넌트 동적 로딩 설정
+// 컴포넌트 동적 로딩 설정
 const pageComponents = {
   Main: () => import('../pages/Main'),
   Login: () => import('../pages/auth/Login'),
@@ -23,6 +23,7 @@ const pageComponents = {
   FollowingPage: () => import('../pages/followpage/FollowingPage'),
   AlarmHistoryPage: () => import('../pages/AlarmHistoryPage'),
   StarRatingPage: () => import('../pages/StarRatingPage'),
+  FCMTestPage: () => import('../pages/FCMTestPage'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -76,6 +77,7 @@ const routes = [
       { path: 'alarmhistorys', element: createLazyComponent(pageComponents.AlarmHistoryPage) },
       { path: 'error', element: <ErrorPage /> },
       { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
+      { path: 'fcm', element: createLazyComponent(pageComponents.FCMTestPage) },
     ],
     errorElement: <ErrorPage />,
   },
