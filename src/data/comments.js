@@ -8,7 +8,7 @@ export const comments = [
     genre: "애니메이션, 로맨스",
     year: 2016,
     rating: 5.0,
-    comment: "오늘 또 봐야지",
+    comment: "글자 얼마나 되려나 테스트",
     likes: 120,
     comments: 55,
     time: "5분전",
