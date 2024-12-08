@@ -1,110 +1,86 @@
+import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import Main from '../pages/Main';
 import DefaultLayout from '../components/Layout/DefaultLayout';
-import MyPage from '../pages/mypage/MyPage';
-import RatingsPage from '../pages/mypage/ratingpage/RatingsPage';
-import CommentsPage from '../pages/mypage/commentpage/CommentsPage';
-import MovieRatingsPage from '../pages/mypage/ratingpage/MovieRatingsPage';
-import AllMoviesByRatingsPage from '../pages/mypage/ratingpage/AllMoviesByRatingsPage';
-import GenrePage from '../pages/generepage';
-import FollowerPage from '../pages/followpage/FollowerPage';
-import FollowingPage from '../pages/followpage/FollowingPage';
-import AlarmHistoryPage from '../pages/AlarmHistoryPage';
-import CommentsDetailPage from '../pages/mypage/commentpage/CommentsDetailPage';import CollectionsPage from '../pages/mypage/collectionpage/CollectionsPage';
-import CollectionCreatePage from '../pages/mypage/collectionpage/CollectionCreatePage';
-import CollectionDetailPage from '../pages/mypage/collectionpage/CollectionDetailPage';
-import CollectionEditPage from '../pages/mypage/collectionpage/CollectionEditPage';import Login from '../pages/auth/Login';
-import Register from '../pages/auth/Register';
 import ErrorPage from '../pages/errorpage/ErrorPage';
-import StarRatingPage from '../pages/StarRatingPage';
-import WorldcupPage from '../pages/WorldcupPage';
-const router = createBrowserRouter([
+
+//컴포넌트 동적 로딩 설정
+const pageComponents = {
+  Main: () => import('../pages/Main'),
+  Login: () => import('../pages/auth/Login'),
+  Register: () => import('../pages/auth/Register'),
+  MyPage: () => import('../pages/mypage/MyPage'),
+  RatingsPage: () => import('../pages/mypage/ratingpage/RatingsPage'),
+  MovieRatingsPage: () => import('../pages/mypage/ratingpage/MovieRatingsPage'),
+  AllMoviesByRatingsPage: () => import('../pages/mypage/ratingpage/AllMoviesByRatingsPage'),
+  CommentsPage: () => import('../pages/mypage/commentpage/CommentsPage'),
+  CommentsDetailPage: () => import('../pages/mypage/commentpage/CommentsDetailPage'),
+  CollectionsPage: () => import('../pages/mypage/collectionpage/CollectionsPage'),
+  CollectionCreatePage: () => import('../pages/mypage/collectionpage/CollectionCreatePage'),
+  CollectionDetailPage: () => import('../pages/mypage/collectionpage/CollectionDetailPage'),
+  CollectionEditPage: () => import('../pages/mypage/collectionpage/CollectionEditPage'),
+  GenrePage: () => import('../pages/generepage'),
+  FollowerPage: () => import('../pages/followpage/FollowerPage'),
+  FollowingPage: () => import('../pages/followpage/FollowingPage'),
+  AlarmHistoryPage: () => import('../pages/AlarmHistoryPage'),
+  StarRatingPage: () => import('../pages/StarRatingPage'),
+};
+
+const createLazyComponent = (importFn) => {
+  const LazyComponent = React.lazy(importFn);
+  return (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <LazyComponent />
+    </React.Suspense>
+  );
+};
+
+const routes = [
   {
     path: '/',
     element: <DefaultLayout />,
     children: [
-      {
-        path: '/',
-        element: <Main />,
-      },
-      {
-        path: 'register',
-        element: <Register />,
-      },
-      {
-        path: 'login',
-        element: <Login />,
-      },
-      {
-        path: 'mypage',
-        element: <MyPage />,
-      },
-      {
-        path: 'mypage/ratings',
-        element: <RatingsPage />,
-      },
+      { index: true, element: createLazyComponent(pageComponents.Main) },
+      { path: 'register', element: createLazyComponent(pageComponents.Register) },
+      { path: 'login', element: createLazyComponent(pageComponents.Login) },
+      { path: 'mypage', element: createLazyComponent(pageComponents.MyPage) },
+      { path: 'mypage/ratings', element: createLazyComponent(pageComponents.RatingsPage) },
       {
         path: 'mypage/contents/movies/ratings',
-        element: <MovieRatingsPage />,
+        element: createLazyComponent(pageComponents.MovieRatingsPage),
       },
       {
         path: 'mypage/contents/movies/ratings/:rating',
-        element: <AllMoviesByRatingsPage />,
+        element: createLazyComponent(pageComponents.AllMoviesByRatingsPage),
       },
-      {
-        path: 'mypage/comments',
-        element: <CommentsPage />,
-      },
+      { path: 'mypage/comments', element: createLazyComponent(pageComponents.CommentsPage) },
       {
         path: 'mypage/comments/:commentId',
-        element: <CommentsDetailPage />,
+        element: createLazyComponent(pageComponents.CommentsDetailPage),
       },
-      {
-        path: 'mypage/collections',
-        element: <CollectionsPage />,
-      },
+      { path: 'mypage/collections', element: createLazyComponent(pageComponents.CollectionsPage) },
       {
         path: 'mypage/collections/create',
-        element: <CollectionCreatePage />,
+        element: createLazyComponent(pageComponents.CollectionCreatePage),
       },
       {
         path: 'mypage/collections/:collectionId',
-        element: <CollectionDetailPage />,
+        element: createLazyComponent(pageComponents.CollectionDetailPage),
       },
       {
         path: 'mypage/collections/:collectionId/edit',
-        element: <CollectionEditPage />,
+        element: createLazyComponent(pageComponents.CollectionEditPage),
       },
-      {
-        path: 'genere',
-        element: <GenrePage />,
-      },
-      {
-        path: 'followers',
-        element: <FollowerPage />,
-      },
-      {
-        path: 'followings',
-        element: <FollowingPage />,
-      },
-      {
-        path: 'alarmhistorys',
-        element: <AlarmHistoryPage />,
-      },
-      {
-        path: 'error',
-        element: <ErrorPage />,
-      },
-      {
-        path: 'review',
-        element: <StarRatingPage />,
-      },
-      {
-        path: 'worldcup',
-        element: <WorldcupPage />,
-      },
+      { path: 'genere', element: createLazyComponent(pageComponents.GenrePage) },
+      { path: 'followers', element: createLazyComponent(pageComponents.FollowerPage) },
+      { path: 'followings', element: createLazyComponent(pageComponents.FollowingPage) },
+      { path: 'alarmhistorys', element: createLazyComponent(pageComponents.AlarmHistoryPage) },
+      { path: 'error', element: <ErrorPage /> },
+      { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
     ],
+    errorElement: <ErrorPage />,
   },
-]);
+];
+
+const router = createBrowserRouter(routes);
 
 export default router;
