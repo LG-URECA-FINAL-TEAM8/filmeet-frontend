@@ -4,14 +4,14 @@ export const handleAuthClick = (
   navigate,
   signupMutate,
   loginMutate,
-  setLoggedIn,
   refetchUserInfo,
-  setCode
+  setCode,
+  isLoggedIn
 ) => {
   if (userData && value === '회원가입') {
     signupMutate(userData, {
       onSuccess: () => {
-        navigate('/genere');
+        navigate('/genre');
       },
       onError: (error) => {
         if (error.code) {
@@ -23,10 +23,14 @@ export const handleAuthClick = (
 
   if (userData && value === '로그인') {
     loginMutate(userData, {
-      onSuccess: () => {
-        setLoggedIn(true);
-        refetchUserInfo();
-        navigate('/');
+      onSuccess: async () => {
+        if (isLoggedIn === false || isLoggedIn == null) {
+          await refetchUserInfo();
+          navigate('/genre');
+        } else {
+          await refetchUserInfo();
+          navigate('/');
+        }
       },
       onError: () => {},
     });

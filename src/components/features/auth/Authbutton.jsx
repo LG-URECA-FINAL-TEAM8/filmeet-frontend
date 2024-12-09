@@ -8,7 +8,7 @@ import useErrorStore from '../../../store/auth/errorStore';
 const AuthButton = ({ value, userData, disabled }) => {
   const { mutate: signupMutate } = useSignUp();
   const { mutate: loginMutate } = useLogin();
-  const { setLoggedIn } = useLoginStore();
+  const { isLoggedIn } = useLoginStore();
   const { setCode } = useErrorStore();
   const { refetch: refetchUserInfo } = useUserInfo();
 
@@ -22,9 +22,9 @@ const AuthButton = ({ value, userData, disabled }) => {
       navigate,
       signupMutate,
       loginMutate,
-      setLoggedIn,
       refetchUserInfo,
-      setCode
+      setCode,
+      isLoggedIn
     );
   };
 

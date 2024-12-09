@@ -3,10 +3,12 @@ import { useGenereStore } from '../../store/genere/useGenereStore';
 import { usePreference } from '../../apis/auth/queries';
 import { useNavigate } from 'react-router-dom';
 import { upDatePreference } from '../../utils/auth/updatePreference';
+import useLoginStore from '../../store/auth/loginStore';
 
 const ProceedButtonComponent = () => {
   const { selectedMbti, selectedAge, selectedGenres } = useGenereStore();
   const { mutate: preferenceMutate } = usePreference();
+  const { isLoggedIn, setLoggedIn } = useLoginStore();
   const navigate = useNavigate();
   const handleProceed = () => {
     const preferenceData = {
@@ -15,7 +17,7 @@ const ProceedButtonComponent = () => {
       genres: selectedGenres,
     };
     console.log(preferenceData);
-    upDatePreference(preferenceData, preferenceMutate, navigate);
+    upDatePreference(preferenceData, preferenceMutate, navigate, isLoggedIn, setLoggedIn);
   };
 
   return (

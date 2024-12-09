@@ -70,7 +70,7 @@ const routes = [
         path: 'mypage/collections/:collectionId/edit',
         element: createLazyComponent(pageComponents.CollectionEditPage),
       },
-      { path: 'genere', element: createLazyComponent(pageComponents.GenrePage) },
+      { path: 'genre', element: createLazyComponent(pageComponents.GenrePage) },
       { path: 'followers', element: createLazyComponent(pageComponents.FollowerPage) },
       { path: 'followings', element: createLazyComponent(pageComponents.FollowingPage) },
       { path: 'alarmhistorys', element: createLazyComponent(pageComponents.AlarmHistoryPage) },

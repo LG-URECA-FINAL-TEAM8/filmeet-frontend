@@ -1,4 +1,10 @@
-export const upDatePreference = (preferenceData, preferenceMutate, navigate) => {
+export const upDatePreference = (
+  preferenceData,
+  preferenceMutate,
+  navigate,
+  isLoggedIn,
+  setLoggedIn
+) => {
   const dataToSend = {
     ...preferenceData,
     genreId: preferenceData.genres,
@@ -6,7 +12,8 @@ export const upDatePreference = (preferenceData, preferenceMutate, navigate) => 
   if (dataToSend) {
     preferenceMutate(dataToSend, {
       onSuccess: () => {
-        navigate('/login');
+        setLoggedIn(true);
+        navigate('/');
       },
       onError: (error) => {
         console.error('선호 정보 업데이트 실패:', error);
