@@ -3,6 +3,7 @@ import { registerMovies } from './addMovie';
 import { fetchMovies } from './searchMovies';
 import { fetchRegisteredMovies } from './selectMovie';
 import { fetchReviewList } from './showReviewList';
+import { reviewBlind } from './reviewBlind';
 
 export const useAdminSearchMovies = (searchTerm) => {
   return useQuery({
@@ -24,13 +25,14 @@ export const useAdminRegisterMovies = () => {
   });
 };
 
-export const useAdminSelectMovies = () => {
+export const useAdminSelectMovies = ({ page = 1, size = 10, searchTerm = '' }) => {
   return useQuery({
-    queryKey: ['registeredMovies'],
-    queryFn: fetchRegisteredMovies,
-    refetchOnWindowFocus: false,
+      queryKey: ['registeredMovies', page, size, searchTerm],
+      queryFn: () => fetchRegisteredMovies({ page, size, searchTerm }),
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
   });
-}
+};
 
 export const useAdminShowReviewList = (params) => {
   return useQuery({
@@ -38,5 +40,16 @@ export const useAdminShowReviewList = (params) => {
       queryFn: () => fetchReviewList(params),
       keepPreviousData: true, // 이전 데이터 유지
       refetchOnWindowFocus: false,
+  });
+};
+
+export const useAdminReviewBlind = () => {
+  return useMutation({
+      mutationFn: reviewBlind, // mutation 함수 전달
+      onSuccess: () => {
+      },
+      onError: (error) => {
+          console.error(error);
+      },
   });
 };

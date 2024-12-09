@@ -18,178 +18,179 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LockIcon from '@mui/icons-material/Lock';
 import LikeBadge from './LikeBadge';
 import ReviewerBadge from './ReviewerBadge';
-import { useAdminShowReviewList } from '../../../apis/admin/queries'; 
-import { useQueryClient } from '@tanstack/react-query';
+import { useAdminShowReviewList } from '../../../apis/admin/queries';
+import { useAdminReviewBlind } from '../../../apis/admin/queries';
 
 function LikeManagement() {
-  const { movies, setMovies } = useMovieStore();
-  const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
-  const tableHeader = tableHeaders.likeManagement;
-  const queryClient = useQueryClient();
+    const { movies, setMovies } = useMovieStore();
+    const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
+    const tableHeader = tableHeaders.likeManagement;
 
-  const { data, isLoading, isError, refetch } = useAdminShowReviewList({
-    page: currentPage,
-    size: moviesPerPage,
-    movieTitle: '', // 검색어
-    createdAt: '2024-12-06', // 특정 날짜
-    sort: 'asc',
-  });
-
-  useEffect(() => {
-    if (data && Array.isArray(data.reviews)) {
-        // 서버에서 가져온 데이터를 상태로 설정
-        const enhancedMovies = data.reviews.map(({ ...rest }) => ({
-            ...rest,
-            reviewer: 'Admin',
-            likes: rest.likes || 0,
-            rating: rest.rating || 'N/A',
-            createdDate: rest.createdDate || 'N/A',
-        }));
-        setMovies(enhancedMovies);
-    } else {
-        console.warn('Unexpected data structure:', data); // 데이터 구조 확인용 로그
-    }
-}, [data, setMovies]);
-
-  const handleSearch = (term) => {
-    queryClient.invalidateQueries(['reviewList', { page: currentPage, size: moviesPerPage, movieTitle: term, createdAt: '', sort: 'asc' }]);
-    setCurrentPage(1);
-};
-
-  const handleDelete = (movie) => {
-    alert(`"${movie.title}" 삭제 요청`);
-  };
-
-  const handleLock = (movie) => {
-    alert(`"${movie.title}" 잠금 요청`);
-  };
-
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-    refetch({
-      page: value,
-      size: moviesPerPage,
-      movieTitle: '', // 현재 검색어 유지
-      createdAt: '',
-      sort: 'asc',
+    // React Query로 데이터 가져오기
+    const { data, isLoading, isError } = useAdminShowReviewList({
+        page: currentPage - 1, // 서버는 0-based 페이지 번호를 사용하는 것으로 보임
+        size: moviesPerPage,
+        movieTitle: '', // 검색어
+        createdAt: '2024-12-06',
+        sort: 'asc',
     });
-  };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error occurred while fetching data.</p>;
+    const { mutate: blindReview } = useAdminReviewBlind();
 
-  const currentMovies = movies || [];
+    useEffect(() => {
+        if (data && Array.isArray(data.content)) {
+            // 서버에서 가져온 데이터를 상태로 설정
+            const enhancedMovies = data.content.map(({ id, movieTitle, username, createdAt }) => ({
+                id,
+                title: movieTitle,
+                reviewer: username,
+                likes: 0, // 서버에 좋아요 데이터가 없는 경우 기본값 설정
+                rating: 'N/A', // 서버에 평점 데이터가 없는 경우 기본값 설정
+                createdDate: createdAt,
+            }));
+            setMovies(enhancedMovies);
+        } else {
+            console.warn('Unexpected data structure:', data); // 데이터 구조 확인용 로그
+        }
+    }, [data, setMovies]);
 
-  return (
-    <S.Container>
-      <S.SearchBox>
-        <S.TextField
-          variant="outlined"
-          fullWidth
-          label="영화 검색"
-          onChange={(e) => handleSearch(e.target.value)}
-        />
-      </S.SearchBox>
-      <S.TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {Object.values(tableHeader).map((header) => (
-                <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {currentMovies.map((movie, index) => (
-              <TableRow key={index}>
-                <S.TableBodyCell>{movie.title}</S.TableBodyCell>
-                <S.TableBodyCell>
-                  <ReviewerBadge count={movie.reviewer} />
-                </S.TableBodyCell>
-                <S.TableBodyCell>
-                  <LikeBadge count={movie.likes} />
-                </S.TableBodyCell>
-                <S.TableBodyCell>{movie.rating}</S.TableBodyCell>
-                <S.TableBodyCell>{movie.createdDate}</S.TableBodyCell>
-                <S.TableBodyCell>
-                  <S.DeleteIcon onClick={() => handleDelete(movie)} />
-                  <S.LockIcon onClick={() => handleLock(movie)} />
-                </S.TableBodyCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </S.TableContainer>
-      <S.Pagination
-        count={Math.ceil((data?.total || 0) / moviesPerPage)}
-        page={currentPage}
-        onChange={handlePageChange}
-      />
-    </S.Container>
-  );
+    const handleBlind = (reviewId) => {
+        if (confirm('이 리뷰를 블라인드 처리하시겠습니까?')) {
+            blindReview(reviewId, {
+                onSuccess: () => {
+                    alert('리뷰가 블라인드 처리되었습니다.');
+                },
+                onError: (error) => {
+                    console.error(error);
+                    alert('리뷰 블라인드 처리 중 오류가 발생했습니다.');
+                },
+            });
+        }
+    };
+
+    const handleSearch = (term) => {
+        setCurrentPage(1);
+    };
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
+    if (isLoading) return <p>Loading data...</p>;
+    if (isError) return <p>An error occurred while fetching data. Please try again.</p>;
+
+    const currentMovies = movies || [];
+
+    return (
+        <S.Container>
+            <S.SearchBox>
+                <S.TextField
+                    variant="outlined"
+                    fullWidth
+                    label="영화 검색"
+                    onChange={(e) => handleSearch(e.target.value)}
+                />
+            </S.SearchBox>
+            <S.TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            {Object.values(tableHeader).map((header) => (
+                                <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {currentMovies.map((movie) => (
+                            <TableRow key={movie.id}>
+                                <S.TableBodyCell>{movie.title}</S.TableBodyCell>
+                                <S.TableBodyCell>
+                                    <ReviewerBadge count={movie.reviewer} />
+                                </S.TableBodyCell>
+                                <S.TableBodyCell>
+                                    <LikeBadge count={movie.likes} />
+                                </S.TableBodyCell>
+                                <S.TableBodyCell>{movie.rating}</S.TableBodyCell>
+                                <S.TableBodyCell>{movie.createdDate}</S.TableBodyCell>
+                                <S.TableBodyCell>
+                                    <S.DeleteIcon onClick={() => alert(`"${movie.title}" 삭제 요청`)} />
+                                    <S.LockIcon onClick={() => handleBlind(movie.id)} />
+                                </S.TableBodyCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </S.TableContainer>
+            <S.Pagination
+                count={data?.totalPages || 0} // 서버에서 totalPages 사용
+                page={currentPage}
+                onChange={handlePageChange}
+            />
+        </S.Container>
+    );
 }
 
 export default LikeManagement;
 
 const S = {
-  Container: styled(Box)({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '1rem',
-    padding: '1rem',
-  }),
+    Container: styled(Box)({
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '1rem',
+        padding: '1rem',
+    }),
 
-  TextField: styled(TextField)({
-    height: '2rem',
-    marginLeft: '6rem',
-    '& .MuiInputBase-root': {
-      height: '3rem',
-    },
-  }),
+    TextField: styled(TextField)({
+        height: '2rem',
+        marginLeft: '6rem',
+        '& .MuiInputBase-root': {
+            height: '3rem',
+        },
+    }),
 
-  SearchBox: styled(Box)({
-    width: '100%',
-    maxWidth: '20rem',
-    marginBottom: '0.5rem',
-    marginLeft: '49rem',
-  }),
+    SearchBox: styled(Box)({
+        width: '100%',
+        maxWidth: '20rem',
+        marginBottom: '0.5rem',
+        marginLeft: '49rem',
+    }),
 
-  TableContainer: styled(TableContainer)({
-    maxWidth: '81rem',
-    width: '100%',
-    fontFamily: lightTheme.font.fontSuitRegular,
-    fontSize: '1rem',
-    border: lightTheme.font.borderDefault,
-  }),
+    TableContainer: styled(TableContainer)({
+        maxWidth: '81rem',
+        width: '100%',
+        fontFamily: lightTheme.font.fontSuitRegular,
+        fontSize: '1rem',
+        border: lightTheme.font.borderDefault,
+    }),
 
-  TableHeadCell: styled(TableCell)({
-    fontFamily: lightTheme.font.fontSuitRegular,
-    fontWeight: lightTheme.font.fontWeightBold,
-    fontSize: '1rem',
-    color: lightTheme.color.fontBlack,
-    textTransform: 'uppercase',
-  }),
+    TableHeadCell: styled(TableCell)({
+        fontFamily: lightTheme.font.fontSuitRegular,
+        fontWeight: lightTheme.font.fontWeightBold,
+        fontSize: '1rem',
+        color: lightTheme.color.fontBlack,
+        textTransform: 'uppercase',
+    }),
 
-  TableBodyCell: styled(TableCell)({
-    fontFamily: lightTheme.font.fontSuitRegular,
-    fontWeight: lightTheme.font.fontWeightRegular,
-    fontSize: '1rem',
-    color: lightTheme.color.fontBlack,
-  }),
+    TableBodyCell: styled(TableCell)({
+        fontFamily: lightTheme.font.fontSuitRegular,
+        fontWeight: lightTheme.font.fontWeightRegular,
+        fontSize: '1rem',
+        color: lightTheme.color.fontBlack,
+    }),
 
-  DeleteIcon: styled(DeleteIcon)({
-    cursor: 'pointer',
-    color: lightTheme.color.buttonPink,
-  }),
+    DeleteIcon: styled(DeleteIcon)({
+        cursor: 'pointer',
+        color: lightTheme.color.buttonPink,
+    }),
 
-  LockIcon: styled(LockIcon)({
-    cursor: 'pointer',
-    marginLeft: '1rem',
-    color: lightTheme.color.fontGray,
-  }),
+    LockIcon: styled(LockIcon)({
+        cursor: 'pointer',
+        marginLeft: '1rem',
+        color: lightTheme.color.fontGray,
+    }),
 
-  Pagination: styled(Pagination)({
-    marginTop: '1rem',
-  }),
+    Pagination: styled(Pagination)({
+        marginTop: '1rem',
+    }),
 };
