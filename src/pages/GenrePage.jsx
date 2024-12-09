@@ -9,12 +9,10 @@ const GenrePage = () => {
     <GenrePageWrapper>
       <GenreSection />
       <MbtiSection />
-      <AgeSection  />
-      <ProceedButtonComponent/>
+      <AgeSection />
+      <ProceedButtonComponent />
     </GenrePageWrapper>
   );
 };
 
 export default GenrePage;
-
-
