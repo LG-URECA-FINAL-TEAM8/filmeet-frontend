@@ -1,11 +1,11 @@
-import { genreOptions } from "../../data/generedata";
-import GenreButton from "./GenereButton";
-import styled from "styled-components";
+import { genreOptions } from '../../data/generedata';
+import GenreButton from './GenereButton';
+import styled from 'styled-components';
 
 const GenereLabel = {
-  title: "어떤 영화 장르를 좋아하나요?",
-  subtitle: "마음에 드는 장르를 최대 3개까지 골라주세요",
-  label: "장르",
+  title: '어떤 영화 장르를 좋아하나요?',
+  subtitle: '마음에 드는 장르를 최대 5개까지 골라주세요',
+  label: '장르',
 };
 
 const GenreSection = () => {
