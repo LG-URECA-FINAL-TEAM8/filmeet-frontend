@@ -5,16 +5,20 @@ import SvgPencil from "../../../assets/svg/Pencil";
 import { movieDetailData } from "../../../data/moviedetail";
 import useMovieCommentStore from "../../../store/moviedetail/useMovieCommentStore";
 import MovieDetailModal from "../../common/modal/MovieDetailModal";
+import SvgDelete from "../../../assets/svg/Delete";
 
 function Content() {
   const { openModal } = useMovieCommentStore();
-  const { plot, posterUrl, averageRating, ratingCounts, likeCounts, isLiked } = movieDetailData;
+  const { plot, posterUrl, averageRating, ratingCounts, likeCounts, isLiked, myMovieReview, myMovieRating } = movieDetailData;
 
   const ContentText = {
     ratingtext: "평가하기",
     ratingavgtext: "평균 평점",
     commenttext: "코멘트",
     liketext: "좋아요",
+    mycomment: "내가 쓴 코멘트",
+    edit: "수정",
+    delete: "삭제",
   }
 
   const handleRatingChange = (newRating) => {
@@ -56,6 +60,20 @@ function Content() {
                 </S.StatItemBox>
               </S.IconContainer>
             </S.StatSection>
+
+            {myMovieReview && (
+              <S.MyCommentsSection>
+              <S.MyCommentsTitle>{ContentText.mycomment}</S.MyCommentsTitle>
+              <S.CommentCard>
+                <S.ProfileImage bgImage={myMovieRating?.myprofileImage}/>
+                <S.CommentText>{myMovieReview.content}</S.CommentText>
+                <S.CommentActions>
+                  <S.DeleteButton><SvgDelete width="1rem" height="1rem"/> {ContentText.delete}</S.DeleteButton>
+                  <S.EditButton><SvgPencil width="1rem" height="1rem"/> {ContentText.edit}</S.EditButton>
+                </S.CommentActions>
+              </S.CommentCard>
+            </S.MyCommentsSection>
+          )}
             <S.SynopsisSection>
               <S.SynopsisContent>{plot}</S.SynopsisContent>
             </S.SynopsisSection>
@@ -110,7 +128,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 61.7rem;
+    width: 63rem;
     height: 5.6rem;
     padding-bottom: 1.5rem;
     border-bottom: ${(props) => props.theme.font.borderDefault};
@@ -182,7 +200,71 @@ const S = {
     color: ${(props) => props.theme.color.fontGray};
     line-height: 1.5;
   `,
-};
+
+  ProfileImage: styled.img`
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+    background: url(${(props) => props.bgImage}) no-repeat center / cover;
+  `,
+
+  MyCommentsSection: styled.div`
+    margin: 0 0 0;
+    padding: 1rem 0;
+    background-color: ${(props) => props.theme.color.commentColor};
+    border-radius: 0.5rem;
+  `,
+
+  MyCommentsTitle: styled.h4`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 0.7rem;
+    color: ${(props) => props.theme.color.fontGray};
+    margin: 0 0 0.6rem;
+  `,
+
+  CommentCard: styled.div`
+    width: 61rem;
+    height: 4.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: ${(props) => props.theme.color.mainColor};
+    border: ${(props) => props.theme.font.borderDefault};
+    border-radius: 0.3rem;
+  `,
+
+  CommentText: styled.div`
+    flex: 1;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1rem;
+    margin: 0 1rem;
+  `,
+
+  CommentActions: styled.div`
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  `,
+
+  EditButton: styled.button`
+    font-size: 0.9rem;
+    color: ${(props) => props.theme.color.fontGray};
+    background: none;
+    border: none;
+    cursor: pointer;
+  `,
+
+  DeleteButton: styled.button`
+    font-size: 0.9rem;
+    color: ${(props) => props.theme.color.fontGray};
+    background: none;
+    border: none;
+    cursor: pointer;
+  `,
+  };
 
 const StyledRate = styled(Rate)`
   font-size: 2.2rem;
@@ -196,3 +278,5 @@ const StyledRate = styled(Rate)`
     color: ${(props) => props.theme.color.fontPink};
   }
 `;
+
+

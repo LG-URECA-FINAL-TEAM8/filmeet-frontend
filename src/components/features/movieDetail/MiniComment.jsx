@@ -3,9 +3,12 @@ import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
 import SvgIcReplyFilled24 from "../../../assets/svg/IcReplyFilled24";
 import { useNavigate } from "react-router-dom";
 import { createProfileClickHandler } from "../../../utils/ratings/navigationHandlers";
+import useMovieCommentStore from "../../../store/moviedetail/useMovieCommentStore";
 
-const MiniComment = ({ reviewId, nickName, profileImage, content, likeCounts, commentCounts, isLiked }) => {
+
+const MiniComment = ({ reviewId, nickName, profileImage, content, likeCounts, commentCounts }) => {
   const navigate = useNavigate();
+  const { likedComments, toggleLike } = useMovieCommentStore();
 
   const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
 
@@ -13,17 +16,19 @@ const MiniComment = ({ reviewId, nickName, profileImage, content, likeCounts, co
     navigate(`/mypage/comments/${reviewId}`);
   };
 
+  const isLiked = likedComments[reviewId] || false;
+
   return (
     <S.Card key={reviewId}>
       <S.ProfileSection onClick={handleProfileClick}>
         <S.ProfileImage bgImage={profileImage} />
         <S.Nickname>{nickName}</S.Nickname>
       </S.ProfileSection>
-      <S.MainContent onClick={handleCommentClick}>
+      <S.MainContent onClick={() => handleCommentClick(reviewId)}>
         <S.Comments>{content}</S.Comments>
       </S.MainContent>
       <S.FeedStats>
-        <S.Stat liked={isLiked}>
+        <S.Stat>
           <SvgIcLikeFilled24 width={"1rem"} height={"1rem"} />
           {likeCounts}
         </S.Stat>
@@ -32,6 +37,11 @@ const MiniComment = ({ reviewId, nickName, profileImage, content, likeCounts, co
           {commentCounts}
         </S.Stat>
       </S.FeedStats>
+      <S.Like>
+        <S.LikeButton liked={isLiked} onClick={() => toggleLike(reviewId)}>
+          좋아요
+        </S.LikeButton>
+      </S.Like>
     </S.Card>
   );
 };
@@ -43,11 +53,10 @@ const S = {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 19.8rem;
-    height: 16rem;
+    width: 20rem;
+    height: 17.5rem;
     margin: 0 0 1rem;
     padding: 1rem;
-    border: 0.01rem solid rgba(0, 0, 0, 0.1);
     border-radius: 0.3rem;
     background-color: ${(props) => props.theme.color.commentColor};
     box-sizing: border-box;
@@ -85,40 +94,6 @@ const S = {
     border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
 
-  ImageWrapper: styled.div`
-    margin-right: 0.4rem;
-  `,
-
-  Image: styled.img`
-    width: 5.6rem;
-    height: 7.5rem;
-    margin: 0.5rem 0 0.7rem;
-    border-radius: 0.5rem;
-    object-fit: cover;
-  `,
-
-  Content: styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 19rem;
-    height: 7.5rem;
-    margin: 0.7rem 0 0.9rem;
-    flex: 1;
-  `,
-
-  Title: styled.h3`
-    margin: 0.5rem 0 0.3rem;
-    font-family: ${(props) => props.theme.font.fontSuitBold};
-    font-size: 1rem;
-  `,
-
-  GenreYear: styled.p`
-    margin: 0 0 0.5rem;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 0.8rem;
-    color: ${(props) => props.theme.color.fontGray};
-  `,
-
   Comments: styled.p`
     margin-top: 0.5rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
@@ -131,26 +106,14 @@ const S = {
     white-space: nowrap;
   `,
 
-  Rating: styled.div`
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    color: ${(props) => props.theme.color.fontPink};
-    border-radius: 50%;
-  `,
-
   FeedStats: styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 0.5rem;
-    width: 19rem;
-    margin: 1rem 0 0;
+    width: 18rem;
+    padding: 0.6rem 0;
+    border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
 
   Stat: styled.span`
@@ -161,6 +124,21 @@ const S = {
     font-size: 0.8rem;
     color: ${(props) => props.theme.color.fontGray};
   `,
+
+  Like: styled.div`
+    border: none;
+    margin: 0 -0.2rem;
+    padding: 0.6rem 0;
+  `,
+
+  LikeButton: styled.button`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 0.9rem;
+    background-color: ${(props) => (props.liked ? props.theme.color.fontPink : "transparent")};
+    color: ${(props) => (props.liked ? props.theme.color.fontWhite : props.theme.color.fontPink)};
+    border: none;
+    border-radius: 0.3rem;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;   
+  `,
 };
-
-

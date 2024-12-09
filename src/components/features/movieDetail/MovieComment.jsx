@@ -43,8 +43,8 @@ const S = {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 82.5rem;
-    height: 39.5rem;
+    max-width: 84rem;
+    height: 40rem;
     margin: 0 18.75rem;
     padding: 0 0 2.5rem;
   `,
@@ -54,8 +54,8 @@ const S = {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 2.75rem;
-    margin-bottom: 1.25rem;
+    height: 2.8rem;
+    margin-bottom: 1.3rem;
   `,
 
   SectionTitle: styled.header`
@@ -76,7 +76,7 @@ const S = {
   CommentGrid: styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    gap: 0.1rem;
     width: 100%;
     height: 100%;
     overflow: hidden;

@@ -24,6 +24,7 @@ export const movieDetailData = {
   },
   myMovieRating: {
     movieRatingId: 1,
+    myprofileImage: "https://via.placeholder.com/50",
     ratingScore: 5,
   },
   countries: [],
@@ -178,6 +179,16 @@ export const movieDetailData = {
                 },
                 {
                     reviewId: 8,
+                    userId: 2,
+                    content: "리뷰 작성1",
+                    likeCounts: 1,
+                    commentCounts: 0,
+                    nickName: "dong1",
+                    profileImage: "https://via.placeholder.com/30",
+                    isLiked: true
+                },
+                {
+                    reviewId: 9,
                     userId: 2,
                     content: "리뷰 작성1",
                     likeCounts: 1,
