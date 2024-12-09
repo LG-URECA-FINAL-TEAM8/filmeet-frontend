@@ -1,26 +1,21 @@
 import styled from 'styled-components';
 import { useGenereStore } from '../../store/genere/useGenereStore';
+import { usePreference } from '../../apis/auth/queries';
+import { useNavigate } from 'react-router-dom';
+import { upDatePreference } from '../../utils/auth/updatePreference';
 
 const ProceedButtonComponent = () => {
   const { selectedMbti, selectedAge, selectedGenres } = useGenereStore();
-
+  const { mutate: preferenceMutate } = usePreference();
+  const navigate = useNavigate();
   const handleProceed = () => {
-    console.log('Selected MBTI:', selectedMbti);
-    console.log('Selected Age:', selectedAge);
-    console.log('Selected Genres:', selectedGenres);
-
-    if (!selectedMbti || !selectedAge || selectedGenres.length === 0) {
-      console.log('모든 선택값이 입력되지 않았습니다.');
-      return;
-    }
-
-    const dataToSend = {
+    const preferenceData = {
       mbti: selectedMbti,
       age: selectedAge,
       genres: selectedGenres,
     };
-
-    console.log('Data to send:', dataToSend);
+    console.log(preferenceData);
+    upDatePreference(preferenceData, preferenceMutate, navigate);
   };
 
   return (
