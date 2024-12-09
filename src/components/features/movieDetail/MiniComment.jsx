@@ -9,17 +9,17 @@ const MiniComment = ({ reviewId, nickName, profileImage, content, likeCounts, co
 
   const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
 
-  const handleCommentClick = (commentId) => {
-    navigate(`/mypage/comments/${commentId}`);
+  const handleCommentClick = (reviewId) => {
+    navigate(`/mypage/comments/${reviewId}`);
   };
 
   return (
     <S.Card key={reviewId}>
-      <S.ProfileSection>
+      <S.ProfileSection onClick={handleProfileClick}>
         <S.ProfileImage bgImage={profileImage} />
         <S.Nickname>{nickName}</S.Nickname>
       </S.ProfileSection>
-      <S.MainContent>
+      <S.MainContent onClick={handleCommentClick}>
         <S.Comments>{content}</S.Comments>
       </S.MainContent>
       <S.FeedStats>
@@ -125,9 +125,9 @@ const S = {
     font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontGray};
     cursor: pointer;
-    min-height: 3rem; /* 최소 높이 설정 */
-    overflow: hidden; /* 글자가 넘칠 경우 숨김 처리 */
-    text-overflow: ellipsis; /* 넘치는 글자에 말줄임표 추가 */
+    min-height: 7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
   `,
 

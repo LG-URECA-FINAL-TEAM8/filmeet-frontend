@@ -127,7 +127,7 @@ export const movieDetailData = {
                     isLiked: true
                 },
                 {
-                    reviewId: 1,
+                    reviewId: 3,
                     userId: 1,
                     content: "리뷰 작성1",
                     likeCounts: 1,
@@ -137,7 +137,7 @@ export const movieDetailData = {
                     isLiked: true
                 },
                 {
-                    reviewId: 2,
+                    reviewId: 4,
                     userId: 2,
                     content: "리뷰 작성1",
                     likeCounts: 1,
@@ -147,7 +147,7 @@ export const movieDetailData = {
                     isLiked: true
                 },
                 {
-                    reviewId: 1,
+                    reviewId: 5,
                     userId: 1,
                     content: "리뷰 작성1",
                     likeCounts: 1,
@@ -157,7 +157,7 @@ export const movieDetailData = {
                     isLiked: true
                 },
                 {
-                    reviewId: 2,
+                    reviewId: 6,
                     userId: 2,
                     content: "리뷰 작성1",
                     likeCounts: 1,
@@ -167,7 +167,7 @@ export const movieDetailData = {
                     isLiked: true
                 },
                 {
-                    reviewId: 1,
+                    reviewId: 7,
                     userId: 1,
                     content: "리뷰 작성1",
                     likeCounts: 1,
@@ -177,7 +177,7 @@ export const movieDetailData = {
                     isLiked: true
                 },
                 {
-                    reviewId: 2,
+                    reviewId: 8,
                     userId: 2,
                     content: "리뷰 작성1",
                     likeCounts: 1,

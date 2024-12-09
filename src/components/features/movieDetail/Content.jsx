@@ -33,7 +33,7 @@ function Content() {
                 <S.RatingStars>
                   <StyledRate 
                     allowHalf
-                    value={averageRating}
+                    // value={averageRating}
                     onChange={handleRatingChange} 
                   />
                 </S.RatingStars>
@@ -48,7 +48,7 @@ function Content() {
               <S.IconContainer>
                 <S.StatItemBox liked={isLiked}>
                   <SvgIcLikeFilled24 />
-                  <S.StatDescription>{ContentText.liketext}{likeCounts}</S.StatDescription>
+                  <S.StatDescription>{ContentText.liketext}</S.StatDescription>
                 </S.StatItemBox>
                 <S.StatItemBox>
                   <SvgPencil onClick={openModal} />
