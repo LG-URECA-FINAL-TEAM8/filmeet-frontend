@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { useGenereStore } from '../../store/genere/useGenereStore';
 
-const AgeButton = ({ label, emoji }) => {
+const AgeButton = ({ label, emoji, value }) => {
   const { selectedAge, selectAge } = useGenereStore();
-  const isSelected = selectedAge === label;
+  const isSelected = selectedAge === value;
 
   const handleClick = () => {
-    selectAge(label);
+    selectAge(value);
   };
 
   return (

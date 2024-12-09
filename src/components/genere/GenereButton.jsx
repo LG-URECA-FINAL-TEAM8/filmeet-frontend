@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { useGenereStore } from '../../store/genere/useGenereStore';
 
-const GenreButton = ({ label, emoji }) => {
+const GenreButton = ({ label, emoji, id }) => {
   const { selectedGenres, selectMultipleGenres } = useGenereStore();
-  const isSelected = selectedGenres.includes(label);
+  const isSelected = selectedGenres.includes(id);
 
   const handleClick = () => {
-    selectMultipleGenres(label);
+    selectMultipleGenres(id);
   };
 
   return (

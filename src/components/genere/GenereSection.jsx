@@ -16,7 +16,7 @@ const GenreSection = () => {
       <S.Label>{GenereLabel.label}</S.Label>
       <S.ButtonGroupContainer>
         {genreOptions.map((option, index) => (
-          <GenreButton key={index} label={option.label} emoji={option.emoji} />
+          <GenreButton key={index} id={option.id} label={option.label} emoji={option.emoji} />
         ))}
       </S.ButtonGroupContainer>
     </S.GenereSectionContainer>
