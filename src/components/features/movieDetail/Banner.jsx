@@ -2,17 +2,15 @@ import styled from "styled-components";
 import { movieDetailData } from "../../../data/moviedetail";
 
 function Banner() {
-  const { title, subtitle, details, grade, backgroundUrl } = movieDetailData.banner;
+  const { title, releaseDate, runtime, genre, backgroundUrl } = movieDetailData;
 
   return (
     <S.BannerContainer bgImage={backgroundUrl}>
       <S.BannerContentContainer>
         <S.BannerContent>
-          <S.BannerTitle>{title}</S.BannerTitle>
-          <S.BannerSubTitle>{title}</S.BannerSubTitle>
-          <S.BannerSubContent>{details}</S.BannerSubContent>
-          <S.BannerSubContent>{grade}</S.BannerSubContent>
-          <S.BannerSubTitle>{subtitle}</S.BannerSubTitle>
+        <S.BannerTitle>{title}</S.BannerTitle>
+        <S.BannerSubTitle>{title}</S.BannerSubTitle>
+          <S.BannerSubContent>{`${releaseDate} | ${runtime}분 | ${genre}`}</S.BannerSubContent>
         </S.BannerContent>
       </S.BannerContentContainer>
     </S.BannerContainer>
@@ -26,7 +24,8 @@ const S = {
     position: relative;
     width: 100%;
     height: 25rem;
-    background-image: ${(props) => `url(${props.bgImage})`};
+    background: url(${(props) => props.bgImage}) center;
+    background-size: cover;
   `,
 
   BannerContentContainer: styled.div`

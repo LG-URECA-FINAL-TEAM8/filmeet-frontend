@@ -5,7 +5,7 @@ function CastAndCrew() {
   const castTitle = {
     title: "출연 / 제작",
   }
-  const castList = movieDetailData.castAndCrew;
+  const castList = movieDetailData.personnels;
 
   return (
     <S.CastAndCrewContainer>
@@ -13,10 +13,10 @@ function CastAndCrew() {
       <S.CastList>
         {castList.map((cast, index) => (
           <S.CastItem key={index}>
-            <S.CastImage src={cast.image} alt={cast.name} />
+            <S.CastImage src={cast.profileImage} alt={cast.name} />
             <S.CastDetails>
               <S.CastName>{cast.name}</S.CastName>
-              <S.CastRole>{cast.role}</S.CastRole>
+              <S.CastRole>{cast.moviePosition}</S.CastRole>
             </S.CastDetails>
           </S.CastItem>
         ))}

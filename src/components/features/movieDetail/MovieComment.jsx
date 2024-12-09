@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import MiniComment from "./MiniComment";
 import { useNavigate } from "react-router-dom";
+import { movieDetailData } from "../../../data/moviedetail";
 
-function MovieComment({ comments }) {
+function MovieComment() {
     const navigate = useNavigate();
+
+    const comments = movieDetailData.movieReviewsResponses.content;
 
     const handleMoreClick = () => {
         navigate(`/moviedetail/moviecomment`);
@@ -25,7 +28,7 @@ function MovieComment({ comments }) {
       </S.CommentHeader>
       <S.CommentGrid>
         {comments.map((item) => (
-          <MiniComment key={item.id} {...item} />
+          <MiniComment key={item.reviewId} {...item} />
         ))}
       </S.CommentGrid>
     </S.MovieCommentContainer>

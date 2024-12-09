@@ -1,18 +1,24 @@
-import styled from "styled-components";
 import { Rate } from "antd";
+import styled from "styled-components";
 import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
 import SvgPencil from "../../../assets/svg/Pencil";
+import { movieDetailData } from "../../../data/moviedetail";
 import useMovieCommentStore from "../../../store/moviedetail/useMovieCommentStore";
 import MovieDetailModal from "../../common/modal/MovieDetailModal";
-import { movieDetailData } from "../../../data/moviedetail";
 
 function Content() {
   const { openModal } = useMovieCommentStore();
-  const { ratingtext, ratingScore, ratingavg, like, comment, synopsis, posterUrl } = movieDetailData.content;
+  const { plot, posterUrl, averageRating, ratingCounts, likeCounts, isLiked } = movieDetailData;
+
+  const ContentText = {
+    ratingtext: "평가하기",
+    ratingavgtext: "평균 평점",
+    commenttext: "코멘트",
+    liketext: "좋아요",
+  }
 
   const handleRatingChange = (newRating) => {
     console.log("새로운 별점:", newRating);
-    // TODO: 여기에서 API로 별점 데이터를 업데이트하는 로직 추가
   };
 
   return (
@@ -20,40 +26,38 @@ function Content() {
       <S.ContentWrapper>
       <S.ContentContainer>
         <S.MovieSection>
-          <S.MoviePoster>
-            <img src={posterUrl} alt="Movie Poster" />
-          </S.MoviePoster>
+          <S.MoviePoster bgImage={posterUrl} />
           <S.StatAndSynopsis>
             <S.StatSection>
               <S.StatItem>
                 <S.RatingStars>
                   <StyledRate 
                     allowHalf
-                    // value={averageRating}
+                    value={averageRating}
                     onChange={handleRatingChange} 
                   />
                 </S.RatingStars>
-                <S.StatDescription>{ratingtext}</S.StatDescription>
+                <S.StatDescription>{ContentText.ratingtext}</S.StatDescription>
               </S.StatItem>
               <S.StatItem>
                 <S.StatScore>
-                  {ratingScore}
-                  <S.StatDescription>{ratingavg}</S.StatDescription>
+                  {averageRating.toFixed(1)}
+                  <S.StatDescription>{ContentText.ratingavgtext}({ratingCounts}명)</S.StatDescription>
                 </S.StatScore>
               </S.StatItem>
               <S.IconContainer>
-                <S.StatItemBox>
+                <S.StatItemBox liked={isLiked}>
                   <SvgIcLikeFilled24 />
-                  <S.StatDescription>{like}</S.StatDescription>
+                  <S.StatDescription>{ContentText.liketext}{likeCounts}</S.StatDescription>
                 </S.StatItemBox>
                 <S.StatItemBox>
                   <SvgPencil onClick={openModal} />
-                  <S.StatDescription>{comment}</S.StatDescription>
+                  <S.StatDescription>{ContentText.commenttext}</S.StatDescription>
                 </S.StatItemBox>
               </S.IconContainer>
             </S.StatSection>
             <S.SynopsisSection>
-              <S.SynopsisContent>{synopsis}</S.SynopsisContent>
+              <S.SynopsisContent>{plot}</S.SynopsisContent>
             </S.SynopsisSection>
           </S.StatAndSynopsis>
         </S.MovieSection>
@@ -93,12 +97,7 @@ const S = {
   MoviePoster: styled.div`
     width: 18.7rem;
     height: 25rem;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    background: url(${(props) => props.bgImage}) no-repeat center / cover;
   `,
 
   StatAndSynopsis: styled.div`

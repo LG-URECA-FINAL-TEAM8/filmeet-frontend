@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
 import SvgIcReplyFilled24 from "../../../assets/svg/IcReplyFilled24";
-import { comments } from "../../../data/comments";
 import { useNavigate } from "react-router-dom";
 import { createProfileClickHandler } from "../../../utils/ratings/navigationHandlers";
 
-const MiniComment = () => {
+const MiniComment = ({ reviewId, nickName, profileImage, content, likeCounts, commentCounts, isLiked }) => {
   const navigate = useNavigate();
 
   const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
@@ -15,30 +14,25 @@ const MiniComment = () => {
   };
 
   return (
-    <>
-      {comments.map((item) => (
-        <S.Card key={item.id}>
-          <S.ProfileSection onClick={handleProfileClick}>
-            <S.ProfileImage src={item.userImage} alt={`${item.userName}`} />
-            <S.Nickname>{item.userName}</S.Nickname>
-          </S.ProfileSection>
-          <S.MainContent>
-            <S.Content>
-              <S.Comments onClick={() => handleCommentClick(item.id)}>{item.comment}</S.Comments>
-            </S.Content>
-            <S.Rating>★ {item.rating.toFixed(1)}</S.Rating>
-          </S.MainContent>
-          <S.FeedStats>
-            <S.Stat>
-              <SvgIcLikeFilled24 width={"1rem"} height={"1rem"} /> {item.likes}
-            </S.Stat>
-            <S.Stat>
-              <SvgIcReplyFilled24 width={"1rem"} height={"1rem"} /> {item.comments}
-            </S.Stat>
-          </S.FeedStats>
-        </S.Card>
-      ))}
-    </>
+    <S.Card key={reviewId}>
+      <S.ProfileSection>
+        <S.ProfileImage bgImage={profileImage} />
+        <S.Nickname>{nickName}</S.Nickname>
+      </S.ProfileSection>
+      <S.MainContent>
+        <S.Comments>{content}</S.Comments>
+      </S.MainContent>
+      <S.FeedStats>
+        <S.Stat liked={isLiked}>
+          <SvgIcLikeFilled24 width={"1rem"} height={"1rem"} />
+          {likeCounts}
+        </S.Stat>
+        <S.Stat>
+          <SvgIcReplyFilled24 width={"1rem"} height={"1rem"} />
+          {commentCounts}
+        </S.Stat>
+      </S.FeedStats>
+    </S.Card>
   );
 };
 
@@ -70,7 +64,9 @@ const S = {
     height: 1.8rem;
     margin: 0 0.5rem 0 0;
     border-radius: 50%;
-    object-fit: cover;
+    background-image: ${(props) => `url(${props.bgImage})`};
+    background-size: cover;
+    background-position: center;
     cursor: pointer;
   `,
 
@@ -129,6 +125,10 @@ const S = {
     font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontGray};
     cursor: pointer;
+    min-height: 3rem; /* 최소 높이 설정 */
+    overflow: hidden; /* 글자가 넘칠 경우 숨김 처리 */
+    text-overflow: ellipsis; /* 넘치는 글자에 말줄임표 추가 */
+    white-space: nowrap;
   `,
 
   Rating: styled.div`
