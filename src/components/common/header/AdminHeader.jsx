@@ -9,6 +9,7 @@ function AdminHeaderComponent({
   onMovieManagementClick,
   onAddNewMovieClick,
   onLikeManagementClick,
+  onMovieTopClick,
   showButtons = true,
 }) {
   const handleClick = (e) => {
@@ -58,7 +59,7 @@ function AdminHeaderComponent({
               className="header-button"
               onClick={(e) => {
                 handleClick(e);
-                onMovieManagementClick();
+                onMovieTopClick();
               }}
             >
               {headerTop}

@@ -4,7 +4,7 @@ import { fetchMovies } from './searchMovies';
 import { fetchRegisteredMovies } from './selectMovie';
 import { fetchReviewList } from './showReviewList';
 import { reviewBlind } from './reviewBlind';
-
+import { editLike } from './editLike';
 export const useAdminSearchMovies = (searchTerm) => {
   return useQuery({
     queryKey: ['searchMovies'],
@@ -45,11 +45,23 @@ export const useAdminShowReviewList = (params) => {
 
 export const useAdminReviewBlind = () => {
   return useMutation({
-      mutationFn: reviewBlind, // mutation 함수 전달
+    mutationFn: reviewBlind, // mutation 함수 전달
+    onSuccess: () => {
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+};
+
+export const useAdminEditLikes = () => {
+  return useMutation({
+      mutationFn: editLike,
       onSuccess: () => {
+          console.log('좋아요 수 수정 성공');
       },
       onError: (error) => {
-          console.error(error);
+          console.error('좋아요 수 수정 실패:', error.message);
       },
   });
 };

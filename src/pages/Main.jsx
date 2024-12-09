@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MainBody } from '../styles/main/main';
 import Title from '../components/features/main/title/Title';
 import Poster from '../components/Common/poster/Poster';

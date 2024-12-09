@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { styled } from '@mui/system';
-import { useAdminSelectMovies } from '../../../apis/admin/queries';
 import { lightTheme } from '../../../styles/themes';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -11,124 +10,77 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Pagination from '@mui/material/Pagination';
-import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
-import DeleteIcon from '@mui/icons-material/Delete';
-import usePaginationStore from '../../../store/admin/usePaginationStore';
-import useAdminModalStore from '../../../store/modal/useAdminModalStore';
-import AdminEditModal from '../modal/AdminEditModal';
+import { movies } from '../../../data/movies';
 
-function MovieManagement() {
-  const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
+function MovieTop() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
-  
-  const { isOpen, openModal, setModalData } = useAdminModalStore();
-  const { data, isLoading, error } = useAdminSelectMovies({
-    page: currentPage,
-    size: moviesPerPage,
-    searchTerm: debouncedSearchTerm, // 디바운싱된 검색어로 API 호출
-  });
+  const [filteredMovies, setFilteredMovies] = useState([]);
 
-  const movies = data?.content || [];
-  const totalPages = data?.totalPages || 1;
-
-  // 디바운싱 로직
+  // JSON 데이터를 기반으로 필터링
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm); // 일정 시간 후 검색어 설정
-    }, 300); // 300ms 지연 시간
-
-    return () => clearTimeout(handler); // 이전 타이머 정리
+    const filtered = movies.filter((movie) =>
+      movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredMovies(filtered.slice(0, 10));
   }, [searchTerm]);
 
-  // Handlers
-  const handleEdit = (movie) => {
-    setModalData({
-      title: movie.title,
-      genre: movie.genre,
-      releaseDate: movie.releaseDate,
-    });
-    openModal();
-  };
-
-  const handleDelete = (movie) => {
-    alert(`"${movie.title}" 삭제 요청`);
-  };
-
+  // 검색어 변경 핸들러
   const handleSearch = (e) => {
-    setSearchTerm(e.target.value); // 입력값 설정
-    setCurrentPage(1); // 검색 시 첫 페이지로 이동
+    setSearchTerm(e.target.value);
   };
-
-  // Loading and Error States
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>에러 발생: {error.message}</div>;
 
   return (
-    <>
-      <AdminEditModal isOpen={isOpen} />
-      <S.Container>
-        {/* 검색 창 */}
-        <S.SearchBox>
-          <S.SearchBarTextField
-            variant="outlined"
-            fullWidth
-            label="영화 검색"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </S.SearchBox>
-
-        {/* 테이블 */}
-        <S.TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <S.TableHeadCell>제목</S.TableHeadCell>
-                <S.TableHeadCell>평점</S.TableHeadCell>
-                <S.TableHeadCell>장르</S.TableHeadCell>
-                <S.TableHeadCell>개봉일</S.TableHeadCell>
-                <S.TableHeadCell>수정 / 삭제</S.TableHeadCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {movies.map((movie) => (
-                <TableRow key={movie.id}>
-                  <S.TableBodyCell>{movie.title}</S.TableBodyCell>
-                  <S.TableBodyCell>
-                    {movie.averageRating !== null && movie.averageRating !== undefined
-                      ? movie.averageRating.toFixed(2)
-                      : 'N/A'}
-                  </S.TableBodyCell>
-                  <S.TableBodyCell>
-                    {movie.genreTypes?.length > 0
-                      ? movie.genreTypes.join(', ')
-                      : '미정'}
-                  </S.TableBodyCell>
-                  <S.TableBodyCell>{movie.releaseDate}</S.TableBodyCell>
-                  <S.TableBodyCell>
-                    <S.ModeEditTwoToneIcon onClick={() => handleEdit(movie)} />
-                    <S.DeleteIcon onClick={() => handleDelete(movie)} />
-                  </S.TableBodyCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </S.TableContainer>
-
-        {/* 페이지네이션 */}
-        <S.Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={(event, value) => setCurrentPage(value)}
+    <S.Container>
+      {/* 검색 창 */}
+      <S.SearchBox>
+        <S.SearchBarTextField
+          variant="outlined"
+          fullWidth
+          label="영화 검색"
+          value={searchTerm}
+          onChange={handleSearch}
         />
-      </S.Container>
-    </>
+      </S.SearchBox>
+
+      {/* 테이블 */}
+      <S.TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <S.TableHeadCell>순위</S.TableHeadCell>
+              <S.TableHeadCell>제목</S.TableHeadCell>
+              <S.TableHeadCell>평점</S.TableHeadCell>
+              <S.TableHeadCell>장르</S.TableHeadCell>
+              <S.TableHeadCell>개봉일</S.TableHeadCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredMovies.map((movie, index) => (
+              <TableRow key={movie.id}>
+                <S.TableBodyCell>{index + 1}</S.TableBodyCell>
+                <S.TableBodyCell>{movie.title}</S.TableBodyCell>
+                <S.TableBodyCell>
+                  {movie.averageRating !== null && movie.averageRating !== undefined
+                    ? movie.averageRating.toFixed(2)
+                    : 'N/A'}
+                </S.TableBodyCell>
+                <S.TableBodyCell>
+                  {movie.genreTypes?.length > 0
+                    ? movie.genreTypes.join(', ')
+                    : '미정'}
+                </S.TableBodyCell>
+                <S.TableBodyCell>{movie.releaseDate}</S.TableBodyCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </S.TableContainer>
+    </S.Container>
   );
 }
 
-export default MovieManagement;
+export default MovieTop;
+
 const S = {
   Container: styled(Box)({
     display: 'flex',
@@ -174,20 +126,5 @@ const S = {
     fontWeight: lightTheme.font.fontWeightRegular,
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
-  }),
-
-  ModeEditTwoToneIcon: styled(ModeEditTwoToneIcon)({
-    cursor: 'pointer',
-    marginRight: '1.5rem',
-    color: lightTheme.color.fontGray,
-  }),
-
-  DeleteIcon: styled(DeleteIcon)({
-    cursor: 'pointer',
-    color: lightTheme.color.buttonPink,
-  }),
-
-  Pagination: styled(Pagination)({
-    marginTop: '1rem',
   }),
 };

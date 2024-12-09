@@ -1,11 +1,11 @@
-import { ageOptions } from "../../data/generedata";
-import AgeButton from "./AgeButton";
-import styled from "styled-components";
+import { ageOptions } from '../../data/generedata';
+import AgeButton from './AgeButton';
+import styled from 'styled-components';
 
 const AgeLabel = {
-  title: "나이를 선택해주세요!",
-  subtitle: "당신의 나이는?",
-  label: "나이",
+  title: '나이를 선택해주세요!',
+  subtitle: '당신의 나이는?',
+  label: '나이',
 };
 
 const AgeSection = () => {
@@ -16,7 +16,7 @@ const AgeSection = () => {
       <S.Label>{AgeLabel.label}</S.Label>
       <S.ButtonGroupContainer>
         {ageOptions.map((option, index) => (
-          <AgeButton key={index} label={option.label} emoji={option.emoji} />
+          <AgeButton key={index} label={option.label} emoji={option.emoji} value={option.value} />
         ))}
       </S.ButtonGroupContainer>
     </S.AgeSectionContainer>
