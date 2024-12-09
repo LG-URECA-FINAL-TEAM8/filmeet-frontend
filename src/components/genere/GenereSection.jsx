@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const GenereLabel = {
   title: '어떤 영화 장르를 좋아하나요?',
-  subtitle: '마음에 드는 장르를 최대 5개까지 골라주세요',
+  subtitle: '좋아하는 장르를 최대 5개까지 골라주세요',
   label: '장르',
 };
 
