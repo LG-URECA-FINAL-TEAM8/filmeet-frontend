@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { movieDetailData } from "../../../data/moviedetail";
 
 function Banner() {
-  const { title, subtitle, details, age, backgroundUrl } = movieDetailData.banner;
+  const { title, subtitle, details, grade, backgroundUrl } = movieDetailData.banner;
 
   return (
     <S.BannerContainer bgImage={backgroundUrl}>
@@ -11,7 +11,7 @@ function Banner() {
           <S.BannerTitle>{title}</S.BannerTitle>
           <S.BannerSubTitle>{title}</S.BannerSubTitle>
           <S.BannerSubContent>{details}</S.BannerSubContent>
-          <S.BannerSubContent>{age}</S.BannerSubContent>
+          <S.BannerSubContent>{grade}</S.BannerSubContent>
           <S.BannerSubTitle>{subtitle}</S.BannerSubTitle>
         </S.BannerContent>
       </S.BannerContentContainer>
@@ -36,8 +36,8 @@ const S = {
     top: 45%;
     left: 0;
     width: 82.5rem;
-    height: 10.75rem;
-    margin: 0 18.75rem;
+    height: 11rem;
+    margin: 0 19rem;
   `,
 
   BannerContent: styled.div`
@@ -45,8 +45,8 @@ const S = {
     flex-direction: column;
     justify-content: center;
     text-align: left;
-    width: 14.37rem;
-    height: 10.75rem;
+    width: 14rem;
+    height: 11rem;
   `,
 
   BannerTitle: styled.h1`

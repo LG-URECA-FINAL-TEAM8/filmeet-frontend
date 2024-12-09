@@ -7,11 +7,17 @@ import MovieDetailModal from "../../common/modal/MovieDetailModal";
 import { movieDetailData } from "../../../data/moviedetail";
 
 function Content() {
-  const { openModal, isLiked, toggleLike } = useMovieCommentStore();
-  const { rating, score, ratingavg, like, comment, synopsis, posterUrl } = movieDetailData.content;
+  const { openModal } = useMovieCommentStore();
+  const { ratingtext, ratingScore, ratingavg, like, comment, synopsis, posterUrl } = movieDetailData.content;
+
+  const handleRatingChange = (newRating) => {
+    console.log("새로운 별점:", newRating);
+    // TODO: 여기에서 API로 별점 데이터를 업데이트하는 로직 추가
+  };
 
   return (
     <>
+      <S.ContentWrapper>
       <S.ContentContainer>
         <S.MovieSection>
           <S.MoviePoster>
@@ -21,18 +27,22 @@ function Content() {
             <S.StatSection>
               <S.StatItem>
                 <S.RatingStars>
-                  <StyledRate allowHalf />
+                  <StyledRate 
+                    allowHalf
+                    // value={averageRating}
+                    onChange={handleRatingChange} 
+                  />
                 </S.RatingStars>
-                <S.StatDescription>{rating}</S.StatDescription>
+                <S.StatDescription>{ratingtext}</S.StatDescription>
               </S.StatItem>
               <S.StatItem>
                 <S.StatScore>
-                  {score}
+                  {ratingScore}
                   <S.StatDescription>{ratingavg}</S.StatDescription>
                 </S.StatScore>
               </S.StatItem>
               <S.IconContainer>
-                <S.StatItemBox onClick={toggleLike} isLiked={isLiked}>
+                <S.StatItemBox>
                   <SvgIcLikeFilled24 />
                   <S.StatDescription>{like}</S.StatDescription>
                 </S.StatItemBox>
@@ -48,6 +58,7 @@ function Content() {
           </S.StatAndSynopsis>
         </S.MovieSection>
       </S.ContentContainer>
+    </S.ContentWrapper>
 
       {/* MovieDetailModal 렌더링 */}
       <MovieDetailModal />
@@ -58,13 +69,18 @@ function Content() {
 export default Content;
 
 const S = {
+  ContentWrapper: styled.div`
+    width: 100%;
+    background-color: ${(props) => props.theme.color.commentColor};
+  `,
+
   ContentContainer: styled.div`
     display: flex;
     justify-content: flex-start;
     width: 100%;
     max-width: 82.5rem;
-    margin: 0 18.75rem;
-    padding: 1.87rem 0 3.75rem;
+    margin: 0 18.7rem;
+    padding: 1.8rem 0 3.7rem;
     background-color: ${(props) => props.theme.color.commentColor};
   `,
 
@@ -75,7 +91,7 @@ const S = {
   `,
 
   MoviePoster: styled.div`
-    width: 18.75rem;
+    width: 18.7rem;
     height: 25rem;
 
     img {
@@ -95,8 +111,8 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 61.75rem;
-    height: 5.625rem;
+    width: 61.7rem;
+    height: 5.6rem;
     padding-bottom: 1.5rem;
     border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
@@ -121,8 +137,8 @@ const S = {
     color: ${(props) => (props.isLiked ? props.theme.color.fontPink : props.theme.color.fontGray)};
 
     svg {
-      width: 3.12rem;
-      height: 3.12rem;
+      width: 3rem;
+      height: 3rem;
     }
   `,
 
@@ -133,7 +149,7 @@ const S = {
   `,
 
   StatScore: styled.div`
-    margin: 0 0 0.43rem;
+    margin: 0 0 0.4rem;
     font-size: 2rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     color: ${(props) => props.theme.color.fontPink};
@@ -141,7 +157,7 @@ const S = {
   `,
 
   StatDescription: styled.div`
-    margin-top: 0.25rem;
+    margin-top: 0.2rem;
     font-size: 1rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     color: ${(props) => props.theme.color.fontGray};
@@ -158,7 +174,7 @@ const S = {
 
   SynopsisSection: styled.div`
     flex-grow: 1;
-    margin: 0 0 1.87rem;
+    margin: 0 0 2rem;
   `,
 
   SynopsisContent: styled.p`
@@ -174,7 +190,7 @@ const StyledRate = styled(Rate)`
   color: ${(props) => props.theme.color.fontPink};
 
   .ant-rate-star {
-    margin-right: 0.31rem;
+    margin-right: 0.3rem;
   }
 
   .ant-rate-star-full {

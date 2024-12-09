@@ -66,6 +66,7 @@ const S = {
   CommentCount: styled.div`
     margin-left: 0.5rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1rem;
     color: ${(props) => props.theme.color.fontPink};
   `,
 

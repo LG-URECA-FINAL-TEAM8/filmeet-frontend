@@ -31,13 +31,13 @@ const S = {
   CastAndCrewContainer: styled.div`
     width: 100%;
     max-width: 82.5rem;
-    height: 21.12rem;
-    margin: 3.75rem 0 0 18.75rem;
+    height: 21rem;
+    margin: 4rem 0 0 19rem;
     padding: 0 0 2.5rem;
   `,
 
   SectionTitle: styled.header`
-    margin: 0 0 1.25rem;
+    margin: 0 0 1rem;
     font-size: 1.5rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     color: ${(props) => props.theme.color.fontBlack};
@@ -47,18 +47,18 @@ const S = {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
-    height: 16.75rem;
+    height: 17rem;
   `,
 
   CastItem: styled.div`
     display: flex;
     align-items: center;
-    gap: 0.62rem;
+    gap: 0.6rem;
   `,
 
   CastImage: styled.img`
-    width: 3.12rem;
-    height: 3.12rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 0.5rem;
     object-fit: cover;
   `,
@@ -79,7 +79,7 @@ const S = {
   `,
 
   CastRole: styled.div`
-    margin: 0.25rem 0 0;
+    margin: 0.2rem 0 0;
     font-size: 0.8rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     color: ${(props) => props.theme.color.fontGray};

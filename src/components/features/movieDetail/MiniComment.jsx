@@ -49,8 +49,8 @@ const S = {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 19.87rem;
-    height: 16.25rem;
+    width: 19.8rem;
+    height: 16rem;
     margin: 0 0 1rem;
     padding: 1rem;
     border: 0.01rem solid rgba(0, 0, 0, 0.1);
@@ -90,7 +90,7 @@ const S = {
   `,
 
   ImageWrapper: styled.div`
-    margin-right: 0.43rem;
+    margin-right: 0.4rem;
   `,
 
   Image: styled.img`
@@ -104,9 +104,9 @@ const S = {
   Content: styled.div`
     display: flex;
     flex-direction: column;
-    width: 18.75rem;
+    width: 19rem;
     height: 7.5rem;
-    margin: 0.75rem 0 0.93rem;
+    margin: 0.7rem 0 0.9rem;
     flex: 1;
   `,
 
@@ -149,7 +149,7 @@ const S = {
     align-items: center;
     justify-content: flex-start;
     gap: 0.5rem;
-    width: 18.75rem;
+    width: 19rem;
     margin: 1rem 0 0;
   `,
 
