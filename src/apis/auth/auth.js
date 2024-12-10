@@ -40,7 +40,7 @@ export const Login = async ({ username, password }) => {
   }
 
   const result = await response.json();
-  const { accessToken, refreshToken } = result.data;
+  const { accessToken, refreshToken } = result.data.tokenResponse;
   localStorage.setItem('accessToken', accessToken);
   localStorage.setItem('refreshToken', refreshToken);
 
