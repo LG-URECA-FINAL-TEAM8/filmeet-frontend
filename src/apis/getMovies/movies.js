@@ -27,38 +27,19 @@ export const FillMeetTop = async () => {
 
 //개인 추천영화
 export const Recommendation = async () => {
-  let response = await fetch(
-    `${import.meta.env.VITE_API_BASE_URL}/movies/recommendation/users/18?size=20`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
+  const response = await fetch(
+    `${import.meta.env.VITE_API_BASE_URL}/movies/recommendation/users/18?size=20`
   );
-  if (response.status === 401) {
-    console.warn('AccessToken 만료됨. 갱신 시도 중...');
-    const refreshToken = localStorage.getItem('refreshToken');
-    await postRefresh(refreshToken);
-
-    // 갱신된 토큰으로 다시 요청
-    accessToken = localStorage.getItem('accessToken'); // 갱신된 토큰 다시 가져오기
-    response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/movies/recommendation/users/18?size=20`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-  }
-
   if (!response.ok) {
-    throw new Error('유저 정보를 불러오지 못했습니다.');
+    throw new Error('개인 추천 영화 데이터 패칭실패');
   }
+  return response.json();
+};
 
-  const recommendationMovie = await response.json();
-
-  return recommendationMovie;
+export const RandomGenre = async () => {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/movies/random?page=0&size=10`);
+  if (!response.ok) {
+    throw new Error('랜덤 장르영화 데이터 패칭실패');
+  }
+  return response.json();
 };

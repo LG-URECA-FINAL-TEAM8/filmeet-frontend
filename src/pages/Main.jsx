@@ -3,26 +3,41 @@ import { MainBody } from '../styles/main/main';
 import Title from '../components/features/main/title/Title';
 import Poster from '../components/Common/poster/Poster';
 import HotFeed from '../components/features/comments/HotFeed';
-import { movies } from '../data/movies';
-import { useUpcoming, useBoxOffice, useTopTen, useRecommendation } from '../apis/getMovies/queries';
+import {
+  useUpcoming,
+  useBoxOffice,
+  useTopTen,
+  useRecommendation,
+  useRandomGenre,
+} from '../apis/getMovies/queries';
 import { useHotReview } from '../apis/reviews/queries';
+
 function Main() {
   const { data: upComing } = useUpcoming();
   const { data: boxOffice } = useBoxOffice();
   const { data: TopTen } = useTopTen();
   const { data: HotReview } = useHotReview();
   const { data: Recommended } = useRecommendation();
+  const { data: RandomGenre } = useRandomGenre();
   const UpcomingData = upComing?.data?.content || [];
   const BoxOfficeData = boxOffice?.data || [];
   const RecommendedData = Recommended?.data || [];
   const TopTenData = TopTen?.data || [];
   const ReviewData = HotReview?.data?.content || [];
+  const RandomGenreData = RandomGenre?.data?.content || [];
+
+  const hasAccessToken = Boolean(localStorage.getItem('accessToken'));
 
   const movieSections = [
-    {
-      title: '개인 추천 영화',
-      component: <Poster caseType={1} movies={RecommendedData} />,
-    },
+    hasAccessToken
+      ? {
+          title: '개인 추천 영화',
+          component: <Poster caseType={1} movies={RecommendedData} />,
+        }
+      : {
+          title: '랜덤 장르 영화',
+          component: <Poster caseType={1} movies={RandomGenreData} />,
+        },
     {
       title: '필밋 TOP 10',
       component: <Poster caseType={1} movies={TopTenData} />,

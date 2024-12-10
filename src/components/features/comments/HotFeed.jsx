@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { IcLikeFilled24, IcReplyFilled24 } from '../../../assets/svg';
-
+import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
+import SvgIcReplyFilled24 from '../../../assets/svg/IcReplyFilled24';
 function HotFeed({ reviews }) {
   return (
     <S.FeedContainer>
@@ -8,7 +8,7 @@ function HotFeed({ reviews }) {
         <S.FeedItem key={review.id}>
           <S.FeedUserSection>
             <span className="user__span">{review.nickname}</span>
-            <span className="user__span">{review.popularityScore}</span>
+            <span className="user__score">★ {review.popularityScore}</span>
           </S.FeedUserSection>
           <S.FeedMainSection>
             <S.ImageItem
@@ -22,12 +22,8 @@ function HotFeed({ reviews }) {
             </S.CommentItem>
           </S.FeedMainSection>
           <S.FeedStats>
-            <span>
-              <IcLikeFilled24 width={'1rem'} height={'1rem'} /> {review.likeCounts}
-            </span>
-            <span>
-              <IcReplyFilled24 width={'1rem'} height={'1rem'} /> {review.commentCounts}
-            </span>
+            <SvgIcLikeFilled24 width={'1rem'} height={'1rem'} /> {review.likeCounts}
+            <SvgIcReplyFilled24 width={'1rem'} height={'1rem'} /> {review.commentCounts}
           </S.FeedStats>
         </S.FeedItem>
       ))}
@@ -62,7 +58,12 @@ const S = {
     .user__span {
       font-size: 1rem;
       font-family: ${({ theme }) => theme.font.fontSuitRegular};
-      color: ${({ theme }) => theme.color.fontGray};
+      color: ${({ theme }) => theme.color.fontBlack};
+    }
+    .user__score {
+      font-size: 1rem;
+      font-family: ${({ theme }) => theme.font.fontSuitRegular};
+      color: ${({ theme }) => theme.color.fontPink};
     }
   `,
 
@@ -87,17 +88,18 @@ const S = {
     width: 75%;
     height: auto;
     max-height: 5.5rem;
+    font-size: 0.8rem;
     font-family: ${({ theme }) => theme.font.fontSuitRegular};
-    color: ${({ theme }) => theme.color.fontBlack};
+    color: ${({ theme }) => theme.color.fontGray};
   `,
 
   FeedStats: styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    height: auto;
     margin-top: 1rem;
-    gap: 1rem;
+    gap: 0.3rem;
+    font-size: 0.8rem;
     cursor: pointer;
     font-family: ${({ theme }) => theme.font.fontSuitRegular};
     color: ${({ theme }) => theme.color.fontBlack};
