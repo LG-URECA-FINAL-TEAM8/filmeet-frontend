@@ -37,12 +37,13 @@ export const useTopTen = () => {
   return { data, isLoading, error };
 };
 
-export const useRecommendation = (options = {}) => {
+export const useRecommendation = (userId, options = {}) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['recommendation'],
-    queryFn: Recommendation,
-    retry: 3,
+    staleTime: 5 * 60 * 1000,
+    queryKey: ['recommendation', userId],
+    queryFn: () => Recommendation(userId),
     refetchOnWindowFocus: false,
+    enabled: !!userId,
     ...options,
   });
 

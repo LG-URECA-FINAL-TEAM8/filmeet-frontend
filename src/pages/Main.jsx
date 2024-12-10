@@ -11,13 +11,16 @@ import {
   useRandomGenre,
 } from '../apis/getMovies/queries';
 import { useHotReview } from '../apis/reviews/queries';
+import useUserStore from '../store/user/userStore';
 
 function Main() {
+  const userId = useUserStore((state) => state.userInfo?.id);
+  console.log(userId);
   const { data: upComing } = useUpcoming();
   const { data: boxOffice } = useBoxOffice();
   const { data: TopTen } = useTopTen();
   const { data: HotReview } = useHotReview();
-  const { data: Recommended } = useRecommendation();
+  const { data: Recommended } = useRecommendation(userId);
   const { data: RandomGenre } = useRandomGenre();
   const UpcomingData = upComing?.data?.content || [];
   const BoxOfficeData = boxOffice?.data || [];
@@ -26,10 +29,8 @@ function Main() {
   const ReviewData = HotReview?.data?.content || [];
   const RandomGenreData = RandomGenre?.data?.content || [];
 
-  const hasAccessToken = Boolean(localStorage.getItem('accessToken'));
-
   const movieSections = [
-    hasAccessToken
+    userId
       ? {
           title: '개인 추천 영화',
           component: <Poster caseType={1} movies={RecommendedData} />,

@@ -26,9 +26,9 @@ export const FillMeetTop = async () => {
 };
 
 //개인 추천영화
-export const Recommendation = async () => {
+export const Recommendation = async (userId) => {
   const response = await fetch(
-    `${import.meta.env.VITE_API_BASE_URL}/movies/recommendation/users/18?size=20`
+    `${import.meta.env.VITE_API_BASE_URL}/movies/recommendation/users/${userId}?size=20`
   );
   if (!response.ok) {
     throw new Error('개인 추천 영화 데이터 패칭실패');
