@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { registerMovies } from './addMovie';
 import { fetchMovies } from './searchMovies';
 import { fetchRegisteredMovies } from './selectMovie';
@@ -25,12 +25,11 @@ export const useAdminRegisterMovies = () => {
   });
 };
 
-export const useAdminSelectMovies = ({ page = 1, size = 10, searchTerm = '' }) => {
+export const useAdminSelectMovies = ({ page = 1, size = 7, query = '' }) => {
   return useQuery({
-      queryKey: ['registeredMovies', page, size, searchTerm],
-      queryFn: () => fetchRegisteredMovies({ page, size, searchTerm }),
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
+      queryKey: ['registeredMovies', page, query],
+      queryFn: () => fetchRegisteredMovies({ page, size, query }),
+      refetchOnWindowFocus: true,
   });
 };
 
@@ -38,7 +37,6 @@ export const useAdminShowReviewList = (params) => {
   return useQuery({
       queryKey: ['reviewList', params],
       queryFn: () => fetchReviewList(params),
-      keepPreviousData: true, // 이전 데이터 유지
       refetchOnWindowFocus: false,
   });
 };
@@ -65,3 +63,4 @@ export const useAdminEditLikes = () => {
       },
   });
 };
+
