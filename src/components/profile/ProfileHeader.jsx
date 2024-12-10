@@ -1,12 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import {
-  ProfileImage,
-  ProfileName,
-  FollowStats,
-  FollowButton,
-  SettingsWrapper,
-  SettingsIcon,
-} from '../../styles/profile/profile';
+import { ProfileImage, ProfileName, FollowStats, FollowButton, SettingsWrapper, SettingsIcon } from '../../styles/profile/profile';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Stats from './Stats';
 import { useFollowCount } from '../../apis/myPage/queries';
