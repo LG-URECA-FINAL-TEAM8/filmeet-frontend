@@ -19,6 +19,7 @@ const ProfileHeader = ({ userInfo }) => {
   };
 
   const handleNavigate = (path) => {
+    console.log(`Navigating to: ${path}`);
     navigate(path);
   };
 

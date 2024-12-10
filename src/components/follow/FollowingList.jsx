@@ -1,28 +1,56 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import { Followings } from '../../data/followings';
+
 import { useFollowStore } from '../../store/follow/followStore';
+import { useFollowings } from '../../apis/myPage/follow/queries';
 
-
-const FollowingList = () => {
+const FollowingList = ({ userId }) => {
+  // 상태 관리
   const { followStates, initializeFollowStates, toggleFollow } = useFollowStore();
+  
+  // API 호출
+  const { data, isLoading, error } = useFollowings(userId);
 
+  // 디버깅 로그
+  console.log('userId in FollowingList:', userId);
+  console.log('API Response Data:', data);
+  
   useEffect(() => {
-    initializeFollowStates(Followings.map(() => true));
-  }, [initializeFollowStates, Followings]);
+    if (data?.content) {
+      console.log('Initializing follow states:', data.content.map(() => true));
+      initializeFollowStates(data.content.map(() => true)); // 초기 팔로잉 상태 설정
+    }
+  }, [data, initializeFollowStates]);
+
+  // 로딩 상태 처리
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
+
+  // 에러 처리
+  if (error) {
+    console.error('Error fetching followings:', error);
+    return <div>오류가 발생했습니다: {error.message}</div>;
+  }
+
+  // 데이터 추출
+  const followings = data?.content || [];
 
   return (
     <S.ListWrapper>
-      {Followings.map((following, index) => (
+      {followings.map((following, index) => (
         <S.ListItem key={following.id}>
           <S.AvatarWrapper>
-            <S.Avatar src={following.avatar} alt={`${following.name}의 아바타`} />
+            <S.Avatar
+              src={following.profileImage || 'https://via.placeholder.com/70'}
+              alt={`${following.nickname}의 아바타`}
+            />
           </S.AvatarWrapper>
           <S.InfoWrapper>
-            <S.Name>{following.name}</S.Name>
+            <S.Name>{following.nickname}</S.Name>
             <S.FollowButton
               isFollowing={followStates[index]}
-              onClick={() => toggleFollow(index)}
+              onClick={() => toggleFollow(index)} // 팔로우 상태 토글
             >
               {followStates[index] ? '팔로잉' : '팔로우'}
             </S.FollowButton>
@@ -45,7 +73,6 @@ const S = {
     padding: 1rem 0 0 0;
     margin: 0;
   `,
-
   ListItem: styled.li`
     width: 100%;
     max-width: 38rem;
@@ -54,19 +81,16 @@ const S = {
     align-items: center;
     padding: 0 0.56rem;
   `,
-
   AvatarWrapper: styled.div`
     width: 4.37rem;
     height: 4.37rem;
     margin-right: 0.43rem;
   `,
-
   Avatar: styled.img`
     width: 4.37rem;
     height: 4.37rem;
     border-radius: 50%;
   `,
-
   InfoWrapper: styled.div`
     display: flex;
     justify-content: space-between;
@@ -75,7 +99,6 @@ const S = {
     height: 6.5rem;
     border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
-
   Name: styled.div`
     width: 28.12rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
@@ -83,7 +106,6 @@ const S = {
     margin: 0 0 0.12rem;
     padding: 0 0.62rem 0 0;
   `,
-
   FollowButton: styled.button`
     width: 4.06rem;
     height: 1.75rem;
@@ -106,4 +128,3 @@ const S = {
     }
   `,
 };
-
