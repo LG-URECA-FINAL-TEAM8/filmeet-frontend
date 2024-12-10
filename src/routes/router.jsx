@@ -23,6 +23,8 @@ const pageComponents = {
   FollowingPage: () => import('../pages/followpage/FollowingPage'),
   AlarmHistoryPage: () => import('../pages/AlarmHistoryPage'),
   StarRatingPage: () => import('../pages/StarRatingPage'),
+  MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
+  MovieComment: () => import('../pages/movieDetail/MovieComment'),
   AdminPage: () => import('../pages/admin/AdminPage'),
   AdminLoginPage: () => import('../pages/admin/AdminLoginPage'),
 };
@@ -78,6 +80,12 @@ const routes = [
       { path: 'alarmhistorys', element: createLazyComponent(pageComponents.AlarmHistoryPage) },
       { path: 'error', element: <ErrorPage /> },
       { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
+      { path: 'moviedetail', element: createLazyComponent(pageComponents.MovieDetail) },
+      { path: 'moviedetail/moviecomment', element: createLazyComponent(pageComponents.MovieComment) },
+      {
+        path: '/moviedetail/comments/:reviewId',
+        element: createLazyComponent(pageComponents.CommentsDetailPage),
+      },
     ],
     errorElement: <ErrorPage />,
   },

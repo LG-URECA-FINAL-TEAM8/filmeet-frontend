@@ -11,7 +11,7 @@ export const handleAuthClick = (
   if (userData && value === '회원가입') {
     signupMutate(userData, {
       onSuccess: () => {
-        navigate('/genre');
+        navigate('/login');
       },
       onError: (error) => {
         if (error.code) {
