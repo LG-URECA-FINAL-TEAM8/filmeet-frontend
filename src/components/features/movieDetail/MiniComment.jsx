@@ -13,9 +13,10 @@ const MiniComment = ({ reviewId, nickName, profileImage, content, likeCounts, co
   const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
 
   const handleCommentClick = (reviewId) => {
-    navigate(`/mypage/comments/${reviewId}`);
+    navigate(`/moviedetail/comments/${reviewId}`);
   };
 
+  //코멘트 목록에 좋아요 상태변경
   const isLiked = likedComments[reviewId] || false;
 
   return (

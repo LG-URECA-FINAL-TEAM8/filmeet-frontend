@@ -60,7 +60,7 @@ const S = {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 2.06rem;
+      height: 2rem;
     `,
     CommentTitle: styled.div`
       text-align: left;
@@ -77,6 +77,7 @@ const S = {
     CommentContent: styled.div`
       flex: 1;
       margin: 0.62rem 0;
+      font-family: ${(props) => props.theme.font.fontSuitRegular};
     `,
     TextArea: styled.textarea`
       width: 100%;

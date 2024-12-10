@@ -80,6 +80,10 @@ const routes = [
       { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
       { path: 'moviedetail', element: createLazyComponent(pageComponents.MovieDetail) },
       { path: 'moviedetail/moviecomment', element: createLazyComponent(pageComponents.MovieComment) },
+      {
+        path: '/moviedetail/comments/:reviewId',
+        element: createLazyComponent(pageComponents.CommentsDetailPage),
+      },
     ],
     errorElement: <ErrorPage />,
   },

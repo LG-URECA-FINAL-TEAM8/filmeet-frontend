@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { movieDetailData } from "../../../data/moviedetail";
 
 function Banner() {
-  const { title, releaseDate, runtime, genre, backgroundUrl } = movieDetailData;
+  const { title, releaseDate, runtime, genre, backgroundUrl, posterUrl } = movieDetailData;
 
   return (
-    <S.BannerContainer bgImage={backgroundUrl}>
+    <S.BannerContainer bgImage={posterUrl}>
       <S.BannerContentContainer>
         <S.BannerContent>
         <S.BannerTitle>{title}</S.BannerTitle>
