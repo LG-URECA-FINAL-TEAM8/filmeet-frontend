@@ -2,9 +2,11 @@ import Banner from "../../components/features/movieDetail/Banner";
 import CastAndCrew from "../../components/features/movieDetail/CastAndCrew";
 import Content from "../../components/features/movieDetail/Content";
 import MovieComment from "../../components/features/movieDetail/MovieComment";
-import { comments } from "../../data/comments";
+import { movieDetailData } from "../../data/moviedetail";
 
 function MovieDetail() {
+  const comments = movieDetailData.content;
+
   return (
     <>      
       <Banner />

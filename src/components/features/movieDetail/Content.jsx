@@ -9,7 +9,7 @@ import SvgDelete from "../../../assets/svg/Delete";
 
 function Content() {
   const { openModal } = useMovieCommentStore();
-  const { plot, posterUrl, averageRating, ratingCounts, likeCounts, isLiked, myMovieReview, myMovieRating } = movieDetailData;
+  const { plot, posterUrl, averageRating, ratingCounts, isLiked, myMovieReview, myMovieRating } = movieDetailData;
 
   const ContentText = {
     ratingtext: "평가하기",
