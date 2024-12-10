@@ -45,7 +45,7 @@ function Poster({ caseType = 0, movies }) {
         <S.PostItem key={movie.id}>
           <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           <S.PostTitle>{movie.title}</S.PostTitle>
-          <S.GrayField>{movie.rating}</S.GrayField>
+          <S.GrayField>{movie.averageRating}</S.GrayField>
         </S.PostItem>
       )),
 

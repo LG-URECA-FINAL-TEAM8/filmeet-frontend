@@ -4,24 +4,24 @@ import Title from '../components/features/main/title/Title';
 import Poster from '../components/Common/poster/Poster';
 import HotFeed from '../components/features/comments/HotFeed';
 import { movies } from '../data/movies';
-import { useUpcoming, useBoxOffice, useTopTen } from '../apis/getMovies/queries';
+import { useUpcoming, useBoxOffice, useTopTen, useRecommendation } from '../apis/getMovies/queries';
 import { useHotReview } from '../apis/reviews/queries';
 function Main() {
   const { data: upComing } = useUpcoming();
   const { data: boxOffice } = useBoxOffice();
   const { data: TopTen } = useTopTen();
   const { data: HotReview } = useHotReview();
+  const { data: Recommended } = useRecommendation();
   const UpcomingData = upComing?.data?.content || [];
-  const BoxOfficeData = boxOffice?.data?.content || [];
+  const BoxOfficeData = boxOffice?.data || [];
+  const RecommendedData = Recommended?.data || [];
   const TopTenData = TopTen?.data || [];
   const ReviewData = HotReview?.data?.content || [];
-
-  console.log(ReviewData);
 
   const movieSections = [
     {
       title: '개인 추천 영화',
-      component: <Poster caseType={1} movies={movies} />,
+      component: <Poster caseType={1} movies={RecommendedData} />,
     },
     {
       title: '필밋 TOP 10',

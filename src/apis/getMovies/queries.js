@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { UpComingMovies, BoxOfficeMovies, FillMeetTop } from './movies';
+import { UpComingMovies, BoxOfficeMovies, FillMeetTop, Recommendation } from './movies';
 
 export const useUpcoming = () => {
   const { data, isLoading, error } = useQuery({
@@ -25,6 +25,16 @@ export const useTopTen = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['topTen'],
     queryFn: FillMeetTop,
+    refetchOnWindowFocus: false,
+  });
+
+  return { data, isLoading, error };
+};
+
+export const useRecommendation = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['recommendation'],
+    queryFn: Recommendation,
     refetchOnWindowFocus: false,
   });
 
