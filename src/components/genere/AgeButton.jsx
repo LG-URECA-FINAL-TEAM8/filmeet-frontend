@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { useGenereStore } from "../../store/genere/useGenereStore";
+import styled from 'styled-components';
+import { useGenereStore } from '../../store/genere/useGenereStore';
 
-const AgeButton = ({ label, emoji }) => {
+const AgeButton = ({ label, emoji, value }) => {
   const { selectedAge, selectAge } = useGenereStore();
-  const isSelected = selectedAge === label;
+  const isSelected = selectedAge === value;
 
   const handleClick = () => {
-    selectAge(label);
+    selectAge(value);
   };
 
   return (
@@ -23,13 +23,16 @@ const S = {
   AgeButton: styled.button`
     padding: 0 1.25rem;
     height: 2.5rem;
-    border: 0.13rem solid ${(props) => (props.isSelected ? props.theme.color.genereBlueColor : props.theme.color.lineColor)};
+    border: 0.1rem solid
+      ${(props) =>
+        props.isSelected ? props.theme.color.genereBlueColor : props.theme.color.lineColor};
     border-radius: 0.7rem;
-    background: ${(props) => (props.isSelected ? props.theme.color.genereChoiceColor : props.theme.color.mainColor)};
+    background: ${(props) =>
+      props.isSelected ? props.theme.color.genereChoiceColor : props.theme.color.mainColor};
     box-shadow: ${(props) =>
       props.isSelected
-        ? "0rem 0.25rem 0.375rem rgba(33, 150, 243, 0.3)"
-        : "0rem 0.5rem 0.375rem rgba(0, 0, 0, 0.3)"};
+        ? '0rem 0.25rem 0.37rem rgba(33, 150, 243, 0.3)'
+        : '0rem 0.5rem 0.37rem rgba(0, 0, 0, 0.3)'};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,22 +40,26 @@ const S = {
     font-size: 1rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     cursor: pointer;
-    transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
+    transition:
+      box-shadow 0.3s ease,
+      transform 0.2s ease,
+      background 0.3s ease;
 
     &:hover {
-      background: ${(props) => (props.isSelected ? props.theme.color.generehoverColor : props.theme.color.commentColor)};
+      background: ${(props) =>
+        props.isSelected ? props.theme.color.generehoverColor : props.theme.color.commentColor};
       box-shadow: ${(props) =>
         props.isSelected
-          ? "0rem 0.375rem 0.5rem rgba(33, 150, 243, 0.4)"
-          : "0rem 0.375rem 0.5rem rgba(0, 0, 0, 0.15)"};
+          ? '0rem 0.37rem 0.5rem rgba(33, 150, 243, 0.4)'
+          : '0rem 0.37rem 0.5rem rgba(0, 0, 0, 0.15)'};
       transform: translateY(-0.13rem);
     }
 
     &:active {
       box-shadow: ${(props) =>
         props.isSelected
-          ? "0rem 0.1875rem 0.3125rem rgba(33, 150, 243, 0.5)"
-          : "0rem 0.1875rem 0.3125rem rgba(0, 0, 0, 0.2)"};
+          ? '0rem 0.18rem 0.31rem rgba(33, 150, 243, 0.5)'
+          : '0rem 0.18rem 0.31rem rgba(0, 0, 0, 0.2)'};
       transform: translateY(0);
     }
 

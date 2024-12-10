@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { SignUp, Login } from './auth';
+import { SignUp, Login, Preference } from './auth';
 
 export const useSignUp = () => {
   const queryClient = useQueryClient();
@@ -7,9 +7,11 @@ export const useSignUp = () => {
   return useMutation({
     mutationFn: SignUp,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({ queryKey: ['userSignUp'] });
     },
-    onError: (error) => error,
+    onError: (error) => {
+      return error;
+    },
   });
 };
 
@@ -18,7 +20,18 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: Login,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({ queryKey: ['userLogin'] });
+    },
+    onError: (error) => error,
+  });
+};
+
+export const usePreference = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: Preference,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userPreference'] });
     },
     onError: (error) => error,
   });
