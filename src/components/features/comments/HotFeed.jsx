@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { IcLikeFilled24, IcReplyFilled24 } from '../../../assets/svg';
 
 function HotFeed({ reviews }) {
-  console.log(reviews);
   return (
     <S.FeedContainer>
       {reviews.slice(0, 3).map((review) => (
