@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import NoResult from "./NoResult";
 
-const CollectionList = ({ collections }) => {
+const CollectionList = ({ userId, collections }) => {
   const navigate = useNavigate();
 
   const CollectionsLabel = {
