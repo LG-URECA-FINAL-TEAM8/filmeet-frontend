@@ -7,12 +7,12 @@ import { createProfileClickHandler } from "../../../utils/ratings/navigationHand
 
 const Comment = () => {
   const navigate = useNavigate();
-
   const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
 
   const handleCommentClick = (commentId) => {
     navigate(`/mypage/comments/${commentId}`);
   };
+  
 
   return (
     <>
@@ -43,6 +43,11 @@ const Comment = () => {
               <SvgIcReplyFilled24 width={"1rem"} height={"1rem"} /> {item.comments}
             </S.Stat>
           </S.FeedStats>
+          <S.Like>
+            <S.LikeButton>
+              좋아요
+            </S.LikeButton>
+          </S.Like>
         </S.Card>
       ))}
     </>
@@ -57,10 +62,9 @@ const S = {
     display: flex;
     flex-direction: column;
     width: 40rem;
-    height: 16rem;
+    height: 18rem;
     margin: 0rem 0 1rem 0;
     padding: 1rem;
-    border: 0.01rem solid rgba(0, 0, 0, 0.1);
     border-radius: 0.3rem;
     background-color: ${(props) => props.theme.color.commentColor};
     box-sizing: border-box;
@@ -141,7 +145,8 @@ const S = {
     align-items: center;
     justify-content: flex-start;
     gap: 0.5rem;
-    margin: 1rem 0 0 0;
+    padding: 11px 0;
+    border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
   Stat: styled.span`
     display: flex;
@@ -150,5 +155,21 @@ const S = {
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.8rem;
     color: ${(props) => props.theme.color.fontGray};
+  `,
+  Like: styled.div`
+    border: none;
+    margin: 0 -0.2rem;
+    padding: 0.6rem 0;
+  `,
+
+  LikeButton: styled.button`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 0.9rem;
+    background-color: ${(props) => (props.liked ? props.theme.color.fontPink : "transparent")};
+    color: ${(props) => (props.liked ? props.theme.color.fontWhite : props.theme.color.fontPink)};
+    border: none;
+    border-radius: 0.3rem;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;   
   `,
 };
