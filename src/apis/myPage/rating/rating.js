@@ -1,11 +1,15 @@
 import { postRefresh } from "../../users/user";
 
-const fetchWithToken = async (url, options) => {
-  const accessToken = localStorage.getItem("accessToken");
+let accessToken = localStorage.getItem("accessToken");
+
+export const getMovieRatings = async (page = 0, size = 10, sort = "createdAt,asc") => {
+  const url = `${import.meta.env.VITE_API_BASE_URL}/users/movies/ratings?page=${page}&size=${size}&sort=${sort}`;
+  console.log(`Fetching movie ratings: ${url}`);
+  console.log(`Access Token: ${accessToken}`);
+
   let response = await fetch(url, {
-    ...options,
+    method: "GET",
     headers: {
-      ...options.headers,
       Authorization: `Bearer ${accessToken}`,
     },
   });
@@ -15,12 +19,14 @@ const fetchWithToken = async (url, options) => {
     const refreshToken = localStorage.getItem("refreshToken");
     await postRefresh(refreshToken);
 
-    const newAccessToken = localStorage.getItem("accessToken");
+    // 갱신된 토큰 다시 가져오기
+    accessToken = localStorage.getItem("accessToken");
+    console.log(`New Access Token: ${accessToken}`);
+
     response = await fetch(url, {
-      ...options,
+      method: "GET",
       headers: {
-        ...options.headers,
-        Authorization: `Bearer ${newAccessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
   }
@@ -30,11 +36,8 @@ const fetchWithToken = async (url, options) => {
     throw new Error("평가 데이터를 불러오지 못했습니다.");
   }
 
-  return response.json();
-};
+  const ratingsData = await response.json();
+  console.log("Fetched Ratings Data:", ratingsData);
 
-export const getMovieRatings = async (page = 0, size = 10, sort = "createdAt,asc") => {
-  const url = `${import.meta.env.VITE_API_BASE_URL}/users/movies/ratings?page=${page}&size=${size}&sort=${sort}`;
-  console.log(`Fetching movie ratings: ${url}`);
-  return await fetchWithToken(url, { method: "GET" });
+  return ratingsData;
 };

@@ -2,26 +2,46 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import * as S from "../../styles/rating/rating";
-import { pagecontents } from "../../data/pagecontents";
 import { createBackClickHandler } from "../../utils/ratings/navigationHandlers";
+import { useMovieRatings } from "../../apis/myPage/rating/queries";
 
 const Rating = () => {
   const navigate = useNavigate();
-  const { title, categories } = pagecontents.profiles;
+
+  // React Query에서 데이터 가져오기
+  const { data, isLoading, error } = useMovieRatings(0, 10, "createdAt,asc");
+
+  // 데이터를 확인하기 위한 로그
+  console.log("Raw data from API:", data);
+  console.log("Extracted content:", data?.data?.content);
+  console.log("Content length:", data?.data?.content?.length);
 
   const handleCategoryClick = () => {
     navigate("/mypage/contents/movies/ratings");
   };
 
   const handleBackClick = createBackClickHandler(navigate, "/mypage");
-  
+
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    console.error("Error fetching ratings:", error);
+    return <div>오류가 발생했습니다: {error.message}</div>;
+  }
+
+  const categories = [
+    { label: "영화", count: data?.data?.content?.length || 0 }, // 평가 데이터의 개수 계산
+  ];
+
   return (
     <>
       <S.TopContainer>
         <S.BackButton onClick={handleBackClick}>
           <FontAwesomeIcon icon={faArrowLeft} />
         </S.BackButton>
-        <S.TopTitle>{title}</S.TopTitle>
+        <S.TopTitle>평가</S.TopTitle>
       </S.TopContainer>
 
       {categories.map((category, index) => (
