@@ -43,9 +43,9 @@ function Poster({ caseType = 0, movies }) {
     1: () =>
       renderCarousel((movie) => (
         <S.PostItem key={movie.id}>
-          <S.PostCardImg src={movie.image} alt={movie.title} />
+          <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           <S.PostTitle>{movie.title}</S.PostTitle>
-          <S.GrayField>{movie.rating}</S.GrayField>
+          <S.GrayField>{movie.averageRating}</S.GrayField>
         </S.PostItem>
       )),
 
@@ -63,7 +63,7 @@ function Poster({ caseType = 0, movies }) {
         const formattedAudience = `${Math.floor((movie.totalAudience || 0) / 10000)}만 명`;
         return (
           <S.PostItem key={movie.id}>
-            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
             <S.PostTitle>{movie.title}</S.PostTitle>
             <S.GrayField>{`누적 관객 ${formattedAudience}`}</S.GrayField>
           </S.PostItem>
@@ -74,7 +74,7 @@ function Poster({ caseType = 0, movies }) {
       <S.SlideContainer>
         {movies.map((movie) => (
           <S.PostItem key={movie.id}>
-            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
             <S.PostTitle>{movie.title}</S.PostTitle>
             <S.PinkField>{`평가함 ★ ${movie.rating}`}</S.PinkField>
           </S.PostItem>
@@ -86,7 +86,7 @@ function Poster({ caseType = 0, movies }) {
       <S.SlideContainer>
         {movies.map((movie) => (
           <S.PostItem key={movie.id}>
-            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           </S.PostItem>
         ))}
       </S.SlideContainer>
@@ -96,7 +96,7 @@ function Poster({ caseType = 0, movies }) {
       <S.GridContainer>
         {movies.map((movie) => (
           <S.GridItem key={movie.id}>
-            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
             <S.PostTitle>{movie.title}</S.PostTitle>
             <S.PinkField>{`평가함 ★ ${movie.rating}`}</S.PinkField>
           </S.GridItem>
@@ -108,7 +108,7 @@ function Poster({ caseType = 0, movies }) {
       <S.GridContainer>
         {movies.map((movie) => (
           <S.GridItem key={movie.id}>
-            <S.PostCardImg src={movie.image} alt={movie.title} />
+            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
             <S.PostTitle>{movie.title}</S.PostTitle>
           </S.GridItem>
         ))}
@@ -120,7 +120,7 @@ function Poster({ caseType = 0, movies }) {
     <>
       {movies.map((movie) => (
         <S.PostItem key={movie.id}>
-          <S.PostCardImg src={movie.image} alt={movie.title} />
+          <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           <S.PostTitle>{movie.title}</S.PostTitle>
         </S.PostItem>
       ))}
@@ -190,6 +190,7 @@ const S = {
     height: auto;
     border-radius: 0.5rem;
     object-fit: cover;
+    image-rendering: smooth;
     aspect-ratio: 2/3;
   `,
 
