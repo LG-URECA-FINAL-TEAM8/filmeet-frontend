@@ -1,4 +1,3 @@
-import React from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import useMovieCommentStore from "../../../store/moviedetail/useMovieCommentStore";
@@ -9,6 +8,7 @@ const MovieDetailModal = () => {
   const handleChange = (e) => {
     setComment(e.target.value); 
   };
+  
 
   return (
     <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
@@ -19,13 +19,14 @@ const MovieDetailModal = () => {
         </S.CommentHeader>
         <S.CommentContent>
           <S.TextArea
+            maxLength={500}
             value={comment}
             onChange={handleChange}
             placeholder="이 작품에 대한 생각을 자유롭게 표현해주세요."
           />
         </S.CommentContent>
         <S.Footer>
-          <S.TextLength>{comment.length}/10000</S.TextLength>
+          <S.TextLength>{comment.length}/500</S.TextLength>
           <S.SaveButton>저장</S.SaveButton>
         </S.Footer>
       </S.Content>
@@ -38,8 +39,10 @@ const customStyles = {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   content: {
-    width: "40rem",
-    height: "29rem",
+    width: "90vw",
+    maxWidth: "40rem",
+    height: "80vh",
+    maxHeight: "29rem",
     margin: "auto",
     borderRadius: "0.62rem",
     padding: "0",
