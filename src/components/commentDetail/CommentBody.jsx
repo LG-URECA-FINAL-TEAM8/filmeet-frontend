@@ -44,7 +44,7 @@ export default CommentBody;
 const S = {
   Body: styled.div`
     width: 100%;
-    height: 3rem;
+    height: 3.1rem;
     display: flex;
     justify-content: center;
     align-items: center;
