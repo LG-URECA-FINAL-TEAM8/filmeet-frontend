@@ -32,20 +32,22 @@ const CollectionDetail = ({ collectionData }) => {
   const handleEditClick = () => {
     setSelectedCollection(collectionData);
     closeMenu();
-    navigate(`/mypage/collections/${collectionData.id}/edit`);
+    navigate(`/mypage/collections/${collectionData.collectionId}/edit`);
   };
 
   const handleDeleteClick = () => {
-    setSelectedCollection(collectionData);
-    openModal();
-    closeMenu();
+    if (!collectionData) {
+      console.error("삭제할 컬렉션 데이터가 없습니다.");
+      return;
+    }
+    openModal(collectionData); // 삭제할 컬렉션 설정
   };
 
   const handleMenuToggle = () => {
-    if (isOpen && openMenuId === collectionData.id) {
+    if (isOpen && openMenuId === collectionData.collectionId) {
       closeMenu();
     } else {
-      openMenu(collectionData.id);
+      openMenu(collectionData.collectionId);
     }
   };
 
@@ -60,18 +62,22 @@ const CollectionDetail = ({ collectionData }) => {
   }
 
   const {
-    profileImage = 'https://via.placeholder.com/38x38',
-    name = '알 수 없음',
-    collectionName = '제목 없음',
-    description = '설명 없음',
-    bannerImage = 'https://via.placeholder.com/640x260',
+    userProfileImage: profileImage = 'https://via.placeholder.com/38x38',
+    nickname: name = '알 수 없음',
+    collectionTitle: collectionName = '제목 없음',
+    collectionContent: description = '설명 없음',
+    likeCounts: likes = 0,
+    commentCounts: comments = 0,
     movies = [],
-    likes = 0,
   } = collectionData;
 
   return (
     <S.Container onClick={handlePageClick}>
-      <S.Header backgroundImage={bannerImage}>
+      <S.Header backgroundImage={movies.length > 0 && movies[0].posterImage
+        ? movies[0].posterImage
+        : "https://via.placeholder.com/640x260"
+        }
+      >
         <S.Overlay />
         <S.Profile>
           <S.ProfileImage src={profileImage} alt={`${name} 프로필`} />
@@ -80,7 +86,7 @@ const CollectionDetail = ({ collectionData }) => {
         <S.MoreOptions onClick={handleMenuToggle} data-menu-toggle>
           <S.StyledSvgOption />
         </S.MoreOptions>
-        {isOpen && openMenuId === collectionData.id && (
+        {isOpen && openMenuId === collectionData.collectionId && (
           <S.DropdownMenu>
             <S.DropdownItem onClick={handleDeleteClick}>{CollectionsLabel.Delete}</S.DropdownItem>
             <S.DropdownItem onClick={handleEditClick}>{CollectionsLabel.Edit}</S.DropdownItem>
@@ -92,7 +98,7 @@ const CollectionDetail = ({ collectionData }) => {
         <S.CollectionTitle>{collectionName}</S.CollectionTitle>
         <S.Description>{description}</S.Description>
         <S.Stats>
-          {CollectionsLabel.Like} {likes} {CollectionsLabel.Comment} {CollectionsLabel.count}
+          {CollectionsLabel.Like} {likes} {CollectionsLabel.Comment} {comments}
         </S.Stats>
       </S.Content>
       <S.Divider />

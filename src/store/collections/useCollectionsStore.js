@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { getUserCollections } from "../../apis/myPage/collection/collection";
+import { getCollectionDetail } from "../../apis/myPage/collection/collectiondetail";
+import { deleteCollection } from "../../apis/myPage/collection/collectiondetail";
 
 const useCollectionsStore = create((set) => ({
   collections: [],
@@ -16,6 +18,25 @@ const useCollectionsStore = create((set) => ({
       console.error("Error fetching collections:", error);
       set({ error, isLoading: false });
     }
+  },
+
+  // 컬렉션 상세 데이터 불러오기
+  fetchCollectionDetail: async (collectionId) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await getCollectionDetail(collectionId);
+      set({ collectionDetail: response.data, isLoading: false });
+    } catch (error) {
+      console.error("Error fetching collection detail:", error);
+      set({ error, isLoading: false });
+    }
+  },
+
+  // 삭제 후 상태 업데이트
+  removeCollectionFromState: (collectionId) => {
+    set((state) => ({
+      collections: state.collections.filter((collection) => collection.collectionId !== collectionId),
+    }));
   },
 
   isCreating: false,

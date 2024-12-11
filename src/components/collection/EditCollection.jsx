@@ -2,6 +2,8 @@ import styled from "styled-components";
 import MovieSearchModal from "../Common/modal/MovieSearchModal";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { updateCollection } from "../../apis/myPage/collection/collectiondetail";
 
 const CollectionsLabel = {
   EditCollection: "컬렉션 수정",
@@ -37,29 +39,44 @@ const EditCollection = () => {
     addCollection,
     confirmTempSelectedMovies,
   } = useCollectionsStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedCollection) {
-      setTitle(selectedCollection.name); 
-      setDescription(selectedCollection.description);
-      addMovies(selectedCollection.movies || []);
+      setTitle(selectedCollection.collectionTitle || ""); // 기본 제목
+      setDescription(selectedCollection.collectionContent || ""); // 기본 설명
+      addMovies(selectedCollection.movies || []); // 영화 목록
     }
   }, [selectedCollection, setTitle, setDescription, addMovies]);
 
-  const handleSaveCollection = () => {
-    if (title.trim()) {
-      addCollection({
-        id: Date.now(),
-        name: title,
-        description,
-        movies: selectedMovies,
-      });
-      resetFields();
+  const handleSaveCollection = async () => {
+    if (!title.trim() || !description.trim()) {
+      alert("제목과 설명을 모두 입력해주세요.");
+      return;
+    }
+
+    try {
+      const movieIds = selectedMovies.map((movie) => movie.id); // 영화 ID 목록 생성
+      const updatedCollection = {
+        title: title.trim(),
+        content: description.trim(),
+        collectionId: selectedCollection.collectionId, // 수정할 컬렉션 ID
+        movieIds,
+      };
+
+      await updateCollection(updatedCollection); // PATCH 요청
+      alert("컬렉션이 성공적으로 수정되었습니다.");
+      resetFields(); // 상태 초기화
+      navigate("/mypage/collections"); // 목록 페이지로 이동
+    } catch (error) {
+      console.error("컬렉션 수정 실패:", error);
+      alert("컬렉션 수정에 실패했습니다.");
     }
   };
 
   const handleCancelEdit = () => {
     disableEditMode();
+    navigate("/mypage/collections"); // 목록 페이지로 이동
   };
 
   const handleRemoveSelectedMovies = () => {
@@ -97,7 +114,7 @@ const EditCollection = () => {
         </S.InputBox>
       </S.InputContainer>
       <S.Section>
-      <S.SectionHeader>
+        <S.SectionHeader>
           <span>{CollectionsLabel.Movies}</span>
           {selectedMovies.length > 0 &&
             (isEditing ? (
@@ -105,7 +122,10 @@ const EditCollection = () => {
                 <S.CancelButton onClick={handleCancelEdit}>
                   {CollectionsLabel.Cancel}
                 </S.CancelButton>
-                <S.RemoveButton onClick={handleRemoveSelectedMovies} disabled={moviesToRemove.length === 0}>
+                <S.RemoveButton
+                  onClick={handleRemoveSelectedMovies}
+                  disabled={moviesToRemove.length === 0}
+                >
                   {moviesToRemove.length}
                   {CollectionsLabel.RemoveSelected}
                 </S.RemoveButton>
