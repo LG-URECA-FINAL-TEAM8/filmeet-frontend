@@ -65,21 +65,24 @@ const S = {
     align-items: center;
   `,
   MyButton: styled.button`
+    gap: 0.5rem;
+    width: 5.8rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    /* gap: 0.5rem;     */
+    padding: 0;
     border-radius: 1rem;
     margin-right: 2rem;
     border: none;
     cursor: pointer;
   `,
   ProfileImg: styled.img`
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
   `,
   ProfileName: styled.span`
+    font-size: 1rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 };
