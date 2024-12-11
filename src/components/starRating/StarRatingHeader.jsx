@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { useStarRatingStore } from "../../store/starrating/useStarRatingStore";
+import styled from 'styled-components';
+import { useStarRatingStore } from '../../store/starrating/useStarRatingStore';
 
 const StarRatingHeader = () => {
   const ratedCount = useStarRatingStore((state) => state.ratedCount);
@@ -20,7 +20,7 @@ const S = {
     top: 0;
     z-index: 10;
     width: 40rem;
-    height: 5.62rem;
+    height: 5.6rem;
     margin: 1.75rem 0 0;
     border: 0.0625rem solid ${(props) => props.theme.color.lineColor};
     border-radius: 0.625rem 0.625rem 0 0;
@@ -41,5 +41,3 @@ const S = {
     color: ${(props) => props.theme.color.fontGray};
   `,
 };
-
-

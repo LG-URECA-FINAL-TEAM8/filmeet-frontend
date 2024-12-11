@@ -25,6 +25,7 @@ const pageComponents = {
   StarRatingPage: () => import('../pages/header/StarRatingPage'),
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieComment: () => import('../pages/movieDetail/MovieComment'),
+  Bin: () => import('../components/common/bin/Bin'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -76,6 +77,7 @@ const routes = [
       { path: 'followers', element: createLazyComponent(pageComponents.FollowerPage) },
       { path: 'followings', element: createLazyComponent(pageComponents.FollowingPage) },
       { path: 'notifications', element: createLazyComponent(pageComponents.AlarmHistoryPage) },
+      { path: 'bin', element: createLazyComponent(pageComponents.Bin) },
       { path: 'error', element: <ErrorPage /> },
       { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
       { path: 'moviedetail', element: createLazyComponent(pageComponents.MovieDetail) },

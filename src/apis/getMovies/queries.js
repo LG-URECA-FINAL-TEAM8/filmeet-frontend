@@ -5,7 +5,9 @@ import {
   FillMeetTop,
   Recommendation,
   RandomGenre,
+  fetchEvaluation,
 } from './movies';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 export const useUpcoming = () => {
   const { data, isLoading, error } = useQuery({
@@ -59,4 +61,16 @@ export const useRandomGenre = (options = {}) => {
   });
 
   return { data, isLoading, error };
+};
+
+export const useEvaluation = () => {
+  return useInfiniteQuery({
+    queryKey: ['evaluation'],
+    queryFn: fetchEvaluation,
+    getNextPageParam: (lastPage) => {
+      // If there are more pages, return the next page number
+      return lastPage.data.hasNext ? lastPage.data.currentPage + 1 : undefined;
+    },
+    refetchOnWindowFocus: false,
+  });
 };
