@@ -9,7 +9,8 @@ const StarRatingBody = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useEvaluation();
   const { ratings, setRating } = useStarRatingStore();
   // 모든 페이지의 영화 데이터 평탄화
-  const allMovies = data?.pages.flatMap((page) => page.data.content) || [];
+  const allMovies =
+    data?.pages.flatMap((page) => page.data.moviesResponseSliceResponse.content) || [];
   const containerRef = useRef(null);
   const { mutate: evaluationMutate } = useMovieEvaluation();
 
@@ -27,16 +28,16 @@ const StarRatingBody = () => {
   return (
     <S.BodyContainer ref={containerRef} onScroll={handleScroll}>
       {allMovies.map((movie) => (
-        <S.MovieCard key={movie.movieId}>
-          <S.MoviePoster style={{ backgroundImage: `url(${movie.posterUrl})` }} />
+        <S.MovieCard key={movie?.movieId}>
+          <S.MoviePoster style={{ backgroundImage: `url(${movie?.posterUrl})` }} />
           <S.MovieInfo>
-            <S.MovieTitle>{movie.title}</S.MovieTitle>
-            <S.MovieDetails>{movie.releaseDate}</S.MovieDetails>
+            <S.MovieTitle>{movie?.title}</S.MovieTitle>
+            <S.MovieDetails>{movie?.releaseDate}</S.MovieDetails>
             <S.RatingStars>
               <StyledRate
                 allowHalf
-                value={ratings[movie.movieId] || 0}
-                onChange={(value) => handleRateChange(value, movie.movieId)}
+                value={ratings[movie?.movieId] || 0}
+                onChange={(value) => handleRateChange(value, movie?.movieId)}
               />
             </S.RatingStars>
           </S.MovieInfo>
