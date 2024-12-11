@@ -25,6 +25,8 @@ const pageComponents = {
   StarRatingPage: () => import('../pages/StarRatingPage'),
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieComment: () => import('../pages/movieDetail/MovieComment'),
+  AdminPage: () => import('../pages/admin/AdminPage'),
+  AdminLoginPage: () => import('../pages/admin/AdminLoginPage'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -87,6 +89,15 @@ const routes = [
     ],
     errorElement: <ErrorPage />,
   },
+  {
+    path: '/admin',
+    children: [
+      { index: true, element: createLazyComponent(pageComponents.AdminPage) },
+      { path: 'login', element: createLazyComponent(pageComponents.AdminLoginPage) },
+    ],
+    errorElement: <ErrorPage />,
+  },
+
 ];
 
 const router = createBrowserRouter(routes);
