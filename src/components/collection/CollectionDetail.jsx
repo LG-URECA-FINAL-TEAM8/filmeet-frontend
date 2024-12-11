@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Poster from '../Common/poster/Poster';
+import Poster from '../common/poster/Poster';
 import SvgOption from '../../assets/svg/Option';
 import useCollectionsMenuStore from '../../store/collections/useCollectionsMenuStore';
 import useCollectionsDeleteStore from '../../store/collections/useCollectionsDeleteStore';
-import CollectionsDeleteModal from '../Common/modal/CollectionsDeleteModal';
+import CollectionsDeleteModal from '../common/modal/CollectionsDeleteModal';
 import useCollectionsStore from '../../store/collections/useCollectionsStore';
 import { useEffect } from 'react';
 
