@@ -3,7 +3,7 @@ import CommentBody from "../../../components/commentDetail/CommentBody";
 import CommentHeader from "../../../components/commentDetail/CommentHeader";
 import { CommentDetailContainer } from "../../../styles/comment/comment";
 import { comments } from "../../../data/comments";
-import CommentList from "../../../components/Features/comments/CommentList";
+import CommentList from "../../../components/features/comments/CommentList";
 import { commentslist } from "../../../data/commentslist";
 import { useLikesStore } from "../../../store/comment/useLikesStore";
 
