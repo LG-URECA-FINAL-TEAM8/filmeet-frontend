@@ -2,13 +2,11 @@ import styled from 'styled-components';
 import Button from './Button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useLoginStore from '../../../store/auth/loginStore';
 import useUserStore from '../../../store/user/userStore';
 
 function Header() {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
-  const { isLoggedIn } = useLoginStore();
   const userInfo = useUserStore((state) => state.userInfo);
 
   const buttons = [
@@ -49,7 +47,7 @@ function Header() {
     <S.DefaultHeader>
       <S.HeaderSection>{renderButtons(buttons, true)}</S.HeaderSection>
       <S.HeaderSection>
-        {isLoggedIn ? (
+        {userInfo.nickname ? (
           <S.MyButton onClick={handleProfileClick}>
             <S.ProfileImg
               src={userInfo?.profileImage || 'https://via.placeholder.com/40'}
