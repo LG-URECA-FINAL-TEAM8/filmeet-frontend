@@ -4,23 +4,24 @@ import { useStarRatingStore } from '../../store/starrating/useStarRatingStore';
 import { useEvaluation } from '../../apis/getMovies/queries';
 import { useRef } from 'react';
 import useScrollHandler from '../../hooks/evaluation/useScrollHandler';
-
+import { useMovieEvaluation } from '../../apis/evaluation/query';
 const StarRatingBody = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useEvaluation();
   const { ratings, setRating } = useStarRatingStore();
   // 모든 페이지의 영화 데이터 평탄화
   const allMovies = data?.pages.flatMap((page) => page.data.content) || [];
-  // 컨테이너 ref
   const containerRef = useRef(null);
+  const { mutate: evaluationMutate } = useMovieEvaluation();
+
   const handleScroll = useScrollHandler(
     containerRef,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage
   );
-  const handleRateChange = (value, movieId) => {
-    setRating(movieId, value);
-    console.log(movieId, value);
+  const handleRateChange = (ratingScore, movieId) => {
+    setRating(movieId, ratingScore);
+    evaluationMutate({ movieId, ratingScore });
   };
 
   return (

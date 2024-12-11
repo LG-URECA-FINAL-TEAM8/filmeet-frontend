@@ -68,7 +68,6 @@ export const useEvaluation = () => {
     queryKey: ['evaluation'],
     queryFn: fetchEvaluation,
     getNextPageParam: (lastPage) => {
-      // If there are more pages, return the next page number
       return lastPage.data.hasNext ? lastPage.data.currentPage + 1 : undefined;
     },
     refetchOnWindowFocus: false,
