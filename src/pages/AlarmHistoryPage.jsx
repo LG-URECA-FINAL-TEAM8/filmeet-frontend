@@ -1,5 +1,5 @@
 import AlarmHistoryList from '../components/AlarmHistoryList';
-import TopHeader from '../components/Common/back/TopHeader';
+import TopHeader from '../components/common/back/TopHeader';
 import { AlarmhistoryPageWrapper } from '../styles/alarmhistory/alarmhistory';
 
 const AlarmHistoryPage = () => {
