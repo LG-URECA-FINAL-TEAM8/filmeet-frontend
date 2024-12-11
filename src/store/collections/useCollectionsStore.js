@@ -1,13 +1,14 @@
 import { create } from "zustand";
-import { getUserCollections } from "../../apis/myPage/collection/collection";
+import { getUserCollections, searchMovies } from "../../apis/myPage/collection/collection";
 import { getCollectionDetail } from "../../apis/myPage/collection/collectiondetail";
-import { deleteCollection } from "../../apis/myPage/collection/collectiondetail";
 
 const useCollectionsStore = create((set) => ({
   collections: [],
   isLoading: false,
   error: null,
-
+  searchResults: [], // 검색 결과 상태 추가
+  searchLoading: false, // 검색 로딩 상태 추가
+  
   // 서버에서 컬렉션 데이터 불러오기
   fetchCollections: async (userId, page = 0, size = 10) => {
     set({ isLoading: true, error: null });
@@ -19,6 +20,30 @@ const useCollectionsStore = create((set) => ({
       set({ error, isLoading: false });
     }
   },
+
+  // 영화 검색 API 호출
+  fetchSearchMovies: async (keyword, page = 0, size = 10) => {
+    if (!keyword.trim()) {
+      set({ searchResults: [], searchLoading: false });
+      return;
+    }
+    set({ searchLoading: true });
+    try {
+      const response = await searchMovies(keyword, page, size);
+      const movies = response.data.content.map((movie) => ({
+        id: movie.movieId,
+        title: movie.title,
+        image: movie.posterUrl,
+        releaseDate: movie.releaseDate,
+      }));
+      set({ searchResults: movies, searchLoading: false });
+    } catch (error) {
+      console.error("Error fetching search movies:", error);
+      set({ searchResults: [], searchLoading: false });
+    }
+  },
+
+  resetSearchResults: () => set({ searchResults: [] }), // 검색 결과 초기화
 
   // 컬렉션 상세 데이터 불러오기
   fetchCollectionDetail: async (collectionId) => {

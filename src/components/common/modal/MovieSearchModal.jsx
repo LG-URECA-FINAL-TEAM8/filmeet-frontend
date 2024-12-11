@@ -22,21 +22,14 @@ const MovieSearchModal = ({ onAddMovies }) => {
     tempSelectedMovies,
     toggleMovieSelection,
     confirmTempSelectedMovies,
+    fetchSearchMovies,
+    searchResults,
+    searchLoading,
   } = useCollectionsStore();
 
-  // 검색어를 기반으로 movies 데이터 필터링
-  const getFilteredMovies = () => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return movies
-      .filter((movie) =>
-        movie.title.toLowerCase().includes(lowerCaseSearchTerm)
-      )
-      .map((movie) => ({
-        ...movie,
-        isSelected: tempSelectedMovies.some(
-          (selectedMovie) => selectedMovie.id === movie.id
-        ),
-      }));
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    fetchSearchMovies(e.target.value);
   };
 
   const handleMovieSelect = (movie) => {
@@ -79,14 +72,16 @@ const MovieSearchModal = ({ onAddMovies }) => {
               type="text"
               placeholder={CollectionsLabel.SearchPlaceholder}
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={handleSearchChange}
             />
           </S.SearchWrapper>
         </S.Header>
         <S.MovieList>
-          {getFilteredMovies().length > 0 ? (
+          {searchLoading ? (
+            <S.EmptyMessage>검색 중...</S.EmptyMessage>
+          ) : searchResults.length > 0 ? (
             <ListPoster
-              movies={getFilteredMovies()}
+              movies={searchResults}
               onMovieSelect={handleMovieSelect}
             />
           ) : (

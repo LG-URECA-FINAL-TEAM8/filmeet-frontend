@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import NoResult from "./NoResult";
 
-const CollectionList = ({ userId, collections }) => {
+const CollectionList = ({ collections }) => {
   const navigate = useNavigate();
 
   const CollectionsLabel = {
@@ -33,7 +33,7 @@ const CollectionList = ({ userId, collections }) => {
             >
               <S.ImageSection>
                 <S.Image
-                  src={firstMovie.posterImage || "https://via.placeholder.com/150"}
+                  src={firstMovie.posterImage || "https://via.placeholder.com/640x260"}
                   alt={firstMovie.title || "대표 이미지"}
                 />
                 <S.Overlay>
