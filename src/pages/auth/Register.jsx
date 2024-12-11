@@ -10,7 +10,7 @@ import Message from '../../components/common/message/Message';
 import { validateEmail, validatePassword } from '../../utils/auth/registerHandler';
 import useErrorStore from '../../store/auth/errorStore';
 import { NaverLogo } from '../../assets/svg';
-import { handleNaverLoginClick } from '../../utils/auth/socialLoginHandler';
+import { handleLoginClick } from '../../utils/auth/socialLoginHandler';
 import { S } from '../../styles/auth/auth';
 
 function Register() {
