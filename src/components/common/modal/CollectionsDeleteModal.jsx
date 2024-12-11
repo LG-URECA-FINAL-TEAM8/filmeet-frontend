@@ -1,7 +1,7 @@
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import useCollectionsDeleteStore from "../../../store/collections/useCollectionsDeleteStore";
-
+import { useNavigate } from "react-router-dom";
 
 const MODALTEXTS = {
   modalTitle: "알림",
@@ -12,13 +12,32 @@ const MODALTEXTS = {
 
 ReactModal.setAppElement("#root");
 
-const CommentDeleteModal = () => {
+const CollectionDeleteModal = () => {
   const { isModalOpen, closeModal, selectedCollection, removeCollection } =
     useCollectionsDeleteStore();
+  const navigate = useNavigate();
 
-  const handleConfirm = () => {
-    removeCollection(selectedCollection.id); // 선택된 컬렉션 삭제
-    closeModal(); // 모달 닫기
+  console.log("현재 선택된 컬렉션:", selectedCollection); // 확인용 로그
+
+  const handleConfirm = async () => {
+    if (!selectedCollection) {
+      console.error("선택된 컬렉션이 없습니다.");
+      return;
+    }
+
+    const { collectionId, movies = [] } = selectedCollection; // 기본값 설정
+    try {
+      if (movies.length === 0) {
+        console.warn("영화 목록이 비어 있습니다. 빈 배열로 처리합니다.");
+      }
+
+      const movieIds = movies.length > 0 ? movies.map((movie) => movie.movieId) : [];
+      await removeCollection(collectionId, movieIds, navigate); // `navigate` 전달
+      closeModal(); // 모달 닫기
+      navigate("/mypage/collections"); // 삭제 후 경로 이동
+    } catch (error) {
+      console.error("삭제 실패:", error);
+    }
   };
 
   if (!isModalOpen) return null;
@@ -38,7 +57,7 @@ const CommentDeleteModal = () => {
   );
 };
 
-export default CommentDeleteModal;
+export default CollectionDeleteModal;
 
 const customStyles = {
   overlay: {

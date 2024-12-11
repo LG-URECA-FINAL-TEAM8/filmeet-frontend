@@ -1,16 +1,16 @@
 import ReactModal from 'react-modal';
 import styled from 'styled-components';
-import { movies } from '../../../data/movies';
+import { movies } from '../../../data/movies'; // 더미 데이터 가져오기
 import useCollectionsStore from '../../../store/collections/useCollectionsStore';
 import SvgSearch from '../../../assets/svg/Search';
 import ListPoster from '../poster/ModalList';
 
-ReactModal.setAppElement('#root');
+ReactModal.setAppElement("#root");
 
 const CollectionsLabel = {
-  AddMovies: '작품 추가',
-  AddMoviesButton: '개 추가하기',
-  SearchPlaceholder: '검색하여 작품 추가하기',
+  AddMovies: "작품 추가",
+  AddMoviesButton: "개 추가하기",
+  SearchPlaceholder: "검색하여 작품 추가하기",
 };
 
 const MovieSearchModal = ({ onAddMovies }) => {
@@ -22,20 +22,14 @@ const MovieSearchModal = ({ onAddMovies }) => {
     tempSelectedMovies,
     toggleMovieSelection,
     confirmTempSelectedMovies,
+    fetchSearchMovies,
+    searchResults,
+    searchLoading,
   } = useCollectionsStore();
 
-  const getFilteredMovies = () => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return movies
-      .filter(
-        (movie) =>
-          movie.title.toLowerCase().includes(lowerCaseSearchTerm) ||
-          movie.type?.toLowerCase().includes(lowerCaseSearchTerm)
-      )
-      .map((movie) => ({
-        ...movie,
-        isSelected: tempSelectedMovies.some((selectedMovie) => selectedMovie.id === movie.id),
-      }));
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    fetchSearchMovies(e.target.value);
   };
 
   const handleMovieSelect = (movie) => {
@@ -55,7 +49,8 @@ const MovieSearchModal = ({ onAddMovies }) => {
       isOpen={isModalOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      contentLabel="Movie Search Modal">
+      contentLabel="Movie Search Modal"
+    >
       <S.ModalContainer>
         <S.ButtonWrapper>
           <S.CloseButton onClick={closeModal}>✕</S.CloseButton>
@@ -63,7 +58,10 @@ const MovieSearchModal = ({ onAddMovies }) => {
         <S.Header>
           <S.Title>
             {CollectionsLabel.AddMovies}
-            <S.AddButton disabled={tempSelectedMovies.length === 0} onClick={handleAddMovies}>
+            <S.AddButton
+              disabled={tempSelectedMovies.length === 0}
+              onClick={handleAddMovies}
+            >
               {tempSelectedMovies.length}
               {CollectionsLabel.AddMoviesButton}
             </S.AddButton>
@@ -74,12 +72,21 @@ const MovieSearchModal = ({ onAddMovies }) => {
               type="text"
               placeholder={CollectionsLabel.SearchPlaceholder}
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={handleSearchChange}
             />
           </S.SearchWrapper>
         </S.Header>
         <S.MovieList>
-          <ListPoster movies={getFilteredMovies()} onMovieSelect={handleMovieSelect} />
+          {searchLoading ? (
+            <S.EmptyMessage>검색 중...</S.EmptyMessage>
+          ) : searchResults.length > 0 ? (
+            <ListPoster
+              movies={searchResults}
+              onMovieSelect={handleMovieSelect}
+            />
+          ) : (
+            <S.EmptyMessage>검색 결과가 없습니다.</S.EmptyMessage>
+          )}
         </S.MovieList>
       </S.ModalContainer>
     </ReactModal>
@@ -119,12 +126,10 @@ const S = {
     overflow: hidden;
     box-sizing: border-box;
   `,
-
   ButtonWrapper: styled.div`
     display: flex;
     padding: 0.62rem 1rem 0.25rem;
   `,
-
   CloseButton: styled.button`
     background: none;
     border: none;
@@ -133,7 +138,6 @@ const S = {
     color: ${(props) => props.theme.color.fontPink};
     padding: 0.37rem;
   `,
-
   Header: styled.header`
     display: flex;
     flex-direction: column;
@@ -143,7 +147,6 @@ const S = {
     background-color: ${(props) => props.theme.color.lightGray};
     border-bottom: 0.06rem solid ${(props) => props.theme.color.lineColor};
   `,
-
   Title: styled.h2`
     display: flex;
     justify-content: space-between;
@@ -152,7 +155,6 @@ const S = {
     font-size: 1.25rem;
     margin: 0.12rem 0 0.75rem;
   `,
-
   AddButton: styled.button`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
@@ -162,7 +164,6 @@ const S = {
     border: none;
     cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   `,
-
   SearchWrapper: styled.label`
     display: flex;
     align-items: center;
@@ -175,7 +176,6 @@ const S = {
     box-sizing: border-box;
     position: relative;
   `,
-
   SearchInput: styled.input`
     width: 100%;
     padding: 0.5rem;
@@ -190,7 +190,6 @@ const S = {
       color: ${(props) => props.theme.color.fontGray};
     }
   `,
-
   SearchIcon: styled(SvgSearch)`
     position: absolute;
     top: 50%;
@@ -200,7 +199,6 @@ const S = {
     height: 1.3rem;
     color: ${(props) => props.theme.color.fontGray};
   `,
-
   MovieList: styled.div`
     flex: 1;
     margin: 0;
@@ -208,5 +206,11 @@ const S = {
     list-style: none;
     overflow-y: auto;
     background: ${(props) => props.theme.color.mainColor};
+  `,
+  EmptyMessage: styled.div`
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: ${(props) => props.theme.color.fontGray};
   `,
 };
