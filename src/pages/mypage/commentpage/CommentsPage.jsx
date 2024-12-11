@@ -1,4 +1,4 @@
-import Comment from "../../../components/Features/comments/comment";
+import Comment from "../../../components/features/comments/comment";
 import { CardContainer, CommentPageContainer } from "../../../styles/comment/comment";
 import TopHeader from "../../../components/Common/back/TopHeader";
 
