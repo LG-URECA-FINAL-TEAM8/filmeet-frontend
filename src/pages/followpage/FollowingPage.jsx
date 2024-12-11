@@ -1,4 +1,4 @@
-import TopHeader from '../../components/Common/back/TopHeader';
+import TopHeader from '../../components/common/back/TopHeader';
 import FollowingList from '../../components/follow/FollowingList';
 import { FollowPageWrapper } from '../../styles/follow/follow';
 
