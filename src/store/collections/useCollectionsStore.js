@@ -1,8 +1,22 @@
 import { create } from "zustand";
-import collectionsData from "../../data/collections";
+import { getUserCollections } from "../../apis/myPage/collection/collection";
 
 const useCollectionsStore = create((set) => ({
-  collections: collectionsData,
+  collections: [],
+  isLoading: false,
+  error: null,
+
+  // 서버에서 컬렉션 데이터 불러오기
+  fetchCollections: async (userId, page = 0, size = 10) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await getUserCollections(userId, page, size);
+      set({ collections: response.data.content, isLoading: false });
+    } catch (error) {
+      console.error("Error fetching collections:", error);
+      set({ error, isLoading: false });
+    }
+  },
 
   isCreating: false,
   isModalOpen: false,

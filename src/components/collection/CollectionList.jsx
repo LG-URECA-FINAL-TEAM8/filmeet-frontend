@@ -21,41 +21,57 @@ const CollectionList = ({ userId, collections }) => {
   return (
     <S.Wrapper>
       <S.ListContainer>
-        {collections.map((collection) => (
-          <S.CollectionCard
-            key={collection.id}
-            onClick={() => navigate(`/mypage/collections/${collection.id}`)}
-          >
-            <S.ImageSection>
-              <S.Image src={collection.image} />
-              <S.Overlay>
-                <S.Profile>
-                  <S.ProfileImage src={collection.profileImage} alt="Profile" />
-                  <S.ProfileName>{collection.name}</S.ProfileName>
-                </S.Profile>
-                <S.Badge>{collection.movies.length}</S.Badge>
-              </S.Overlay>
-            </S.ImageSection>
-            <S.CardContent>
-              <S.CollectionName>{collection.collectionsName}</S.CollectionName>
-              <S.Description>
-                {collection.description || "컬렉션 설명 없음"}
-              </S.Description>
-            </S.CardContent>
-            <S.CardActions>
-              <S.Action>
-                {CollectionsLabel.Like} {collection.likes}
-              </S.Action>
-              <S.Action>
-                {CollectionsLabel.Comment} {collection.commentsCount}
-              </S.Action>
-            </S.CardActions>
-          </S.CollectionCard>
-        ))}
+        {collections.map((collection) => {
+          const movies = collection.movies || []; // movies가 없을 경우 빈 배열로 처리
+          const firstMovie = movies[0] || {}; // 첫 번째 영화 정보
+          return (
+            <S.CollectionCard
+              key={collection.collectionId}
+              onClick={() =>
+                navigate(`/mypage/collections/${collection.collectionId}`)
+              }
+            >
+              <S.ImageSection>
+                <S.Image
+                  src={firstMovie.posterImage || "https://via.placeholder.com/150"}
+                  alt={firstMovie.title || "대표 이미지"}
+                />
+                <S.Overlay>
+                  <S.Profile>
+                    <S.ProfileImage
+                      src={collection.userProfileImage || ""}
+                      alt="Profile"
+                    />
+                    <S.ProfileName>
+                      {collection.nickname || "익명 사용자"}
+                    </S.ProfileName>
+                  </S.Profile>
+                  <S.Badge>{movies.length}</S.Badge> {/* movies가 빈 배열일 경우 0 */}
+                </S.Overlay>
+              </S.ImageSection>
+              <S.CardContent>
+                <S.CollectionName>
+                  {collection.collectionTitle || "제목 없음"}
+                </S.CollectionName>
+                <S.Description>
+                  {collection.collectionContent || "컬렉션 설명 없음"}
+                </S.Description>
+              </S.CardContent>
+              <S.CardActions>
+                <S.Action>
+                  {CollectionsLabel.Like} {collection.likeCounts || 0}
+                </S.Action>
+                <S.Action>
+                  {CollectionsLabel.Comment} {collection.commentCounts || 0}
+                </S.Action>
+              </S.CardActions>
+            </S.CollectionCard>
+          );
+        })}
       </S.ListContainer>
     </S.Wrapper>
   );
-};
+}
 
 export default CollectionList;
 
@@ -72,7 +88,7 @@ const S = {
   `,
 
   CollectionCard: styled.div`
-    width: 100%;
+    width: 40rem;
     overflow: hidden;
     background: ${(props) => props.theme.color.mainColor};
     border: ${(props) => props.theme.box.defaultBorder};
@@ -156,7 +172,8 @@ const S = {
 
   CardActions: styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 0.5rem;
     padding: 0.5rem 1rem;
     border-top: ${(props) => props.theme.box.defaultBorder};
     font-size: 0.9rem;

@@ -3,6 +3,7 @@ import MovieSearchModal from "../Common/modal/MovieSearchModal";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { createNewCollection } from "../../apis/myPage/collection/collection";
 
 const CollectionsLabel = {
   NewCollection: "새 컬렉션",
@@ -17,25 +18,8 @@ const CollectionsLabel = {
 };
 
 const CreateCollection = () => {
-  const {
-    title,
-    description,
-    selectedMovies,
-    isEditing,
-    moviesToRemove,
-    isModalOpen,
-    openModal,
-    closeModal,
-    setTitle,
-    setDescription,
-    addMovies,
-    toggleMovieToRemove,
-    removeSelectedMovies,
-    enableEditMode,
-    disableEditMode,
-    resetFields,
-    addCollection,
-    confirmTempSelectedMovies,
+  const { title, description, selectedMovies, isEditing, moviesToRemove, isModalOpen, openModal, closeModal, setTitle, setDescription,
+    addMovies, toggleMovieToRemove, removeSelectedMovies, enableEditMode, disableEditMode, resetFields, addCollection, confirmTempSelectedMovies,
   } = useCollectionsStore();
 
   const location = useLocation();
@@ -47,15 +31,29 @@ const CreateCollection = () => {
     }
   }, [location, resetFields]);
 
-  const handleSaveCollection = () => {
-    if (title.trim()) {
-      addCollection({
-        id: Date.now(),
-        name: title,
-        description,
-        movies: selectedMovies,
-      });
-      resetFields();
+  const handleSaveCollection = async () => {
+    if (title.trim() && description.trim() && selectedMovies.length > 0) {
+      const userId = localStorage.getItem("userId"); // 현재 사용자 ID 가져오기 (localStorage 또는 다른 방법 사용)
+      const movieIds = selectedMovies.map((movie) => movie.id);
+
+      const newCollectionData = {
+        title: title.trim(),
+        content: description.trim(),
+        userId: Number(userId),
+        movieIds,
+      };
+
+      try {
+        const response = await createNewCollection(newCollectionData);
+        console.log("컬렉션 생성 성공:", response);
+        resetFields(); // 상태 초기화
+        alert("컬렉션이 성공적으로 생성되었습니다!");
+      } catch (error) {
+        console.error("컬렉션 생성 실패:", error);
+        alert("컬렉션 생성 중 오류가 발생했습니다.");
+      }
+    } else {
+      alert("모든 필드를 입력하고 최소한 하나의 영화를 추가해야 합니다.");
     }
   };
 
@@ -135,7 +133,7 @@ const CreateCollection = () => {
               {isEditing && (
                 <S.RemoveIcon
                   isSelected={moviesToRemove.includes(movie.id)}
-                  onClick={() => toggleMovieToRemove(movie.id)} 
+                  onClick={() => toggleMovieToRemove(movie.id)}
                 >
                   ⨉
                 </S.RemoveIcon>
@@ -148,7 +146,6 @@ const CreateCollection = () => {
         <MovieSearchModal
           onAddMovies={(movies) => {
             addMovies(movies);
-            confirmTempSelectedMovies();
             closeModal();
           }}
         />
