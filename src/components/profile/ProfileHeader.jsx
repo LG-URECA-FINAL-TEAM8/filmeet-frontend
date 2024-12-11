@@ -10,11 +10,13 @@ import {
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Stats from './Stats';
 import { useFollowCount } from '../../apis/myPage/queries';
+import LogoutModal from '../common/modal/LogoutModal';
+import { useState } from 'react';
 
 const ProfileHeader = ({ userInfo }) => {
   const navigate = useNavigate();
   const userId = userInfo?.id;
-
+  const [showModal, setShowModal] = useState(false);
   const { data: result, isLoading } = useFollowCount(userId);
   const followData = result?.data;
 
@@ -28,7 +30,6 @@ const ProfileHeader = ({ userInfo }) => {
   const handleNavigate = (path) => {
     navigate(path);
   };
-
   // 로딩 상태 처리
   if (!userId || isLoading) {
     return <div>Loading...</div>;
@@ -36,8 +37,9 @@ const ProfileHeader = ({ userInfo }) => {
 
   return (
     <>
-      <SettingsWrapper>
+      <SettingsWrapper onClick={() => setShowModal((prev) => !prev)}>
         <SettingsIcon icon={faGear} />
+        {showModal && <LogoutModal text="로그아웃" />}
       </SettingsWrapper>
       <ProfileImage
         src={userInfo?.profileImage || 'https://via.placeholder.com/40'}
