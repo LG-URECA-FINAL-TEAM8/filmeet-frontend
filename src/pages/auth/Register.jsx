@@ -6,7 +6,7 @@ import AuthMessage from '../../components/features/auth/AuthMessage';
 import Authlink from '../../components/features/auth/Authlink';
 import useAuthStore from '../../store/auth/authStore';
 import { registerInput } from '../../data/auth/input';
-import Message from '../../components/Common/message/message';
+import Message from '../../components/common/message/message';
 import { validateEmail, validatePassword } from '../../utils/auth/registerHandler';
 import useErrorStore from '../../store/auth/errorStore';
 import { NaverLogo } from '../../assets/svg';
