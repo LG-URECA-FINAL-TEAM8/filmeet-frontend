@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import MovieSearchModal from "../Common/modal/MovieSearchModal";
+import MovieSearchModal from "../common/modal/MovieSearchModal";
 import useCollectionsStore from "../../store/collections/useCollectionsStore";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
