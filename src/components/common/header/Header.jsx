@@ -3,60 +3,46 @@ import Button from './Button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../../../store/user/userStore';
+import { AUTH_BUTTONS, HEADER_BUTTONS } from '../../../data/header/header';
 
 function Header() {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
   const userInfo = useUserStore((state) => state.userInfo);
 
-  const buttons = [
-    {
-      title: '홈',
-      onClick: () => {
-        setActiveButton('홈');
-        navigate('/');
-      },
-    },
-    { title: '탐색', onClick: () => setActiveButton('탐색') },
-    { title: '장르별', onClick: () => setActiveButton('장르별') },
-  ];
+  const handleButtonClick = (title, route) => {
+    setActiveButton(title);
+    if (route) navigate(route);
+  };
 
-  const authButtons = [
-    {
-      title: '로그인',
-      onClick: () => navigate('/login'),
-    },
-    {
-      title: '회원가입',
-      onClick: () => navigate('/register'),
-    },
-  ];
-
-  const renderButtons = (buttonList, isMain = false) =>
-    buttonList.map(({ title, onClick }, index) => (
-      <Button key={index} onClick={onClick} active={isMain && activeButton === title}>
+  const renderButtons = (buttons) =>
+    buttons.map(({ title, route }, index) => (
+      <Button
+        key={index}
+        onClick={() => handleButtonClick(title, route)}
+        active={activeButton === title}>
         {title}
       </Button>
     ));
 
-  const handleProfileClick = () => {
-    navigate('/mypage');
-  };
-
   return (
     <S.DefaultHeader>
-      <S.HeaderSection>{renderButtons(buttons, true)}</S.HeaderSection>
+      <S.HeaderSection>{renderButtons(HEADER_BUTTONS)}</S.HeaderSection>
       <S.HeaderSection>
         {userInfo.nickname ? (
-          <S.MyButton onClick={handleProfileClick}>
-            <S.ProfileImg
-              src={userInfo?.profileImage || 'https://via.placeholder.com/40'}
-              alt="프로필 이미지"
-            />
-            <S.ProfileName>{userInfo?.nickname || '사용자'}</S.ProfileName>
-          </S.MyButton>
+          <>
+            <Button onClick={() => navigate('/notifications')}>알림</Button>
+            <Button onClick={() => navigate('/review')}>평가하기</Button>
+            <S.MyButton onClick={() => navigate('/mypage')}>
+              <S.ProfileImg
+                src={userInfo?.profileImage || 'https://via.placeholder.com/40'}
+                alt="프로필 이미지"
+              />
+              <S.ProfileName>{userInfo.nickname}</S.ProfileName>
+            </S.MyButton>
+          </>
         ) : (
-          renderButtons(authButtons)
+          renderButtons(AUTH_BUTTONS)
         )}
       </S.HeaderSection>
     </S.DefaultHeader>
@@ -75,35 +61,25 @@ const S = {
   `,
 
   HeaderSection: styled.div`
-    width: 12rem;
     display: flex;
     align-items: center;
   `,
   MyButton: styled.button`
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 6.5rem;
-    height: 2rem;
-    padding: 0;
-    border-radius: 19px;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    margin-right: 2rem;
     border: none;
     cursor: pointer;
   `,
   ProfileImg: styled.img`
     width: 2.5rem;
-    height: 2rem;
+    height: 2.5rem;
     border-radius: 50%;
-    flex: 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   `,
-  ProfileName: styled.p`
-    flex: 7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  ProfileName: styled.span`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 };
