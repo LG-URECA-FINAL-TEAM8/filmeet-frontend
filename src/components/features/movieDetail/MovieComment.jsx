@@ -1,33 +1,30 @@
-import styled from "styled-components";
-import MiniComment from "./MiniComment";
-import { useNavigate } from "react-router-dom";
-import { movieDetailData } from "../../../data/moviedetail";
+import styled from 'styled-components';
+import MiniComment from './MiniComment';
+import { useNavigate } from 'react-router-dom';
 
-function MovieComment() {
-    const navigate = useNavigate();
+function MovieComment({ comment }) {
+  const navigate = useNavigate();
 
-    const comments = movieDetailData.movieReviewsResponses.content;
+  const handleMoreClick = () => {
+    navigate(`/moviedetail/moviecomment`);
+  };
 
-    const handleMoreClick = () => {
-        navigate(`/moviedetail/moviecomment`);
-      };
-
-    const moviecomment = {
-      comment: "코멘트",
-      more: "더보기",
-    }
+  const moviecomment = {
+    comment: '코멘트',
+    more: '더보기',
+  };
 
   return (
     <S.MovieCommentContainer>
       <S.CommentHeader>
         <S.SectionTitle>
-          {moviecomment.comment} 
-          <S.CommentCount>{comments.length}+</S.CommentCount>
+          {moviecomment.comment}
+          <S.CommentCount>{comment.length}+</S.CommentCount>
         </S.SectionTitle>
         <S.ShowMoreButton onClick={handleMoreClick}>{moviecomment.more}</S.ShowMoreButton>
       </S.CommentHeader>
       <S.CommentGrid>
-        {comments.map((item) => (
+        {comment.map((item) => (
           <MiniComment key={item.reviewId} {...item} />
         ))}
       </S.CommentGrid>
@@ -91,5 +88,3 @@ const S = {
     cursor: pointer;
   `,
 };
-
-
