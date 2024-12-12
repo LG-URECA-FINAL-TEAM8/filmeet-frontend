@@ -26,14 +26,14 @@ function Poster({ caseType = 0, movies }) {
         emulateTouch={true}
         renderArrowPrev={(clickHandler, hasPrev) =>
           hasPrev && (
-            <S.NavButton className="prev">
+            <S.NavButton className="prev" onClick={clickHandler}>
               <ChevronLeft color={'#7E7E7E'} />
             </S.NavButton>
           )
         }
         renderArrowNext={(clickHandler, hasNext) =>
           hasNext && (
-            <S.NavButton className="next">
+            <S.NavButton className="next" onClick={clickHandler}>
               <ChevronRight color={'#7E7E7E'} />
             </S.NavButton>
           )

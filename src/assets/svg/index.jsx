@@ -1,3 +1,4 @@
+export { default as CastDefault } from './CastDefault';
 export { default as Circle } from './Circle';
 export { default as Comment } from './Comment';
 export { default as Delete } from './Delete';

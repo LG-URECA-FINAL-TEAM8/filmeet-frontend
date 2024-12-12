@@ -1,86 +1,89 @@
-import { Rate } from "antd";
-import styled from "styled-components";
-import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
-import SvgPencil from "../../../assets/svg/Pencil";
-import { movieDetailData } from "../../../data/moviedetail";
-import useMovieCommentStore from "../../../store/moviedetail/useMovieCommentStore";
-import MovieDetailModal from "../../common/modal/MovieDetailModal";
-import SvgDelete from "../../../assets/svg/Delete";
+import { Rate } from 'antd';
+import styled from 'styled-components';
+import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
+import SvgPencil from '../../../assets/svg/Pencil';
+import useMovieCommentStore from '../../../store/moviedetail/useMovieCommentStore';
+import MovieDetailModal from '../../common/modal/MovieDetailModal';
 
-function Content() {
+function Content({ movieData }) {
   const { openModal } = useMovieCommentStore();
-  const { plot, posterUrl, averageRating, ratingCounts, isLiked, myMovieReview, myMovieRating } = movieDetailData;
 
   const ContentText = {
-    ratingtext: "평가하기",
-    ratingavgtext: "평균 평점",
-    commenttext: "코멘트",
-    liketext: "좋아요",
-    mycomment: "내가 쓴 코멘트",
-    edit: "수정",
-    delete: "삭제",
-  }
+    ratingtext: '평가하기',
+    ratingavgtext: '평균 평점',
+    commenttext: '코멘트',
+    liketext: '좋아요',
+    mycomment: '내가 쓴 코멘트',
+    edit: '수정',
+    delete: '삭제',
+  };
 
   const handleRatingChange = (newRating) => {
-    console.log("새로운 별점:", newRating);
+    console.log('새로운 별점:', newRating);
   };
 
   return (
     <>
       <S.ContentWrapper>
-      <S.ContentContainer>
-        <S.MovieSection>
-          <S.MoviePoster bgImage={posterUrl} />
-          <S.StatAndSynopsis>
-            <S.StatSection>
-              <S.StatItem>
-                <S.RatingStars>
-                  <StyledRate 
-                    allowHalf
-                    // value={averageRating}
-                    onChange={handleRatingChange} 
-                  />
-                </S.RatingStars>
-                <S.StatDescription>{ContentText.ratingtext}</S.StatDescription>
-              </S.StatItem>
-              <S.StatItem>
-                <S.StatScore>
-                  {averageRating.toFixed(1)}
-                  <S.StatDescription>{ContentText.ratingavgtext}({ratingCounts}명)</S.StatDescription>
-                </S.StatScore>
-              </S.StatItem>
-              <S.IconContainer>
-                <S.StatItemBox liked={isLiked}>
-                  <SvgIcLikeFilled24 />
-                  <S.StatDescription>{ContentText.liketext}</S.StatDescription>
-                </S.StatItemBox>
-                <S.StatItemBox>
-                  <SvgPencil onClick={openModal} />
-                  <S.StatDescription>{ContentText.commenttext}</S.StatDescription>
-                </S.StatItemBox>
-              </S.IconContainer>
-            </S.StatSection>
+        <S.ContentContainer>
+          <S.MovieSection>
+            <S.MoviePoster bgImage={movieData?.posterUrl} />
+            <S.StatAndSynopsis>
+              <S.StatSection>
+                <S.StatItem>
+                  <S.RatingStars>
+                    <StyledRate
+                      allowHalf
+                      value={movieData?.myMovieRating?.ratingScore}
+                      onChange={handleRatingChange}
+                    />
+                  </S.RatingStars>
+                  <S.StatDescription>{ContentText.ratingtext}</S.StatDescription>
+                </S.StatItem>
+                <S.StatItem>
+                  <S.StatScore>
+                    {movieData?.averageRating.toFixed(1)}
+                    <S.StatDescription>
+                      {ContentText.ratingavgtext}({movieData?.ratingCounts}명)
+                    </S.StatDescription>
+                  </S.StatScore>
+                </S.StatItem>
+                <S.IconContainer>
+                  <S.StatItemBox liked={movieData?.isLiked}>
+                    <SvgIcLikeFilled24 />
+                    <S.StatDescription>{ContentText.liketext}</S.StatDescription>
+                  </S.StatItemBox>
+                  <S.StatItemBox>
+                    <SvgPencil onClick={openModal} />
+                    <S.StatDescription>{ContentText.commenttext}</S.StatDescription>
+                  </S.StatItemBox>
+                </S.IconContainer>
+              </S.StatSection>
 
-            {myMovieReview && (
-              <S.MyCommentsSection>
-              <S.MyCommentsTitle>{ContentText.mycomment}</S.MyCommentsTitle>
-              <S.CommentCard>
-                <S.ProfileImage bgImage={myMovieRating?.myprofileImage}/>
-                <S.CommentText>{myMovieReview.content}</S.CommentText>
-                <S.CommentActions>
-                  <S.DeleteButton><SvgDelete width="1rem" height="1rem"/> {ContentText.delete}</S.DeleteButton>
-                  <S.EditButton><SvgPencil width="1rem" height="1rem"/> {ContentText.edit}</S.EditButton>
-                </S.CommentActions>
-              </S.CommentCard>
-            </S.MyCommentsSection>
-          )}
-            <S.SynopsisSection>
-              <S.SynopsisContent>{plot}</S.SynopsisContent>
-            </S.SynopsisSection>
-          </S.StatAndSynopsis>
-        </S.MovieSection>
-      </S.ContentContainer>
-    </S.ContentWrapper>
+              {movieData?.myMovieReview && (
+                <S.MyCommentsSection>
+                  <S.MyCommentsTitle>{ContentText.mycomment}</S.MyCommentsTitle>
+                  {/* <S.CommentCard>
+                    <S.ProfileImage bgImage={myMovieRating?.myprofileImage} />
+                    <S.CommentText>{movieData?.content}</S.CommentText>
+                    <S.CommentActions>
+                      <S.DeleteButton>
+                        <SvgDelete width="1rem" height="1rem" /> {ContentText.delete}
+                      </S.DeleteButton>
+                      <S.EditButton>
+                        <SvgPencil width="1rem" height="1rem" /> {ContentText.edit}
+                      </S.EditButton>
+                    </S.CommentActions>
+                  </S.CommentCard> */}
+                </S.MyCommentsSection>
+              )}
+              <S.SynopsisSection>
+                <S.SynopsisContent>{movieData?.plot}</S.SynopsisContent>
+              </S.SynopsisSection>
+            </S.StatAndSynopsis>
+          </S.MovieSection>
+        </S.ContentContainer>
+      </S.ContentWrapper>
 
       {/* MovieDetailModal 렌더링 */}
       <MovieDetailModal />
@@ -264,7 +267,7 @@ const S = {
     border: none;
     cursor: pointer;
   `,
-  };
+};
 
 const StyledRate = styled(Rate)`
   font-size: 2.2rem;
@@ -278,5 +281,3 @@ const StyledRate = styled(Rate)`
     color: ${(props) => props.theme.color.fontPink};
   }
 `;
-
-
