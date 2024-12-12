@@ -1,6 +1,5 @@
 import ReactModal from 'react-modal';
 import styled from 'styled-components';
-import { movies } from '../../../data/movies'; // 더미 데이터 가져오기
 import useCollectionsStore from '../../../store/collections/useCollectionsStore';
 import SvgSearch from '../../../assets/svg/Search';
 import ListPoster from '../poster/ModalList';

@@ -104,8 +104,8 @@ const S = {
   `,
 
   Image: styled.img`
-    width: 100%;
-    height: 100%;
+    width: 12rem;
+    height: 18rem;
     object-fit: cover;
   `,
 

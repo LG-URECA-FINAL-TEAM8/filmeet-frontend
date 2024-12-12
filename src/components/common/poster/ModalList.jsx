@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { lightTheme } from "../../../styles/themes";
 import SvgCircle from "../../../assets/svg/Circle";
 
 const ListPoster = ({ movies, onMovieSelect }) => {
@@ -11,9 +10,9 @@ const ListPoster = ({ movies, onMovieSelect }) => {
           onClick={() => onMovieSelect(movie)}
           isSelected={movie.isSelected}
         >
-        <CheckboxWrapper>
-          <Checkbox isSelected={movie.isSelected} />
-        </CheckboxWrapper>
+          <CheckboxWrapper>
+            <Checkbox isSelected={movie.isSelected} />
+          </CheckboxWrapper>
           <MovieImage
             src={movie.image || "https://via.placeholder.com/70x100"}
             alt={movie.title || "제목 없음"}
@@ -30,6 +29,7 @@ const ListPoster = ({ movies, onMovieSelect }) => {
 
 export default ListPoster;
 
+// 스타일 정의
 const MovieList = styled.ul`
   list-style: none;
   padding: 0;
@@ -42,14 +42,10 @@ const MovieItem = styled.li`
   align-items: center;
   width: 345px;
   height: 128px;
-  background: ${(props) =>
-    props.isSelected ? lightTheme.lightPink : props.theme.color.fontWhite};
   cursor: pointer;
   padding: 0 15px;
   border-radius: 8px;
-  &:hover {
-    background: ${lightTheme.lightGray};
-  }
+  transition: background-color 0.2s ease-in-out;
 `;
 
 const CheckboxWrapper = styled.div`
@@ -62,9 +58,9 @@ const CheckboxWrapper = styled.div`
 `;
 
 const Checkbox = ({ isSelected }) => (
-  <StyledCheckbox>
+  
     <SvgCircle isSelected={isSelected} />
-  </StyledCheckbox>
+  
 );
 
 const StyledCheckbox = styled.div`
@@ -73,6 +69,10 @@ const StyledCheckbox = styled.div`
   align-items: center;
   width: 24px;
   height: 24px;
+  border-radius: 50%;
+  background-color: ${(props) =>
+    props.isSelected ? props.theme.color.fontPink : props.theme.color.fontWhite};
+  transition: background-color 0.2s ease-in-out;
 `;
 
 const MovieImage = styled.img`
@@ -102,7 +102,8 @@ const MovieTitle = styled.div`
 `;
 
 const MovieSubTitle = styled.div`
-font-family: ${(props) => props.theme.font.fontSuitRegular};
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
   font-size: 0.9rem;
   color: ${(props) => props.theme.color.fontGray};
 `;
+

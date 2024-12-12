@@ -16,6 +16,9 @@ const CollectionsLabel = {
   count: '0',
   Delete: '삭제',
   Edit: '수정하기',
+  Submit: '등록',
+  Placeholder: '컬렉션에 댓글을 남겨보세요.',
+
 };
 
 const CollectionDetail = ({ collectionData }) => {
@@ -56,6 +59,7 @@ const CollectionDetail = ({ collectionData }) => {
       closeMenu();
     }
   };
+  
 
   if (!collectionData) {
     return <div>{CollectionsLabel.NoData}</div>;
@@ -102,6 +106,13 @@ const CollectionDetail = ({ collectionData }) => {
         </S.Stats>
       </S.Content>
       <S.Divider />
+
+      <S.ActionSection>
+        <S.ActionButton>{CollectionsLabel.Like}</S.ActionButton>
+        <S.ActionButton>{CollectionsLabel.Comment}</S.ActionButton>
+      </S.ActionSection>
+
+      <S.Divider />
       <S.MoviesSection>
         <S.SectionHeader>
           <S.SectionTitle>{CollectionsLabel.Movies}</S.SectionTitle>
@@ -109,6 +120,34 @@ const CollectionDetail = ({ collectionData }) => {
         </S.SectionHeader>
         <Poster caseType={4} movies={movies} />
       </S.MoviesSection>
+
+      <S.CommentSection>
+        <S.CommentHeader>
+          {CollectionsLabel.Comment}
+        </S.CommentHeader>
+        <S.CommentInputWrapper>
+          <S.CommentInput placeholder={CollectionsLabel.Placeholder} />
+          <S.CommentButton>{CollectionsLabel.Submit}</S.CommentButton>
+        </S.CommentInputWrapper>
+        <S.CommentList>
+        {/* {comments.map((comment) => (
+          <S.Comment key={comment.id}>
+            <S.CommentLeft>
+              <S.CommentUserProfile src={comment.profileImage} alt="프로필 이미지" />
+              <S.CommentDetails>
+                <S.CommentUser>{comment.userName}</S.CommentUser>
+                <S.CommentText>{comment.text}</S.CommentText>
+                <S.CommentTime>{comment.time}</S.CommentTime>
+              </S.CommentDetails>
+            </S.CommentLeft>
+            <S.CommentRight>
+            <S.StyledSvgOption />
+            </S.CommentRight>
+          </S.Comment>
+        ))} */}
+      </S.CommentList>
+      </S.CommentSection>
+
       <CollectionsDeleteModal />
     </S.Container>
   );
@@ -224,9 +263,18 @@ const S = {
   `,
 
   ActionSection: styled.div`
-    margin: 1rem 0;
-    padding: 0.1rem 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem 0;
   `,
+   ActionButton: styled.button`
+   background: none;
+   border: none;
+   cursor: pointer;
+   font-family: ${(props) => props.theme.font.fontSuitRegular};
+   font-size: 0.9rem;
+   color: ${(props) => props.theme.color.fontGray};
+ `,
 
   Divider: styled.hr`
     width: 37.5rem;
@@ -288,4 +336,81 @@ const S = {
       background: ${(props) => props.theme.color.collectionColor};
     }
   `,
+
+  CommentSection: styled.section`
+    margin: 1rem;
+  `,
+
+  CommentHeader: styled.h3`
+    margin-bottom: 1rem;
+  `,
+
+  CommentInputWrapper: styled.div`
+    display: flex;
+    gap: 0.5rem;
+  `,
+  CommentInput: styled.input`
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid ${(props) => props.theme.color.borderDefault};
+    border-radius: 0.3rem;
+  `,
+  CommentButton: styled.button`
+    background: ${(props) => props.theme.color.generePinkColor};
+    color: ${(props) => props.theme.color.fontWhite};
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+  `,
+
+  CommentList: styled.ul`
+    margin-top: 1rem;
+    list-style: none;
+    padding: 0;
+  `,
+  Comment: styled.li`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+  `,
+  CommentLeft: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  `,
+  CommentUserProfile: styled.img`
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: ${(props) => props.theme.color.borderDefault};
+  `,
+  CommentDetails: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
+  CommentUser: styled.span`
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: ${(props) => props.theme.color.fontBlack};
+  `,
+  CommentText: styled.span`
+    font-size: 0.8rem;
+    color: ${(props) => props.theme.color.fontGray};
+  `,
+  CommentRight: styled.div`
+    font-size: 0.8rem;
+    color: ${(props) => props.theme.color.fontGray};
+    cursor: pointer;
+
+    &:hover {
+      color: ${(props) => props.theme.color.fontBlack};
+    }
+  `,
+  CommentTime: styled.span`
+    font-size: 0.7rem;
+    color: ${(props) => props.theme.color.fontGray};
+  `,
+
 };

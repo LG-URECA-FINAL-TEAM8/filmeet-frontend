@@ -92,4 +92,49 @@ export const getCollectionDetail = async (collectionId) => {
     const result = await response.json();
     return result;
   };
+
+  // 컬렉션에 포함된 영화 목록 조회
+export const getCollectionMovies = async (collectionId, page = 0, size = 20) => {
+  const url = `${import.meta.env.VITE_API_BASE_URL}/collections/${collectionId}/movies?page=${page}&size=${size}`;
+  console.log(`Fetching collection movies: ${url}`);
+  console.log(`Access Token: ${accessToken}`);
+
+  let response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  // AccessToken 만료 시 갱신 로직
+  if (response.status === 401) {
+    console.warn("AccessToken 만료됨. 갱신 시도 중...");
+    const refreshToken = localStorage.getItem("refreshToken");
+    await postRefresh(refreshToken);
+
+    // 갱신된 토큰 다시 가져오기
+    accessToken = localStorage.getItem("accessToken");
+    console.log(`New Access Token: ${accessToken}`);
+
+    response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  }
+
+  // 응답 상태 확인
+  if (!response.ok) {
+    const error = await response.text();
+    console.error("API 호출 실패:", error);
+    throw new Error("컬렉션의 영화 데이터를 불러오지 못했습니다.");
+  }
+
+  // JSON 파싱 및 결과 반환
+  const collectionMoviesData = await response.json();
+  console.log("Fetched Collection Movies Data:", collectionMoviesData);
+
+  return collectionMoviesData;
+};
   

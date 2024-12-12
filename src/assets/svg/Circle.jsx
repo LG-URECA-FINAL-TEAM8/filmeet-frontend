@@ -19,7 +19,6 @@ const StyledSvg = styled.svg`
   width: 24px;
   height: 24px;
   vertical-align: middle;
-  viewbox: '0 0 24 24';
 
   circle {
     fill: ${(props) => (props.isSelected ? props.theme.color.fontPink : 'none')};
