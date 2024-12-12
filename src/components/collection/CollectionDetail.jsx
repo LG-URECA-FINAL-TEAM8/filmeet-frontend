@@ -21,7 +21,7 @@ const CollectionsLabel = {
 
 };
 
-const CollectionDetail = ({ collectionData }) => {
+const CollectionDetail = ({ collectionData, movies }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { setSelectedCollection } = useCollectionsStore();
@@ -72,7 +72,6 @@ const CollectionDetail = ({ collectionData }) => {
     collectionContent: description = '설명 없음',
     likeCounts: likes = 0,
     commentCounts: comments = 0,
-    movies = [],
   } = collectionData;
 
   return (

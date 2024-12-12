@@ -73,10 +73,10 @@ function Poster({ caseType = 0, movies }) {
     4: () => (
       <S.SlideContainer>
         {movies.map((movie) => (
-          <S.PostItem key={movie.id}>
-            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
+          <S.PostItem key={movie.movieId}>
+            <S.PostCardImg src={movie.posterImage} alt={movie.title} />
             <S.PostTitle>{movie.title}</S.PostTitle>
-            <S.PinkField>{`평가함 ★ ${movie.rating}`}</S.PinkField>
+            <S.PinkField>{`평가함 ★ ${movie.ratingScore}`}</S.PinkField>
           </S.PostItem>
         ))}
       </S.SlideContainer>
@@ -95,10 +95,10 @@ function Poster({ caseType = 0, movies }) {
     6: () => (
       <S.GridContainer>
         {movies.map((movie) => (
-          <S.GridItem key={movie.id}>
-            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
-            <S.PostTitle>{movie.title}</S.PostTitle>
-            <S.PinkField>{`평가함 ★ ${movie.rating}`}</S.PinkField>
+          <S.GridItem key={movie.movieId}>
+            <S.PostCardImg src={movie.posterUrl} alt={movie.movieTitle} />
+            <S.PostTitle>{movie.movieTitle}</S.PostTitle>
+            <S.PinkField>{`평가함 ★ ${movie.ratingScore}`}</S.PinkField>
           </S.GridItem>
         ))}
       </S.GridContainer>
@@ -108,8 +108,8 @@ function Poster({ caseType = 0, movies }) {
       <S.GridContainer>
         {movies.map((movie) => (
           <S.GridItem key={movie.id}>
-            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
-            <S.PostTitle>{movie.title}</S.PostTitle>
+            <S.PostCardImg src={movie.posterUrl} alt={movie.movieTitle} />
+            <S.PostTitle>{movie.movieTitle}</S.PostTitle>
           </S.GridItem>
         ))}
       </S.GridContainer>

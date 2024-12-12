@@ -6,20 +6,22 @@ import { useEffect } from 'react';
 
 const CollectionDetailPage = () => {
   const { collectionId } = useParams();
-  const { collectionDetail, fetchCollectionDetail, isLoading, error } = useCollectionsStore();
+  const { collectionDetail, fetchCollectionDetail, fetchCollectionMovies, collectionMovies, isLoading, error } =
+    useCollectionsStore();
 
   useEffect(() => {
     if (collectionId) {
-      fetchCollectionDetail(collectionId);
+      fetchCollectionDetail(collectionId); // 컬렉션 상세 데이터 가져오기
+      fetchCollectionMovies(collectionId); // 컬렉션에 포함된 영화 데이터 가져오기
     }
-  }, [collectionId, fetchCollectionDetail]);
+  }, [collectionId, fetchCollectionDetail, fetchCollectionMovies]);
 
   if (isLoading) {
     return <div>로딩 중...</div>;
   }
 
   if (error) {
-    return <div>오류 발생: {error}</div>;
+    return <div>오류 발생: {error.message}</div>;
   }
 
   if (!collectionDetail) {
@@ -28,7 +30,7 @@ const CollectionDetailPage = () => {
 
   return (
     <Wrapper>
-      <CollectionDetail collectionData={collectionDetail} />
+      <CollectionDetail collectionData={collectionDetail} movies={collectionMovies} />
     </Wrapper>
   );
 };

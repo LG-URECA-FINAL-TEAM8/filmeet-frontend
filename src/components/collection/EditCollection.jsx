@@ -20,6 +20,9 @@ const CollectionsLabel = {
 const EditCollection = () => {
   const {
     selectedCollection,
+    collectionMovies,
+    collectionMoviesLoading,
+    fetchCollectionMovies,
     title,
     description,
     selectedMovies,
@@ -36,7 +39,6 @@ const EditCollection = () => {
     enableEditMode,
     disableEditMode,
     resetFields,
-    addCollection,
     confirmTempSelectedMovies,
   } = useCollectionsStore();
   const navigate = useNavigate();
@@ -45,9 +47,24 @@ const EditCollection = () => {
     if (selectedCollection) {
       setTitle(selectedCollection.collectionTitle || ""); // 기본 제목
       setDescription(selectedCollection.collectionContent || ""); // 기본 설명
-      addMovies(selectedCollection.movies || []); // 영화 목록
+
+      // 특정 컬렉션의 영화 가져오기
+      fetchCollectionMovies(selectedCollection.collectionId);
     }
-  }, [selectedCollection, setTitle, setDescription, addMovies]);
+  }, [selectedCollection, setTitle, setDescription, fetchCollectionMovies]);
+
+  useEffect(() => {
+    if (!collectionMoviesLoading) {
+      // 가져온 영화 데이터를 selectedMovies로 설정
+      const formattedMovies = (collectionMovies || []).map((movie) => ({
+        id: movie.movieId,
+        title: movie.title,
+        image: movie.posterImage, // posterImage가 이미지 URL
+        releaseDate: movie.releaseDate,
+      }));
+      addMovies(formattedMovies);
+    }
+  }, [collectionMovies, collectionMoviesLoading, addMovies]);
 
   const handleSaveCollection = async () => {
     if (!title.trim() || !description.trim()) {

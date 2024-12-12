@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { getUserCollections, searchMovies } from "../../apis/myPage/collection/collection";
-import { getCollectionDetail } from "../../apis/myPage/collection/collectiondetail";
+import { getCollectionDetail, getCollectionMovies } from "../../apis/myPage/collection/collectiondetail";
 
 const useCollectionsStore = create((set) => ({
   collections: [],
@@ -8,6 +8,9 @@ const useCollectionsStore = create((set) => ({
   error: null,
   searchResults: [], // 검색 결과 상태 추가
   searchLoading: false, // 검색 로딩 상태 추가
+  collectionMovies: [], // 특정 컬렉션의 영화 목록
+  collectionMoviesLoading: false, // 영화 로딩 상태
+  collectionMoviesError: null, // 영화 로딩 에러 상태
   
   // 서버에서 컬렉션 데이터 불러오기
   fetchCollections: async (userId, page = 0, size = 10) => {
@@ -44,6 +47,25 @@ const useCollectionsStore = create((set) => ({
   },
 
   resetSearchResults: () => set({ searchResults: [] }), // 검색 결과 초기화
+
+  // 특정 컬렉션의 영화 목록 불러오기
+  fetchCollectionMovies: async (collectionId, page = 0, size = 20) => {
+    set({ collectionMoviesLoading: true, collectionMoviesError: null });
+    try {
+      const response = await getCollectionMovies(collectionId, page, size);
+      set({
+        collectionMovies: response.data.content, // 영화 목록 설정
+        collectionMoviesLoading: false,
+      });
+    } catch (error) {
+      console.error("Error fetching collection movies:", error);
+      set({
+        collectionMovies: [],
+        collectionMoviesLoading: false,
+        collectionMoviesError: error,
+      });
+    }
+  },
 
   // 컬렉션 상세 데이터 불러오기
   fetchCollectionDetail: async (collectionId) => {
