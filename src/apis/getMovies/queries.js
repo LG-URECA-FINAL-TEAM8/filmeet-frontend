@@ -68,7 +68,9 @@ export const useEvaluation = () => {
     queryKey: ['evaluation'],
     queryFn: fetchEvaluation,
     getNextPageParam: (lastPage) => {
-      return lastPage.data.hasNext ? lastPage.data.currentPage + 1 : undefined;
+      return lastPage.data.moviesResponseSliceResponse?.hasNext
+        ? lastPage.data.moviesResponseSliceResponse.currentPage + 1
+        : undefined;
     },
     refetchOnWindowFocus: false,
   });
