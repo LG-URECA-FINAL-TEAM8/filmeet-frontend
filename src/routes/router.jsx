@@ -81,7 +81,7 @@ const routes = [
       { path: 'bin', element: createLazyComponent(pageComponents.Bin) },
       { path: 'error', element: <ErrorPage /> },
       { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
-      { path: 'moviedetail', element: createLazyComponent(pageComponents.MovieDetail) },
+      { path: 'moviedetail/:id', element: createLazyComponent(pageComponents.MovieDetail) },
       {
         path: 'moviedetail/moviecomment',
         element: createLazyComponent(pageComponents.MovieComment),
