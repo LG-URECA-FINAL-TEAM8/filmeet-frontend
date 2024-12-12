@@ -1,13 +1,14 @@
 import styled from 'styled-components';
-import { useStarRatingStore } from '../../store/starrating/useStarRatingStore';
-
+import { useEvaluation } from '../../apis/getMovies/queries';
 const StarRatingHeader = () => {
-  const ratedCount = useStarRatingStore((state) => state.ratedCount);
+  const { data } = useEvaluation();
+  const firstPage = data?.pages?.[0];
+  const ratedCount = firstPage?.data?.ratedMovieCount;
 
   return (
     <S.HeaderContainer>
       <S.Title>{ratedCount}</S.Title>
-      <S.SubTitle>{`${ratedCount}개의 영화가 평가되었습니다.`}</S.SubTitle>
+      <S.SubTitle>{`${ratedCount || 0}개의 영화가 평가되었습니다.`}</S.SubTitle>
     </S.HeaderContainer>
   );
 };
