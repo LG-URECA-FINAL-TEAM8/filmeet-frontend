@@ -15,7 +15,6 @@ import useUserStore from '../store/user/userStore';
 
 function Main() {
   const userId = useUserStore((state) => state.userInfo?.id);
-  console.log(userId);
   const { data: upComing } = useUpcoming();
   const { data: boxOffice } = useBoxOffice();
   const { data: TopTen } = useTopTen();

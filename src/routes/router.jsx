@@ -21,10 +21,11 @@ const pageComponents = {
   GenrePage: () => import('../pages/GenrePage'),
   FollowerPage: () => import('../pages/followpage/FollowerPage'),
   FollowingPage: () => import('../pages/followpage/FollowingPage'),
-  AlarmHistoryPage: () => import('../pages/AlarmHistoryPage'),
-  StarRatingPage: () => import('../pages/StarRatingPage'),
+  AlarmHistoryPage: () => import('../pages/header/AlarmHistoryPage'),
+  StarRatingPage: () => import('../pages/header/StarRatingPage'),
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieComment: () => import('../pages/movieDetail/MovieComment'),
+  Bin: () => import('../components/common/bin/Bin'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -75,11 +76,15 @@ const routes = [
       { path: 'genre', element: createLazyComponent(pageComponents.GenrePage) },
       { path: 'followers', element: createLazyComponent(pageComponents.FollowerPage) },
       { path: 'followings', element: createLazyComponent(pageComponents.FollowingPage) },
-      { path: 'alarmhistorys', element: createLazyComponent(pageComponents.AlarmHistoryPage) },
+      { path: 'notifications', element: createLazyComponent(pageComponents.AlarmHistoryPage) },
+      { path: 'bin', element: createLazyComponent(pageComponents.Bin) },
       { path: 'error', element: <ErrorPage /> },
       { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
       { path: 'moviedetail', element: createLazyComponent(pageComponents.MovieDetail) },
-      { path: 'moviedetail/moviecomment', element: createLazyComponent(pageComponents.MovieComment) },
+      {
+        path: 'moviedetail/moviecomment',
+        element: createLazyComponent(pageComponents.MovieComment),
+      },
       {
         path: '/moviedetail/comments/:reviewId',
         element: createLazyComponent(pageComponents.CommentsDetailPage),
