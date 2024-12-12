@@ -56,7 +56,7 @@ const routes = [
       },
       { path: 'mypage/comments', element: createLazyComponent(pageComponents.CommentsPage) },
       {
-        path: 'mypage/comments/:commentId',
+        path: 'mypage/comments/:id',
         element: createLazyComponent(pageComponents.CommentsDetailPage),
       },
       { path: 'mypage/collections', element: createLazyComponent(pageComponents.CollectionsPage) },

@@ -2,18 +2,20 @@ import styled from "styled-components";
 import SvgPencil from "../../assets/svg/Pencil";
 import SvgDelete from "../../assets/svg/Delete";
 import useCommentStore from "../../store/modal/useCommentStore";
-import { pagecontents } from "../../data/pagecontents"
+import { pagecontents } from "../../data/pagecontents";
 import { useNavigate } from "react-router-dom";
 import { createProfileClickHandler } from "../../utils/ratings/navigationHandlers";
 import { useLikesStore } from "../../store/comment/useLikesStore";
 import CommentEditModal from "../Common/modal/CommentEditModal";
 import CommentDeleteModal from "../Common/modal/CommentDeleteModal";
+import { useCommentDetails } from "../../apis/commentDetails/queries";
+ // React Query 훅 가져오기
 
-const CommentHeader = ({ commentData }) => {
-  const navigate = useNavigate(); 
+const CommentHeader = ({ reviewId }) => {
+  const navigate = useNavigate();
   const { likes } = useLikesStore();
   const { openModal } = useCommentStore();
-  const commentLikes = likes[commentData.id] || { count: 0, isLiked: false };
+  const { data: commentData, isLoading, isError } = useCommentDetails(reviewId); // React Query 사용
   const { likeComment, comment, count, edit, deleteText } = pagecontents.commentPageContent;
 
   const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
@@ -26,41 +28,64 @@ const CommentHeader = ({ commentData }) => {
     openModal("deleteCommentary"); 
   };
 
-return (
-  <>
-    <S.Header>
-      <S.MainContent>
-        <S.LeftContent>
-          <S.UserInfo>
-            <S.UserDetails>
-              <S.UserProfile src={commentData.userImage} alt={commentData.userName} onClick={handleProfileClick} />
-              <S.UserName onClick={handleProfileClick}>{commentData.userName}</S.UserName>
-              <S.CommentTime>{commentData.time}</S.CommentTime>
-            </S.UserDetails>
-          </S.UserInfo> 
-          <S.MovieDetails>
-            <S.MovieTitle>{commentData.title} ({commentData.year})</S.MovieTitle>
-            <S.MovieGenre>{commentData.genre}</S.MovieGenre>
-          </S.MovieDetails>
-        </S.LeftContent>
-          <S.MoviePoster src={commentData.image} alt={commentData.title} />
-      </S.MainContent>
-          <S.Content>{commentData.comment}</S.Content>
+  if (isLoading) {
+    return <p>로딩 중...</p>;
+  }
+
+  if (isError || !commentData) {
+    return <p>댓글 데이터를 불러오는 데 실패했습니다.</p>;
+  }
+
+  const commentLikes = likes[commentData.reviewId] || { count: commentData.likeCounts, isLiked: commentData.isLiked };
+
+  return (
+    <>
+      <S.Header>
+        <S.MainContent>
+          <S.LeftContent>
+            <S.UserInfo>
+              <S.UserDetails>
+                <S.UserProfile
+                  src={commentData.profileImage || "default-profile.png"}
+                  alt={commentData.nickName || "유저 이미지"}
+                  onClick={handleProfileClick}
+                />
+                <S.UserName onClick={handleProfileClick}>{commentData.nickName || "익명"}</S.UserName>
+                <S.CommentTime>{new Date(commentData.createdAt).toLocaleString()}</S.CommentTime>
+              </S.UserDetails>
+            </S.UserInfo>
+            <S.MovieDetails>
+              <S.MovieTitle>
+                {commentData.movieTitle} ({new Date(commentData.movieReleaseDate).getFullYear()})
+              </S.MovieTitle>
+              <S.MovieGenre>장르 없음</S.MovieGenre>
+            </S.MovieDetails>
+          </S.LeftContent>
+          <S.MoviePoster src={commentData.posterUrl || "default-poster.png"} alt={commentData.movieTitle} />
+        </S.MainContent>
+        <S.Content>{commentData.content}</S.Content>
         <S.ActionRow>
           <S.ActionText>
-            {likeComment} {commentLikes.count} {comment} {count}
+            {likeComment} {commentLikes.count} {comment} {commentData.commentCounts}
           </S.ActionText>
           <S.ActionButtons>
-            <S.EditButton onClick={handleEditClick}><SvgPencil/>{edit}</S.EditButton>
-            <S.DeleteButton onClick={handleDeleteClick}><SvgDelete/>{deleteText}</S.DeleteButton>
+            <S.EditButton onClick={handleEditClick}>
+              <SvgPencil />
+              {edit}
+            </S.EditButton>
+            <S.DeleteButton onClick={handleDeleteClick}>
+              <SvgDelete />
+              {deleteText}
+            </S.DeleteButton>
           </S.ActionButtons>
         </S.ActionRow>
-    </S.Header>
-    <CommentEditModal/>
-    <CommentDeleteModal/>
-  </>
+      </S.Header>
+      <CommentEditModal />
+      <CommentDeleteModal />
+    </>
   );
 };
+
 
 const S = {
 
