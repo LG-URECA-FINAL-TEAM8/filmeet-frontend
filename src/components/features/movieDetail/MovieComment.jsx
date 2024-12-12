@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import MiniComment from './MiniComment';
 import { useNavigate } from 'react-router-dom';
 
-function MovieComment({ comment }) {
+function MovieComment({ comment, id }) {
   const navigate = useNavigate();
 
   const handleMoreClick = () => {
-    navigate(`/moviedetail/moviecomment`);
+    navigate(`/moviedetail/${id}/moviecommentAll`);
   };
 
   const moviecomment = {

@@ -24,7 +24,7 @@ const pageComponents = {
   AlarmHistoryPage: () => import('../pages/header/AlarmHistoryPage'),
   StarRatingPage: () => import('../pages/header/StarRatingPage'),
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
-  MovieComment: () => import('../pages/movieDetail/MovieCommentDetail'),
+  MovieCommentAll: () => import('../pages/movieDetail/MovieCommentDetail'),
   Bin: () => import('../components/common/bin/Bin'),
 };
 
@@ -83,8 +83,8 @@ const routes = [
       { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
       { path: 'moviedetail/:id', element: createLazyComponent(pageComponents.MovieDetail) },
       {
-        path: 'moviedetail/moviecomment',
-        element: createLazyComponent(pageComponents.MovieComment),
+        path: 'moviedetail/:id/moviecommentAll',
+        element: createLazyComponent(pageComponents.MovieCommentAll),
       },
       {
         path: '/moviedetail/comments/:reviewId',
