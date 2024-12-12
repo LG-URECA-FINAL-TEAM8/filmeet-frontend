@@ -36,7 +36,8 @@ const createLazyComponent = (importFn) => {
     </React.Suspense>
   );
 };
-
+//next는 빌드 파일 자체가 페이지 별로 나눠서 생성이 됨. 리액트는 한번에 묶이기 때문에 파일 자체 크기가 큼 그러다 보니
+//로딩이 오래걸리고 이런 현상이 발생할 수 있음
 const routes = [
   {
     path: '/',
