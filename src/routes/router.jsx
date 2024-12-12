@@ -24,7 +24,7 @@ const pageComponents = {
   AlarmHistoryPage: () => import('../pages/header/AlarmHistoryPage'),
   StarRatingPage: () => import('../pages/header/StarRatingPage'),
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
-  MovieComment: () => import('../pages/movieDetail/MovieComment'),
+  MovieComment: () => import('../pages/movieDetail/MovieCommentDetail'),
   Bin: () => import('../components/common/bin/Bin'),
 };
 
