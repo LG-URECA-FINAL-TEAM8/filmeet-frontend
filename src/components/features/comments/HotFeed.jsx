@@ -1,64 +1,29 @@
 import styled from 'styled-components';
-import { IcLikeFilled24, IcReplyFilled24 } from '../../../assets/svg';
-
-const sampleData = [
-  {
-    id: 1,
-    userName: 'Alice',
-    rating: 4.5,
-    image: 'https://via.placeholder.com/150',
-    title: 'Delicious Burger',
-    comment: 'The best burger I’ve ever had! The best burger I’ve ever had!',
-    likes: 120,
-    comments: 25,
-  },
-  {
-    id: 2,
-    userName: 'Bob',
-    rating: 3.8,
-    image: 'https://via.placeholder.com/150',
-    title: 'Refreshing Drinks',
-    comment: 'Loved the smoothies, especially the strawberry one.',
-    likes: 85,
-    comments: 10,
-  },
-  {
-    id: 3,
-    userName: 'Charlie',
-    rating: 5,
-    image: 'https://via.placeholder.com/150',
-    title: 'Tasty Fries',
-    comment: 'Crispy and perfectly salted fries. A must-try!',
-    likes: 200,
-    comments: 45,
-  },
-];
-
-function HotFeed() {
+import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
+import SvgIcReplyFilled24 from '../../../assets/svg/IcReplyFilled24';
+function HotFeed({ reviews }) {
   return (
     <S.FeedContainer>
-      {sampleData.map((feed) => (
-        <S.FeedItem key={feed.id}>
+      {reviews.slice(0, 3).map((review) => (
+        <S.FeedItem key={review.id}>
           <S.FeedUserSection>
-            <span className="user__span">{feed.userName}</span>
-            <span className="user__span">{feed.rating}</span>
+            <span className="user__span">{review.nickname}</span>
+            <span className="user__score">★ {review.popularityScore}</span>
           </S.FeedUserSection>
           <S.FeedMainSection>
-            <S.ImageItem>
-              <img src={feed.image} alt={feed.title} />
-            </S.ImageItem>
+            <S.ImageItem
+              style={{
+                backgroundImage: `url(${review.posterUrl})`,
+              }}
+            />
             <S.CommentItem>
-              <p>{feed.title}</p>
-              <p>{feed.comment}</p>
+              <p>{review.title}</p>
+              <p>{review.content}</p>
             </S.CommentItem>
           </S.FeedMainSection>
           <S.FeedStats>
-            <span>
-              <IcLikeFilled24 width={'1rem'} height={'1rem'} /> {feed.likes}
-            </span>
-            <span>
-              <IcReplyFilled24 width={'1rem'} height={'1rem'} /> {feed.comments}
-            </span>
+            <SvgIcLikeFilled24 width={'1rem'} height={'1rem'} /> {review.likeCounts}
+            <SvgIcReplyFilled24 width={'1rem'} height={'1rem'} /> {review.commentCounts}
           </S.FeedStats>
         </S.FeedItem>
       ))}
@@ -93,24 +58,28 @@ const S = {
     .user__span {
       font-size: 1rem;
       font-family: ${({ theme }) => theme.font.fontSuitRegular};
-      color: ${({ theme }) => theme.color.fontGray};
+      color: ${({ theme }) => theme.color.fontBlack};
+    }
+    .user__score {
+      font-size: 1rem;
+      font-family: ${({ theme }) => theme.font.fontSuitRegular};
+      color: ${({ theme }) => theme.color.fontPink};
     }
   `,
 
   FeedMainSection: styled.section`
     display: flex;
     flex-direction: row;
-    height: auto;
+    height: 6rem;
   `,
   ImageItem: styled.div`
     margin-top: 1rem;
-    width: 25%;
-    height: 100%;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    width: 4rem;
+    height: 5rem;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;
   `,
 
   CommentItem: styled.div`
@@ -119,17 +88,18 @@ const S = {
     width: 75%;
     height: auto;
     max-height: 5.5rem;
+    font-size: 0.8rem;
     font-family: ${({ theme }) => theme.font.fontSuitRegular};
-    color: ${({ theme }) => theme.color.fontBlack};
+    color: ${({ theme }) => theme.color.fontGray};
   `,
 
   FeedStats: styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    height: auto;
     margin-top: 1rem;
-    gap: 1rem;
+    gap: 0.3rem;
+    font-size: 0.8rem;
     cursor: pointer;
     font-family: ${({ theme }) => theme.font.fontSuitRegular};
     color: ${({ theme }) => theme.color.fontBlack};

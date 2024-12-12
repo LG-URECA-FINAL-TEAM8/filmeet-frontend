@@ -1,65 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import ReactModal from 'react-modal';
 import styled from '@emotion/styled';
 import { Button, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
-import { useAdminEditLikes } from '../../../apis/admin/queries'; // 추가
 import { lightTheme } from '../../../styles/themes';
+import { useAdminEditMovie } from '../../../apis/admin/queries';
+import { useAdminAddPoster } from "../../../apis/admin/queries";
+import { uploadPoster } from '../../../apis/admin/uploadPoster';
 
 ReactModal.setAppElement('#root');
 
 function AdminEditModal() {
-  const { isOpen, closeModal, modalData } = useAdminModalStore();
 
-  const [title, setTitle] = useState('');
-  const [likes, setLikes] = useState('');
-  const [image, setImage] = useState('');
-
-  const { mutate: editLikes } = useAdminEditLikes(); // 좋아요 수 수정
+  const { isOpen, closeModal, id, title, likes, imageUrl, setTitle, setLikes, setImageUrl } = useAdminModalStore();
+  const { mutate: addPoster } = useAdminAddPoster();
+  const editMovieMutation = useAdminEditMovie();
 
   useEffect(() => {
-    if (modalData) {
-      setTitle(modalData.title || '');
-      setLikes(modalData.likes || 0);
-      setImage(modalData.image || '');
-    }
-  }, [modalData]);
+    console.log("imageUrl 업데이트됨:", imageUrl); // 상태 업데이트 확인
+  }, [imageUrl]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
+      uploadPoster(file)
+        .then((response) => {
+          console.log("서버 응답 데이터:", response); // 서버 응답 데이터 확인
+          const uploadedUrl = response?.data?.fileUrl; // 서버에서 반환된 URL
+          if (uploadedUrl) {
+            console.log("업로드된 URL:", uploadedUrl);
+            setImageUrl(uploadedUrl); // 상태값 업데이트
+          } else {
+            console.error("업로드된 URL이 응답 데이터에 없습니다.");
+          }
+        })
+        .catch((error) => {
+          console.error("이미지 업로드 실패:", error.message);
+          alert("이미지 업로드에 실패했습니다.");
+        });
+    } else {
+      console.warn("파일이 선택되지 않았습니다.");
     }
   };
+  
 
   const handleRemoveImage = () => {
-    setImage('');
+    setImageUrl('');
   };
 
   const handleSave = () => {
-    console.log('modalData:', modalData); // modalData 확인용 로그
-  
-    if (!modalData?.id) {
-      console.error('영화 ID가 없습니다.');
-      return;
-    }
-    // 좋아요 수 업데이트
-    editLikes(
-      { movieId: modalData.id, likeCount: parseInt(likes, 10) },
-      {
-        onSuccess: () => {
-          console.log('좋아요 수가 성공적으로 업데이트되었습니다.');
-          closeModal();
-        },
-        onError: (error) => {
-          console.error('좋아요 수 업데이트 실패:', error.message);
-        },
-      }
-    );
+    const payload = {
+      movieId: id,
+      title: title.trim(),
+      image: imageUrl,
+      likeCount: parseInt(likes, 10),
+    };
+    console.log("전송 데이터:", payload);
+
+    editMovieMutation.mutate(payload, {
+      onSuccess: () => {
+        alert("영화 정보가 성공적으로 수정되었습니다.");
+        closeModal(); // 모달 닫기
+      },
+      onError: (error) => {
+        alert(`영화 정보 수정 실패: ${error.message}`);
+      },
+    });
   };
-  
 
   return (
     <ReactModal
@@ -67,21 +75,21 @@ function AdminEditModal() {
       onRequestClose={closeModal}
       style={customStyles}
     >
-      <s.ModalHeader>영화 편집</s.ModalHeader>
-      <s.ModalContent>
-        <s.AvatarSection>
-          <s.StyledAvatar>
-            {image ? (
+      <S.ModalHeader>영화 편집</S.ModalHeader>
+      <S.ModalContent>
+        <S.AvatarSection>
+          <S.StyledAvatar>
+            {imageUrl ? (
               <>
-                <s.StyledImage src={image} alt="영화 이미지" />
-                <s.RemoveButton onClick={handleRemoveImage}>
+                <S.StyledImage src={imageUrl} alt="영화 이미지" />
+                <S.RemoveButton onClick={handleRemoveImage}>
                   <CloseIcon fontSize="small" />
-                </s.RemoveButton>
+                </S.RemoveButton>
               </>
-            ) : (
-              '이미지 없음'
-            )}
-          </s.StyledAvatar>
+              ) : (
+                '이미지 없음'
+              )}
+          </S.StyledAvatar>
           <input
             type="file"
             accept="image/*"
@@ -90,33 +98,32 @@ function AdminEditModal() {
             style={{ display: 'none' }}
           />
           <label htmlFor="upload-image">
-            <s.StyledButton component="span">이미지 업로드</s.StyledButton>
+            <S.StyledButton component="span">이미지 업로드</S.StyledButton>
           </label>
-        </s.AvatarSection>
-        <s.FlexBox>
-          <s.StyledTextField
+        </S.AvatarSection>
+        <S.FlexBox>
+          <S.StyledTextField
             label="영화 제목"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             variant="outlined"
             fullWidth
           />
-          <s.StyledTextField
+          <S.StyledTextField
             label="좋아요"
             value={likes}
             onChange={(e) => setLikes(e.target.value)}
             variant="outlined"
             fullWidth
           />
-        </s.FlexBox>
-      </s.ModalContent>
-      <s.SaveButton onClick={handleSave}>저장</s.SaveButton>
+        </S.FlexBox>
+      </S.ModalContent>
+      <S.SaveButton onClick={handleSave}>저장</S.SaveButton>
     </ReactModal>
   );
 }
 
 export default AdminEditModal;
-
 
 const customStyles = {
   overlay: {
@@ -132,7 +139,7 @@ const customStyles = {
   },
 };
 
-const s = {
+const S = {
   ModalHeader: styled.h2`
     font-size: 1.5rem;
     text-align: center;

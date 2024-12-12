@@ -12,7 +12,7 @@ export const fetchRegisteredMovies = async ({ page = 1, size = 7, query = '' }) 
     // 전체 데이터를 한 번만 불러오도록 처리
     if (!allMoviesCache) {
         console.log('전체 데이터를 불러옵니다...');
-        const url = `${import.meta.env.VITE_API_BASE_URL}/admin/movies?page=1&size=10000`; // 모든 데이터를 불러오기 위해 큰 size 설정
+        const url = `${import.meta.env.VITE_API_BASE_URL}/admin/movies?page=1&size=1000`; // 모든 데이터를 불러오기 위해 큰 size 설정
         const response = await fetch(url, {
             method: 'GET',
             headers: {

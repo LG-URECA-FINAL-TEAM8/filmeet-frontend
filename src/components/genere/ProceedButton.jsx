@@ -4,11 +4,13 @@ import { usePreference } from '../../apis/auth/queries';
 import { useNavigate } from 'react-router-dom';
 import { upDatePreference } from '../../utils/auth/updatePreference';
 import useLoginStore from '../../store/auth/loginStore';
+import { useUserInfo } from '../../apis/users/queries';
 
 const ProceedButtonComponent = () => {
   const { selectedMbti, selectedAge, selectedGenres } = useGenereStore();
   const { mutate: preferenceMutate } = usePreference();
-  const { isLoggedIn, setLoggedIn } = useLoginStore();
+  const { setLoggedIn } = useLoginStore();
+  const { refetch: refetchUserInfo } = useUserInfo();
   const navigate = useNavigate();
   const handleProceed = () => {
     const preferenceData = {
@@ -16,8 +18,7 @@ const ProceedButtonComponent = () => {
       age: selectedAge,
       genres: selectedGenres,
     };
-    console.log(preferenceData);
-    upDatePreference(preferenceData, preferenceMutate, navigate, isLoggedIn, setLoggedIn);
+    upDatePreference(preferenceData, preferenceMutate, navigate, setLoggedIn, refetchUserInfo);
   };
 
   return (
