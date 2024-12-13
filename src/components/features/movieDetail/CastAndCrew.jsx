@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import SvgCastDefault from '../../../assets/svg/CastDefault';
+import SvgDefaultProfile from '../../../assets/svg/DefaultProfile';
 import { castTitle } from '../../../data/movieDetail/text';
 function CastAndCrew({ castData }) {
   return (
@@ -11,7 +11,7 @@ function CastAndCrew({ castData }) {
             {cast.profileImage ? (
               <S.CastImage src={cast.profileImage} alt={cast.name} />
             ) : (
-              <SvgCastDefault width={'3rem'} heigh={'3rem'} />
+              <SvgDefaultProfile width={'2rem'} heigh={'2rem'} />
             )}
             <S.CastDetails>
               <S.CastName>{cast.name}</S.CastName>
