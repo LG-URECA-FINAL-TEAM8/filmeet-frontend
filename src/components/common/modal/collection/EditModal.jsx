@@ -1,40 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ReactModal from "react-modal";
 import useCommentsStore from "../../../../store/collections/useCommentsStore";
 
-ReactModal.setAppElement("#root");
+const EditModal = () => {
+  const {
+    isModalOpen,
+    closeModal,
+    commentContent,
+    setCommentContent,
+    collectionId,
+    collectionCommentId,
+  } = useCommentsStore();
 
-const EditModal = ({ onSubmit }) => {
-  const { isModalOpen, commentData, closeModal } = useCommentsStore();
-  const [commentContent, setCommentContent] = React.useState("");
-
-  React.useEffect(() => {
-    console.log("모달 열림 상태:", isModalOpen);
-    console.log("설정된 commentData:", commentData);
-    if (isModalOpen && commentData?.commentContent) {
-      console.log("댓글 내용 설정:", commentData.commentContent);
-      setCommentContent(commentData.commentContent);
-    }
-  }, [isModalOpen, commentData]);
-
+  useEffect(() => {
+    console.log("현재 commentContent 값:", commentContent?.comment);
+    console.log("현재 commentContent 값:", commentContent?.collectionId);
+    console.log("현재 commentContent 값:", commentContent?.collectionCommentId);
+  }, [commentContent]);
   const handleSave = () => {
-    if (!commentContent.trim()) {
-      alert("댓글 내용을 입력해주세요!");
-      return;
-    }
-
-    if (onSubmit) {
-      onSubmit({
-        collectionId: commentData.collectionId,
-        collectionCommentId: commentData.collectionCommentId,
-        commentContent,
-      });
-    }
-    closeModal(); // 모달 닫기
+    // 여기에 댓글 수정 저장 로직을 추가하세요
+    console.log("댓글 수정 완료:", { collectionId, collectionCommentId, commentContent });
+    closeModal();  // 저장 후 모달 닫기
   };
-
-  if (!isModalOpen) return null;
 
   return (
     <ReactModal isOpen={isModalOpen} onRequestClose={closeModal} style={customStyles}>
@@ -45,8 +33,8 @@ const EditModal = ({ onSubmit }) => {
         </S.CommentHeader>
         <S.CommentContent>
           <S.TextArea
-            value={commentData.commentContent}
-            onChange={(e) => setCommentContent(e.target.value)}
+            value={commentContent?.comment}  // commentContent 상태 사용
+            onChange={(e) => setCommentContent(e.target.value)}  // 수정 시 상태 업데이트
             placeholder="내용을 수정해주세요."
           />
         </S.CommentContent>
@@ -59,6 +47,7 @@ const EditModal = ({ onSubmit }) => {
 };
 
 export default EditModal;
+
 
 const customStyles = {
   overlay: {

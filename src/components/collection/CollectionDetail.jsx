@@ -237,17 +237,10 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
                     <S.CommentDropdown>
                       <S.DropdownItem onClick={() => {
                         setOpenCommentMenu(null); // 메뉴 닫기
-                        console.log("전달될 데이터:", {
-                          collectionId: collectionData.collectionId,
-                          collectionCommentId: comment.collectionCommentId,
-                          comment: comment.commentContent,
-                        });
                         openEditModal({
-                          commentData: {
-                            collectionId: collectionData.collectionId,
-                            collectionCommentId: comment.collectionCommentId,
-                            comment: comment.commentContent,
-                          },
+                          comment: comment.commentContent,  
+                          collectionId: collectionData.collectionId,  
+                          collectionCommentId: comment.collectionCommentId,  
                         });
                       }}>수정</S.DropdownItem>
                       <S.DropdownItem

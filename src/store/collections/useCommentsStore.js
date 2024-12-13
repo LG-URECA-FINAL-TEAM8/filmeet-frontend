@@ -2,12 +2,12 @@ import { create } from "zustand";
 import { getCommentsFromApi, postComment } from "../../apis/myPage/collection/collectioncomment";
 
 const useCommentsStore = create((set, get) => ({
-  comments: [], // 댓글 목록
-  commentContent: "", // 댓글 입력 상태
-  commentData: null, // 수정할 댓글 데이터
-  isModalOpen: false, // 수정 모달 상태
-  commentSubmitting: false, // 댓글 작성 중 상태
-  error: null, // 에러 상태
+  comments: [],
+  commentContent: "",
+  comment: "",  // comment 상태 추가
+  isModalOpen: false,
+  commentSubmitting: false,
+  error: null,
 
   // 댓글 입력 상태 업데이트
   setCommentContent: (content) => set({ commentContent: content }),
@@ -49,9 +49,6 @@ const useCommentsStore = create((set, get) => ({
     }
   },
 
-  // 댓글 수정
-  
-
   // 댓글 목록 초기화
   setComments: (fetchedComments) => set({ comments: fetchedComments }),
 
@@ -68,11 +65,23 @@ const useCommentsStore = create((set, get) => ({
     }
   },
 
-  // 수정 모달 상태 관리
-  openEditModal: (commentData) => set({ isModalOpen: true, commentData }),
-  closeModal: () => set({ isModalOpen: false, commentData: null }),
+  // 편집 모달 열기 함수
+  openEditModal: (comment) => {
+    console.log("편집 모달 열기 데이터:", { comment });
+    
+    set({
+      isModalOpen: true,
+      commentContent: comment,  // comment는 그대로 설정
+    });
+  },
 
-  // 에러 초기화
+  // 모달 닫기 함수
+  closeModal: () => set({ 
+    isModalOpen: false, 
+    commentContent: "",  // 댓글 내용 초기화
+  
+  }),
+
   resetError: () => set({ error: null }),
 }));
 
