@@ -17,6 +17,7 @@ export const useAddMyReview = () => {
     mutationFn: ({ content, movieId, reviewId }) => addMyReview({ content, movieId, reviewId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['movieDetail'] });
+      queryClient.invalidateQueries({ queryKey: ['movieComment'] });
     },
     onError: (error) => console.error('Mutation error:', error),
   });
