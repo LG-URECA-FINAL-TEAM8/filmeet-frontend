@@ -6,13 +6,19 @@ import useMovieCommentStore from '../../../store/moviedetail/useMovieCommentStor
 import MovieDetailModal from '../../common/modal/MovieDetailModal';
 import { ContentText } from '../../../data/movieDetail/text';
 import { useMovieEvaluation } from '../../../apis/evaluation/query';
+import { useMovieLikeUpdate } from '../../../apis/movieDetail/query';
 function Content({ movieData, movieId }) {
   const { openModal } = useMovieCommentStore();
   const { mutate: evaluationMutate } = useMovieEvaluation();
-
+  const { mutate: likeMovieMutate } = useMovieLikeUpdate();
+  console.log(movieId);
   const handleRatingChange = (ratingScore) => {
     evaluationMutate({ ratingScore, movieId });
   };
+  const handleLikeChange = (movieId) => {
+    likeMovieMutate({ movieId });
+  };
+
   return (
     <>
       <S.ContentWrapper>
@@ -41,7 +47,10 @@ function Content({ movieData, movieId }) {
                 </S.StatItem>
                 <S.IconContainer>
                   <S.StatItemBox liked={movieData?.isLiked}>
-                    <SvgIcLikeFilled24 />
+                    <S.SvgIcLikeFilled24
+                      isLiked={movieData?.isLiked}
+                      onClick={() => handleLikeChange(movieId)}
+                    />
                     <S.StatDescription>{ContentText.liketext}</S.StatDescription>
                   </S.StatItemBox>
                   <S.StatItemBox>
@@ -88,6 +97,13 @@ const S = {
   ContentWrapper: styled.div`
     width: 100%;
     background-color: ${(props) => props.theme.color.commentColor};
+  `,
+  SvgIcLikeFilled24: styled(SvgIcLikeFilled24)`
+    color: ${(props) => (props.isLiked ? props.theme.color.fontPink : props.theme.color.fontGray)};
+    transition: fill 0.3s ease;
+    &:hover {
+      transform: scale(1.1);
+    }
   `,
 
   ContentContainer: styled.div`
