@@ -138,3 +138,83 @@ export const getCollectionMovies = async (collectionId, page = 0, size = 20) => 
   return collectionMoviesData;
 };
   
+// 좋아요 기능
+export const likeCollection = async (collectionId) => {
+  const url = `${import.meta.env.VITE_API_BASE_URL}/likes/collections/${collectionId}`;
+  try {
+    let response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    // AccessToken 만료 시 갱신 로직
+    if (response.status === 401) {
+      console.warn("AccessToken 만료됨. 갱신 시도 중...");
+      const refreshToken = localStorage.getItem("refreshToken");
+      await postRefresh(refreshToken);
+
+      // 갱신된 토큰 다시 가져오기
+      accessToken = localStorage.getItem("accessToken");
+
+      response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+    }
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("좋아요 요청 실패:", error);
+      throw new Error("좋아요 추가 중 문제가 발생했습니다.");
+    }
+
+    console.log("좋아요 성공");
+  } catch (error) {
+    console.error("좋아요 API 에러:", error);
+    throw error;
+  }
+};
+
+//좋아요 취소 
+export const cancelLikeCollection = async (collectionId) => {
+  const url = `${import.meta.env.VITE_API_BASE_URL}/likes/cancel/collections/${collectionId}`;
+  try {
+    let response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (response.status === 401) {
+      console.warn("AccessToken 만료됨. 갱신 시도 중...");
+      const refreshToken = localStorage.getItem("refreshToken");
+      await postRefresh(refreshToken);
+
+      response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+    }
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("좋아요 취소 요청 실패:", error);
+      throw new Error("좋아요 취소 요청에 실패했습니다.");
+    }
+
+    console.log("좋아요 취소 성공");
+  } catch (error) {
+    console.error("좋아요 취소 API 에러:", error);
+    throw error;
+  }
+};
+
+
+

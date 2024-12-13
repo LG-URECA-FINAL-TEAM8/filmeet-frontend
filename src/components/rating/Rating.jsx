@@ -9,7 +9,7 @@ const Rating = () => {
   const navigate = useNavigate();
 
   // React Query에서 데이터 가져오기
-  const { data, isLoading, error } = useMovieRatings(0, 10, "createdAt,asc");
+  const { data, isLoading, error } = useMovieRatings(0, 1000, "createdAt,asc");
 
   // 데이터를 확인하기 위한 로그
   console.log("Raw data from API:", data);
@@ -30,7 +30,7 @@ const Rating = () => {
     console.error("Error fetching ratings:", error);
     return <div>오류가 발생했습니다: {error.message}</div>;
   }
-
+  
   const categories = [
     { label: "영화", count: data?.data?.content?.length || 0 }, // 평가 데이터의 개수 계산
   ];
