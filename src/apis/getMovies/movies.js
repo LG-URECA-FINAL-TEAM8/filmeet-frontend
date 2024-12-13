@@ -1,6 +1,16 @@
 import { postRefresh } from '../users/user';
 let accessToken = localStorage.getItem('accessToken');
 
+export const genreMovies = async ({ genre }) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_API_BASE_URL}/movies/search/genre?genreTypes=${genre}&page=0&size=10`
+  );
+  if (!response.ok) {
+    throw new Error('개봉예정작 영화 데이터 패칭 실패');
+  }
+  return response.json();
+};
+
 export const UpComingMovies = async () => {
   const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/movies/upcoming`);
   if (!response.ok) {
@@ -37,7 +47,9 @@ export const Recommendation = async (userId) => {
 };
 
 export const RandomGenre = async () => {
-  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/movies/random?page=0&size=10`);
+  const response = await fetch(
+    `${import.meta.env.VITE_API_BASE_URL}/movies/random?page=0&size=10&sort=likeCounts,desc`
+  );
   if (!response.ok) {
     throw new Error('랜덤 장르영화 데이터 패칭실패');
   }
