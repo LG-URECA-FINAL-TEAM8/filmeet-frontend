@@ -89,3 +89,41 @@ export const addMyReview = async ({ content, movieId, reviewId }) => {
     throw error;
   }
 };
+
+export const deleteMyReview = async ({ movieId, reviewId }) => {
+  try {
+    const makeRequest = async (accessToken) => {
+      return await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/reviews/${reviewId}/movies/${movieId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+    };
+
+    let accessToken = localStorage.getItem('accessToken');
+    let response = await makeRequest(accessToken);
+
+    // 401 (Unauthorized) 상태일 경우 토큰 갱신 시도
+    if (response.status === 401) {
+      console.warn('AccessToken 만료됨. 갱신 시도 중...');
+      const refreshToken = localStorage.getItem('refreshToken');
+      await postRefresh(refreshToken);
+
+      accessToken = localStorage.getItem('accessToken');
+      response = await makeRequest(accessToken);
+    }
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || '리뷰 삭제 실패');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('리뷰 삭제 중 실패:', error);
+    throw error;
+  }
+};
