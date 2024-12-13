@@ -6,6 +6,7 @@ export const useMovieEvaluation = () => {
     mutationFn: Evaluation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['evaluation'] });
+      queryClient.invalidateQueries({ queryKey: ['movieDetail'] });
     },
     onError: (error) => console.error('Mutation error:', error),
   });

@@ -15,7 +15,7 @@ function MovieDetail() {
   return (
     <>
       <Banner movieData={movieDetailData} />
-      <Content movieData={movieDetailData} />
+      <Content movieData={movieDetailData} movieId={id} />
       <CastAndCrew castData={castDetailData} />
       <MovieComment comment={movieCommentData} id={id} />
     </>

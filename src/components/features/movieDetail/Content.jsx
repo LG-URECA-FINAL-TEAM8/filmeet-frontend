@@ -5,13 +5,14 @@ import SvgPencil from '../../../assets/svg/Pencil';
 import useMovieCommentStore from '../../../store/moviedetail/useMovieCommentStore';
 import MovieDetailModal from '../../common/modal/MovieDetailModal';
 import { ContentText } from '../../../data/movieDetail/text';
-function Content({ movieData }) {
+import { useMovieEvaluation } from '../../../apis/evaluation/query';
+function Content({ movieData, movieId }) {
   const { openModal } = useMovieCommentStore();
+  const { mutate: evaluationMutate } = useMovieEvaluation();
 
-  const handleRatingChange = (newRating) => {
-    console.log('새로운 별점:', newRating);
+  const handleRatingChange = (ratingScore) => {
+    evaluationMutate({ ratingScore, movieId });
   };
-
   return (
     <>
       <S.ContentWrapper>
@@ -25,7 +26,7 @@ function Content({ movieData }) {
                     <StyledRate
                       allowHalf
                       value={movieData?.myMovieRating?.ratingScore}
-                      onChange={handleRatingChange}
+                      onChange={(ratingScore) => handleRatingChange(ratingScore, movieId)}
                     />
                   </S.RatingStars>
                   <S.StatDescription>{ContentText.ratingtext}</S.StatDescription>
