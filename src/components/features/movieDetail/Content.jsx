@@ -6,20 +6,23 @@ import useMovieCommentStore from '../../../store/moviedetail/useMovieCommentStor
 import MovieDetailModal from '../../common/modal/MovieDetailModal';
 import { ContentText } from '../../../data/movieDetail/text';
 import { useMovieEvaluation } from '../../../apis/evaluation/query';
-import { useMovieLikeUpdate } from '../../../apis/movieDetail/query';
+import { useMovieLikeUpdate, useMovieLikeDelete } from '../../../apis/movieDetail/query';
 import CommentCard from './CommentCard';
 
 function Content({ movieData, movieId }) {
   const { openModal } = useMovieCommentStore();
   const { mutate: evaluationMutate } = useMovieEvaluation();
   const { mutate: likeMovieMutate } = useMovieLikeUpdate();
+  const { mutate: deleteLikeMutate } = useMovieLikeDelete();
   const handleRatingChange = (ratingScore) => {
     evaluationMutate({ ratingScore, movieId });
   };
-  const handleLikeChange = (movieId) => {
-    console.log(movieId);
-
-    likeMovieMutate({ movieId });
+  const handleLikeChange = (movieId, isLiked) => {
+    if (isLiked) {
+      deleteLikeMutate({ movieId });
+    } else {
+      likeMovieMutate({ movieId });
+    }
   };
   const handleOpenModal = () => {
     openModal();
@@ -55,7 +58,7 @@ function Content({ movieData, movieId }) {
                   <S.StatItemBox liked={movieData?.isLiked}>
                     <S.SvgIcLikeFilled24
                       isLiked={movieData?.isLiked}
-                      onClick={() => handleLikeChange(movieId)}
+                      onClick={() => handleLikeChange(movieId, movieData?.isLiked)}
                     />
                     <S.StatDescription>{ContentText.liketext}</S.StatDescription>
                   </S.StatItemBox>
