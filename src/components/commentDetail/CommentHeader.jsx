@@ -5,39 +5,33 @@ import useCommentStore from "../../store/modal/useCommentStore";
 import { pagecontents } from "../../data/pagecontents";
 import { useNavigate } from "react-router-dom";
 import { createProfileClickHandler } from "../../utils/ratings/navigationHandlers";
-import { useLikesStore } from "../../store/comment/useLikesStore";
 import CommentEditModal from "../Common/modal/CommentEditModal";
-import CommentDeleteModal from "../Common/modal/CommentDeleteModal";
-import { useCommentDetails } from "../../apis/commentDetails/queries";
- // React Query 훅 가져오기
+import CommentDeleteModal from "../common/modal/CommentDeleteModal";
 
-const CommentHeader = ({ reviewId }) => {
+
+const CommentHeader = ({ commentData,userInfo }) => {
   const navigate = useNavigate();
-  const { likes } = useLikesStore();
   const { openModal } = useCommentStore();
-  const { data: commentData, isLoading, isError } = useCommentDetails(reviewId); // React Query 사용
-  const { likeComment, comment, count, edit, deleteText } = pagecontents.commentPageContent;
+  const isAuthor = commentData?.nickName === userInfo?.nickname;
+
+
+  const { likeComment, comment, edit, deleteText } = pagecontents.commentPageContent;
 
   const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
 
   const handleEditClick = () => {
-    openModal("edit", commentData); 
+    openModal("edit", commentData);
   };
 
   const handleDeleteClick = () => {
-    openModal("deleteCommentary"); 
+    if (commentData?.reviewId && commentData?.movieId) {
+      console.log("Review ID:", commentData.reviewId);
+      console.log("Movie ID:", commentData.movieId);
+    } else {
+      console.error("Review ID 또는 Movie ID가 존재하지 않습니다.");
+    }
+    openModal("deleteCommentary", commentData);
   };
-
-  if (isLoading) {
-    return <p>로딩 중...</p>;
-  }
-
-  if (isError || !commentData) {
-    return <p>댓글 데이터를 불러오는 데 실패했습니다.</p>;
-  }
-
-  const commentLikes = likes[commentData.reviewId] || { count: commentData.likeCounts, isLiked: commentData.isLiked };
-
   return (
     <>
       <S.Header>
@@ -46,38 +40,42 @@ const CommentHeader = ({ reviewId }) => {
             <S.UserInfo>
               <S.UserDetails>
                 <S.UserProfile
-                  src={commentData.profileImage || "default-profile.png"}
-                  alt={commentData.nickName || "유저 이미지"}
+                  src={commentData?.profileImage} 
+                  alt={commentData?.nickName}  
                   onClick={handleProfileClick}
                 />
-                <S.UserName onClick={handleProfileClick}>{commentData.nickName || "익명"}</S.UserName>
-                <S.CommentTime>{new Date(commentData.createdAt).toLocaleString()}</S.CommentTime>
+                <S.UserName onClick={handleProfileClick}>
+                  {commentData?.nickName} 
+                </S.UserName>
+                <S.CommentTime>{commentData?.createdAt}</S.CommentTime>  {/* 수정: createdAt */}
               </S.UserDetails>
             </S.UserInfo>
             <S.MovieDetails>
               <S.MovieTitle>
-                {commentData.movieTitle} ({new Date(commentData.movieReleaseDate).getFullYear()})
+                {commentData?.movieTitle} ({commentData?.movieReleaseDate?.slice(0, 4)})  {/* 수정: movieTitle, movieReleaseDate */}
               </S.MovieTitle>
-              <S.MovieGenre>장르 없음</S.MovieGenre>
+              <S.MovieGenre>{commentData?.genre}</S.MovieGenre>  {/* 수정: genre */}
             </S.MovieDetails>
           </S.LeftContent>
-          <S.MoviePoster src={commentData.posterUrl || "default-poster.png"} alt={commentData.movieTitle} />
+          <S.MoviePoster src={commentData?.posterUrl} alt={commentData?.movieTitle} />  {/* 수정: posterUrl */}
         </S.MainContent>
-        <S.Content>{commentData.content}</S.Content>
+        <S.Content>{commentData?.content}</S.Content>  {/* 수정: content */}
         <S.ActionRow>
           <S.ActionText>
-            {likeComment} {commentLikes.count} {comment} {commentData.commentCounts}
+            {likeComment} {commentData?.likeCounts} {comment} {commentData?.commentCounts}
           </S.ActionText>
-          <S.ActionButtons>
-            <S.EditButton onClick={handleEditClick}>
-              <SvgPencil />
-              {edit}
-            </S.EditButton>
-            <S.DeleteButton onClick={handleDeleteClick}>
-              <SvgDelete />
-              {deleteText}
-            </S.DeleteButton>
-          </S.ActionButtons>
+          {isAuthor && (
+        <S.ActionButtons>
+          <S.EditButton onClick={handleEditClick}>
+            <SvgPencil />
+            {edit}
+          </S.EditButton>
+          <S.DeleteButton onClick={handleDeleteClick}>
+            <SvgDelete />
+            {deleteText}
+          </S.DeleteButton>
+        </S.ActionButtons>
+      )}
         </S.ActionRow>
       </S.Header>
       <CommentEditModal />

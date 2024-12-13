@@ -4,6 +4,8 @@ import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
 import { useLikesStore } from "../../../store/comment/useLikesStore";
 import { useMenuStore } from "../../../store/comment/useMenuStore";
 import useCommentStore from "../../../store/modal/useCommentStore";
+import { useFetchComments } from "../../../apis/commentDetails/queries";
+
 
 const TEXTS = {
   noComments: "댓글이 없습니다.",
@@ -14,12 +16,26 @@ const TEXTS = {
 
 const createLikeKey = (type, id) => `${type}-${id}`;
 
-const CommentList = ({ comments, onEdit }) => {
+const CommentList = ({ reviewId, userInfo, onEdit }) => { // userInfo 추가
+  const { data: comments, isLoading, isError, error } = useFetchComments({ reviewId });
+
   const { likes, toggleLike } = useLikesStore();
   const { openMenuId, openMenu, closeMenu } = useMenuStore();
   const { openModal } = useCommentStore();
 
-  if (!comments || comments.length === 0) {
+  if (isLoading) {
+    return <div>댓글을 불러오는 중...</div>;
+  }
+
+  if (isError) {
+    return <div>댓글을 불러오는 데 오류가 발생했습니다: {error.message}</div>;
+  }
+
+  if (!Array.isArray(comments)) {
+    return <div>댓글을 불러오는 데 문제가 발생했습니다.</div>;
+  }
+
+  if (comments.length === 0) {
     return <S.NoCommentMessage>{TEXTS.noComments}</S.NoCommentMessage>;
   }
 
@@ -36,51 +52,49 @@ const CommentList = ({ comments, onEdit }) => {
   };
 
   const handleEditClick = (comment) => {
-    onEdit ? onEdit(comment) : openModal("edit", { ...comment });
+    onEdit ? onEdit(comment) : openModal("commentedit", { ...comment });
     closeMenu();
   };
 
   const handleDeleteClick = (comment) => {
-    openModal("deleteComment", { ...comment });
+    console.log("리뷰 ID:", reviewId);
+    openModal("deleteComment", { reviewId, commentId: comment.reviewCommentId });
     closeMenu();
   };
 
   return (
     <S.CommentContainer>
       {comments.map((comment) => {
-        const likeKey = createLikeKey("list", comment.id);
-        const commentLikes = likes[likeKey] || { count: 0, isLiked: false };
-        const isMenuOpen = openMenuId === comment.id;
+        const isMenuOpen = openMenuId === comment.reviewCommentId;
+        const isAuthor = comment.nickName === userInfo?.nickname; // 작성자인지 확인
 
         return (
-          <S.CommentWrapper key={comment.id}>
+          <S.CommentWrapper key={comment.reviewCommentId}>
             <S.CommentItem>
-              <S.UserProfile src={comment.userImage} alt={comment.userName} />
+              <S.UserProfile src={comment.profileImage} alt={comment.nickName} />
               <S.CommentContent>
                 <S.UserHeader>
-                  <S.UserName>{comment.userName}</S.UserName>
-                  <S.CommentTime>{comment.time}</S.CommentTime>
+                  <S.UserName>{comment.nickName}</S.UserName>
+                  <S.CommentTime>{comment.createdAt}</S.CommentTime>
                 </S.UserHeader>
                 <S.CommentText>{comment.content}</S.CommentText>
                 <S.ActionRow>
-                  <S.LikeSection onClick={() => handleLikeClick(comment.id)}>
-                    {TEXTS.like}
-                    <S.StyledSvgIcLikeFilled24 isLiked={commentLikes.isLiked} />
-                    {commentLikes.count}
-                  </S.LikeSection>
-                  <S.SvgOptionWrapper>
-                    <SvgOption onClick={() => handleMenuToggle(comment.id)} />
-                    {isMenuOpen && (
-                      <S.OptionsMenu>
-                        <S.MenuItem onClick={() => handleEditClick(comment)}>
-                          {TEXTS.editComment}
-                        </S.MenuItem>
-                        <S.MenuItem onClick={() => handleDeleteClick(comment)}>
-                          {TEXTS.deleteComment}
-                        </S.MenuItem>
-                      </S.OptionsMenu>
-                    )}
-                  </S.SvgOptionWrapper>
+                  <S.LikeSection onClick={() => handleLikeClick(comment.reviewCommentId)} />
+                  {isAuthor && ( // 작성자만 수정/삭제 버튼 표시
+                    <S.SvgOptionWrapper>
+                      <SvgOption onClick={() => handleMenuToggle(comment.reviewCommentId)} />
+                      {isMenuOpen && (
+                        <S.OptionsMenu>
+                          <S.MenuItem onClick={() => handleEditClick(comment)}>
+                            {TEXTS.editComment}
+                          </S.MenuItem>
+                          <S.MenuItem onClick={() => handleDeleteClick(comment)}>
+                            {TEXTS.deleteComment}
+                          </S.MenuItem>
+                        </S.OptionsMenu>
+                      )}
+                    </S.SvgOptionWrapper>
+                  )}
                 </S.ActionRow>
               </S.CommentContent>
             </S.CommentItem>

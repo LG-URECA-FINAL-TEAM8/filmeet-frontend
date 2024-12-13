@@ -1,25 +1,57 @@
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import useCommentStore from "../../../store/modal/useCommentStore";
+import { useDeleteComment, useDeleteReview } from "../../../apis/commentDetails/queries";
+import { useNavigate } from "react-router-dom"; 
 
 const MODALTEXTS = {
   modalTitle: "알림",
-  deleteComment: "댓글을 삭제하시겠어요?",
-  deleteCommentary: "코멘트를 삭제하시겠어요?",
+  deleteComment: "댓글을 삭제하시겠어요?", // 댓글 삭제
+  deleteCommentary: "리뷰를 삭제하시겠어요?", // 리뷰 삭제
   cancel: "취소",
   confirm: "확인",
 };
 
 ReactModal.setAppElement("#root");
 
-const CommentDeleteModal = ({ onConfirm }) => {
+const CommentDeleteModal = () => {
   const { isOpen, modalType, commentData, closeModal } = useCommentStore();
+  const { mutate: deleteCommentMutate } = useDeleteComment(); // 댓글 삭제 훅
+  const { mutate: deleteReviewMutate } = useDeleteReview(); // 리뷰 삭제 훅
+  const navigate = useNavigate(); 
 
   if (!isOpen || !["deleteComment", "deleteCommentary"].includes(modalType)) return null;
 
-  const handleConfirm = () => {
-    if (onConfirm) {
-      onConfirm(commentData);
+  const handleConfirm = async () => {
+    if (modalType === "deleteCommentary" && commentData.reviewId && commentData.movieId) {
+      // 리뷰 삭제 API 호출
+      deleteReviewMutate(
+        { reviewId: commentData.reviewId, movieId: commentData.movieId },
+        {
+          onSuccess: () => {
+            console.log("리뷰가 성공적으로 삭제되었습니다.");
+            navigate("/mypage/comments"); 
+          },
+          onError: (error) => {
+            console.error("리뷰 삭제 중 오류 발생:", error);
+          },
+        }
+      );
+    } else if (modalType === "deleteComment" && commentData.reviewId && commentData.commentId) {
+      // 댓글 삭제 API 호출
+      deleteCommentMutate(
+        { reviewId: commentData.reviewId, commentId: commentData.commentId },
+        {
+          onSuccess: () => {
+            console.log("댓글이 성공적으로 삭제되었습니다.");
+          },
+          onError: (error) => {
+            console.error("댓글 삭제 중 오류 발생:", error);
+          },
+        }
+      );
+    } else {
+      console.error("적절한 데이터가 제공되지 않았습니다.");
     }
     closeModal();
   };
