@@ -44,7 +44,7 @@ export const getUserInfo = async () => {
     id: userInfo?.data.id,
     nickname: userInfo?.data.nickname,
     role: userInfo?.data.role,
-    username: userInfo?.username,
+    profileImage: userInfo?.data?.profileImage,
   });
 
   return userInfo;
