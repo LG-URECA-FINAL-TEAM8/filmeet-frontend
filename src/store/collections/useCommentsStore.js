@@ -4,6 +4,8 @@ import { getCommentsFromApi, postComment } from "../../apis/myPage/collection/co
 const useCommentsStore = create((set, get) => ({
   comments: [], // 댓글 목록
   commentContent: "", // 댓글 입력 상태
+  commentData: null, // 수정할 댓글 데이터
+  isModalOpen: false, // 수정 모달 상태
   commentSubmitting: false, // 댓글 작성 중 상태
   error: null, // 에러 상태
 
@@ -47,6 +49,9 @@ const useCommentsStore = create((set, get) => ({
     }
   },
 
+  // 댓글 수정
+  
+
   // 댓글 목록 초기화
   setComments: (fetchedComments) => set({ comments: fetchedComments }),
 
@@ -62,6 +67,10 @@ const useCommentsStore = create((set, get) => ({
       set({ error });
     }
   },
+
+  // 수정 모달 상태 관리
+  openEditModal: (commentData) => set({ isModalOpen: true, commentData }),
+  closeModal: () => set({ isModalOpen: false, commentData: null }),
 
   // 에러 초기화
   resetError: () => set({ error: null }),

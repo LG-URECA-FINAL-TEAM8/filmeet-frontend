@@ -9,9 +9,11 @@ import useCollectionsStore from '../../store/collections/useCollectionsStore';
 import { useEffect, useState } from 'react';
 import SvgIcLikeFilled24 from '../../assets/svg/IcLikeFilled24';
 import SvgComment from '../../assets/svg/Comment';
-import { useAddComment, useCancelLikeCollection, useDeleteComment, useFetchComments, useLikeCollection } from '../../apis/myPage/collection/queries';
+import { useAddComment, useFetchComments } from '../../apis/myPage/collection/queries';
 import useCommentDeleteStore from '../../store/collections/useCommentDeleteStore';
 import CollectionCommentDelete from '../common/modal/CollectionCommentDelete';
+import EditModal from '../common/modal/collection/EditModal';
+import useCommentsStore from '../../store/collections/useCommentsStore';
 
 const CollectionsLabel = {
   Like: "좋아요",
@@ -24,7 +26,7 @@ const CollectionsLabel = {
   Placeholder: "컬렉션에 댓글을 남겨보세요.",
 };
 
-const CollectionDetail = ({ collectionData, movies }) => {
+const CollectionDetail = ({ collectionData, movies, userInfo }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -37,6 +39,7 @@ const CollectionDetail = ({ collectionData, movies }) => {
     liking,
   } = useCollectionsStore();
 
+  const isAuthor = collectionData.nickname === userInfo?.nickname;
   // 좋아요 상태 및 카운트는 store에서 직접 가져옴
   const isLiked = collectionDetail?.isLiked || false;
   const likeCounts = collectionDetail?.likeCounts || 0;
@@ -44,6 +47,7 @@ const CollectionDetail = ({ collectionData, movies }) => {
   const { openMenuId, isOpen, openMenu, closeMenu } = useCollectionsMenuStore();
   const { openModal } = useCollectionsDeleteStore();
   const { openModal: openCommentModal } = useCommentDeleteStore();
+  const { openEditModal } = useCommentsStore();
 
   // React Query Hooks
   const { data: comments = [], isLoading: isCommentsLoading } = useFetchComments(
@@ -95,12 +99,16 @@ const CollectionDetail = ({ collectionData, movies }) => {
   };
 
   const handleCommentSubmit = () => {
-    if (!commentContent.trim()) return alert("댓글 내용을 입력해주세요!");
+    if (!commentContent.trim()) {
+      return alert("댓글 내용을 입력해주세요!");
+    }
+
     addCommentMutation(
       { collectionId: collectionData.collectionId, commentContent },
       {
         onSuccess: () => {
           setCommentContent(""); // 입력 필드 초기화
+          setOpenCommentMenu(null); // 옵션 메뉴 닫기
         },
         onError: (error) => {
           console.error("댓글 작성 중 오류 발생:", error);
@@ -138,14 +146,30 @@ const CollectionDetail = ({ collectionData, movies }) => {
           <S.ProfileImage src={profileImage} alt={`${name} 프로필`} />
           <S.UserName>{name}</S.UserName>
         </S.Profile>
+        {isAuthor && (
         <S.MoreOptions onClick={handleMenuToggle} data-menu-toggle>
           <S.StyledSvgOption />
         </S.MoreOptions>
+        )}
         {isOpen && openMenuId === collectionData.collectionId && (
           <S.DropdownMenu>
-            <S.DropdownItem onClick={handleDeleteClick}>{CollectionsLabel.Delete}</S.DropdownItem>
-            <S.DropdownItem onClick={handleEditClick}>{CollectionsLabel.Edit}</S.DropdownItem>
-          </S.DropdownMenu>
+          <S.DropdownItem
+            onClick={() => {
+              closeMenu(); // 옵션 메뉴 닫기
+              handleDeleteClick(); // 삭제 모달 열기
+            }}
+          >
+            {CollectionsLabel.Delete}
+          </S.DropdownItem>
+          <S.DropdownItem
+            onClick={() => {
+              closeMenu(); // 옵션 메뉴 닫기
+              handleEditClick(); // 수정 페이지로 이동
+            }}
+          >
+            {CollectionsLabel.Edit}
+          </S.DropdownItem>
+        </S.DropdownMenu>
         )}
       </S.Header>
 
@@ -204,24 +228,43 @@ const CollectionDetail = ({ collectionData, movies }) => {
                 <S.CommentTime>
                   {new Date(comment.createdAt).toLocaleString()}
                 </S.CommentTime>
-                <S.StyledCommentMenuIcon
-                  onClick={() => toggleCommentMenu(index)}
-                />
-                {openCommentMenu === index && (
-                  <S.CommentDropdown>
-                    <S.DropdownItem>수정</S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => 
-                        openCommentModal({
+                {comment.nickname === userInfo?.nickname && ( // 작성자일 때만 표시
+                <>
+                  <S.StyledCommentMenuIcon
+                    onClick={() => toggleCommentMenu(index)}
+                  />
+                  {openCommentMenu === index && (
+                    <S.CommentDropdown>
+                      <S.DropdownItem onClick={() => {
+                        setOpenCommentMenu(null); // 메뉴 닫기
+                        console.log("전달될 데이터:", {
                           collectionId: collectionData.collectionId,
                           collectionCommentId: comment.collectionCommentId,
-                        })
-                      }
-                    >
-                      삭제
-                    </S.DropdownItem>
-                  </S.CommentDropdown>
-                )}
+                          comment: comment.commentContent,
+                        });
+                        openEditModal({
+                          commentData: {
+                            collectionId: collectionData.collectionId,
+                            collectionCommentId: comment.collectionCommentId,
+                            comment: comment.commentContent,
+                          },
+                        });
+                      }}>수정</S.DropdownItem>
+                      <S.DropdownItem
+                        onClick={() => {
+                          setOpenCommentMenu(null);
+                          openCommentModal({
+                            collectionId: collectionData.collectionId,
+                            collectionCommentId: comment.collectionCommentId,
+                          });
+                        }}
+                      >
+                        삭제
+                      </S.DropdownItem>
+                    </S.CommentDropdown>
+                  )}
+                </>
+              )}
               </S.CommentTimeAndMenu>
             </S.Comment>
           ))}
@@ -238,6 +281,7 @@ const CollectionDetail = ({ collectionData, movies }) => {
         </S.CommentInputWrapper>
       </S.CommentSection>
 
+      <EditModal />;
       <CollectionsDeleteModal />
       <CollectionCommentDelete />
     </S.Container>

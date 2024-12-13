@@ -24,13 +24,10 @@ const CollectionCommentDelete = () => {
 
     const { collectionId, collectionCommentId } = selectedComment;
 
-    console.log("API 요청 데이터:", { collectionId, collectionCommentId });
-    
     deleteComment(
       { collectionId, collectionCommentId },
       {
         onSuccess: () => {
-          alert("댓글이 성공적으로 삭제되었습니다.");
           closeModal();
         },
         onError: (error) => {

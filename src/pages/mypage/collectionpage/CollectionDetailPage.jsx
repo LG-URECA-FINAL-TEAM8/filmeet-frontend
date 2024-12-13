@@ -3,11 +3,15 @@ import useCollectionsStore from '../../../store/collections/useCollectionsStore'
 import CollectionDetail from '../../../components/collection/CollectionDetail';
 import { Wrapper } from '../../../styles/collectionspage/collections';
 import { useEffect } from 'react';
+import { useUserInfo } from '../../../apis/users/queries';
 
 const CollectionDetailPage = () => {
   const { collectionId } = useParams();
   const { collectionDetail, fetchCollectionDetail, fetchCollectionMovies, collectionMovies, isLoading, error } =
     useCollectionsStore();
+
+  const { data: userResult } = useUserInfo(); // 유저 정보 가져오기
+  const userInfo = userResult?.data; // 로그인한 유저 정보
 
   useEffect(() => {
     if (collectionId) {
@@ -30,7 +34,7 @@ const CollectionDetailPage = () => {
 
   return (
     <Wrapper>
-      <CollectionDetail collectionData={collectionDetail} movies={collectionMovies} />
+      <CollectionDetail collectionData={collectionDetail} movies={collectionMovies} userInfo={userInfo} />
     </Wrapper>
   );
 };
