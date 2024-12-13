@@ -17,6 +17,8 @@ function Content({ movieData, movieId }) {
     evaluationMutate({ ratingScore, movieId });
   };
   const handleLikeChange = (movieId) => {
+    console.log(movieId);
+
     likeMovieMutate({ movieId });
   };
   const handleOpenModal = () => {
@@ -53,7 +55,7 @@ function Content({ movieData, movieId }) {
                   <S.StatItemBox liked={movieData?.isLiked}>
                     <S.SvgIcLikeFilled24
                       isLiked={movieData?.isLiked}
-                      onClick={() => handleLikeChange()}
+                      onClick={() => handleLikeChange(movieId)}
                     />
                     <S.StatDescription>{ContentText.liketext}</S.StatDescription>
                   </S.StatItemBox>
