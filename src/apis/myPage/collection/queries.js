@@ -62,6 +62,7 @@ export const useFetchComments = (collectionId) => {
     queryKey: ['comments', collectionId], // 쿼리 키는 배열 형식
     queryFn: () => getCommentsFromApi(collectionId), // 쿼리 함수는 인자 없이 호출
     enabled: !!collectionId, // collectionId가 존재할 때만 실행
+    refetchOnWindowFocus: false, // 윈도우 포커스 시 재요청 비활성화
   });
 };
 
@@ -85,7 +86,7 @@ export const useDeleteComment = () => {
 
   return useMutation({
     mutationFn: ({ collectionId, collectionCommentId }) =>
-      deleteComment(collectionId, collectionCommentId), // 댓글 삭제 API 호출
+      deleteComment({ collectionId, collectionCommentId }), // 댓글 삭제 API 호출
     onSuccess: () => {
       console.log("댓글 삭제 성공: 댓글 목록 갱신 중...");
       queryClient.invalidateQueries(["comments"]); // 댓글 목록 갱신

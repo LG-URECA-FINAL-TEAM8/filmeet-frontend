@@ -17,8 +17,6 @@ const CollectionDeleteModal = () => {
     useCollectionsDeleteStore();
   const navigate = useNavigate();
 
-  console.log("현재 선택된 컬렉션:", selectedCollection); // 확인용 로그
-
   const handleConfirm = async () => {
     if (!selectedCollection) {
       console.error("선택된 컬렉션이 없습니다.");

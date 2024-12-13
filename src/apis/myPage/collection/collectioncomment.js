@@ -96,15 +96,15 @@ export const deleteComment = async ({ collectionId, collectionCommentId }) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        Authorization: `Bearer ${accessToken()}`,
       },
-      body: JSON.stringify({ collectionId, collectionCommentId }), // Request Body
+      body: JSON.stringify({ collectionId, collectionCommentId }),
     });
 
     if (!response.ok) {
       const errorMessage = await response.text();
       console.error("댓글 삭제 실패:", response.status, errorMessage);
-      throw new Error("댓글 삭제 실패");
+      throw new Error(errorMessage); // 서버에서 반환된 에러 메시지 사용
     }
 
     console.log("댓글 삭제 성공");
@@ -114,7 +114,6 @@ export const deleteComment = async ({ collectionId, collectionCommentId }) => {
     throw error;
   }
 };
-
 
 
 

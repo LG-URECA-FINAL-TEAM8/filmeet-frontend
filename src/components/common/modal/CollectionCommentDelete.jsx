@@ -24,6 +24,8 @@ const CollectionCommentDelete = () => {
 
     const { collectionId, collectionCommentId } = selectedComment;
 
+    console.log("API 요청 데이터:", { collectionId, collectionCommentId });
+    
     deleteComment(
       { collectionId, collectionCommentId },
       {
@@ -40,8 +42,6 @@ const CollectionCommentDelete = () => {
   };
 
   if (!isModalOpen) return null; // 모달이 닫혀 있으면 렌더링 X
-
-  console.log("현재 선택된 댓글:", selectedComment);
 
   return (
     <ReactModal isOpen={isModalOpen} onRequestClose={closeModal} style={customStyles}>

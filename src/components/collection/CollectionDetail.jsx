@@ -9,7 +9,7 @@ import useCollectionsStore from '../../store/collections/useCollectionsStore';
 import { useEffect, useState } from 'react';
 import SvgIcLikeFilled24 from '../../assets/svg/IcLikeFilled24';
 import SvgComment from '../../assets/svg/Comment';
-import { useAddComment, useCancelLikeCollection, useFetchComments, useLikeCollection } from '../../apis/myPage/collection/queries';
+import { useAddComment, useCancelLikeCollection, useDeleteComment, useFetchComments, useLikeCollection } from '../../apis/myPage/collection/queries';
 import useCommentDeleteStore from '../../store/collections/useCommentDeleteStore';
 import CollectionCommentDelete from '../common/modal/CollectionCommentDelete';
 
@@ -40,9 +40,6 @@ const CollectionDetail = ({ collectionData, movies }) => {
   // 좋아요 상태 및 카운트는 store에서 직접 가져옴
   const isLiked = collectionDetail?.isLiked || false;
   const likeCounts = collectionDetail?.likeCounts || 0;
-
-  
-  const { mutate: cancelLikeCollection, isLoading: cancelLiking } = useCancelLikeCollection();
 
   const { openMenuId, isOpen, openMenu, closeMenu } = useCollectionsMenuStore();
   const { openModal } = useCollectionsDeleteStore();
@@ -84,7 +81,7 @@ const CollectionDetail = ({ collectionData, movies }) => {
   };
 
   const handleLikeClick = async () => {
-    if (liking) return; // 중복 클릭 방지
+    if (liking) return;
 
     try {
       if (isLiked) {
@@ -114,14 +111,6 @@ const CollectionDetail = ({ collectionData, movies }) => {
 
   const toggleCommentMenu = (index) => {
     setOpenCommentMenu((prev) => (prev === index ? null : index));
-  };
-
-  const handleCommentDeleteClick = (comment) => {
-    openCommentModal({
-      collectionId: collectionData.collectionId, // 컬렉션 ID
-      collectionCommentId: comment.id, // 댓글 ID
-      commentContent: comment.commentContent, // 댓글 내용 (선택 사항)
-    });
   };
 
   if (!collectionData) {
@@ -222,10 +211,10 @@ const CollectionDetail = ({ collectionData, movies }) => {
                   <S.CommentDropdown>
                     <S.DropdownItem>수정</S.DropdownItem>
                     <S.DropdownItem
-                      onClick={() =>
+                      onClick={() => 
                         openCommentModal({
                           collectionId: collectionData.collectionId,
-                          collectionCommentId: comment.id,
+                          collectionCommentId: comment.collectionCommentId,
                         })
                       }
                     >
