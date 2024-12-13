@@ -8,6 +8,7 @@ import { ContentText } from '../../../data/movieDetail/text';
 import { useMovieEvaluation } from '../../../apis/evaluation/query';
 import { useMovieLikeUpdate } from '../../../apis/movieDetail/query';
 import CommentCard from './CommentCard';
+
 function Content({ movieData, movieId }) {
   const { openModal } = useMovieCommentStore();
   const { mutate: evaluationMutate } = useMovieEvaluation();
@@ -17,6 +18,9 @@ function Content({ movieData, movieId }) {
   };
   const handleLikeChange = (movieId) => {
     likeMovieMutate({ movieId });
+  };
+  const handleOpenModal = () => {
+    openModal();
   };
 
   return (
@@ -49,17 +53,17 @@ function Content({ movieData, movieId }) {
                   <S.StatItemBox liked={movieData?.isLiked}>
                     <S.SvgIcLikeFilled24
                       isLiked={movieData?.isLiked}
-                      onClick={() => handleLikeChange(movieId)}
+                      onClick={() => handleLikeChange()}
                     />
                     <S.StatDescription>{ContentText.liketext}</S.StatDescription>
                   </S.StatItemBox>
                   <S.StatItemBox>
-                    <SvgPencil onClick={openModal} />
+                    <SvgPencil onClick={handleOpenModal} />
                     <S.StatDescription>{ContentText.commenttext}</S.StatDescription>
                   </S.StatItemBox>
                 </S.IconContainer>
               </S.StatSection>
-              <CommentCard myCommentData={movieData?.myMovieReview} />
+              {movieData?.myMovieReview && <CommentCard myCommentData={movieData?.myMovieReview} />}
               <S.SynopsisSection>
                 <S.SynopsisContent>{movieData?.plot}</S.SynopsisContent>
               </S.SynopsisSection>
@@ -69,7 +73,7 @@ function Content({ movieData, movieId }) {
       </S.ContentWrapper>
 
       {/* MovieDetailModal 렌더링 */}
-      <MovieDetailModal />
+      <MovieDetailModal movieId={movieId} />
     </>
   );
 }

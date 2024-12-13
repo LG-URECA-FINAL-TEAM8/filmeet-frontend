@@ -5,23 +5,21 @@ import { ContentText } from '../../../data/movieDetail/text';
 function CommentCard({ myCommentData }) {
   return (
     <>
-      {myCommentData?.myMovieReview && (
-        <S.MyCommentsSection>
-          <S.MyCommentsTitle>{ContentText.mycomment}</S.MyCommentsTitle>
-          <S.CommentCard>
-            <S.ProfileImage bgImage={myCommentData?.myprofileImage} />
-            <S.CommentText>{myCommentData?.content}</S.CommentText>
-            <S.CommentActions>
-              <S.DeleteButton>
-                <SvgDelete width="1rem" height="1rem" /> {ContentText.delete}
-              </S.DeleteButton>
-              <S.EditButton>
-                <SvgPencil width="1rem" height="1rem" /> {ContentText.edit}
-              </S.EditButton>
-            </S.CommentActions>
-          </S.CommentCard>
-        </S.MyCommentsSection>
-      )}
+      <S.MyCommentsSection>
+        <S.MyCommentsTitle>{ContentText.mycomment}</S.MyCommentsTitle>
+        <S.CommentCard>
+          {/* <S.ProfileImage bgImage={myCommentData?.myprofileImage} /> */}
+          <S.CommentText>{myCommentData?.content}</S.CommentText>
+          <S.CommentActions>
+            <S.DeleteButton>
+              <SvgDelete width="1rem" height="1rem" /> {ContentText.delete}
+            </S.DeleteButton>
+            <S.EditButton>
+              <SvgPencil width="1rem" height="1rem" /> {ContentText.edit}
+            </S.EditButton>
+          </S.CommentActions>
+        </S.CommentCard>
+      </S.MyCommentsSection>
     </>
   );
 }
