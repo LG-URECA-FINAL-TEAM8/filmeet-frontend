@@ -274,7 +274,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
         </S.CommentInputWrapper>
       </S.CommentSection>
 
-      <EditModal />;
+      <EditModal />
       <CollectionsDeleteModal />
       <CollectionCommentDelete />
     </S.Container>

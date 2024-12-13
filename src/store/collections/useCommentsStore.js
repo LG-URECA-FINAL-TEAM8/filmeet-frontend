@@ -72,6 +72,7 @@ const useCommentsStore = create((set, get) => ({
     set({
       isModalOpen: true,
       commentContent: comment,  // comment는 그대로 설정
+      collectionCommentId: comment.collectionCommentId, // 댓글 ID
     });
   },
 

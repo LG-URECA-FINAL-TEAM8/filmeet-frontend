@@ -104,7 +104,7 @@ const S = {
   `,
 
   Image: styled.img`
-    width: 12rem;
+    width: 40rem;
     height: 18rem;
     object-fit: cover;
   `,

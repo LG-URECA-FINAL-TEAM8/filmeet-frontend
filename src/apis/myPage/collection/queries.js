@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUserCollections } from "./collection";
-import { deleteComment, getCommentsFromApi, postComment } from "./collectioncomment";
+import { deleteComment, getCommentsFromApi, postComment, updateComment } from "./collectioncomment";
 import { cancelLikeCollection, getCollectionDetail, likeCollection } from "./collectiondetail";
 
 export const useUserCollections = (userId, page = 0, size = 10) => {
@@ -93,6 +93,23 @@ export const useDeleteComment = () => {
     },
     onError: (error) => {
       console.error("댓글 삭제 중 오류:", error);
+    },
+  });
+};
+
+//댓글 수정
+export const useUpdateComment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ collectionCommentId, commentContent }) =>
+      updateComment({ collectionCommentId, commentContent }),
+    onSuccess: () => {
+      console.log("댓글 수정 성공: 댓글 목록 갱신 중...");
+      queryClient.invalidateQueries(["comments"]); // 댓글 목록 갱신
+    },
+    onError: (error) => {
+      console.error("댓글 수정 중 오류:", error);
     },
   });
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ReactModal from "react-modal";
 import useCommentsStore from "../../../../store/collections/useCommentsStore";
+import { useUpdateComment } from "../../../../apis/myPage/collection/queries";
 
 const EditModal = () => {
   const {
@@ -13,15 +14,41 @@ const EditModal = () => {
     collectionCommentId,
   } = useCommentsStore();
 
+  const { mutate: updateCommentMutation, isLoading } = useUpdateComment();
+
   useEffect(() => {
     console.log("현재 commentContent 값:", commentContent?.comment);
     console.log("현재 commentContent 값:", commentContent?.collectionId);
     console.log("현재 commentContent 값:", commentContent?.collectionCommentId);
   }, [commentContent]);
+
   const handleSave = () => {
-    // 여기에 댓글 수정 저장 로직을 추가하세요
-    console.log("댓글 수정 완료:", { collectionId, collectionCommentId, commentContent });
-    closeModal();  // 저장 후 모달 닫기
+    if (!commentContent.trim()) {
+      alert("댓글 내용을 입력해주세요!");
+      return;
+    }
+  
+    console.log("API 호출 데이터:", {
+      collectionCommentId,
+      commentContent,
+    });
+  
+    updateCommentMutation(
+      {
+        collectionCommentId,
+        commentContent,
+      },
+      {
+        onSuccess: () => {
+          console.log("댓글 수정 완료");
+          closeModal(); // 모달 닫기
+        },
+        onError: (error) => {
+          console.error("댓글 수정 중 오류 발생:", error);
+          alert("댓글 수정에 실패했습니다.");
+        },
+      }
+    );
   };
 
   return (
@@ -39,7 +66,9 @@ const EditModal = () => {
           />
         </S.CommentContent>
         <S.Footer>
-          <S.SaveButton onClick={handleSave}>수정</S.SaveButton>
+          <S.SaveButton onClick={handleSave} disabled={isLoading}>
+            {isLoading ? "수정 중..." : "수정"}
+          </S.SaveButton>
         </S.Footer>
       </S.Content>
     </ReactModal>

@@ -115,5 +115,35 @@ export const deleteComment = async ({ collectionId, collectionCommentId }) => {
   }
 };
 
+export const updateComment = async ({ collectionCommentId, commentContent }) => {
+  const url = `${import.meta.env.VITE_API_BASE_URL}/collections/comments`;
+
+  console.log("API 요청 URL:", url);
+  console.log("API 요청 데이터:", { collectionCommentId, commentContent });
+
+  try {
+    const response = await fetch(url, {
+      method: "PATCH", // 수정 메서드
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken()}`,
+      },
+      body: JSON.stringify({ collectionCommentId, commentContent }),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      console.error("댓글 수정 실패:", response.status, errorMessage);
+      throw new Error(errorMessage);
+    }
+
+    const responseData = await response.json();
+    console.log("댓글 수정 성공:", responseData);
+    return responseData.data; // 수정된 댓글 ID 반환
+  } catch (error) {
+    console.error("댓글 수정 API 호출 오류:", error);
+    throw error;
+  }
+};
 
 
