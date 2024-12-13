@@ -518,7 +518,7 @@ const S = {
     padding: 0.5rem;
     background-color: ${(props) => props.theme.color.commentColor};
     font-family: ${(props) => props.theme.font.fontSuitRegular};
-    border: 1px solid ${(props) => props.theme.color.borderDefault};
+    border: ${(props) => props.theme.font.borderDefault};
     border-radius: 0.3rem;
   `,
   CommentButton: styled.button`
