@@ -63,7 +63,9 @@ function Content({ movieData, movieId }) {
                   </S.StatItemBox>
                 </S.IconContainer>
               </S.StatSection>
-              {movieData?.myMovieReview && <CommentCard myCommentData={movieData?.myMovieReview} />}
+              {movieData?.myMovieReview?.reviewId && (
+                <CommentCard myCommentData={movieData?.myMovieReview} />
+              )}
               <S.SynopsisSection>
                 <S.SynopsisContent>{movieData?.plot}</S.SynopsisContent>
               </S.SynopsisSection>
