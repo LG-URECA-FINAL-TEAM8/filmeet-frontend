@@ -9,7 +9,7 @@ const genresText = {
   FANTASY: '판타지',
   MYSTERY: '미스터리',
   // ANIMATION: '애니',
-  SF: 'SF',
+  // SF: 'SF',
   // ADVENTURE: '모험',
   // DOCUMENTARY: '다큐',
   // MUSICAL: '뮤지컬',
