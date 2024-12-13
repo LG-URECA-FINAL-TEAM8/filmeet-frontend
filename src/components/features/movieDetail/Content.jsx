@@ -4,19 +4,9 @@ import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
 import SvgPencil from '../../../assets/svg/Pencil';
 import useMovieCommentStore from '../../../store/moviedetail/useMovieCommentStore';
 import MovieDetailModal from '../../common/modal/MovieDetailModal';
-
+import { ContentText } from '../../../data/movieDetail/text';
 function Content({ movieData }) {
   const { openModal } = useMovieCommentStore();
-
-  const ContentText = {
-    ratingtext: '평가하기',
-    ratingavgtext: '평균 평점',
-    commenttext: '코멘트',
-    liketext: '좋아요',
-    mycomment: '내가 쓴 코멘트',
-    edit: '수정',
-    delete: '삭제',
-  };
 
   const handleRatingChange = (newRating) => {
     console.log('새로운 별점:', newRating);

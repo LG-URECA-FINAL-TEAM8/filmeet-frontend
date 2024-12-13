@@ -1,17 +1,12 @@
 import styled from 'styled-components';
 import MiniComment from './MiniComment';
 import { useNavigate } from 'react-router-dom';
-
+import { moviecomment } from '../../../data/movieDetail/text';
 function MovieComment({ comment, id }) {
   const navigate = useNavigate();
 
   const handleMoreClick = () => {
     navigate(`/moviedetail/${id}/moviecommentAll`);
-  };
-
-  const moviecomment = {
-    comment: '코멘트',
-    more: '더보기',
   };
 
   return (

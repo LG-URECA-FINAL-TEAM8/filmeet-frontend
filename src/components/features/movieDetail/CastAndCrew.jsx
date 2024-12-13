@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 import SvgCastDefault from '../../../assets/svg/CastDefault';
-
+import { castTitle } from '../../../data/movieDetail/text';
 function CastAndCrew({ castData }) {
-  const castTitle = {
-    title: '출연 / 제작',
-  };
-
   return (
     <S.CastAndCrewContainer>
       <S.SectionTitle>{castTitle.title}</S.SectionTitle>
