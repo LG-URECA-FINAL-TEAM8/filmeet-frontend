@@ -80,7 +80,7 @@ function Poster({ caseType = 0, movies }) {
       <S.SlideContainer>
         {movies.map((movie) => (
           <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie.movieId)}>
-            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
+            <S.PostCardImg src={movie.posterImage} alt={movie.title} />
             <S.PostTitle>{movie.title}</S.PostTitle>
             <S.PinkField>{`평가함 ★ ${movie.ratingCounts}`}</S.PinkField>
           </S.PostItem>
