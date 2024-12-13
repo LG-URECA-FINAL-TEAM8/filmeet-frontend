@@ -5,17 +5,22 @@ import SvgPencil from '../../../assets/svg/Pencil';
 import useMovieCommentStore from '../../../store/moviedetail/useMovieCommentStore';
 import MovieDetailModal from '../../common/modal/MovieDetailModal';
 import { ContentText } from '../../../data/movieDetail/text';
-import { useMovieEvaluation } from '../../../apis/evaluation/query';
+import { useMovieEvaluation, useDeleteEvaluation } from '../../../apis/evaluation/query';
 import { useMovieLikeUpdate, useMovieLikeDelete } from '../../../apis/movieDetail/query';
 import CommentCard from './CommentCard';
 
 function Content({ movieData, movieId }) {
   const { openModal } = useMovieCommentStore();
   const { mutate: evaluationMutate } = useMovieEvaluation();
+  const { mutate: deleteMutate } = useDeleteEvaluation();
   const { mutate: likeMovieMutate } = useMovieLikeUpdate();
   const { mutate: deleteLikeMutate } = useMovieLikeDelete();
   const handleRatingChange = (ratingScore) => {
-    evaluationMutate({ ratingScore, movieId });
+    if (ratingScore === 0) {
+      deleteMutate({ movieId });
+    } else {
+      evaluationMutate({ ratingScore, movieId });
+    }
   };
   const handleLikeChange = (movieId, isLiked) => {
     if (isLiked) {
