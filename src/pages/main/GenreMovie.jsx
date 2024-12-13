@@ -9,10 +9,15 @@ function GenreMovie() {
 
   return (
     <MainBody>
-      {Object.entries(genresText).map(([genreKey, genreText], index) => (
-        <div key={index}>
+      {Object.entries(genresText).map(([genreKey, genreText]) => (
+        <div key={genreKey}>
           <Title>{genreText}</Title>
-          <Poster caseType={1} movies={genreQueries[index]?.data?.data?.content || []} />
+          <Poster
+            caseType={1}
+            movies={
+              genreQueries[Object.keys(genresText).indexOf(genreKey)]?.data?.data?.content || []
+            }
+          />
         </div>
       ))}
     </MainBody>
