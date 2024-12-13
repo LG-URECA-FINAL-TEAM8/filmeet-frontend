@@ -14,7 +14,7 @@ export const useHotReview = () => {
 export const useAddMyReview = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ content, movieId }) => addMyReview({ content, movieId }),
+    mutationFn: ({ content, movieId, reviewId }) => addMyReview({ content, movieId, reviewId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['movieDetail'] });
     },

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import useMovieCommentStore from '../../../store/moviedetail/useMovieCommentStore';
 import { useAddMyReview } from '../../../apis/reviews/queries';
 
-const MovieDetailModal = ({ movieId }) => {
+const MovieDetailModal = ({ movieId, reviewId }) => {
   const { isModalOpen: isOpen, closeModal, comment, setComment } = useMovieCommentStore();
   const { mutate: addReviewMutate } = useAddMyReview();
   const handleChange = (e) => {
@@ -12,7 +12,7 @@ const MovieDetailModal = ({ movieId }) => {
 
   const handleSubmit = () => {
     if (comment.trim()) {
-      addReviewMutate({ content: comment, movieId });
+      addReviewMutate({ content: comment, movieId, reviewId: reviewId });
       closeModal();
     }
   };

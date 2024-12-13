@@ -2,7 +2,8 @@ import SvgDelete from '../../../assets/svg/SvgDelete';
 import SvgPencil from '../../../assets/svg/Pencil';
 import styled from 'styled-components';
 import { ContentText } from '../../../data/movieDetail/text';
-function CommentCard({ myCommentData }) {
+import MovieDetailModal from '../../common/modal/MovieDetailModal';
+function CommentCard({ myCommentData, movieId, openModal }) {
   return (
     <>
       <S.MyCommentsSection>
@@ -14,12 +15,14 @@ function CommentCard({ myCommentData }) {
             <S.DeleteButton>
               <SvgDelete width="1rem" height="1rem" /> {ContentText.delete}
             </S.DeleteButton>
-            <S.EditButton>
+            <S.EditButton onClick={openModal}>
               <SvgPencil width="1rem" height="1rem" /> {ContentText.edit}
             </S.EditButton>
           </S.CommentActions>
         </S.CommentCard>
       </S.MyCommentsSection>
+
+      <MovieDetailModal movieId={movieId} reviewId={myCommentData?.reviewId} />
     </>
   );
 }

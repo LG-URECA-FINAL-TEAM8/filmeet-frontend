@@ -64,7 +64,11 @@ function Content({ movieData, movieId }) {
                 </S.IconContainer>
               </S.StatSection>
               {movieData?.myMovieReview?.reviewId && (
-                <CommentCard myCommentData={movieData?.myMovieReview} />
+                <CommentCard
+                  myCommentData={movieData?.myMovieReview}
+                  movieId={movieId}
+                  openModal={openModal}
+                />
               )}
               <S.SynopsisSection>
                 <S.SynopsisContent>{movieData?.plot}</S.SynopsisContent>
