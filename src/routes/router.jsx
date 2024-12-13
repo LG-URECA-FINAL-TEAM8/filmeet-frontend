@@ -9,6 +9,7 @@ const pageComponents = {
   Login: () => import('../pages/auth/Login'),
   Register: () => import('../pages/auth/Register'),
   MyPage: () => import('../pages/mypage/MyPage'),
+  GenreMovie: () => import('../pages/main/GenreMovie'),
   RatingsPage: () => import('../pages/mypage/ratingpage/RatingsPage'),
   MovieRatingsPage: () => import('../pages/mypage/ratingpage/MovieRatingsPage'),
   AllMoviesByRatingsPage: () => import('../pages/mypage/ratingpage/AllMoviesByRatingsPage'),
@@ -47,6 +48,7 @@ const routes = [
       { path: 'register', element: createLazyComponent(pageComponents.Register) },
       { path: 'login', element: createLazyComponent(pageComponents.Login) },
       { path: 'mypage', element: createLazyComponent(pageComponents.MyPage) },
+      { path: 'movie/genre', element: createLazyComponent(pageComponents.GenreMovie) },
       { path: 'mypage/ratings', element: createLazyComponent(pageComponents.RatingsPage) },
       {
         path: 'mypage/contents/movies/ratings',
