@@ -21,6 +21,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
     tempSelectedMovies,
     toggleMovieSelection,
     confirmTempSelectedMovies,
+    selectedMovies,
     fetchSearchMovies,
     searchResults,
     searchLoading,
@@ -32,6 +33,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
   };
 
   const handleMovieSelect = (movie) => {
+    if (movie.isDisabled) return;
     toggleMovieSelection(movie);
   };
 
@@ -80,8 +82,20 @@ const MovieSearchModal = ({ onAddMovies }) => {
             <S.EmptyMessage>검색 중...</S.EmptyMessage>
           ) : searchResults.length > 0 ? (
             <ListPoster
-              movies={searchResults}
-              onMovieSelect={handleMovieSelect}
+            movies={searchResults.map((movie) => {
+              const isAlreadyAdded = selectedMovies.some(
+                (selectedMovie) => selectedMovie.id === movie.id
+              );
+              const isSelected = tempSelectedMovies.some(
+                (tempMovie) => tempMovie.id === movie.id
+              );
+              return {
+                ...movie,
+                isSelected,
+                isDisabled: isAlreadyAdded,
+              };
+            })}
+            onMovieSelect={handleMovieSelect}
             />
           ) : (
             <S.EmptyMessage>검색 결과가 없습니다.</S.EmptyMessage>

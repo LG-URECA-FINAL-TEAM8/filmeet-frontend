@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUserCollections } from "./collection";
 import { deleteComment, getCommentsFromApi, postComment } from "./collectioncomment";
+import { cancelLikeCollection, getCollectionDetail, likeCollection } from "./collectiondetail";
 
 export const useUserCollections = (userId, page = 0, size = 10) => {
   const { data, isLoading, error } = useQuery({
@@ -11,6 +12,48 @@ export const useUserCollections = (userId, page = 0, size = 10) => {
   });
 
   return { data, isLoading, error };
+};
+
+// 컬렉션 상세 정보 가져오기 훅
+export const useCollectionDetail = (collectionId) => {
+  return useQuery({
+    queryKey: ["collectionDetail", collectionId],
+    queryFn: () => getCollectionDetail(collectionId),
+    enabled: !!collectionId, // collectionId가 존재할 때만 실행
+    refetchOnWindowFocus: false, // 윈도우 포커스 시 재요청 비활성화
+  });
+};
+
+// 좋아요 추가 훅
+export const useLikeCollection = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (collectionId) => likeCollection(collectionId),
+    onSuccess: () => {
+      console.log("좋아요 성공");
+      queryClient.invalidateQueries(["collectionDetail"]); // 컬렉션 상세 쿼리 무효화
+    },
+    onError: (error) => {
+      console.error("좋아요 요청 실패:", error);
+    },
+  });
+};
+
+// 좋아요 취소 훅
+export const useCancelLikeCollection = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (collectionId) => cancelLikeCollection(collectionId),
+    onSuccess: () => {
+      console.log("좋아요 취소 성공");
+      queryClient.invalidateQueries(["collectionDetail"]); // 컬렉션 상세 쿼리 무효화
+    },
+    onError: (error) => {
+      console.error("좋아요 취소 요청 실패:", error);
+    },
+  });
 };
 
 // 댓글 목록 가져오기 훅

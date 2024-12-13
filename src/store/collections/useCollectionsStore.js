@@ -72,18 +72,17 @@ initializeLikeStatus: (isLiked, likeCounts) =>
 
   // 좋아요 추가
   toggleLike: async (collectionId) => {
-    console.log("좋아요 추가 요청 시작", { collectionId });
     set({ liking: true });
     try {
       await likeCollection(collectionId);
       set((state) => ({
-        isLiked: true, // 좋아요 상태를 true로 설정
+        isLiked: true,
         collectionDetail: {
           ...state.collectionDetail,
+          isLiked: true,
           likeCounts: (state.collectionDetail.likeCounts || 0) + 1,
         },
       }));
-      console.log("좋아요 추가 성공", { isLiked: true });
     } catch (error) {
       console.error("좋아요 요청 실패:", error);
     } finally {
@@ -93,18 +92,17 @@ initializeLikeStatus: (isLiked, likeCounts) =>
   
   //좋아요 취소
   toggleCancelLike: async (collectionId) => {
-    console.log("좋아요 취소 요청 시작", { collectionId });
     set({ liking: true });
     try {
       await cancelLikeCollection(collectionId);
       set((state) => ({
-        isLiked: false, // 좋아요 상태를 false로 설정
+        isLiked: false,
         collectionDetail: {
           ...state.collectionDetail,
+          isLiked: false,
           likeCounts: Math.max((state.collectionDetail.likeCounts || 1) - 1, 0),
         },
       }));
-      console.log("좋아요 취소 성공", { isLiked: false });
     } catch (error) {
       console.error("좋아요 취소 요청 실패:", error);
     } finally {

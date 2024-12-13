@@ -7,11 +7,12 @@ const ListPoster = ({ movies, onMovieSelect }) => {
       {movies.map((movie) => (
         <MovieItem
           key={movie.id}
-          onClick={() => onMovieSelect(movie)}
+          onClick={() => !movie.isDisabled && onMovieSelect(movie)}
           isSelected={movie.isSelected}
+          isDisabled={movie.isDisabled}
         >
           <CheckboxWrapper>
-            <Checkbox isSelected={movie.isSelected} />
+            <Checkbox isSelected={movie.isSelected} isDisabled={movie.isDisabled} />
           </CheckboxWrapper>
           <MovieImage
             src={movie.image || "https://via.placeholder.com/70x100"}
@@ -20,6 +21,11 @@ const ListPoster = ({ movies, onMovieSelect }) => {
           <MovieDetails>
             <MovieTitle>{movie.title || "제목 없음"}</MovieTitle>
             <MovieSubTitle>{movie.releaseDate || "년도 없음"}</MovieSubTitle>
+            {movie.isDisabled && (
+              <StatusLabel isDisabled={movie.isDisabled}>
+                추가됨
+              </StatusLabel>
+            )}
           </MovieDetails>
         </MovieItem>
       ))}
@@ -42,10 +48,11 @@ const MovieItem = styled.li`
   align-items: center;
   width: 345px;
   height: 128px;
-  cursor: pointer;
+  cursor: ${({ isDisabled }) => (isDisabled ? "default" : "pointer")};
   padding: 0 15px;
   border-radius: 8px;
   transition: background-color 0.2s ease-in-out;
+  position: relative; /* 자식 요소의 절대 위치 설정 가능 */
 `;
 
 const CheckboxWrapper = styled.div`
@@ -57,10 +64,10 @@ const CheckboxWrapper = styled.div`
   margin: 0 5px 0 0;
 `;
 
-const Checkbox = ({ isSelected }) => (
-  
-    <SvgCircle isSelected={isSelected} />
-  
+const Checkbox = ({ isSelected, isDisabled }) => (
+  <StyledCheckbox isSelected={isSelected} isDisabled={isDisabled}>
+    <SvgCircle isSelected={isSelected} isDisabled={isDisabled}/>
+  </StyledCheckbox>
 );
 
 const StyledCheckbox = styled.div`
@@ -71,8 +78,13 @@ const StyledCheckbox = styled.div`
   height: 24px;
   border-radius: 50%;
   background-color: ${(props) =>
-    props.isSelected ? props.theme.color.fontPink : props.theme.color.fontWhite};
+    props.isDisabled
+      ? props.theme.color.collectionColor
+      : props.isSelected
+      ? props.theme.color.fontPink
+      : props.theme.color.fontWhite};
   transition: background-color 0.2s ease-in-out;
+  position: relative;
 `;
 
 const MovieImage = styled.img`
@@ -105,5 +117,20 @@ const MovieSubTitle = styled.div`
   font-family: ${(props) => props.theme.font.fontSuitRegular};
   font-size: 0.9rem;
   color: ${(props) => props.theme.color.fontGray};
+`;
+
+const StatusLabel = styled.div`
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
+  font-size: 0.9rem; /* 텍스트 크기 */
+  position: absolute; /* 절대 위치 */
+  right: 30px; /* 오른쪽 정렬 */
+  top: 50%; /* 상단 기준 */
+  transform: translateY(-50%); /* 수직 가운데 정렬 */
+  color: ${(props) =>
+    props.isDisabled
+      ? props.theme.color.fontGreen
+      : props.theme.color.fontPink};
+  display: flex;
+  align-items: center;
 `;
 

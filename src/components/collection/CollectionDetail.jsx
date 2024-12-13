@@ -9,7 +9,7 @@ import useCollectionsStore from '../../store/collections/useCollectionsStore';
 import { useEffect, useState } from 'react';
 import SvgIcLikeFilled24 from '../../assets/svg/IcLikeFilled24';
 import SvgComment from '../../assets/svg/Comment';
-import { useAddComment, useFetchComments } from '../../apis/myPage/collection/queries';
+import { useAddComment, useCancelLikeCollection, useFetchComments, useLikeCollection } from '../../apis/myPage/collection/queries';
 import useCommentDeleteStore from '../../store/collections/useCommentDeleteStore';
 import CollectionCommentDelete from '../common/modal/CollectionCommentDelete';
 
@@ -32,11 +32,17 @@ const CollectionDetail = ({ collectionData, movies }) => {
     setSelectedCollection,
     toggleLike,
     toggleCancelLike,
-    liking,
-    isLiked,
     initializeLikeStatus,
     collectionDetail,
+    liking,
   } = useCollectionsStore();
+
+  // 좋아요 상태 및 카운트는 store에서 직접 가져옴
+  const isLiked = collectionDetail?.isLiked || false;
+  const likeCounts = collectionDetail?.likeCounts || 0;
+
+  
+  const { mutate: cancelLikeCollection, isLoading: cancelLiking } = useCancelLikeCollection();
 
   const { openMenuId, isOpen, openMenu, closeMenu } = useCollectionsMenuStore();
   const { openModal } = useCollectionsDeleteStore();
@@ -78,12 +84,13 @@ const CollectionDetail = ({ collectionData, movies }) => {
   };
 
   const handleLikeClick = async () => {
-    if (liking) return; // 중복 요청 방지
+    if (liking) return; // 중복 클릭 방지
+
     try {
       if (isLiked) {
-        await toggleCancelLike(collectionData.collectionId); // 좋아요 취소 요청
+        await toggleCancelLike(collectionData.collectionId);
       } else {
-        await toggleLike(collectionData.collectionId); // 좋아요 추가 요청
+        await toggleLike(collectionData.collectionId);
       }
     } catch (error) {
       console.error("좋아요 상태 변경 중 오류 발생:", error);
@@ -126,7 +133,6 @@ const CollectionDetail = ({ collectionData, movies }) => {
     nickname: name = "알 수 없음",
     collectionTitle: collectionName = "제목 없음",
     collectionContent: description = "설명 없음",
-    likeCounts: likes = 0,
   } = collectionData;
 
   return (
@@ -158,15 +164,15 @@ const CollectionDetail = ({ collectionData, movies }) => {
         <S.CollectionTitle>{collectionName}</S.CollectionTitle>
         <S.Description>{description}</S.Description>
         <S.Stats>
-          {CollectionsLabel.Like} {collectionDetail?.likeCounts || likes} {CollectionsLabel.Comment} {comments.length}
+          {CollectionsLabel.Like} {likeCounts} {CollectionsLabel.Comment} {comments.length}
         </S.Stats>
       </S.Content>
 
       <S.ActionSection>
-        <S.ActionButton onClick={handleLikeClick} disabled={liking}>
-          <SvgIcLikeFilled24 width="1rem" height="1rem" />
-          {isLiked ? `${CollectionsLabel.Like} 취소` : CollectionsLabel.Like}
-        </S.ActionButton>
+      <S.ActionButton onClick={handleLikeClick} disabled={liking}>
+        <StyledSvgIcLikeFilled24 isLiked={isLiked} width="1rem" height="1rem" />
+        <StyledLikeText isLiked={isLiked}>좋아요</StyledLikeText>
+      </S.ActionButton>
         <S.ActionButton>
           <SvgComment width="1rem" height="1rem" />
           {CollectionsLabel.Comment}
@@ -219,8 +225,7 @@ const CollectionDetail = ({ collectionData, movies }) => {
                       onClick={() =>
                         openCommentModal({
                           collectionId: collectionData.collectionId,
-                          collectionCommentId: comment.collectionCommentId,
-                          commentContent: comment.commentContent,
+                          collectionCommentId: comment.id,
                         })
                       }
                     >
@@ -422,8 +427,8 @@ const S = {
     gap: 0.5rem;
   `,
   CommentUserProfile: styled.img`
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
   `,
   CommentDetails: styled.div`
@@ -504,3 +509,10 @@ const S = {
   `,
 };
 
+const StyledSvgIcLikeFilled24 = styled(SvgIcLikeFilled24)`
+  color: ${(props) => (props.isLiked ? props.theme.color.fontPink : 'inherit')};
+`;
+
+const StyledLikeText = styled.span`
+  color: ${(props) => (props.isLiked ? props.theme.color.fontPink : 'inherit')};
+`;
