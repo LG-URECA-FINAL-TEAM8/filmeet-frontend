@@ -21,7 +21,6 @@ export const reviewBlind = async (reviewId) => {
         console.warn('AccessToken 만료됨. 갱신 시도 중...');
         const refreshToken = localStorage.getItem('refreshToken');
 
-        // Refresh token 호출
         await postRefresh(refreshToken);
 
         const newAccessToken = localStorage.getItem('accessToken');
@@ -32,17 +31,13 @@ export const reviewBlind = async (reviewId) => {
                 'Content-Type': 'application/json',
             },
         });
-
         if (!retryResponse.ok) {
             throw new Error('리뷰 블라인드 처리 실패');
         }
-
         return retryResponse.json();
     }
-
     if (!response.ok) {
         throw new Error('리뷰 블라인드 처리 실패');
     }
-
     return response.json();
 };

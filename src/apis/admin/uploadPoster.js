@@ -40,6 +40,5 @@ export const uploadPoster = async (imageFile) => {
   }
 
   const jsonResponse = await response.json();
-  console.log("uploadPoster 응답 데이터:", jsonResponse); // 응답 데이터 확인
-  return jsonResponse; // 전체 데이터 반환
+  return jsonResponse;
 };

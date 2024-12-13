@@ -9,7 +9,6 @@ function AdminHeaderComponent({
   onMovieManagementClick,
   onAddNewMovieClick,
   onLikeManagementClick,
-  onMovieTopClick,
   showButtons = true,
 }) {
   const handleClick = (e) => {
@@ -21,7 +20,6 @@ function AdminHeaderComponent({
   const headerMovie = '영화 관리';
   const headerNewMovie = '새로운 영화 추가';
   const headerLike = '리뷰 관리';
-  const headerTop = 'TOP10 영화 설정';
   
   return (
     <S.AppBar position="fixed">
@@ -54,15 +52,6 @@ function AdminHeaderComponent({
               }}
             >
               {headerLike}
-            </S.Button>
-            <S.Button
-              className="header-button"
-              onClick={(e) => {
-                handleClick(e);
-                onMovieTopClick();
-              }}
-            >
-              {headerTop}
             </S.Button>
           </>
         )}

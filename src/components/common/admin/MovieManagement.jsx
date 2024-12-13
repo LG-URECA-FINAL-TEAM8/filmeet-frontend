@@ -1,127 +1,130 @@
-import { useState, useEffect } from 'react';
+import { 
+  Box, 
+  TextField, 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow, 
+  Paper, 
+  Pagination 
+} from '@mui/material';
 import { styled } from '@mui/system';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
+import { useState, useEffect } from 'react';
 import { lightTheme } from '../../../styles/themes';
 import { useAdminSelectMovies } from '../../../apis/admin/queries';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Pagination from '@mui/material/Pagination';
-import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
-import DeleteIcon from '@mui/icons-material/Delete';
+import AdminEditModal from '../modal/AdminEditModal';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
-import AdminEditModal from '../modal/AdminEditModal';
+import tableHeaders from '../../../data/admintableheaders';
+import { useAdminDeleteMovie } from '../../../apis/admin/queries';
 
 function MovieManagement() {
-    const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
-    const [searchTerm, setSearchTerm] = useState('');
-    const [submittedTerm, setSubmittedTerm] = useState('');
+  const { movieManagement } = tableHeaders;
+  const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
+  const [ searchTerm, setSearchTerm ] = useState('');
+  const [ submittedTerm, setSubmittedTerm ] = useState('');
+  const { isOpen, openModal, setModalData } = useAdminModalStore();
+  const { mutate: deleteMovie } = useAdminDeleteMovie();
+  const { data, isLoading, error } = useAdminSelectMovies({
+    page: currentPage,
+    size: moviesPerPage,
+    query: submittedTerm,
+  });
+  const movies = data?.content || [];
+  const totalPages = data?.totalPages || 1;
 
-    const { isOpen, openModal, setModalData } = useAdminModalStore();
-    const { data, isLoading, error } = useAdminSelectMovies({
-      page: currentPage,
-      size: moviesPerPage,
-      query: submittedTerm,
+  const handleSearch = (e) => {
+    if (e.key === 'Enter') {
+      setSubmittedTerm(searchTerm.trim());
+      setCurrentPage(1);
+    }
+  };
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const handleEdit = (movie) => {
+    setModalData({
+      id: movie.id,
+      title: movie.title,
+      likes: movie.likeCounts,
     });
-
-    const movies = data?.content || [];
-    const totalPages = data?.totalPages || 1;
-
-    const handleSearch = (e) => {
-      if (e.key === 'Enter') {
-        setSubmittedTerm(searchTerm.trim());
-        setCurrentPage(1);
-      }
-    };
-
-    const handlePageChange = (event, value) => {
-      setCurrentPage(value);
-    };
-
-    const handleEdit = (movie) => {
-      setModalData({
-        id: movie.id,
-        title: movie.title,
-        likes: movie.likeCounts,
-      });
     openModal();
   };
 
-    const handleDelete = (movie) => {
-      alert(`"${movie.title}" 삭제 요청`);
-    };
+  const handleDelete = (movie) => {
+    if (window.confirm(`"${movie.title}"을(를) 삭제하시겠습니까?`)) {
+      deleteMovie(movie.id);
+    }
+  };
 
-    useEffect(() => {
-      console.log('검색어:', submittedTerm);
-      console.log('API 응답:', data);
-    }, [submittedTerm, data]);
+  useEffect(() => {
+    console.log('검색어:', submittedTerm);
+    console.log('API 응답:', data);
+  }, [submittedTerm, data]);
 
-    if (isLoading) return <div>로딩 중...</div>;
-    if (error) return <div>에러 발생: {error.message}</div>;
-    if (!movies.length) return <div>검색 결과가 없습니다.</div>;
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>에러 발생: {error.message}</div>;
+  if (!movies.length) return <div>검색 결과가 없습니다.</div>;
 
-    return (
-      <>
-        <AdminEditModal isOpen={isOpen} />
-        <S.Container>
-          <S.SearchBox>
-            <S.SearchBarTextField
-              variant="outlined"
-              fullWidth
-              label="영화 검색"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={handleSearch}
-            />
-          </S.SearchBox>
-          <S.TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <S.TableHeadCell>제목</S.TableHeadCell>
-                  <S.TableHeadCell>좋아요 수</S.TableHeadCell>
-                  <S.TableHeadCell>평점</S.TableHeadCell>
-                  <S.TableHeadCell>장르</S.TableHeadCell>
-                  <S.TableHeadCell>개봉일</S.TableHeadCell>
-                  <S.TableHeadCell>수정 / 삭제</S.TableHeadCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {movies.map((movie) => (
-                  <TableRow key={movie.id}>
-                    <S.TableBodyCell>{movie.title}</S.TableBodyCell>
-                    <S.TableBodyCell>{movie.likeCounts || 0}</S.TableBodyCell>
-                    <S.TableBodyCell>
-                      {movie.averageRating !== null &&
-                      movie.averageRating !== undefined
-                        ? movie.averageRating.toFixed(2)
-                        : 'N/A'}
-                    </S.TableBodyCell>
-                    <S.TableBodyCell>
-                      {movie.genreTypes?.length > 0
-                        ? movie.genreTypes.join(', ')
-                        : '미정'}
-                    </S.TableBodyCell>
-                    <S.TableBodyCell>{movie.releaseDate || '알 수 없음'}</S.TableBodyCell>
-                    <S.TableBodyCell>
-                      <S.ModeEditTwoToneIcon onClick={() => handleEdit(movie)} />
-                      <S.DeleteIcon onClick={() => handleDelete(movie)} />
-                    </S.TableBodyCell>
-                  </TableRow>
+  return (
+    <>
+      <AdminEditModal isOpen={isOpen} />
+      <S.Container>
+        <S.SearchBox>
+          <S.SearchBarTextField
+            variant="outlined"
+            fullWidth
+            label="영화 검색"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleSearch}
+          />
+        </S.SearchBox>
+        <S.TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {Object.values(movieManagement).map((header) => (
+                  <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
                 ))}
-              </TableBody>
-            </Table>
-          </S.TableContainer>
-            <S.Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
-        </S.Container>
-      </>
-    );
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {movies.map((movie) => (
+                <TableRow key={movie.id}>
+                  <S.TableBodyCell>{movie.title}</S.TableBodyCell>
+                  <S.TableBodyCell>{movie.likeCounts || 0}</S.TableBodyCell>
+                  <S.TableBodyCell>
+                    {movie.averageRating !== null &&
+                    movie.averageRating !== undefined
+                      ? movie.averageRating.toFixed(2)
+                      : 'N/A'}
+                  </S.TableBodyCell>
+                  <S.TableBodyCell>
+                    {movie.genreTypes?.length > 0
+                      ? movie.genreTypes.join(', ')
+                      : '미정'}
+                  </S.TableBodyCell>
+                  <S.TableBodyCell>{movie.releaseDate || '알 수 없음'}</S.TableBodyCell>
+                  <S.TableBodyCell>
+                    <S.ModeEditTwoToneIcon onClick={() => handleEdit(movie)} />
+                    <S.DeleteIcon onClick={() => handleDelete(movie)} />
+                  </S.TableBodyCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </S.TableContainer>
+          <S.Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+      </S.Container>
+    </>
+  );
 }
 
 export default MovieManagement;

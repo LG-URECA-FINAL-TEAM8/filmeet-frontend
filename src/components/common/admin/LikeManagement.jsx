@@ -1,21 +1,22 @@
+import { 
+  Box, 
+  TextField, 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow, 
+  Paper, 
+  Pagination 
+} from '@mui/material';
+import { styled } from '@mui/system';
+import LockIcon from '@mui/icons-material/Lock';
 import { useState, useEffect } from 'react';
 import { lightTheme } from '../../../styles/themes';
-import { styled } from '@mui/system';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Pagination from '@mui/material/Pagination';
 import tableHeaders from '../../../data/admintableheaders';
 import useMovieStore from '../../../store/admin/useMovieStore';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
-import DeleteIcon from '@mui/icons-material/Delete';
-import LockIcon from '@mui/icons-material/Lock';
 import LikeBadge from './LikeBadge';
 import ReviewerBadge from './ReviewerBadge';
 import { useAdminShowReviewList } from '../../../apis/admin/queries';
@@ -24,18 +25,15 @@ import { useAdminReviewBlind } from '../../../apis/admin/queries';
 function LikeManagement() {
   const { movies, setMovies } = useMovieStore();
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
-  const tableHeader = tableHeaders.likeManagement;
-
   const [searchTerm, setSearchTerm] = useState('');
   const [submittedTerm, setSubmittedTerm] = useState('');
+  const tableHeader = tableHeaders.likeManagement;
 
-  // React Query로 데이터 가져오기
   const { data, isLoading, isError } = useAdminShowReviewList({
-    page: currentPage - 1, // 서버는 0-based 페이지 번호를 사용하는 것으로 보임
-    size: moviesPerPage,
-    movieTitle: submittedTerm, // 제출된 검색어
-    createdAt: '2024-12-06',
+    movieTitle: submittedTerm || "",
     sort: 'asc',
+    size: moviesPerPage,
+    page: currentPage - 1,
   });
 
   const { mutate: blindReview } = useAdminReviewBlind();
@@ -46,8 +44,8 @@ function LikeManagement() {
         id,
         title: movieTitle,
         reviewer: username,
-        likes: 0, // 서버에 좋아요 데이터가 없는 경우 기본값 설정
-        rating: 'N/A', // 서버에 평점 데이터가 없는 경우 기본값 설정
+        likes: 0,
+        rating: 'N/A',
         createdDate: createdAt,
       }));
       setMovies(enhancedMovies);
@@ -75,12 +73,12 @@ function LikeManagement() {
         return;
       }
       setSubmittedTerm(searchTerm);
-      setCurrentPage(1); // 검색 시 첫 페이지로 이동
+      setCurrentPage(1);
     }
   };
 
   const handlePageChange = (event, value) => {
-    setCurrentPage(value);
+    usePaginationStore.getState().setCurrentPage(value); 
   };
 
   if (isLoading) return <p>Loading data...</p>;
@@ -97,7 +95,7 @@ function LikeManagement() {
           label="영화 검색"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyDown={handleKeyDown} // 엔터 키로 검색 제출
+          onKeyDown={handleKeyDown}
         />
       </S.SearchBox>
       <S.TableContainer component={Paper}>
@@ -122,7 +120,6 @@ function LikeManagement() {
                 <S.TableBodyCell>{movie.rating}</S.TableBodyCell>
                 <S.TableBodyCell>{movie.createdDate}</S.TableBodyCell>
                 <S.TableBodyCell>
-                  <S.DeleteIcon onClick={() => alert(`"${movie.title}" 삭제 요청`)} />
                   <S.LockIcon onClick={() => handleBlind(movie.id)} />
                 </S.TableBodyCell>
               </TableRow>
@@ -131,7 +128,7 @@ function LikeManagement() {
         </Table>
       </S.TableContainer>
       <S.Pagination
-        count={data?.totalPages || 0} // 서버에서 totalPages 사용
+        count={data?.totalPages || 1}
         page={currentPage}
         onChange={handlePageChange}
       />
@@ -188,14 +185,9 @@ const S = {
     color: lightTheme.color.fontBlack,
   }),
 
-  DeleteIcon: styled(DeleteIcon)({
-    cursor: 'pointer',
-    color: lightTheme.color.buttonPink,
-  }),
-
   LockIcon: styled(LockIcon)({
     cursor: 'pointer',
-    marginLeft: '1rem',
+    marginLeft: '0.2rem',
     color: lightTheme.color.fontGray,
   }),
 

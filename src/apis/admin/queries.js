@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { registerMovies } from './addMovie';
 import { fetchMovies } from './searchMovies';
+import { registerMovies } from './addMovie';
 import { fetchRegisteredMovies } from './selectMovie';
 import { fetchReviewList } from './showReviewList';
 import { reviewBlind } from './reviewBlind';
 import { editMovie } from './editMovie';
 import { uploadPoster } from "./uploadPoster";
+import { deleteMovie } from './deleteMovie';
 
 export const useAdminSearchMovies = (searchTerm) => {
   return useQuery({
@@ -35,11 +36,12 @@ export const useAdminSelectMovies = ({ page = 1, size = 7, query = '' }) => {
   });
 };
 
-export const useAdminShowReviewList = (params) => {
+export const useAdminShowReviewList = ({ movieTitle, sort, size, page }) => {
   return useQuery({
-    queryKey: ['reviewList', params],
-    queryFn: () => fetchReviewList(params),
-    refetchOnWindowFocus: false,
+      queryKey: ['reviewList', movieTitle, sort, size, page],
+      queryFn: () => fetchReviewList({ movieTitle, sort, size, page }),
+      refetchOnWindowFocus: false,
+      staleTime: 0,
   });
 };
 
@@ -56,31 +58,27 @@ export const useAdminReviewBlind = () => {
 
 export const useAdminEditMovie = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (variables) => {
-      console.log('editMovie 호출 데이터:', variables); // 변수 확인
       return editMovie(variables);
     },
     onSuccess: (data, variables) => {
-      
-      console.log('영화 정보 수정 성공:', data);
-        queryClient.invalidateQueries(['registeredMovies']);
-        queryClient.setQueryData(['registeredMovies'], (oldData) => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            content: oldData.content.map((movie) =>
-              movie.id === variables.movieId
-                ? { ...movie, title: variables.title, image: variables.image, likeCounts: variables.likeCount }
-                : movie
-              ),
-          };
-        });
+      queryClient.invalidateQueries(['registeredMovies']);
+      queryClient.setQueryData(['registeredMovies'], (oldData) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+          content: oldData.content.map((movie) =>
+            movie.id === variables.movieId
+              ? { ...movie, title: variables.title, image: variables.image, likeCounts: variables.likeCount }
+              : movie
+            ),
+        };
+      });
     },
     onError: (error) => {
     console.error('영화 정보 수정 실패:', error.message);
-  },
+    },
   });
 };
 
@@ -89,10 +87,24 @@ export const useAdminAddPoster = () => {
     mutationFn: uploadPoster,
     onSuccess: (data) => {
       console.log("포스터 업로드 성공:", data);
-      // 업로드 후 추가 로직 (예: 업로드 URL을 상태에 저장)
     },
     onError: (error) => {
       console.error("포스터 업로드 실패:", error.message);
+    },
+  });
+};
+
+export const useAdminDeleteMovie = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (movieId) => deleteMovie(movieId),
+    onSuccess: () => {
+      console.log('영화 삭제 후 데이터 갱신');
+      queryClient.invalidateQueries(['movieList']);
+    },
+    onError: (error) => {
+      console.error('영화 삭제 실패:', error);
+      alert('영화 삭제 중 오류가 발생했습니다.');
     },
   });
 };

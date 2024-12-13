@@ -1,11 +1,6 @@
 import { postRefresh } from "../users/user";
 
 export const editMovie = async ({ movieId, title, image, likeCount }) => {
-  console.log("전송 데이터:", {
-    title: title.trim(),
-    posterUrl: image || '',
-    likeCounts: parseInt(likeCount, 10),
-  });
 
   let accessToken = localStorage.getItem('accessToken');
 

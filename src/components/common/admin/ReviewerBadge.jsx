@@ -10,7 +10,7 @@ export default ReviewerBadge;
 
 const S={
   ReviewerBadge: styled(Box) ({
-    width: '4rem',
+    width: '10rem',
     height: '2rem',
     borderRadius: '0.375rem',
     whiteSpace: 'nowrap',

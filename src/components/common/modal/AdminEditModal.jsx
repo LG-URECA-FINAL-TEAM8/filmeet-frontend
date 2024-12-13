@@ -1,24 +1,26 @@
-import { useState,useEffect } from 'react';
-import ReactModal from 'react-modal';
 import styled from '@emotion/styled';
 import { Button, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import useAdminModalStore from '../../../store/modal/useAdminModalStore';
+import { useEffect } from 'react';
+import ReactModal from 'react-modal';
 import { lightTheme } from '../../../styles/themes';
 import { useAdminEditMovie } from '../../../apis/admin/queries';
-import { useAdminAddPoster } from "../../../apis/admin/queries";
 import { uploadPoster } from '../../../apis/admin/uploadPoster';
+import useAdminModalStore from '../../../store/modal/useAdminModalStore';
 
 ReactModal.setAppElement('#root');
 
 function AdminEditModal() {
-
   const { isOpen, closeModal, id, title, likes, imageUrl, setTitle, setLikes, setImageUrl } = useAdminModalStore();
-  const { mutate: addPoster } = useAdminAddPoster();
   const editMovieMutation = useAdminEditMovie();
+  const modalTexts = {
+    modalHeader: "영화 편집",
+    uploadButton: "이미지 업로드",
+    SaveButton: "저장",
+  }
 
   useEffect(() => {
-    console.log("imageUrl 업데이트됨:", imageUrl); // 상태 업데이트 확인
+    console.log("imageUrl 업데이트됨:", imageUrl);
   }, [imageUrl]);
 
   const handleImageChange = (e) => {
@@ -26,11 +28,9 @@ function AdminEditModal() {
     if (file) {
       uploadPoster(file)
         .then((response) => {
-          console.log("서버 응답 데이터:", response); // 서버 응답 데이터 확인
-          const uploadedUrl = response?.data?.fileUrl; // 서버에서 반환된 URL
+          const uploadedUrl = response?.data?.fileUrl;
           if (uploadedUrl) {
-            console.log("업로드된 URL:", uploadedUrl);
-            setImageUrl(uploadedUrl); // 상태값 업데이트
+            setImageUrl(uploadedUrl);
           } else {
             console.error("업로드된 URL이 응답 데이터에 없습니다.");
           }
@@ -44,7 +44,6 @@ function AdminEditModal() {
     }
   };
   
-
   const handleRemoveImage = () => {
     setImageUrl('');
   };
@@ -56,12 +55,10 @@ function AdminEditModal() {
       image: imageUrl,
       likeCount: parseInt(likes, 10),
     };
-    console.log("전송 데이터:", payload);
-
     editMovieMutation.mutate(payload, {
       onSuccess: () => {
         alert("영화 정보가 성공적으로 수정되었습니다.");
-        closeModal(); // 모달 닫기
+        closeModal();
       },
       onError: (error) => {
         alert(`영화 정보 수정 실패: ${error.message}`);
@@ -75,7 +72,7 @@ function AdminEditModal() {
       onRequestClose={closeModal}
       style={customStyles}
     >
-      <S.ModalHeader>영화 편집</S.ModalHeader>
+      <S.ModalHeader>{modalTexts.modalHeader}</S.ModalHeader>
       <S.ModalContent>
         <S.AvatarSection>
           <S.StyledAvatar>
@@ -98,7 +95,7 @@ function AdminEditModal() {
             style={{ display: 'none' }}
           />
           <label htmlFor="upload-image">
-            <S.StyledButton component="span">이미지 업로드</S.StyledButton>
+            <S.StyledButton component="span">{modalTexts.uploadButton}</S.StyledButton>
           </label>
         </S.AvatarSection>
         <S.FlexBox>
@@ -118,7 +115,7 @@ function AdminEditModal() {
           />
         </S.FlexBox>
       </S.ModalContent>
-      <S.SaveButton onClick={handleSave}>저장</S.SaveButton>
+      <S.SaveButton onClick={handleSave}>{modalTexts.SaveButton}</S.SaveButton>
     </ReactModal>
   );
 }
@@ -239,7 +236,7 @@ const S = {
   FlexBox: styled.div`
     display: flex;
     justify-content: space-between;
-    gap: 0.63rem; /* 필드 사이의 간격 */
+    gap: 0.63rem;
   `,
 
   SaveButton: styled(Button)`

@@ -1,16 +1,15 @@
 const tableHeaders = {
     movieManagement: {
-      movieName: '영화 이름',
-      commentNum: '댓글 수',
+      movieName: '제목',
       likeNum: '좋아요 수',
-      avgRating: '평균 평점',
+      avgRating: '평점',
       genre: '장르',
       releaseDate: '개봉일',
       action: '수정 / 삭제',
     },
     addMovie: {
       movieName: '영화 이름',
-      avgRating: '평균 평점',
+      avgRating: '관람 등급',
       genre: '장르',
       releaseDate: '개봉일',
     },
@@ -20,7 +19,7 @@ const tableHeaders = {
       likeNum: '좋아요 수',
       avgRating: '평점',
       createdDate: '작성일',
-      action: '삭제 / 숨김',
+      action: '숨김',
     },
   };
   
