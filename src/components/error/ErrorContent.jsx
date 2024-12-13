@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const ErrorContent = ({
-  title = "404",
-  message = "죄송합니다. 페이지를 찾을 수 없습니다. T T",
-  subMessage = "찾으려는 페이지가 이동되었거나, 삭제되었거나, 존재하지 않는 것 같습니다.",
-  buttonText = "메인 페이지로 가기",
-  onButtonClick = () => (window.location.href = "/"),
+  title = '404',
+  message = '죄송합니다. 페이지를 찾을 수 없습니다. T T',
+  subMessage = '찾으려는 페이지가 이동되었거나, 삭제되었거나, 존재하지 않는 것 같습니다.',
+  buttonText = '메인 페이지로 가기',
+  onButtonClick = () => (window.location.href = '/'),
 }) => {
   return (
     <S.ErrorWrapper>
@@ -44,6 +44,7 @@ const S = {
     font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
   MainPageButton: styled.button`
+    margin-top: 5rem;
     background-color: ${(props) => props.theme.color.generePinkColor};
     color: ${(props) => props.theme.color.fontWhite};
     font-size: 1rem;
