@@ -9,7 +9,7 @@ function CommentCard({ myCommentData, movieId, openModal }) {
       <S.MyCommentsSection>
         <S.MyCommentsTitle>{ContentText.mycomment}</S.MyCommentsTitle>
         <S.CommentCard>
-          {/* <S.ProfileImage bgImage={myCommentData?.myprofileImage} /> */}
+          <S.ProfileImage src={myCommentData?.userProfileImage} />
           <S.CommentText>{myCommentData?.content}</S.CommentText>
           <S.CommentActions>
             <S.DeleteButton>
@@ -42,6 +42,12 @@ const S = {
     font-size: 0.7rem;
     color: ${(props) => props.theme.color.fontGray};
     margin: 0 0 0.6rem;
+  `,
+  ProfileImage: styled.img`
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
   `,
 
   CommentCard: styled.div`
