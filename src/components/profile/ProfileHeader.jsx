@@ -19,6 +19,7 @@ const ProfileHeader = ({ userInfo }) => {
   const [showModal, setShowModal] = useState(false);
   const { data: result, isLoading } = useFollowCount(userId);
   const followData = result?.data;
+  console.log(userInfo?.profileImage);
 
   const Profiles = {
     stats: [
@@ -41,9 +42,7 @@ const ProfileHeader = ({ userInfo }) => {
         <SettingsIcon icon={faGear} />
         {showModal && <LogoutModal text="로그아웃" />}
       </SettingsWrapper>
-      <ProfileImage
-        src={userInfo?.profileImage || 'https://via.placeholder.com/40'}
-        alt="프로필 이미지"></ProfileImage>
+      <ProfileImage src={userInfo?.profileImage} alt="프로필 이미지"></ProfileImage>
       <ProfileName>{userInfo?.nickname}</ProfileName>
       <FollowStats>
         {Profiles.stats.map((stat, index) => (
