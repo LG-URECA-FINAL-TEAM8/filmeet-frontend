@@ -8,7 +8,7 @@ function HotFeed({ reviews }) {
         <S.FeedItem key={review.id}>
           <S.FeedUserSection>
             <span className="user__span">{review.nickname}</span>
-            <span className="user__score">★ {review.popularityScore}</span>
+            <span className="user__score">★ {review.ratingScore || '0'}</span>
           </S.FeedUserSection>
           <S.FeedMainSection>
             <S.ImageItem

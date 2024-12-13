@@ -2,8 +2,8 @@ export const upDatePreference = (
   preferenceData,
   preferenceMutate,
   navigate,
-  isLoggedIn,
-  setLoggedIn
+  setLoggedIn,
+  refetchUserInfo
 ) => {
   const dataToSend = {
     ...preferenceData,
@@ -11,7 +11,8 @@ export const upDatePreference = (
   };
   if (dataToSend) {
     preferenceMutate(dataToSend, {
-      onSuccess: () => {
+      onSuccess: async () => {
+        await refetchUserInfo();
         setLoggedIn(true);
         navigate('/');
       },

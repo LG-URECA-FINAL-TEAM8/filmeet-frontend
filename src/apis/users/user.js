@@ -23,7 +23,7 @@ export const getUserInfo = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
     await postRefresh(refreshToken);
 
-    // 갱신된 토큰으로 다시 요청
+    // 갱신된 토큰으로 다시 요청 인터셉터를 사용해서 선언한 메서드를 재사용하는 방법 가능함
     accessToken = localStorage.getItem('accessToken'); // 갱신된 토큰 다시 가져오기
     response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/info`, {
       method: 'GET',
@@ -44,7 +44,7 @@ export const getUserInfo = async () => {
     id: userInfo?.data.id,
     nickname: userInfo?.data.nickname,
     role: userInfo?.data.role,
-    username: userInfo?.username,
+    profileImage: userInfo?.data?.profileImage,
   });
 
   return userInfo;

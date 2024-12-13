@@ -1,16 +1,13 @@
-import styled from "styled-components";
-import { movieDetailData } from "../../../data/moviedetail";
+import styled from 'styled-components';
 
-function Banner() {
-  const { title, releaseDate, runtime, genre, backgroundUrl, posterUrl } = movieDetailData;
-
+function Banner({ movieData }) {
   return (
-    <S.BannerContainer bgImage={posterUrl}>
+    <S.BannerContainer bgImage={movieData?.posterUrl}>
       <S.BannerContentContainer>
         <S.BannerContent>
-        <S.BannerTitle>{title}</S.BannerTitle>
-        <S.BannerSubTitle>{title}</S.BannerSubTitle>
-          <S.BannerSubContent>{`${releaseDate} | ${runtime}분 | ${genre}`}</S.BannerSubContent>
+          <S.BannerTitle>{movieData?.title}</S.BannerTitle>
+          <S.BannerSubTitle>{movieData?.title}</S.BannerSubTitle>
+          <S.BannerSubContent>{`${movieData?.releaseDate} | ${movieData?.runtime}분 | ${movieData?.genres[0]}`}</S.BannerSubContent>
         </S.BannerContent>
       </S.BannerContentContainer>
     </S.BannerContainer>
@@ -69,5 +66,3 @@ const S = {
     color: ${(props) => props.theme.color.fontWhite};
   `,
 };
-
-

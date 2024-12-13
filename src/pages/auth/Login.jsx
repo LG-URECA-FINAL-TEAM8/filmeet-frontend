@@ -6,8 +6,8 @@ import AuthMessage from '../../components/features/auth/AuthMessage';
 import Authlink from '../../components/features/auth/Authlink';
 import useAuthStore from '../../store/auth/authStore';
 import { loginInput } from '../../data/auth/input';
-import { NaverLogo } from '../../assets/svg';
-import { handleNaverLoginClick } from '../../utils/auth/socialLoginHandler';
+import { NaverLogo, GoogleLogo } from '../../assets/svg';
+import { handleLoginClick } from '../../utils/auth/socialLoginHandler';
 import { S } from '../../styles/auth/auth';
 
 function Login() {
@@ -53,7 +53,8 @@ function Login() {
           <S.Line />
         </S.Divider>
         <S.SocialWrapper>
-          <NaverLogo onClick={handleNaverLoginClick} />
+          <NaverLogo onClick={() => handleLoginClick('naver')} />
+          <GoogleLogo onClick={() => handleLoginClick('google')} />
         </S.SocialWrapper>
       </S.AuthBody>
     </>

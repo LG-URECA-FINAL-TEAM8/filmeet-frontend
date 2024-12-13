@@ -1,19 +1,18 @@
-import styled from "styled-components";
-import { movieDetailData } from "../../../data/moviedetail";
-
-function CastAndCrew() {
-  const castTitle = {
-    title: "출연 / 제작",
-  }
-  const castList = movieDetailData.personnels;
-
+import styled from 'styled-components';
+import SvgDefaultProfile from '../../../assets/svg/DefaultProfile';
+import { castTitle } from '../../../data/movieDetail/text';
+function CastAndCrew({ castData }) {
   return (
     <S.CastAndCrewContainer>
       <S.SectionTitle>{castTitle.title}</S.SectionTitle>
       <S.CastList>
-        {castList.map((cast, index) => (
+        {castData?.map((cast, index) => (
           <S.CastItem key={index}>
-            <S.CastImage src={cast.profileImage} alt={cast.name} />
+            {cast.profileImage ? (
+              <S.CastImage src={cast.profileImage} alt={cast.name} />
+            ) : (
+              <SvgDefaultProfile width={'2rem'} heigh={'2rem'} />
+            )}
             <S.CastDetails>
               <S.CastName>{cast.name}</S.CastName>
               <S.CastRole>{cast.moviePosition}</S.CastRole>
@@ -48,6 +47,14 @@ const S = {
     grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
     height: 17rem;
+    overflow-y: auto;
+    /* 스크롤바 숨기기 */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE */
+
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+    }
   `,
 
   CastItem: styled.div`
@@ -85,4 +92,3 @@ const S = {
     color: ${(props) => props.theme.color.fontGray};
   `,
 };
-
