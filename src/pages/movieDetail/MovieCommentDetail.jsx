@@ -5,7 +5,6 @@ import { CardContainer, CommentPageContainer } from '../../styles/comment/commen
 import { useParams } from 'react-router-dom';
 import { useMovieComment } from '../../apis/movieDetail/query';
 const MovieCommentDetail = () => {
-  const comments = movieDetailData.movieReviewsResponses.content;
   const { id } = useParams();
   const { data: movieComment } = useMovieComment(id);
   const movieCommentData = movieComment?.data?.content || [];
