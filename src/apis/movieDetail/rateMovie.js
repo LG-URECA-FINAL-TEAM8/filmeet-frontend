@@ -1,17 +1,13 @@
 import { postRefresh } from '../users/user';
-export const Evaluation = async ({ movieId, ratingScore }) => {
+export const likeMovie = async ({ movieId }) => {
   try {
     let accessToken = localStorage.getItem('accessToken');
-    let response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/ratings/movies`, {
+    let response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/likes/movies/${movieId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({
-        movieId,
-        ratingScore,
-      }),
     });
 
     // 401 (Unauthorized) 상태일 경우 토큰 갱신 시도
@@ -21,44 +17,40 @@ export const Evaluation = async ({ movieId, ratingScore }) => {
       await postRefresh(refreshToken);
 
       accessToken = localStorage.getItem('accessToken');
-      response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/ratings/movies`, {
+      response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/likes/movies/${movieId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({
-          movieId,
-          ratingScore,
-        }),
       });
     }
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || '선호영화 업데이트 실패');
+      throw new Error(errorData.message || '영화 좋아요 업데이트 실패');
     }
 
     return await response.json();
   } catch (error) {
-    console.error('선호영화 업데이트 중 오류:', error);
+    console.error('영화 좋아요 업데이트 중 오류:', error);
     throw error;
   }
 };
 
-export const deleteEvaluation = async ({ movieId }) => {
+export const deleteLikeMovie = async ({ movieId }) => {
   try {
     let accessToken = localStorage.getItem('accessToken');
-    let response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/ratings/movies`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        movieId,
-      }),
-    });
+    let response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/likes/cancel/movies/${movieId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
 
     // 401 (Unauthorized) 상태일 경우 토큰 갱신 시도
     if (response.status === 401) {
@@ -67,26 +59,26 @@ export const deleteEvaluation = async ({ movieId }) => {
       await postRefresh(refreshToken);
 
       accessToken = localStorage.getItem('accessToken');
-      response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/ratings/movies`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          movieId,
-        }),
-      });
+      response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/likes/cancel/movies/${movieId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
     }
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || '선호영화 삭제 실패');
+      throw new Error(errorData.message || '영화 좋아요 업데이트 실패');
     }
 
     return await response.json();
   } catch (error) {
-    console.error('선호영화 삭제 중 오류:', error);
+    console.error('영화 좋아요 업데이트 중 오류:', error);
     throw error;
   }
 };

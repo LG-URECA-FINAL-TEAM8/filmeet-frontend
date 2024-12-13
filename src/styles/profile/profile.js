@@ -49,7 +49,7 @@ export const SettingsIcon = styled(FontAwesomeIcon)`
 `;
 
 // 프로필 이미지
-export const ProfileImage = styled.div`
+export const ProfileImage = styled.img`
   width: 8.5rem;
   height: 8.5rem;
   border-radius: 50%;
