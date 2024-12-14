@@ -1,26 +1,31 @@
 import styled from 'styled-components';
-import { AlarmHistorys } from '../data/alarmhistory';
+import { useNotification } from '../apis/notifications/query';
 
 const AlarmHistoryList = () => {
+  const { data: notification } = useNotification();
+  const NotificationData = notification?.data?.content || [];
+
   return (
     <S.ListWrapper>
-      {AlarmHistorys.map((AlarmHistory) => (
+      {NotificationData.map((AlarmHistory) => (
         <S.ListItem key={AlarmHistory.id}>
           <S.AvatarWrapper>
-            <S.Avatar src={AlarmHistory.avatar} alt="알림 아바타" />
+            <S.Avatar src={AlarmHistory.avatar} alt="유저 프로필" />
           </S.AvatarWrapper>
           <S.MessageWrapper>
             <S.TextWrapper>
               <S.Message>
-                {AlarmHistory.message.split(/(좋아요|팔로우|댓글)/).map((part, index) =>
-                  part === '댓글' ? (
-                    <S.BoldHighlight key={index}>{part}</S.BoldHighlight>
-                  ) : ['좋아요', '팔로우'].includes(part) ? (
-                    <S.Highlight key={index}>{part}</S.Highlight>
-                  ) : (
-                    part
-                  )
-                )}
+                {AlarmHistory.message
+                  .split(/(좋아요|팔로우|댓글)/)
+                  .map((part, index) =>
+                    part === '댓글' ? (
+                      <S.BoldHighlight key={index}>{part}</S.BoldHighlight>
+                    ) : ['좋아요', '팔로우'].includes(part) ? (
+                      <S.Highlight key={index}>{part}</S.Highlight>
+                    ) : (
+                      part
+                    )
+                  )}
               </S.Message>
               <S.TimeAgo>{AlarmHistory.timeAgo}</S.TimeAgo>
             </S.TextWrapper>
@@ -111,4 +116,3 @@ const S = {
     margin-left: 1rem;
   `,
 };
-

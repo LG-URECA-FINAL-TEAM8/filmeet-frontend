@@ -4,9 +4,15 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { groupMovies } from '../../../utils/poster/posterGroup';
+import { useNavigate } from 'react-router-dom';
 
 function Poster({ caseType = 0, movies }) {
   const movieGroups = useMemo(() => groupMovies(movies, 5), [movies]);
+  const navigate = useNavigate();
+
+  const handleMovieClick = (id) => {
+    navigate(`/moviedetail/${id}`);
+  };
 
   const renderCarousel = (renderItem) => (
     <S.CarouselContainer>
@@ -42,16 +48,16 @@ function Poster({ caseType = 0, movies }) {
   const renderCases = {
     1: () =>
       renderCarousel((movie) => (
-        <S.PostItem key={movie.id}>
-          <S.PostCardImg src={movie.image} alt={movie.title} />
+        <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie?.movieId)}>
+          <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           <S.PostTitle>{movie.title}</S.PostTitle>
-          <S.GrayField>{movie.rating}</S.GrayField>
+          <S.GrayField>{movie.averageRating}</S.GrayField>
         </S.PostItem>
       )),
 
     2: () =>
       renderCarousel((movie) => (
-        <S.PostItem key={movie.movieId}>
+        <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie.movieId)}>
           <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           <S.PostTitle>{movie.title}</S.PostTitle>
           <S.PinkField>{`개봉일정 ${movie.releaseDate}`}</S.PinkField>
@@ -62,8 +68,8 @@ function Poster({ caseType = 0, movies }) {
       renderCarousel((movie) => {
         const formattedAudience = `${Math.floor((movie.totalAudience || 0) / 10000)}만 명`;
         return (
-          <S.PostItem key={movie.id}>
-            <S.PostCardImg src={movie.image} alt={movie.title} />
+          <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie.movieId)}>
+            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
             <S.PostTitle>{movie.title}</S.PostTitle>
             <S.GrayField>{`누적 관객 ${formattedAudience}`}</S.GrayField>
           </S.PostItem>
@@ -73,8 +79,8 @@ function Poster({ caseType = 0, movies }) {
     4: () => (
       <S.SlideContainer>
         {movies.map((movie) => (
-          <S.PostItem key={movie.id}>
-            <S.PostCardImg src={movie.image} alt={movie.title} />
+          <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie.movieId)}>
+            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
             <S.PostTitle>{movie.title}</S.PostTitle>
             <S.PinkField>{`평가함 ★ ${movie.rating}`}</S.PinkField>
           </S.PostItem>
@@ -85,8 +91,8 @@ function Poster({ caseType = 0, movies }) {
     5: () => (
       <S.SlideContainer>
         {movies.map((movie) => (
-          <S.PostItem key={movie.id}>
-            <S.PostCardImg src={movie.image} alt={movie.title} />
+          <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie.movieId)}>
+            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           </S.PostItem>
         ))}
       </S.SlideContainer>
@@ -95,8 +101,8 @@ function Poster({ caseType = 0, movies }) {
     6: () => (
       <S.GridContainer>
         {movies.map((movie) => (
-          <S.GridItem key={movie.id}>
-            <S.PostCardImg src={movie.image} alt={movie.title} />
+          <S.GridItem key={movie.movieId} onClick={() => handleMovieClick(movie.movieId)}>
+            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
             <S.PostTitle>{movie.title}</S.PostTitle>
             <S.PinkField>{`평가함 ★ ${movie.rating}`}</S.PinkField>
           </S.GridItem>
@@ -107,8 +113,8 @@ function Poster({ caseType = 0, movies }) {
     7: () => (
       <S.GridContainer>
         {movies.map((movie) => (
-          <S.GridItem key={movie.id}>
-            <S.PostCardImg src={movie.image} alt={movie.title} />
+          <S.GridItem key={movie.movieId} onClick={() => handleMovieClick(movie.movieId)}>
+            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
             <S.PostTitle>{movie.title}</S.PostTitle>
           </S.GridItem>
         ))}
@@ -119,8 +125,8 @@ function Poster({ caseType = 0, movies }) {
   const defaultRender = () => (
     <>
       {movies.map((movie) => (
-        <S.PostItem key={movie.id}>
-          <S.PostCardImg src={movie.image} alt={movie.title} />
+        <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie.movieId)}>
+          <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           <S.PostTitle>{movie.title}</S.PostTitle>
         </S.PostItem>
       ))}
@@ -190,6 +196,7 @@ const S = {
     height: auto;
     border-radius: 0.5rem;
     object-fit: cover;
+    image-rendering: smooth;
     aspect-ratio: 2/3;
   `,
 

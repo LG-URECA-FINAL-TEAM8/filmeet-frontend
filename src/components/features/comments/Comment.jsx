@@ -1,14 +1,14 @@
-import styled from "styled-components";
-import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
-import SvgIcReplyFilled24 from "../../../assets/svg/IcReplyFilled24";
-import { comments } from "../../../data/comments";
-import { useNavigate } from "react-router-dom";
-import { createProfileClickHandler } from "../../../utils/ratings/navigationHandlers";
+import styled from 'styled-components';
+import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
+import SvgIcReplyFilled24 from '../../../assets/svg/IcReplyFilled24';
+import { comments } from '../../../data/comments';
+import { useNavigate } from 'react-router-dom';
+import { createProfileClickHandler } from '../../../utils/ratings/navigationHandlers';
 
 const Comment = () => {
   const navigate = useNavigate();
 
-  const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
+  const handleProfileClick = createProfileClickHandler(navigate, '/mypage');
 
   const handleCommentClick = (commentId) => {
     navigate(`/mypage/comments/${commentId}`);
@@ -37,10 +37,10 @@ const Comment = () => {
           </S.MainContent>
           <S.FeedStats>
             <S.Stat>
-              <SvgIcLikeFilled24 width={"1rem"} height={"1rem"} /> {item.likes}
+              <SvgIcLikeFilled24 width={'1rem'} height={'1rem'} /> {item.likes}
             </S.Stat>
             <S.Stat>
-              <SvgIcReplyFilled24 width={"1rem"} height={"1rem"} /> {item.comments}
+              <SvgIcReplyFilled24 width={'1rem'} height={'1rem'} /> {item.comments}
             </S.Stat>
           </S.FeedStats>
         </S.Card>

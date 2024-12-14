@@ -1,35 +1,49 @@
-import styled from "styled-components";
-import { Rate } from "antd";
-import { useStarRatingStore } from "../../store/starrating/useStarRatingStore";
-import { movieData } from "../../data/starratingdata";
-
+import styled from 'styled-components';
+import { Rate } from 'antd';
+import { useStarRatingStore } from '../../store/starrating/useStarRatingStore';
+import { useEvaluation } from '../../apis/getMovies/queries';
+import { useRef } from 'react';
+import useScrollHandler from '../../hooks/evaluation/useScrollHandler';
+import { useMovieEvaluation } from '../../apis/evaluation/query';
 const StarRatingBody = () => {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useEvaluation();
   const { ratings, setRating } = useStarRatingStore();
+  // 모든 페이지의 영화 데이터 평탄화
+  const allMovies =
+    data?.pages.flatMap((page) => page.data.moviesResponseSliceResponse.content) || [];
+  const containerRef = useRef(null);
+  const { mutate: evaluationMutate } = useMovieEvaluation();
 
-  const handleRateChange = (value, movieId) => {
-    setRating(movieId, value);
+  const handleScroll = useScrollHandler(
+    containerRef,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  );
+  const handleRateChange = (ratingScore, movieId) => {
+    setRating(movieId, ratingScore);
+    evaluationMutate({ movieId, ratingScore });
   };
 
   return (
-    <S.BodyContainer>
-      {movieData.map((movie) => (
-        <S.MovieCard key={movie.id}>
-          <S.MoviePoster style={{ backgroundImage: `url(${movie.image})` }} />
+    <S.BodyContainer ref={containerRef} onScroll={handleScroll}>
+      {allMovies.map((movie) => (
+        <S.MovieCard key={movie?.movieId}>
+          <S.MoviePoster style={{ backgroundImage: `url(${movie?.posterUrl})` }} />
           <S.MovieInfo>
-            <S.MovieTitle>{movie.title}</S.MovieTitle>
-            <S.MovieDetails>
-              {movie.year}, {movie.genre}
-            </S.MovieDetails>
+            <S.MovieTitle>{movie?.title}</S.MovieTitle>
+            <S.MovieDetails>{movie?.releaseDate}</S.MovieDetails>
             <S.RatingStars>
               <StyledRate
                 allowHalf
-                value={ratings[movie.id] || 0}
-                onChange={(value) => handleRateChange(value, movie.id)}
+                value={ratings[movie?.movieId] || 0}
+                onChange={(value) => handleRateChange(value, movie?.movieId)}
               />
             </S.RatingStars>
           </S.MovieInfo>
         </S.MovieCard>
       ))}
+      {isFetchingNextPage && <S.LoadingIndicator>더 많은 영화 로딩 중...</S.LoadingIndicator>}
     </S.BodyContainer>
   );
 };
@@ -41,8 +55,9 @@ const S = {
     display: flex;
     flex-direction: column;
     width: 40rem;
-    height: auto;
+    height: 45rem;
     border: 0.06rem solid ${(props) => props.theme.color.lineColor};
+    overflow-y: auto;
   `,
 
   MovieCard: styled.li`
@@ -101,6 +116,13 @@ const S = {
     justify-content: center;
     align-items: center;
   `,
+
+  LoadingIndicator: styled.div`
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    color: ${(props) => props.theme.color.fontGray};
+  `,
 };
 
 const StyledRate = styled(Rate)`
@@ -121,6 +143,3 @@ const StyledRate = styled(Rate)`
     color: ${(props) => props.theme.color.fontPink};
   }
 `;
-
-
-

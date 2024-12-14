@@ -8,11 +8,18 @@ const useUserStore = create(
         id: null,
         nickname: '',
         role: '',
-        username: '',
+        profileImage: '',
       },
       setUserInfo: (newUserInfo) =>
         set((state) => ({
-          userInfo: { ...state.userInfo, ...newUserInfo },
+          userInfo: {
+            id: null,
+            nickname: '',
+            role: '',
+            profileImage: '',
+            ...state.userInfo,
+            ...newUserInfo,
+          },
         })),
       resetUserInfo: () =>
         set(() => ({
@@ -20,7 +27,7 @@ const useUserStore = create(
             id: null,
             nickname: '',
             role: '',
-            username: '',
+            profileImage: '',
           },
         })),
     }),

@@ -4,25 +4,33 @@ export const handleAuthClick = (
   navigate,
   signupMutate,
   loginMutate,
-  queryClient,
-  setLoggedIn,
-  refetchUserInfo
+  refetchUserInfo,
+  setCode,
+  isLoggedIn
 ) => {
   if (userData && value === '회원가입') {
     signupMutate(userData, {
       onSuccess: () => {
         navigate('/login');
       },
-      onError: () => {},
+      onError: (error) => {
+        if (error.code) {
+          setCode(error.code);
+        }
+      },
     });
   }
 
   if (userData && value === '로그인') {
     loginMutate(userData, {
-      onSuccess: () => {
-        setLoggedIn(true);
-        refetchUserInfo();
-        navigate('/');
+      onSuccess: async () => {
+        if (isLoggedIn === false || isLoggedIn == null) {
+          await refetchUserInfo();
+          navigate('/genre');
+        } else {
+          await refetchUserInfo();
+          navigate('/');
+        }
       },
       onError: () => {},
     });
