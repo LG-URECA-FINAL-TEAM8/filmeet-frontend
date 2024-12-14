@@ -30,7 +30,6 @@ const MovieRatingList = () => {
   // 로딩 상태 처리
   if (isLoading) return <div>로딩 중...</div>;
   if (error) {
-    console.error("Error fetching movie ratings:", error);
     return <div>오류가 발생했습니다: {error.message}</div>;
   }
 

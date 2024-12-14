@@ -5,19 +5,11 @@ import { useFollowStore } from '../../store/follow/followStore';
 import { useFollowings } from '../../apis/myPage/follow/queries';
 
 const FollowingList = ({ userId }) => {
-  // 상태 관리
   const { followStates, initializeFollowStates, toggleFollow } = useFollowStore();
-  
-  // API 호출
   const { data, isLoading, error } = useFollowings(userId);
 
-  // 디버깅 로그
-  console.log('userId in FollowingList:', userId);
-  console.log('API Response Data:', data);
-  
   useEffect(() => {
     if (data?.content) {
-      console.log('Initializing follow states:', data.content.map(() => true));
       initializeFollowStates(data.content.map(() => true)); // 초기 팔로잉 상태 설정
     }
   }, [data, initializeFollowStates]);
@@ -79,16 +71,16 @@ const S = {
     height: 6.5rem;
     display: flex;
     align-items: center;
-    padding: 0 0.56rem;
+    padding: 0 0.5rem;
   `,
   AvatarWrapper: styled.div`
-    width: 4.37rem;
-    height: 4.37rem;
-    margin-right: 0.43rem;
+    width: 4.4rem;
+    height: 4.4rem;
+    margin-right: 0.4rem;
   `,
   Avatar: styled.img`
-    width: 4.37rem;
-    height: 4.37rem;
+    width: 4.4rem;
+    height: 4.4rem;
     border-radius: 50%;
   `,
   InfoWrapper: styled.div`
@@ -100,19 +92,19 @@ const S = {
     border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
   Name: styled.div`
-    width: 28.12rem;
+    width: 28rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
-    margin: 0 0 0.12rem;
-    padding: 0 0.62rem 0 0;
+    margin: 0 0 0.1rem;
+    padding: 0 0.6rem 0 0;
   `,
   FollowButton: styled.button`
-    width: 4.06rem;
-    height: 1.75rem;
-    padding: 0 0.68rem;
+    width: 4rem;
+    height: 18rem;
+    padding: 0 0.7rem;
     border: none;
     border-radius: 1.25rem;
-    font-size: 0.87rem;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 

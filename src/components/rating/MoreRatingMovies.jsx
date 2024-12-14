@@ -11,14 +11,11 @@ import { useMovieRatings } from "../../apis/myPage/rating/queries";
 
 const MoreRatingMovies = () => {
   const navigate = useNavigate();
-  const { rating } = useParams(); // URL에서 별점 가져오기
+  const { rating } = useParams();
   const parsedRating = parseFloat(rating);
 
-  // Fetch all movies with ratings
   const { data, isLoading, error } = useMovieRatings(0, 100, "createdAt,desc");
-
   const handleBackClick = createBackClickHandler(navigate, "/mypage/contents/movies/ratings");
-
   const { noResults } = pagecontents.moreRatingMovies;
 
   if (isLoading) {
@@ -26,7 +23,6 @@ const MoreRatingMovies = () => {
   }
 
   if (error) {
-    console.error("Error fetching movies:", error);
     return <div>오류가 발생했습니다: {error.message}</div>;
   }
 

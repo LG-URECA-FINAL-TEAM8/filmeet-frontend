@@ -1,19 +1,19 @@
-import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Poster from '../Common/poster/Poster';
-import SvgOption from '../../assets/svg/Option';
-import useCollectionsMenuStore from '../../store/collections/useCollectionsMenuStore';
-import useCollectionsDeleteStore from '../../store/collections/useCollectionsDeleteStore';
-import CollectionsDeleteModal from '../Common/modal/CollectionsDeleteModal';
-import useCollectionsStore from '../../store/collections/useCollectionsStore';
 import { useEffect, useState } from 'react';
-import SvgIcLikeFilled24 from '../../assets/svg/IcLikeFilled24';
-import SvgComment from '../../assets/svg/Comment';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { useAddComment, useFetchComments } from '../../apis/myPage/collection/queries';
+import SvgComment from '../../assets/svg/Comment';
+import SvgIcLikeFilled24 from '../../assets/svg/IcLikeFilled24';
+import SvgOption from '../../assets/svg/Option';
+import useCollectionsDeleteStore from '../../store/collections/useCollectionsDeleteStore';
+import useCollectionsMenuStore from '../../store/collections/useCollectionsMenuStore';
+import useCollectionsStore from '../../store/collections/useCollectionsStore';
 import useCommentDeleteStore from '../../store/collections/useCommentDeleteStore';
+import useCommentsStore from '../../store/collections/useCommentsStore';
+import CollectionsDeleteModal from '../Common/modal/CollectionsDeleteModal';
+import Poster from '../Common/poster/Poster';
 import CollectionCommentDelete from '../common/modal/CollectionCommentDelete';
 import EditModal from '../common/modal/collection/EditModal';
-import useCommentsStore from '../../store/collections/useCommentsStore';
 
 const CollectionsLabel = {
   Like: "좋아요",
@@ -99,10 +99,6 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
   };
 
   const handleCommentSubmit = () => {
-    if (!commentContent.trim()) {
-      return alert("댓글 내용을 입력해주세요!");
-    }
-
     addCommentMutation(
       { collectionId: collectionData.collectionId, commentContent },
       {
@@ -110,8 +106,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
           setCommentContent(""); // 입력 필드 초기화
           setOpenCommentMenu(null); // 옵션 메뉴 닫기
         },
-        onError: (error) => {
-          console.error("댓글 작성 중 오류 발생:", error);
+        onError: () => {
         },
       }
     );
@@ -288,7 +283,7 @@ const S = {
   Container: styled.div`
     width: 40rem;
     background: ${(props) => props.theme.color.mainColor};
-    border: 1px solid ${(props) => props.theme.color.mainColor};
+    border: 0.1rem solid ${(props) => props.theme.color.lineColor};
     border-radius: 0.5rem;
     box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
   `,
@@ -300,6 +295,9 @@ const S = {
     background-image: url(${(props) => props.backgroundImage});
     background-size: cover;
     background-position: center;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    overflow: hidden;
   `,
   Overlay: styled.div`
     position: absolute;
@@ -320,10 +318,13 @@ const S = {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
+    border: 0.1rem solid ${(props) => props.theme.color.lineColor};
     margin-right: 0.5rem;
+    background-color: ${(props) => props.theme.color.fontGray};
   `,
   UserName: styled.span`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-weight: ${(props) => props.theme.font.fontWeightMedium};
     font-size: 1rem;
     color: ${(props) => props.theme.color.mainColor};
   `,
@@ -337,6 +338,7 @@ const S = {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
     svg {
       width: 1rem;
       height: 1rem;
@@ -361,9 +363,10 @@ const S = {
   `,
   DropdownItem: styled.div`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 0.9rem;
+    font-size: 1rem;
     padding: 0.5rem 1rem;
     cursor: pointer;
+
     &:hover {
       background: ${(props) => props.theme.color.collectionColor};
     }
@@ -422,8 +425,8 @@ const S = {
     gap: 0.5rem;
   `,
   SectionTitle: styled.h2`
-    font-size: 1.5rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
+    font-size: 1.5rem;
   `,
   TitleCount: styled.span`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
@@ -443,8 +446,8 @@ const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0;
     position: relative;
+    padding: 0.5rem 0;
     border-bottom: ${(props) => props.theme.font.borderDefault};
   `,
   CommentLeft: styled.div`
@@ -463,15 +466,15 @@ const S = {
     gap: 0.2rem;
   `,
   CommentUser: styled.span`
-    font-weight: bold;
+    font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontBlack};
   `,
   CommentText: styled.span`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.8rem;
     color: ${(props) => props.theme.color.fontGray};
   `,
-
   CommentTimeAndMenu: styled.div`
     display: flex;
     flex-direction: column;
@@ -481,6 +484,7 @@ const S = {
     color: ${(props) => props.theme.color.fontGray};
   `,
   CommentTime: styled.span`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.7rem;
     color: ${(props) => props.theme.color.fontGray};
   `,
@@ -489,19 +493,16 @@ const S = {
     height: 1.2rem;
     color: ${(props) => props.theme.color.fontGray};
     cursor: pointer;
-    &:hover {
-      color: ${(props) => props.theme.color.fontBlack};
-    }
   `,
   CommentDropdown: styled.div`
     position: absolute;
     top: 3rem;
-    right: 0rem;
+    right: 0;
     z-index: 10;
     background: ${(props) => props.theme.color.mainColor};
+    box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
     color: ${(props) => props.theme.color.fontBlack};
     font-family: ${(props) => props.theme.font.fontSuitRegular};
-    box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
     border-radius: 0.3rem;
     padding: 0.5rem 0;
     min-width: 8rem;
@@ -527,7 +528,6 @@ const S = {
     gap: 0.3rem;
     background: ${(props) => props.theme.color.commentColor};
     font-family: ${(props) => props.theme.font.fontSuitRegular};
-    color: ${(props) => props.theme.color.fontGray};
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 0.3rem;

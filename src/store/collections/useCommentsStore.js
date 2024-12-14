@@ -4,7 +4,7 @@ import { getCommentsFromApi, postComment } from "../../apis/myPage/collection/co
 const useCommentsStore = create((set, get) => ({
   comments: [],
   commentContent: "",
-  comment: "",  // comment 상태 추가
+  comment: "",
   isModalOpen: false,
   commentSubmitting: false,
   error: null,
@@ -16,7 +16,6 @@ const useCommentsStore = create((set, get) => ({
   addComment: async (collectionId) => {
     const { commentContent } = get(); // 현재 입력된 댓글 내용 가져오기
     if (!commentContent.trim()) {
-      alert("댓글 내용을 입력해주세요!");
       return;
     }
 
@@ -42,9 +41,7 @@ const useCommentsStore = create((set, get) => ({
         commentSubmitting: false,
       }));
 
-      console.log("댓글 작성 성공:", newComment);
     } catch (error) {
-      console.error("댓글 작성 실패:", error);
       set({ commentSubmitting: false, error });
     }
   },
@@ -58,17 +55,13 @@ const useCommentsStore = create((set, get) => ({
     try {
       const fetchedComments = await getCommentsFromApi(collectionId, page, size);
       set({ comments: fetchedComments });
-      console.log("댓글 목록 가져오기 성공:", fetchedComments);
     } catch (error) {
-      console.error("댓글 목록 가져오기 실패:", error);
       set({ error });
     }
   },
 
   // 편집 모달 열기 함수
-  openEditModal: (comment) => {
-    console.log("편집 모달 열기 데이터:", { comment });
-    
+  openEditModal: (comment) => {   
     set({
       isModalOpen: true,
       commentContent: comment,  // comment는 그대로 설정
@@ -76,7 +69,6 @@ const useCommentsStore = create((set, get) => ({
     });
   },
 
-  // 모달 닫기 함수
   closeModal: () => set({ 
     isModalOpen: false, 
     commentContent: "",  // 댓글 내용 초기화

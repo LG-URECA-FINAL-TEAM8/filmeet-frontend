@@ -49,7 +49,7 @@ const customStyles = {
     width: "17.5rem",
     height: "7.5rem",
     margin: "auto",
-    borderRadius: "0.62rem",
+    borderRadius: "0.6rem",
     padding: "1.25rem 0 0 0",
     overflow: "hidden",
   },
@@ -88,7 +88,7 @@ const S = {
     background: none;
     border: none;
     cursor: pointer;
-    margin: 0.69rem 0;
+    margin: 0.7rem 0;
   `,
   Divider: styled.div`
     width: 0.1rem;
@@ -103,6 +103,6 @@ const S = {
     background: none;
     border: none;
     cursor: pointer;
-    margin: 0.69rem 0;
+    margin: 0.7rem 0;
   `,
 };

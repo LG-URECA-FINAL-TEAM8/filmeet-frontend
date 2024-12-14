@@ -12,11 +12,7 @@ import { groupMoviesByRating } from "../../utils/ratings/groupMoviesRatings";
 const ByRatingList = () => {
   const { activeFilter, setActiveFilter } = useRatingsStore();
   const navigate = useNavigate();
-
-  // Fetch ratings data from API
   const { data, isLoading, error } = useMovieRatings(0, 100, "createdAt,desc");
-
-  // Group movies by ratings using API data
   const groupedRatings = groupMoviesByRating(data?.data?.content || [], pagecontents.movieRatingSections.ratings);
 
   // 하드코딩된 필터 데이터 활용

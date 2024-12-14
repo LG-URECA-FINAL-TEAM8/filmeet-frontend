@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import MovieSearchModal from "../Common/modal/MovieSearchModal";
-import useCollectionsStore from "../../store/collections/useCollectionsStore";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { updateCollection } from "../../apis/myPage/collection/collectiondetail";
+import useCollectionsStore from "../../store/collections/useCollectionsStore";
+import MovieSearchModal from "../Common/modal/MovieSearchModal";
 
 const CollectionsLabel = {
   EditCollection: "컬렉션 수정",
@@ -18,48 +18,30 @@ const CollectionsLabel = {
 };
 
 const EditCollection = () => {
-  const {
-    selectedCollection,
-    collectionMovies,
-    collectionMoviesLoading,
-    fetchCollectionMovies,
-    title,
-    description,
-    selectedMovies,
-    isEditing,
-    moviesToRemove,
-    isModalOpen,
-    openModal,
-    closeModal,
-    setTitle,
-    setDescription,
-    addMovies,
-    toggleMovieToRemove,
-    removeSelectedMovies,
-    enableEditMode,
-    disableEditMode,
-    resetFields,
-    confirmTempSelectedMovies,
-  } = useCollectionsStore();
+  const { selectedCollection, collectionMovies, collectionMoviesLoading, fetchCollectionMovies, title, description, selectedMovies,
+    isEditing, moviesToRemove, isModalOpen, openModal, closeModal, setTitle, setDescription, addMovies, toggleMovieToRemove,
+    removeSelectedMovies, enableEditMode, disableEditMode, resetFields, confirmTempSelectedMovies } = useCollectionsStore();
+
   const navigate = useNavigate();
 
+  //컬렉션 상세에서 수정하기 누를시 제목, 내용 가져오기 위해서서
   useEffect(() => {
     if (selectedCollection) {
-      setTitle(selectedCollection.collectionTitle || ""); // 기본 제목
-      setDescription(selectedCollection.collectionContent || ""); // 기본 설명
-
+      setTitle(selectedCollection.collectionTitle || "");
+      setDescription(selectedCollection.collectionContent || "");
       // 특정 컬렉션의 영화 가져오기
       fetchCollectionMovies(selectedCollection.collectionId);
     }
   }, [selectedCollection, setTitle, setDescription, fetchCollectionMovies]);
 
+  //컬렉션 상세에서 수정하기 누를시 영화목록 가져오기 위해서
   useEffect(() => {
     if (!collectionMoviesLoading) {
       // 가져온 영화 데이터를 selectedMovies로 설정
       const formattedMovies = (collectionMovies || []).map((movie) => ({
         id: movie.movieId,
         title: movie.title,
-        image: movie.posterImage, // posterImage가 이미지 URL
+        image: movie.posterImage,
         releaseDate: movie.releaseDate,
       }));
       addMovies(formattedMovies);
@@ -68,32 +50,23 @@ const EditCollection = () => {
 
   const handleSaveCollection = async () => {
     if (!title.trim() || !description.trim()) {
-      alert("제목과 설명을 모두 입력해주세요.");
       return;
     }
-
-    try {
       const movieIds = selectedMovies.map((movie) => movie.id); // 영화 ID 목록 생성
       const updatedCollection = {
         title: title.trim(),
         content: description.trim(),
-        collectionId: selectedCollection.collectionId, // 수정할 컬렉션 ID
+        collectionId: selectedCollection.collectionId,
         movieIds,
       };
 
       await updateCollection(updatedCollection); // PATCH 요청
-      alert("컬렉션이 성공적으로 수정되었습니다.");
       resetFields(); // 상태 초기화
       navigate("/mypage/collections"); // 목록 페이지로 이동
-    } catch (error) {
-      console.error("컬렉션 수정 실패:", error);
-      alert("컬렉션 수정에 실패했습니다.");
-    }
   };
 
   const handleCancelEdit = () => {
     disableEditMode();
-    navigate("/mypage/collections"); // 목록 페이지로 이동
   };
 
   const handleRemoveSelectedMovies = () => {
@@ -197,7 +170,7 @@ const S = {
     width: 100%;
     max-width: 40rem;
     margin: 0 auto;
-    padding: 1.25rem 0 1.25rem 0;
+    padding: 1.25rem 0;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
@@ -216,13 +189,13 @@ const S = {
 
   SaveButton: styled.button`
     padding: 0.3rem 0.9rem;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 1rem;
-    color: ${(props) =>
-      props.hasContent ? props.theme.color.fontPink : props.theme.color.collectionColor};
-    background-color: transparent;
     border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
     border-radius: 0.3rem;
+    background-color: transparent;
+    color: ${(props) =>
+      props.hasContent ? props.theme.color.fontPink : props.theme.color.collectionColor};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
   `,
@@ -294,11 +267,11 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 6.25rem;
-    height: 8.9rem;
+    width: 6rem;
+    height: 9rem;
     margin: 0;
-    border-radius: 0.3rem;
     border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
+    border-radius: 0.3rem;
     background-color: ${(props) => props.theme.color.commentColor};
     color: ${(props) => props.theme.color.collectionColor};
     text-align: center;
@@ -323,7 +296,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 6.25rem;
+    width: 6rem;
     margin: 0 auto;
     border-radius: 0.3rem;
     overflow: hidden;
@@ -333,7 +306,7 @@ const S = {
 
   ThumbnailImage: styled.img`
     width: 100%;
-    height: 8.9rem;
+    height: 9rem;
     object-fit: cover;
     border-radius: 0.3rem;
   `,
@@ -341,8 +314,8 @@ const S = {
   ThumbnailTitle: styled.div`
     margin-top: 0.4rem;
     width: 100%;
-    font-size: 0.9rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontBlack};
     text-align: center;
     overflow: hidden;
@@ -352,17 +325,17 @@ const S = {
 
   RemoveIcon: styled.div`
     position: absolute;
-  top: 0.3rem;
-  right: 0.3rem;
-  font-size: 1rem;
-  color: ${(props) =>
-    props.isSelected ? props.theme.color.fontPink : props.theme.color.fontWhite}; /* 선택 여부에 따라 색상 변경 */
-  cursor: pointer;
-  transition: color 0.2s ease-in-out;
+    top: 0.3rem;
+    right: 0.3rem;
+    font-size: 1rem;
+    color: ${(props) =>
+      props.isSelected ? props.theme.color.fontPink : props.theme.color.fontWhite};
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
 
-  &:hover {
-    color: ${(props) => props.theme.color.fontPink}; /* Hover 시 핑크 */
-  }
+    &:hover {
+      color: ${(props) => props.theme.color.fontPink};
+    }
   `,
 
   EditButton: styled.button`
@@ -377,26 +350,26 @@ const S = {
   RemoveButton: styled.button`
     border: none;
     background: none;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.8rem;
     color: ${(props) =>
-    props.disabled
-      ? props.theme.color.collectionColor
-      : props.theme.color.fontPink};
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
+      props.disabled ? props.theme.color.collectionColor : props.theme.color.fontPink};
     cursor: pointer;
   `,
-  ActionButtons: styled.div`
-  display: flex;
-  align-items: center;
-`,
 
-CancelButton: styled.button`
-  border: none;
-  background: none;
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
-  font-size: 0.8rem;
-  color: ${(props) => props.theme.color.fontPink};
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-`,
+  ActionButtons: styled.div`
+    display: flex;
+    align-items: center;
+  `,
+
+  CancelButton: styled.button`
+    border: none;
+    background: none;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 0.8rem;
+    color: ${(props) => props.theme.color.fontPink};
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  `,
 };
+

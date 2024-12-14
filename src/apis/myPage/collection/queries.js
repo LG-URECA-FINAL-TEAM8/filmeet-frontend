@@ -31,11 +31,7 @@ export const useLikeCollection = () => {
   return useMutation({
     mutationFn: (collectionId) => likeCollection(collectionId),
     onSuccess: () => {
-      console.log("좋아요 성공");
       queryClient.invalidateQueries(["collectionDetail"]); // 컬렉션 상세 쿼리 무효화
-    },
-    onError: (error) => {
-      console.error("좋아요 요청 실패:", error);
     },
   });
 };
@@ -47,11 +43,7 @@ export const useCancelLikeCollection = () => {
   return useMutation({
     mutationFn: (collectionId) => cancelLikeCollection(collectionId),
     onSuccess: () => {
-      console.log("좋아요 취소 성공");
       queryClient.invalidateQueries(["collectionDetail"]); // 컬렉션 상세 쿼리 무효화
-    },
-    onError: (error) => {
-      console.error("좋아요 취소 요청 실패:", error);
     },
   });
 };
@@ -88,11 +80,7 @@ export const useDeleteComment = () => {
     mutationFn: ({ collectionId, collectionCommentId }) =>
       deleteComment({ collectionId, collectionCommentId }), // 댓글 삭제 API 호출
     onSuccess: () => {
-      console.log("댓글 삭제 성공: 댓글 목록 갱신 중...");
       queryClient.invalidateQueries(["comments"]); // 댓글 목록 갱신
-    },
-    onError: (error) => {
-      console.error("댓글 삭제 중 오류:", error);
     },
   });
 };
@@ -105,11 +93,7 @@ export const useUpdateComment = () => {
     mutationFn: ({ collectionCommentId, commentContent }) =>
       updateComment({ collectionCommentId, commentContent }),
     onSuccess: () => {
-      console.log("댓글 수정 성공: 댓글 목록 갱신 중...");
       queryClient.invalidateQueries(["comments"]); // 댓글 목록 갱신
-    },
-    onError: (error) => {
-      console.error("댓글 수정 중 오류:", error);
     },
   });
 };

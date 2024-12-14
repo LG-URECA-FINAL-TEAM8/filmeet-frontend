@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getFollowers, getFollowings } from './follow.js';
 
 export const useFollowers = (userId, page = 0, size = 20) => {
-  console.log(`useFollowers called with userId: ${userId}`);
     return useQuery({
       queryKey: ['followers', userId, page],
       queryFn: () => getFollowers(userId, page, size),

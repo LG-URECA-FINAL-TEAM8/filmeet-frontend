@@ -4,9 +4,7 @@ let accessToken = localStorage.getItem("accessToken");
 // 컬렉션 상세 정보
 export const getCollectionDetail = async (collectionId) => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/collections/${collectionId}`;
-    console.log(`Fetching collection detail: ${url}`);
-    console.log(`Access Token: ${accessToken}`);
-  
+ 
     let response = await fetch(url, {
       method: "GET",
       headers: {
@@ -16,13 +14,11 @@ export const getCollectionDetail = async (collectionId) => {
   
     // AccessToken 만료 시 갱신 로직
     if (response.status === 401) {
-      console.warn("AccessToken 만료됨. 갱신 시도 중...");
       const refreshToken = localStorage.getItem("refreshToken");
       await postRefresh(refreshToken);
   
       // 갱신된 토큰 다시 가져오기
       accessToken = localStorage.getItem("accessToken");
-      console.log(`New Access Token: ${accessToken}`);
   
       response = await fetch(url, {
         method: "GET",
@@ -34,13 +30,11 @@ export const getCollectionDetail = async (collectionId) => {
   
     // 응답 상태 확인
     if (!response.ok) {
-      console.error("API 호출 실패:", response.status, await response.text());
       throw new Error("컬렉션 상세 정보를 불러오지 못했습니다.");
     }
   
     // JSON 파싱 및 결과 반환
     const collectionDetailData = await response.json();
-    console.log("Fetched Collection Detail Data:", collectionDetailData);
   
     return collectionDetailData;
   };
@@ -61,8 +55,6 @@ export const getCollectionDetail = async (collectionId) => {
     });
   
     if (!response.ok) {
-      const error = await response.text();
-      console.error("컬렉션 삭제 실패:", error);
       throw new Error("컬렉션 삭제 중 문제가 발생했습니다.");
     }
   
@@ -84,8 +76,6 @@ export const getCollectionDetail = async (collectionId) => {
     });
   
     if (!response.ok) {
-      const error = await response.json();
-      console.error("컬렉션 수정 실패:", error);
       throw new Error("컬렉션 수정 중 문제가 발생했습니다.");
     }
   
@@ -96,8 +86,6 @@ export const getCollectionDetail = async (collectionId) => {
   // 컬렉션에 포함된 영화 목록 조회
 export const getCollectionMovies = async (collectionId, page = 0, size = 20) => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/collections/${collectionId}/movies?page=${page}&size=${size}`;
-  console.log(`Fetching collection movies: ${url}`);
-  console.log(`Access Token: ${accessToken}`);
 
   let response = await fetch(url, {
     method: "GET",
@@ -108,13 +96,11 @@ export const getCollectionMovies = async (collectionId, page = 0, size = 20) => 
 
   // AccessToken 만료 시 갱신 로직
   if (response.status === 401) {
-    console.warn("AccessToken 만료됨. 갱신 시도 중...");
     const refreshToken = localStorage.getItem("refreshToken");
     await postRefresh(refreshToken);
 
     // 갱신된 토큰 다시 가져오기
     accessToken = localStorage.getItem("accessToken");
-    console.log(`New Access Token: ${accessToken}`);
 
     response = await fetch(url, {
       method: "GET",
@@ -126,14 +112,11 @@ export const getCollectionMovies = async (collectionId, page = 0, size = 20) => 
 
   // 응답 상태 확인
   if (!response.ok) {
-    const error = await response.text();
-    console.error("API 호출 실패:", error);
     throw new Error("컬렉션의 영화 데이터를 불러오지 못했습니다.");
   }
 
   // JSON 파싱 및 결과 반환
   const collectionMoviesData = await response.json();
-  console.log("Fetched Collection Movies Data:", collectionMoviesData);
 
   return collectionMoviesData;
 };
@@ -151,7 +134,6 @@ export const likeCollection = async (collectionId) => {
 
     // AccessToken 만료 시 갱신 로직
     if (response.status === 401) {
-      console.warn("AccessToken 만료됨. 갱신 시도 중...");
       const refreshToken = localStorage.getItem("refreshToken");
       await postRefresh(refreshToken);
 
@@ -167,12 +149,8 @@ export const likeCollection = async (collectionId) => {
     }
 
     if (!response.ok) {
-      const error = await response.text();
-      console.error("좋아요 요청 실패:", error);
       throw new Error("좋아요 추가 중 문제가 발생했습니다.");
     }
-
-    console.log("좋아요 성공");
   } catch (error) {
     console.error("좋아요 API 에러:", error);
     throw error;
@@ -191,7 +169,6 @@ export const cancelLikeCollection = async (collectionId) => {
     });
 
     if (response.status === 401) {
-      console.warn("AccessToken 만료됨. 갱신 시도 중...");
       const refreshToken = localStorage.getItem("refreshToken");
       await postRefresh(refreshToken);
 
@@ -204,12 +181,8 @@ export const cancelLikeCollection = async (collectionId) => {
     }
 
     if (!response.ok) {
-      const error = await response.text();
-      console.error("좋아요 취소 요청 실패:", error);
       throw new Error("좋아요 취소 요청에 실패했습니다.");
     }
-
-    console.log("좋아요 취소 성공");
   } catch (error) {
     console.error("좋아요 취소 API 에러:", error);
     throw error;

@@ -19,23 +19,15 @@ const CollectionDeleteModal = () => {
 
   const handleConfirm = async () => {
     if (!selectedCollection) {
-      console.error("선택된 컬렉션이 없습니다.");
       return;
     }
 
     const { collectionId, movies = [] } = selectedCollection; // 기본값 설정
-    try {
-      if (movies.length === 0) {
-        console.warn("영화 목록이 비어 있습니다. 빈 배열로 처리합니다.");
-      }
 
       const movieIds = movies.length > 0 ? movies.map((movie) => movie.movieId) : [];
       await removeCollection(collectionId, movieIds, navigate); // `navigate` 전달
-      closeModal(); // 모달 닫기
-      navigate("/mypage/collections"); // 삭제 후 경로 이동
-    } catch (error) {
-      console.error("삭제 실패:", error);
-    }
+      closeModal();
+      navigate("/mypage/collections"); 
   };
 
   if (!isModalOpen) return null;
@@ -65,7 +57,7 @@ const customStyles = {
     width: "17.5rem",
     height: "7.5rem",
     margin: "auto",
-    borderRadius: "0.62rem",
+    borderRadius: "0.6rem",
     padding: "1.25rem 0 0 0",
     overflow: "hidden",
   },
@@ -73,21 +65,21 @@ const customStyles = {
 
 const S = {
   Container: styled.div`
-    width: 15rem;
     margin: 0 1.25rem;
+    width: 15rem;
     text-align: center;
   `,
   Title: styled.h2`
-    font-family: ${(props) => props.theme.font.fontSuitBold};
-    font-weight: ${(props) => props.theme.font.fontWeightBold};
-    font-size: 1.1rem;
     margin: 0;
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+    font-size: 1.1rem;
+    font-weight: ${(props) => props.theme.font.fontWeightBold};
   `,
   Message: styled.div`
+    margin: 0.5rem 0 1.5rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontGray};
-    margin: 0.5rem 0 1.5rem;
   `,
   ButtonGroup: styled.div`
     display: flex;
@@ -97,14 +89,14 @@ const S = {
     border-top: ${(props) => props.theme.font.borderDefault};
   `,
   CancelButton: styled.button`
+    margin: 0.7rem 0;
     flex: 1;
+    background: none;
+    border: none;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
     color: ${(props) => props.theme.color.fontPink};
-    background: none;
-    border: none;
     cursor: pointer;
-    margin: 0.69rem 0;
   `,
   Divider: styled.div`
     width: 0.1rem;
@@ -112,14 +104,15 @@ const S = {
     background-color: ${(props) => props.theme.color.commentColor};
   `,
   ConfirmButton: styled.button`
+    margin: 0.7rem 0;
     flex: 1;
+    background: none;
+    border: none;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1rem;
     color: ${(props) => props.theme.color.fontPink};
-    background: none;
-    border: none;
     cursor: pointer;
-    margin: 0.69rem 0;
   `,
 };
+
 

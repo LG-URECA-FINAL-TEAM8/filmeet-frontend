@@ -34,7 +34,7 @@ const CollectionList = ({ collections }) => {
               <S.ImageSection>
                 <S.Image
                   src={firstMovie.posterImage || "https://via.placeholder.com/640x260"}
-                  alt={firstMovie.title || "대표 이미지"}
+                  alt={firstMovie.title || ""}
                 />
                 <S.Overlay>
                   <S.Profile>
@@ -43,7 +43,7 @@ const CollectionList = ({ collections }) => {
                       alt="Profile"
                     />
                     <S.ProfileName>
-                      {collection.nickname || "익명 사용자"}
+                      {collection.nickname || ""}
                     </S.ProfileName>
                   </S.Profile>
                   <S.Badge>{movies.length}</S.Badge> {/* movies가 빈 배열일 경우 0 */}
@@ -51,10 +51,10 @@ const CollectionList = ({ collections }) => {
               </S.ImageSection>
               <S.CardContent>
                 <S.CollectionName>
-                  {collection.collectionTitle || "제목 없음"}
+                  {collection.collectionTitle || ""}
                 </S.CollectionName>
                 <S.Description>
-                  {collection.collectionContent || "컬렉션 설명 없음"}
+                  {collection.collectionContent || ""}
                 </S.Description>
               </S.CardContent>
               <S.CardActions>
@@ -91,7 +91,7 @@ const S = {
     width: 40rem;
     overflow: hidden;
     background: ${(props) => props.theme.color.mainColor};
-    border: ${(props) => props.theme.box.defaultBorder};
+    border: ${(props) => props.theme.color.lineColor};
     border-radius: 0.5rem;
     box-shadow: ${(props) => props.theme.box.defaulBoxShadow};
   `,
@@ -190,4 +190,5 @@ const S = {
     }
   `,
 };
+
 

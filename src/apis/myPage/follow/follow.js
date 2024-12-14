@@ -12,7 +12,6 @@ const fetchWithToken = async (url, options) => {
 
   // 토큰 만료 시 처리
   if (response.status === 401) {
-    console.warn('AccessToken 만료됨. 갱신 시도 중...');
     const refreshToken = localStorage.getItem('refreshToken');
     await postRefresh(refreshToken);
 
@@ -32,12 +31,10 @@ const fetchWithToken = async (url, options) => {
 
 export const getFollowers = async (userId, page = 0, size = 20) => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/follows/followers/${userId}?page=${page}&size=${size}`;
-  console.log(`Fetching followers: ${url}`);
 
   const response = await fetchWithToken(url, { method: 'GET' });
 
   if (!response.ok) {
-    console.error('Error fetching followers:', response.status, await response.text());
     throw new Error('팔로워 목록을 불러오지 못했습니다.');
   }
 
@@ -46,12 +43,10 @@ export const getFollowers = async (userId, page = 0, size = 20) => {
 
 export const getFollowings = async (userId, page = 0, size = 20) => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/follows/followings/${userId}?page=${page}&size=${size}`;
-  console.log(`Fetching followings: ${url}`);
 
   const response = await fetchWithToken(url, { method: 'GET' });
 
   if (!response.ok) {
-    console.error('Error fetching followings:', response.status, await response.text());
     throw new Error('팔로잉 목록을 불러오지 못했습니다.');
   }
 

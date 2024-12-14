@@ -7,14 +7,7 @@ import { useMovieRatings } from "../../apis/myPage/rating/queries";
 
 const Rating = () => {
   const navigate = useNavigate();
-
-  // React Query에서 데이터 가져오기
   const { data, isLoading, error } = useMovieRatings(0, 1000, "createdAt,asc");
-
-  // 데이터를 확인하기 위한 로그
-  console.log("Raw data from API:", data);
-  console.log("Extracted content:", data?.data?.content);
-  console.log("Content length:", data?.data?.content?.length);
 
   const handleCategoryClick = () => {
     navigate("/mypage/contents/movies/ratings");

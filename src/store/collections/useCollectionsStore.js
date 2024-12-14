@@ -21,7 +21,6 @@ const useCollectionsStore = create((set) => ({
       const response = await getUserCollections(userId, page, size);
       set({ collections: response.data.content, isLoading: false });
     } catch (error) {
-      console.error("Error fetching collections:", error);
       set({ error, isLoading: false });
     }
   },
