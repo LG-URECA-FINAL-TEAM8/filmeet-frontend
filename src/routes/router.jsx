@@ -27,8 +27,8 @@ const pageComponents = {
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieCommentAll: () => import('../pages/movieDetail/MovieCommentDetail'),
   Bin: () => import('../components/common/bin/Bin'),
-  WorldcupPage: () => import('../pages/WorldcupPage'),
-  WorldcupFinishPage: () => import('../pages/WorldcupFinishPage'),
+  WorldcupPage: () => import('../pages/worldcup/WorldcupPage'),
+  WorldcupFinishPage: () => import('../pages/worldcup/WorldcupFinishPage'),
 };
 
 const createLazyComponent = (importFn) => {

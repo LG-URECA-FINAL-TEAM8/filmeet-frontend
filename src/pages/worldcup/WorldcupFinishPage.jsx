@@ -1,6 +1,7 @@
-import ResultCard from "../components/worldcup/ResultCard";
-import ResultFooter from "../components/worldcup/ResultFooter";
-import { FinishPageWrapper } from "../styles/worldcup/worldcup";
+import ResultCard from "../../components/worldcup/ResultCard";
+import ResultFooter from "../../components/worldcup/ResultFooter";
+import { FinishPageWrapper } from "../../styles/worldcup/worldcup";
+
 
 const WorldcupFinishPage = () => {
     const resultData = {

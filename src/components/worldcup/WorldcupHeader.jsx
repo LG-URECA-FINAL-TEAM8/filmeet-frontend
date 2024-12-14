@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-const WorldcupHeader = ({ currentRound, title = "시네마 월드컵", subtitle = "무슨 영화가 더 끌리는지 선택해주세요!!", round = "강" }) => {
+const WorldcupHeader = ({ totalRounds, title = "시네마 월드컵", subtitle = "무슨 영화가 더 끌리는지 선택해주세요!!", round = "강" }) => {
   return (
     <S.HeaderContainer>
       <S.Title>{title}</S.Title>
       <S.Subtitle>{subtitle}</S.Subtitle>
-      <S.RoundIndicator>{currentRound}{round}</S.RoundIndicator>
+      <S.RoundIndicator>{totalRounds}{round}</S.RoundIndicator>
     </S.HeaderContainer>
   );
 };
@@ -25,7 +25,6 @@ const S = {
     margin: 0.5rem 0;
     font-size: 2rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
-    font-weight: bold;
     color: ${(props) => props.theme.color.fontBlack};
   `,
 
@@ -40,6 +39,5 @@ const S = {
     margin-top: 0.5rem;
     font-size: 1.5rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
-    font-weight: bold;
   `,
 };
