@@ -2,15 +2,8 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 import useCommentStore from "../../../store/modal/useCommentStore";
 import { useDeleteComment, useDeleteReview } from "../../../apis/commentDetails/queries";
-import { useNavigate } from "react-router-dom"; 
-
-const MODALTEXTS = {
-  modalTitle: "알림",
-  deleteComment: "댓글을 삭제하시겠어요?", // 댓글 삭제
-  deleteCommentary: "리뷰를 삭제하시겠어요?", // 리뷰 삭제
-  cancel: "취소",
-  confirm: "확인",
-};
+import { useNavigate } from "react-router-dom";
+import { pagecontents } from "../../../data/pagecontents";
 
 ReactModal.setAppElement("#root");
 
@@ -18,40 +11,23 @@ const CommentDeleteModal = () => {
   const { isOpen, modalType, commentData, closeModal } = useCommentStore();
   const { mutate: deleteCommentMutate } = useDeleteComment(); // 댓글 삭제 훅
   const { mutate: deleteReviewMutate } = useDeleteReview(); // 리뷰 삭제 훅
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const {  deleteCommentary, deleteListComment, alarm, cancel, confirm, } = pagecontents.commentPageContent;
 
   if (!isOpen || !["deleteComment", "deleteCommentary"].includes(modalType)) return null;
 
   const handleConfirm = async () => {
-    if (modalType === "deleteCommentary" && commentData.reviewId && commentData.movieId) {
-      // 리뷰 삭제 API 호출
-      deleteReviewMutate(
-        { reviewId: commentData.reviewId, movieId: commentData.movieId },
-        {
-          onSuccess: () => {
-            console.log("리뷰가 성공적으로 삭제되었습니다.");
-            navigate("/mypage/comments"); 
-          },
-          onError: (error) => {
-            console.error("리뷰 삭제 중 오류 발생:", error);
-          },
-        }
-      );
-    } else if (modalType === "deleteComment" && commentData.reviewId && commentData.commentId) {
-      // 댓글 삭제 API 호출
-      deleteCommentMutate(
-        { reviewId: commentData.reviewId, commentId: commentData.commentId },
-        {
-          onSuccess: () => {
-            console.log("댓글이 성공적으로 삭제되었습니다.");
-          },
-          onError: (error) => {
-            console.error("댓글 삭제 중 오류 발생:", error);
-          },
-        }
-      );
-    } else {
-      console.error("적절한 데이터가 제공되지 않았습니다.");
+    if (modalType === "deleteCommentary") {
+      deleteReviewMutate({
+        reviewId: commentData?.reviewId,
+        movieId: commentData?.movieId,
+      });
+      navigate("/mypage/comments");
+    } else if (modalType === "deleteComment") {
+      deleteCommentMutate({
+        reviewId: commentData?.reviewId,
+        commentId: commentData?.commentId,
+      });
     }
     closeModal();
   };
@@ -59,12 +35,14 @@ const CommentDeleteModal = () => {
   return (
     <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
       <S.Container>
-        <S.Title>{MODALTEXTS.modalTitle}</S.Title>
-        <S.Message>{MODALTEXTS[modalType]}</S.Message>
+        <S.Title>{alarm}</S.Title>
+        <S.Message>
+          {modalType === "deleteCommentary" ? deleteCommentary : deleteListComment}
+        </S.Message>
         <S.ButtonGroup>
-          <S.CancelButton onClick={closeModal}>{MODALTEXTS.cancel}</S.CancelButton>
+          <S.CancelButton onClick={closeModal}>{cancel}</S.CancelButton>
           <S.Divider />
-          <S.ConfirmButton onClick={handleConfirm}>{MODALTEXTS.confirm}</S.ConfirmButton>
+          <S.ConfirmButton onClick={handleConfirm}>{confirm}</S.ConfirmButton>
         </S.ButtonGroup>
       </S.Container>
     </ReactModal>
@@ -72,6 +50,7 @@ const CommentDeleteModal = () => {
 };
 
 export default CommentDeleteModal;
+
 
 const customStyles = {
   overlay: {

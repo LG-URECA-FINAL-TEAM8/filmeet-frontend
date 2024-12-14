@@ -36,5 +36,13 @@ export const pagecontents = {
     edit: "수정",
     count: "0",
     deleteText: "삭제",
+    editComment: "댓글 수정",
+    deleteComment: "댓글 삭제",
+    noComments: "댓글이 없습니다.",
+    deleteCommentary: "리뷰를 삭제하시겠어요?",
+    deleteListComment: "댓글을 삭제하시겠어요?",
+    alarm: "알림",
+    cancel: "취소",
+    confirm: "확인"
   },
 };

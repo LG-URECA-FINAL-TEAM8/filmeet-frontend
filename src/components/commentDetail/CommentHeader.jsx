@@ -5,33 +5,26 @@ import useCommentStore from "../../store/modal/useCommentStore";
 import { pagecontents } from "../../data/pagecontents";
 import { useNavigate } from "react-router-dom";
 import { createProfileClickHandler } from "../../utils/ratings/navigationHandlers";
-import CommentEditModal from "../Common/modal/CommentEditModal";
 import CommentDeleteModal from "../common/modal/CommentDeleteModal";
+import CommentEditModal from "../common/modal/CommentEditModal";
 
-
-const CommentHeader = ({ commentData,userInfo }) => {
+const CommentHeader = ({ commentData, userInfo }) => {
   const navigate = useNavigate();
   const { openModal } = useCommentStore();
   const isAuthor = commentData?.nickName === userInfo?.nickname;
-
-
-  const { likeComment, comment, edit, deleteText } = pagecontents.commentPageContent;
-
+  const formattedDate = commentData?.createdAt?.slice(0, 10);
+  const { likeComment, comment, edit, deleteText } = pagecontents.commentPageContent
+  
   const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
-
+  
   const handleEditClick = () => {
     openModal("edit", commentData);
   };
 
   const handleDeleteClick = () => {
-    if (commentData?.reviewId && commentData?.movieId) {
-      console.log("Review ID:", commentData.reviewId);
-      console.log("Movie ID:", commentData.movieId);
-    } else {
-      console.error("Review ID 또는 Movie ID가 존재하지 않습니다.");
-    }
     openModal("deleteCommentary", commentData);
   };
+
   return (
     <>
       <S.Header>
@@ -40,42 +33,42 @@ const CommentHeader = ({ commentData,userInfo }) => {
             <S.UserInfo>
               <S.UserDetails>
                 <S.UserProfile
-                  src={commentData?.profileImage} 
-                  alt={commentData?.nickName}  
+                  src={commentData?.profileImage}
+                  alt={commentData?.nickName}
                   onClick={handleProfileClick}
                 />
                 <S.UserName onClick={handleProfileClick}>
-                  {commentData?.nickName} 
+                  {commentData?.nickName}
                 </S.UserName>
-                <S.CommentTime>{commentData?.createdAt}</S.CommentTime>  {/* 수정: createdAt */}
+                <S.CommentTime>{formattedDate}</S.CommentTime> {/* 수정: createdAt -> formattedDate */}
               </S.UserDetails>
             </S.UserInfo>
             <S.MovieDetails>
               <S.MovieTitle>
-                {commentData?.movieTitle} ({commentData?.movieReleaseDate?.slice(0, 4)})  {/* 수정: movieTitle, movieReleaseDate */}
+                {commentData?.movieTitle} ({commentData?.movieReleaseDate?.slice(0, 4)})
               </S.MovieTitle>
-              <S.MovieGenre>{commentData?.genre}</S.MovieGenre>  {/* 수정: genre */}
+              <S.MovieGenre>{commentData?.genre}</S.MovieGenre>
             </S.MovieDetails>
           </S.LeftContent>
-          <S.MoviePoster src={commentData?.posterUrl} alt={commentData?.movieTitle} />  {/* 수정: posterUrl */}
+          <S.MoviePoster src={commentData?.posterUrl} alt={commentData?.movieTitle} />
         </S.MainContent>
-        <S.Content>{commentData?.content}</S.Content>  {/* 수정: content */}
+        <S.Content>{commentData?.content}</S.Content>
         <S.ActionRow>
           <S.ActionText>
             {likeComment} {commentData?.likeCounts} {comment} {commentData?.commentCounts}
           </S.ActionText>
           {isAuthor && (
-        <S.ActionButtons>
-          <S.EditButton onClick={handleEditClick}>
-            <SvgPencil />
-            {edit}
-          </S.EditButton>
-          <S.DeleteButton onClick={handleDeleteClick}>
-            <SvgDelete />
-            {deleteText}
-          </S.DeleteButton>
-        </S.ActionButtons>
-      )}
+            <S.ActionButtons>
+              <S.EditButton onClick={handleEditClick}>
+                <SvgPencil />
+                {edit}
+              </S.EditButton>
+              <S.DeleteButton onClick={handleDeleteClick}>
+                <SvgDelete />
+                {deleteText}
+              </S.DeleteButton>
+            </S.ActionButtons>
+          )}
         </S.ActionRow>
       </S.Header>
       <CommentEditModal />

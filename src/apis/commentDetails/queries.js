@@ -1,23 +1,48 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCommentDetails } from './commentDetails';
-import { createComment } from './commentlList';
-import { fetchComments } from './commentSelect';
-import { updateReview } from './commentEdit';  
-import { deleteComment } from './commentListDelete';
-import { updateComment } from './commentListEdit'
-import { deleteReview } from './commentReivewsDelete';
-import { likeReview } from './commentLike';
-import { cancelLikeReview } from './commentLikeCancel';
+import { cancelLikeReview, createComment, deleteComment, deleteReview, fetchComments, getCommentDetails, likeReview, updateComment, updateReview } from './commentDetails';
+import useCommentStore from '../../store/modal/useCommentStore';
+
+// 리뷰 수정 훅
+export const useEditReview = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateReview,
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries(['reviews']); 
+      useCommentStore.getState().closeModal(); 
+    },
+    onError: (error) => {
+      console.error("리뷰 수정 중 오류 발생:", error);
+    },
+  });
+};
+
+// 리뷰 세부 정보 조회 훅
+export const useCommentDetails = ({ reviewId }) => {
+  return useQuery({
+    queryKey: ['commentDetails', { reviewId }],
+    queryFn: () => getCommentDetails({ reviewId }), 
+    enabled: !!reviewId, 
+    refetchOnWindowFocus: false, 
+  });
+};
 
 
 export const useCancelLikeReview = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: cancelLikeReview, // 리뷰에서 좋아요 취소하는 함수 호출
-    onSuccess: () => {
-      console.log('좋아요 취소 성공');
-      queryClient.invalidateQueries(['reviews']); // 리뷰 목록 데이터 새로고침
+    mutationFn: cancelLikeReview,
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries(['reviews']); 
+      queryClient.setQueryData(['reviews', variables], (oldData) => {
+        if (!oldData) return oldData;
+        const updatedData = { ...oldData };
+        updatedData.isLiked = false; 
+        updatedData.likeCounts -= 1; 
+        return updatedData;
+      });
     },
     onError: (error) => {
       console.error('좋아요 취소 중 오류 발생:', error);
@@ -26,16 +51,21 @@ export const useCancelLikeReview = () => {
 };
 
 
-
-
+// 리뷰 좋아요 훅
 export const useLikeReview = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: likeReview, // 리뷰에 좋아요 추가하는 함수 호출
-    onSuccess: () => {
-      console.log('좋아요 성공');
-      queryClient.invalidateQueries(['reviews']); // 리뷰 목록 데이터 새로고침
+    mutationFn: likeReview,
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries(['reviews']); 
+      queryClient.setQueryData(['reviews', variables], (oldData) => {
+        if (!oldData) return oldData;
+        const updatedData = { ...oldData };
+        updatedData.isLiked = true; 
+        updatedData.likeCounts += 1; 
+        return updatedData;
+      });
     },
     onError: (error) => {
       console.error('좋아요 중 오류 발생:', error);
@@ -43,46 +73,43 @@ export const useLikeReview = () => {
   });
 };
 
+// 리뷰 삭제 훅
 export const useDeleteReview = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: deleteReview, // deleteReview 함수 직접 할당
+    mutationFn: deleteReview, 
     onSuccess: (data, variables) => {
-      console.log("리뷰 삭제 성공:", data);
-      queryClient.invalidateQueries(['reviews']);
+      queryClient.invalidateQueries(['reviews']); 
     },
     onError: (error) => {
       console.error("리뷰 삭제 중 오류 발생:", error);
     },
   });
 };
-
-
-export const useDeleteComment = (reviewId,commnetId) => {
+// 댓글 삭제 훅
+export const useDeleteComment = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: deleteComment,  // deleteComment 함수 호출
+    mutationFn: deleteComment, 
     onSuccess: (data, variables) => {
-      console.log('댓글이 성공적으로 삭제되었습니다:', data);
-      queryClient.invalidateQueries(['comments', variables.reviewId]);
+      queryClient.invalidateQueries(['comments', variables.reviewId]); 
     },
     onError: (error) => {
       console.error('댓글 삭제 중 오류 발생:', error);
     },
   });
 };
-
+// 댓글 수정 훅
 export const useUpdateComment = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: updateComment, // updateComment 함수 호출
+    mutationFn: updateComment,
     onSuccess: (data, variables) => {
-      console.log('댓글이 성공적으로 수정되었습니다:', data);
-      // 댓글 목록을 최신화
-      queryClient.invalidateQueries(['comments', variables.reviewCommentId]); // reviewCommentId 사용
+      queryClient.invalidateQueries(['comments', variables.reviewCommentId]); 
+      useCommentStore.getState().closeModal(); 
     },
     onError: (error) => {
       console.error('댓글 수정 중 오류 발생:', error);
@@ -90,14 +117,15 @@ export const useUpdateComment = () => {
   });
 };
 
-
+// 댓글 생성 훅
 export const useCreateComment = () => {
-  const queryClient = useQueryClient(); 
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: createComment,  
+    mutationFn: createComment,
     onSuccess: (data) => {
-      console.log('댓글이 성공적으로 생성되었습니다:', data);
       queryClient.invalidateQueries(['createComments']); 
+      useCommentStore.getState().closeModal(); 
     },
     onError: (error) => {
       console.error('댓글 생성 중 오류 발생:', error);
@@ -105,39 +133,12 @@ export const useCreateComment = () => {
   });
 };
 
-
-  export const useFetchComments = ({ reviewId, page = 0, size = 10, sort = "createdAt,asc" }) => {
-    return useQuery({
-      queryKey: ['createComments', reviewId, page, size, sort],  
-  queryFn: () => fetchComments({ reviewId, page, size, sort }),
-  enabled: !!reviewId,
-    });
-  };
-
-
-
-  export const useEditReview = () => {
-    const queryClient = useQueryClient();  // queryClient 가져오기
-  
-    return useMutation({
-      mutationFn: updateReview,  // mutationFn에 updateReview 함수 전달
-      onSuccess: (data, variables) => {
-        // 성공 후, 댓글 데이터 갱신을 위해 캐시 무효화
-        queryClient.invalidateQueries(['commentDetails', { reviewId: variables.reviewId }]);
-        console.log("리뷰 수정 성공:", data);
-      },
-      onError: (error) => {
-        console.error("리뷰 수정 중 오류 발생:", error);
-      },
-    });
-  };
-
-  export const useCommentDetails = ({ reviewId }) => {
+// 댓글 목록 조회 훅
+export const useFetchComments = ({ reviewId, page = 0, size = 10, sort = "createdAt,asc" }) => {
   return useQuery({
-    queryKey: ['commentDetails', { reviewId }],
-    queryFn: () => getCommentDetails({ reviewId }),
-    enabled: !!reviewId,
-    refetchOnWindowFocus: false,
-  }); 
+    queryKey: ['createComments', reviewId, page, size, sort], 
+    queryFn: () => fetchComments({ reviewId, page, size, sort }), 
+    enabled: !!reviewId, 
+  });
 };
 

@@ -10,8 +10,7 @@ const CommentEditModal = () => {
   const { isOpen, modalType, commentData, comment, closeModal, setComment } = useCommentStore();
   const createCommentMutation = useCreateComment();
   const updateReviewMutation = useEditReview();
-  const updateCommentMutation = useUpdateComment(); // useUpdateComment 훅 추가
-
+  const updateCommentMutation = useUpdateComment(); 
   useEffect(() => {
     if (isOpen && modalType === "comment") {
       // 모달이 열릴 때 로깅할 데이터
@@ -23,71 +22,35 @@ const CommentEditModal = () => {
   const handleSave = () => {
     if (modalType === "comment" && commentData?.reviewId) {
       // 댓글 생성
-      createCommentMutation.mutate(
-        {
-          reviewId: commentData.reviewId,
-          content: comment,
-        },
-        {
-          onSuccess: (data) => {
-            console.log("댓글 등록 성공:", data);
-            closeModal();
-          },
-          onError: (error) => {
-            console.error("댓글 등록 실패:", error);
-          },
-        }
-      );
+      createCommentMutation.mutate({
+        reviewId: commentData.reviewId,
+        content: comment,
+      });
     } else if (modalType === "edit") {
       // 리뷰 댓글 수정
-      updateReviewMutation.mutate(
-        {
-          reviewId: commentData.reviewId,
-          content: comment,
-        },
-        {
-          onSuccess: (data) => {
-            console.log("리뷰 수정 성공:", data);
-            closeModal();
-          },
-          onError: (error) => {
-            console.error("리뷰 수정 실패:", error);
-          },
-        }
-      );
+      updateReviewMutation.mutate({
+        reviewId: commentData.reviewId,
+        content: comment,
+      });
     } else if (modalType === "commentedit") {
       // 일반 댓글 수정
-      console.log("일반 댓글 수정 실행:", { ...commentData, comment });
-
-      updateCommentMutation.mutate(
-        {
-          reviewCommentId: commentData.reviewCommentId, // 변경된 요청 형식 반영
-          content: comment,
-        },
-        {
-          onSuccess: (data) => {
-            console.log("일반 댓글 수정 성공:", data);
-            closeModal();
-          },
-          onError: (error) => {
-            console.error("일반 댓글 수정 실패:", error);
-          },
-        }
-      );
+      updateCommentMutation.mutate({
+        reviewCommentId: commentData.reviewCommentId,
+        content: comment,
+      });
     }
   };
-
   return (
     <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
       <S.Content>
         <S.CommentHeader>
           <S.CommentTitle>
             {modalType === "edit"
-              ? "리뷰댓글 수정"
+              ? commentData?.movieTitle
               : modalType === "comment"
-              ? "댓글 작성"
+              ? "댓글"
               : modalType === "commentedit"
-              ? "일반 댓글 수정"
+              ? "댓글"
               : ""}
           </S.CommentTitle>
           <S.CloseButton onClick={closeModal}>X</S.CloseButton>
