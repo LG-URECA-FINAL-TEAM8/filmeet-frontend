@@ -45,7 +45,7 @@ function Content({ movieData, movieId }) {
                   <S.RatingStars>
                     <StyledRate
                       allowHalf
-                      value={movieData?.myMovieRating?.ratingScore}
+                      value={movieData?.userMovieInteractionResponse?.ratingScore}
                       onChange={(ratingScore) => handleRatingChange(ratingScore, movieId)}
                     />
                   </S.RatingStars>
@@ -60,10 +60,12 @@ function Content({ movieData, movieId }) {
                   </S.StatScore>
                 </S.StatItem>
                 <S.IconContainer>
-                  <S.StatItemBox liked={movieData?.isLiked}>
+                  <S.StatItemBox liked={movieData?.userMovieInteractionResponse?.isLiked}>
                     <S.SvgIcLikeFilled24
-                      isLiked={movieData?.isLiked}
-                      onClick={() => handleLikeChange(movieId, movieData?.isLiked)}
+                      isLiked={movieData?.userMovieInteractionResponse?.isLiked}
+                      onClick={() =>
+                        handleLikeChange(movieId, movieData?.userMovieInteractionResponse?.isLiked)
+                      }
                     />
                     <S.StatDescription>{ContentText.liketext}</S.StatDescription>
                   </S.StatItemBox>
