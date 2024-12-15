@@ -4,11 +4,13 @@ import VersusText from "./VersusText";
 import WorldcupMoviecard from "./WorldcupMoviecard";
 import { useGameDetail, useSelectWinner } from "../../apis/worldcup/queries";
 import useWorldcupStore from "../../store/worldcup/worldcupStore";
+import { useNavigate } from "react-router-dom";
 
-const WorldcupMatch = ({ onGameFinish }) => {
+const WorldcupMatch = () => {
   const { gameId, currentRound, setCurrentRound, setWinnerMovie } = useWorldcupStore();
   const { data, refetch } = useGameDetail(gameId); // 게임 상세 조회 API
   const selectWinnerMutation = useSelectWinner();
+  const navigate = useNavigate();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [roundMatches, setRoundMatches] = useState([]);
@@ -26,16 +28,8 @@ const WorldcupMatch = ({ onGameFinish }) => {
 
   // 라운드 종료 처리
   const proceedToNextRound = async () => {
-    if (currentRound === 2) {
-      console.log("게임 종료!");
-      setWinnerMovie(currentMatch.movie1); // movie1을 우승 영화로 설정
-      onGameFinish();
-      return;
-    }
-
     console.log(`라운드 ${currentRound} 종료. 다음 라운드 진행.`);
 
-    // 최신 게임 데이터를 가져와 다음 라운드 설정
     await refetch();
     setCurrentRound(currentRound / 2);
   };
@@ -45,14 +39,39 @@ const WorldcupMatch = ({ onGameFinish }) => {
     selectWinnerMutation.mutate(
       { gameMatchId: currentMatch.id, selectedMovieId: movieId },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           console.log("승자 선택 완료!");
+
+          // 결승전 처리
+          if (currentRound === 2) {
+            console.log("결승전 승자 선택됨. 우승 영화 확인 중...");
+
+            try {
+              // 게임 상세 조회를 다시 호출해 우승 영화 확인
+              const updatedData = await refetch();
+              const finalMatch = updatedData.data?.data?.matches.find(
+                (match) => match.roundNumber === 2
+              );
+
+              const winnerMovie =
+                finalMatch?.winner === finalMatch?.movie1.movieId
+                  ? finalMatch.movie1
+                  : finalMatch.movie2;
+
+              console.log("우승 영화 설정 완료:", winnerMovie);
+
+              setWinnerMovie(winnerMovie);
+              navigate("/worldcupfinish"); // 결과 페이지로 이동
+            } catch (error) {
+              console.error("우승 영화 확인 실패:", error);
+            }
+            return;
+          }
 
           // 다음 매치로 이동
           if (currentIndex + 1 < roundMatches.length) {
             setCurrentIndex((prev) => prev + 1);
           } else {
-            // 현재 라운드 모든 매치 완료
             proceedToNextRound();
           }
         },

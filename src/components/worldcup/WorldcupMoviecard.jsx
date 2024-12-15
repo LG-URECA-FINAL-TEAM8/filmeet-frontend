@@ -3,18 +3,26 @@ import styled from "styled-components";
 import SvgComment from "../../assets/svg/Comment";
 import SvgIcLikeFilled24 from "../../assets/svg/IcLikeFilled24";
 import SvgStar from "../../assets/svg/Star";
+import { useState } from "react";
 
 const { Meta } = Card;
 
 const WorldcupMoviecard = ({ image, title, rating, likes, comments, onClick }) => {
+  const [isVanishing, setIsVanishing] = useState(false);
+
+  const handleCardClick = () => {
+    setIsVanishing(true); // vanishOut 클래스 추가
+    setTimeout(() => {
+      if (onClick) onClick();
+    }, 1000);
+  };
+
   return (
     <S.StyledCard
       hoverable
+      className={isVanishing ? "vanishOut" : ""}
       cover={<S.StyledImage alt={title} src={image} />}
-      onClick={() => {
-        console.log("카드 클릭됨:", title); // 디버깅용 로그 추가
-        if (onClick) onClick(); // onClick이 전달되었는지 확인
-      }}
+      onClick={handleCardClick}
     >
       <S.StyledMeta
         title={<S.CardTitle>{title}</S.CardTitle>}
