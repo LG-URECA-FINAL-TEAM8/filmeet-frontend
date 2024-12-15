@@ -12,15 +12,21 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/system';
 import LockIcon from '@mui/icons-material/Lock';
+import LikeBadge from './LikeBadge';
+import ReviewerBadge from './ReviewerBadge';
 import { useState, useEffect } from 'react';
 import { lightTheme } from '../../../styles/themes';
 import tableHeaders from '../../../data/admintableheaders';
 import useMovieStore from '../../../store/admin/useMovieStore';
-import usePaginationStore from '../../../store/admin/usePaginationStore';
-import LikeBadge from './LikeBadge';
-import ReviewerBadge from './ReviewerBadge';
-import { useAdminShowReviewList } from '../../../apis/admin/queries';
 import { useAdminReviewBlind } from '../../../apis/admin/queries';
+import { useAdminShowReviewList } from '../../../apis/admin/queries';
+import usePaginationStore from '../../../store/admin/usePaginationStore';
+import { 
+  handleBlind, 
+  handleKeyDown, 
+  handlePageChange 
+} from '../../../utils/admin/likeManagementUtils';
+
 
 function LikeManagement() {
   const { movies, setMovies } = useMovieStore();
@@ -28,16 +34,17 @@ function LikeManagement() {
   const [searchTerm, setSearchTerm] = useState('');
   const [submittedTerm, setSubmittedTerm] = useState('');
   const tableHeader = tableHeaders.likeManagement;
-
   const { data, isLoading, isError } = useAdminShowReviewList({
     movieTitle: submittedTerm || "",
     sort: 'asc',
     size: moviesPerPage,
     page: currentPage - 1,
   });
-
   const { mutate: blindReview } = useAdminReviewBlind();
-
+  
+  /* 서버에서 받아온 리뷰 데이터가 data.content에 있고, data.content가 배열인지 확인해서 데이터 처리
+  enhancedMovies에서는 각 데이터를 컴포넌트에 필요한 형태로 재구성하고 변환된 데이터를 
+  useMovieStore를 통해 전역 상태 movies로 저장 */
   useEffect(() => {
     if (data && Array.isArray(data.content)) {
       const enhancedMovies = data.content.map(({ id, movieTitle, username, createdAt }) => ({
@@ -51,35 +58,6 @@ function LikeManagement() {
       setMovies(enhancedMovies);
     }
   }, [data, setMovies]);
-
-  const handleBlind = (reviewId) => {
-    if (confirm('이 리뷰를 블라인드 처리하시겠습니까?')) {
-      blindReview(reviewId, {
-        onSuccess: () => {
-          alert('리뷰가 블라인드 처리되었습니다.');
-        },
-        onError: (error) => {
-          console.error(error);
-          alert('리뷰 블라인드 처리 중 오류가 발생했습니다.');
-        },
-      });
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      if (!searchTerm.trim()) {
-        alert('검색어를 입력하세요.');
-        return;
-      }
-      setSubmittedTerm(searchTerm);
-      setCurrentPage(1);
-    }
-  };
-
-  const handlePageChange = (event, value) => {
-    usePaginationStore.getState().setCurrentPage(value); 
-  };
 
   if (isLoading) return <p>Loading data...</p>;
   if (isError) return <p>An error occurred while fetching data. Please try again.</p>;
@@ -95,7 +73,7 @@ function LikeManagement() {
           label="영화 검색"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyDown={handleKeyDown}
+          onKeyDown={(e) => handleKeyDown(e, searchTerm, setSubmittedTerm, setCurrentPage)}
         />
       </S.SearchBox>
       <S.TableContainer component={Paper}>
@@ -120,7 +98,7 @@ function LikeManagement() {
                 <S.TableBodyCell>{movie.rating}</S.TableBodyCell>
                 <S.TableBodyCell>{movie.createdDate}</S.TableBodyCell>
                 <S.TableBodyCell>
-                  <S.LockIcon onClick={() => handleBlind(movie.id)} />
+                  <S.LockIcon onClick={() => handleBlind(movie.id, blindReview)} />
                 </S.TableBodyCell>
               </TableRow>
             ))}
@@ -130,7 +108,7 @@ function LikeManagement() {
       <S.Pagination
         count={data?.totalPages || 1}
         page={currentPage}
-        onChange={handlePageChange}
+        onChange={(event, value) => handlePageChange(value, setCurrentPage)}
       />
     </S.Container>
   );

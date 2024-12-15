@@ -19,7 +19,6 @@ export const uploadPoster = async (imageFile) => {
   });
 
   if (response.status === 401) {
-    console.warn("AccessToken 만료됨. 갱신 시도 중...");
     const refreshToken = localStorage.getItem("refreshToken");
     await postRefresh(refreshToken);
 
@@ -34,8 +33,6 @@ export const uploadPoster = async (imageFile) => {
   }
 
   if (!response.ok) {
-    const errorText = await response.text();
-    console.error("서버 응답 오류:", errorText);
     throw new Error("포스터 업로드 실패");
   }
 

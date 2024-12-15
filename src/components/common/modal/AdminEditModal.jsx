@@ -1,12 +1,11 @@
+import ReactModal from 'react-modal';
 import styled from '@emotion/styled';
 import { Button, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useEffect } from 'react';
-import ReactModal from 'react-modal';
 import { lightTheme } from '../../../styles/themes';
 import { useAdminEditMovie } from '../../../apis/admin/queries';
-import { uploadPoster } from '../../../apis/admin/uploadPoster';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
+import { handleImageChange, handleRemoveImage, handleSave } from '../../../utils/admin/editModalUtils';
 
 ReactModal.setAppElement('#root');
 
@@ -19,59 +18,8 @@ function AdminEditModal() {
     SaveButton: "저장",
   }
 
-  useEffect(() => {
-    console.log("imageUrl 업데이트됨:", imageUrl);
-  }, [imageUrl]);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      uploadPoster(file)
-        .then((response) => {
-          const uploadedUrl = response?.data?.fileUrl;
-          if (uploadedUrl) {
-            setImageUrl(uploadedUrl);
-          } else {
-            console.error("업로드된 URL이 응답 데이터에 없습니다.");
-          }
-        })
-        .catch((error) => {
-          console.error("이미지 업로드 실패:", error.message);
-          alert("이미지 업로드에 실패했습니다.");
-        });
-    } else {
-      console.warn("파일이 선택되지 않았습니다.");
-    }
-  };
-  
-  const handleRemoveImage = () => {
-    setImageUrl('');
-  };
-
-  const handleSave = () => {
-    const payload = {
-      movieId: id,
-      title: title.trim(),
-      image: imageUrl,
-      likeCount: parseInt(likes, 10),
-    };
-    editMovieMutation.mutate(payload, {
-      onSuccess: () => {
-        alert("영화 정보가 성공적으로 수정되었습니다.");
-        closeModal();
-      },
-      onError: (error) => {
-        alert(`영화 정보 수정 실패: ${error.message}`);
-      },
-    });
-  };
-
   return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={closeModal}
-      style={customStyles}
-    >
+    <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
       <S.ModalHeader>{modalTexts.modalHeader}</S.ModalHeader>
       <S.ModalContent>
         <S.AvatarSection>
@@ -79,7 +27,7 @@ function AdminEditModal() {
             {imageUrl ? (
               <>
                 <S.StyledImage src={imageUrl} alt="영화 이미지" />
-                <S.RemoveButton onClick={handleRemoveImage}>
+                <S.RemoveButton onClick={() => handleRemoveImage(setImageUrl)}>
                   <CloseIcon fontSize="small" />
                 </S.RemoveButton>
               </>
@@ -88,10 +36,10 @@ function AdminEditModal() {
               )}
           </S.StyledAvatar>
           <input
-            type="file"
+            type="file" // url 방식으로 수정 필요
             accept="image/*"
             id="upload-image"
-            onChange={handleImageChange}
+            onChange={(e) => handleImageChange(e, setImageUrl)}
             style={{ display: 'none' }}
           />
           <label htmlFor="upload-image">
@@ -115,7 +63,21 @@ function AdminEditModal() {
           />
         </S.FlexBox>
       </S.ModalContent>
-      <S.SaveButton onClick={handleSave}>{modalTexts.SaveButton}</S.SaveButton>
+      <S.SaveButton
+        onClick={() =>
+          handleSave(
+            { movieId: id, 
+              title: title.trim(), 
+              image: imageUrl, 
+              likeCount: parseInt(likes, 10),
+            },
+            editMovieMutation,
+            closeModal
+          )
+        }
+      >
+        {modalTexts.SaveButton}
+      </S.SaveButton>
     </ReactModal>
   );
 }

@@ -10,7 +10,6 @@ export const fetchRegisteredMovies = async ({ page = 1, size = 7, query = '' }) 
     }
 
     if (!allMoviesCache) {
-        console.log('전체 데이터를 불러옵니다...');
         const url = `${import.meta.env.VITE_API_BASE_URL}/admin/movies??page=${page}&size=6500`;
         const response = await fetch(url, {
             method: 'GET',
@@ -20,7 +19,6 @@ export const fetchRegisteredMovies = async ({ page = 1, size = 7, query = '' }) 
         });
 
         if (response.status === 401) {
-            console.warn('Access Token 만료됨. 갱신 시도 중...');
             const refreshToken = localStorage.getItem('refreshToken');
             await postRefresh(refreshToken);
             const newAccessToken = localStorage.getItem('accessToken');

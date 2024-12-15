@@ -10,17 +10,24 @@ import {
   Paper, 
   Pagination 
 } from '@mui/material';
+import { 
+  handleSearch, 
+  handlePageChange, 
+  handleEdit, 
+  handleDelete 
+} from '../../../utils/admin/movieManagementUtils';
+import { useState } from 'react';
 import { styled } from '@mui/system';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
-import { useState, useEffect } from 'react';
 import { lightTheme } from '../../../styles/themes';
-import { useAdminSelectMovies } from '../../../apis/admin/queries';
 import AdminEditModal from '../modal/AdminEditModal';
+import tableHeaders from '../../../data/admintableheaders';
+import { useAdminSelectMovies } from '../../../apis/admin/queries';
+import { useAdminDeleteMovie } from '../../../apis/admin/queries';
+import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
-import tableHeaders from '../../../data/admintableheaders';
-import { useAdminDeleteMovie } from '../../../apis/admin/queries';
+
 
 function MovieManagement() {
   const { movieManagement } = tableHeaders;
@@ -35,38 +42,7 @@ function MovieManagement() {
     query: submittedTerm,
   });
   const movies = data?.content || [];
-  const totalPages = data?.totalPages || 1;
-
-  const handleSearch = (e) => {
-    if (e.key === 'Enter') {
-      setSubmittedTerm(searchTerm.trim());
-      setCurrentPage(1);
-    }
-  };
-
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
-
-  const handleEdit = (movie) => {
-    setModalData({
-      id: movie.id,
-      title: movie.title,
-      likes: movie.likeCounts,
-    });
-    openModal();
-  };
-
-  const handleDelete = (movie) => {
-    if (window.confirm(`"${movie.title}"을(를) 삭제하시겠습니까?`)) {
-      deleteMovie(movie.id);
-    }
-  };
-
-  useEffect(() => {
-    console.log('검색어:', submittedTerm);
-    console.log('API 응답:', data);
-  }, [submittedTerm, data]);
+  const totalPages = data?.totalPages || 1
 
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생: {error.message}</div>;
@@ -83,7 +59,7 @@ function MovieManagement() {
             label="영화 검색"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={handleSearch}
+            onKeyDown={(e) => handleSearch(e, searchTerm, setSubmittedTerm, setCurrentPage)}
           />
         </S.SearchBox>
         <S.TableContainer component={Paper}>
@@ -113,15 +89,19 @@ function MovieManagement() {
                   </S.TableBodyCell>
                   <S.TableBodyCell>{movie.releaseDate || '알 수 없음'}</S.TableBodyCell>
                   <S.TableBodyCell>
-                    <S.ModeEditTwoToneIcon onClick={() => handleEdit(movie)} />
-                    <S.DeleteIcon onClick={() => handleDelete(movie)} />
+                    <S.ModeEditTwoToneIcon onClick={() => handleEdit(movie, setModalData, openModal)} />
+                    <S.DeleteIcon onClick={() => handleDelete(movie, deleteMovie)} />
                   </S.TableBodyCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </S.TableContainer>
-          <S.Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+        <S.Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={(event, value) => handlePageChange(value, setCurrentPage)}
+        />
       </S.Container>
     </>
   );
@@ -137,14 +117,12 @@ const S = {
     gap: '1rem',
     padding: '1rem',
   }),
-
   SearchBox: styled(Box)({
     width: '100%',
     maxWidth: '20rem',
     marginBottom: '0.5rem',
     marginLeft: '49rem',
   }),
-
   SearchBarTextField: styled(TextField)({
     height: '2rem',
     marginLeft: '6rem',
@@ -152,7 +130,6 @@ const S = {
       height: '3rem',
     },
   }),
-
   TableContainer: styled(TableContainer)({
     maxWidth: '81rem',
     width: '100%',
@@ -160,7 +137,6 @@ const S = {
     fontSize: '1rem',
     border: lightTheme.font.borderDefault,
   }),
-
   TableHeadCell: styled(TableCell)({
     fontFamily: lightTheme.font.fontSuitRegular,
     fontWeight: lightTheme.font.fontWeightBold,
@@ -168,25 +144,21 @@ const S = {
     color: lightTheme.color.fontBlack,
     textTransform: 'uppercase',
   }),
-
   TableBodyCell: styled(TableCell)({
     fontFamily: lightTheme.font.fontSuitRegular,
     fontWeight: lightTheme.font.fontWeightRegular,
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
   }),
-
   ModeEditTwoToneIcon: styled(ModeEditTwoToneIcon)({
     cursor: 'pointer',
     marginRight: '1.5rem',
     color: lightTheme.color.fontGray,
   }),
-
   DeleteIcon: styled(DeleteIcon)({
     cursor: 'pointer',
     color: lightTheme.color.buttonPink,
   }),
-
   Pagination: styled(Pagination)({
     marginTop: '1rem',
   }),

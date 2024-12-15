@@ -13,13 +13,14 @@ import {
   TextField 
 } from '@mui/material';
 import { styled } from '@mui/system';
-import { useState, useEffect, useMemo } from 'react';
-import { useAdminRegisterMovies, useAdminSearchMovies } from '../../../apis/admin/queries';
-import tableHeaders from '../../../data/admintableheaders';
-import usePaginationStore from '../../../store/admin/usePaginationStore';
-import useSelectionStore from '../../../store/admin/useSelectionStore';
-import { lightTheme } from '../../../styles/themes';
 import AvgRatingBadge from './AvgRatingBadge';
+import { useState, useEffect, useMemo } from 'react';
+import { lightTheme } from '../../../styles/themes';
+import tableHeaders from '../../../data/admintableheaders';
+import useSelectionStore from '../../../store/admin/useSelectionStore';
+import usePaginationStore from '../../../store/admin/usePaginationStore';
+import { useAdminRegisterMovies, useAdminSearchMovies } from '../../../apis/admin/queries';
+import { handleSearch, handleSelectAll, handleCheckboxChange, handleRegister } from '../../../utils/admin/addMovieUtils';
 
 function AddMovie() {
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
@@ -28,12 +29,11 @@ function AddMovie() {
   const [submittedTerm, setSubmittedTerm] = useState('');
   const [isAllSelected, setIsAllSelected] = useState(false);
   const { data, isLoading: isSearching, error } = useAdminSearchMovies(submittedTerm);
-  const { mutate: registerMovies, isLoading: isRegistering } = useAdminRegisterMovies();
+  const { mutate: registerMovies, isLoading: isRegistering } = useAdminRegisterMovies(clearSelection);
   const searchingTerm = {
     searching: "검색 중...",
     noResults: "검색 결과가 없습니다."
   };
-
   const movies = useMemo(() => {
     const transformedMovies = data?.data.map((movie, index) => {
       return {
@@ -54,71 +54,16 @@ function AddMovie() {
   }, [data]);
   const totalMovies = movies.length;
 
+  /* 현재 페이지의 모든 영화가 선택되었는지 여부를 나타내는 isAllSelected 상태를 업데이트하는 역할
+    개별영화나 전체 선택 박스를 클릭할 때 isAllSelected 상태를 유지해야 하고, selectedMovies,totalMovies가
+    바뀔 경우 상태 동기화가 필요함 */
   useEffect(() => {
-    setIsAllSelected(selectedMovies.length === totalMovies && totalMovies > 0);
-  }, [selectedMovies, totalMovies]);
-
-  const handleSearch = () => {
-    if (!searchTerm.trim()) {
-      alert('검색어를 입력하세요.');
-      return;
-    }
-    setSubmittedTerm('');
-    setTimeout(() => setSubmittedTerm(searchTerm), 0);
-    setCurrentPage(1);
-  };
-
-  const handleSelectAll = () => {
-    if (isAllSelected) {
-      clearSelection();
-    } else {
-      const movieIds = movies.map((movie) => movie.id);
-      movieIds.forEach((id) => addMovie(id));
-    }
-  };
-
-  useEffect(() => {
-    const allSelected = movies.length > 0 && movies.every((movie) => selectedMovies.includes(movie.id));
+    const allSelected =
+      movies.length > 0 &&
+      movies.every((movie) => selectedMovies.includes(movie.id));
     setIsAllSelected(allSelected);
   }, [selectedMovies, movies]);
 
-  const handleCheckboxChange = (movieId) => {
-    if (selectedMovies.includes(movieId)) {
-      removeMovie(movieId);
-    } else {
-      addMovie(movieId);
-    }
-  };
-
-  const handleRegister = () => {
-    const selectedMovieData = movies
-      .filter((movie) => selectedMovies.includes(movie.id))
-      .map((movie) => {
-        return {
-          title: movie.title,
-          titleEng: movie.titleEng || "",
-          repRlsDate: movie.repRlsDate,
-          staffs: movie.staffs || [],
-          nation: movie.nation || "",
-          plots: movie.plots || [],
-          runtime: movie.runtime || "",
-          rating: movie.rating || "",
-          genre: movie.genre || "",
-          posters: movie.posters || [],
-        };
-      });
-    registerMovies(selectedMovieData, {
-        onSuccess: (response) => {
-          const registeredCount = response?.length || selectedMovieData.length;
-          alert(`${registeredCount}개의 영화가 성공적으로 등록되었습니다.`);
-          clearSelection();
-        },
-        onError: (error) => {
-          alert(`등록 실패: ${error.message}`);
-        },
-    });
-  };
-    
   const currentMovies = useMemo(() => {
     const indexOfLast = currentPage * moviesPerPage;
     const indexOfFirst = indexOfLast - moviesPerPage;
@@ -136,7 +81,7 @@ function AddMovie() {
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              handleSearch();
+              handleSearch(searchTerm, setSubmittedTerm, setCurrentPage);
             }
           }}
         />
@@ -156,7 +101,9 @@ function AddMovie() {
                     indeterminate={
                       selectedMovies.length > 0 && selectedMovies.length < totalMovies
                     }
-                    onChange={handleSelectAll}
+                    onChange={() =>
+                      handleSelectAll(movies, isAllSelected, clearSelection, addMovie)
+                    }
                   />
                 </S.TableHeadCell>
                 {Object.values(tableHeaders.addMovie).map((header) => (
@@ -170,7 +117,9 @@ function AddMovie() {
                   <TableCell>
                   <Checkbox
                     checked={selectedMovies.includes(movie.id)}
-                    onChange={() => handleCheckboxChange(movie.id)}
+                    onChange={() =>
+                      handleCheckboxChange(movie.id,selectedMovies,addMovie,removeMovie
+                    )}
                   />
                   </TableCell>
                   <TableCell>{movie.title}</TableCell>
@@ -194,7 +143,7 @@ function AddMovie() {
       />
       <Button
         variant="contained"
-        onClick={handleRegister}
+        onClick={() => handleRegister(movies, selectedMovies, registerMovies)}
         disabled={!selectedMovies.length || isRegistering}
       >
         {isRegistering ? '등록 중...' : '등록'}

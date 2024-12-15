@@ -4,6 +4,7 @@ import AdminHeaderComponent from '../../components/common/header/AdminHeader';
 import MovieManagement from '../../components/common/admin/MovieManagement';
 import AddNewMovie from '../../components/common/admin/AddMovie';
 import LikeManagement from '../../components/common/admin/LikeManagement';
+import RankManagement from '../../components/common/admin/RankManagement';
 import usePageStore from '../../store/admin/usePagestore';
 
 function AdminPage() {
@@ -17,6 +18,8 @@ function AdminPage() {
         return <AddNewMovie />;
       case 'likeManagement':
         return <LikeManagement />;
+      case 'rankManagement':
+        return <RankManagement/>
       default:
         return <MovieManagement />;
     }
@@ -28,6 +31,7 @@ function AdminPage() {
         onMovieManagementClick={() => setPage('movieManagement')}
         onAddNewMovieClick={() => setPage('addNewMovie')}
         onLikeManagementClick={() => setPage('likeManagement')}
+        onRankManagementClick={() => setPage('rankManagement')}
       />
       <S.Content>{renderPage()}</S.Content>
     </S.Page>

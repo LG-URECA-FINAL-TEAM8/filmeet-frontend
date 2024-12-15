@@ -17,13 +17,17 @@ export const useAdminSearchMovies = (searchTerm) => {
   });
 };
 
-export const useAdminRegisterMovies = () => {
+export const useAdminRegisterMovies = (clearSelection) => {
   return useMutation({
     mutationKey: ['registerMovies'],
     mutationFn: registerMovies,
-    onSuccess: () => {
+    onSuccess: (response) => {
+      const registeredCount = response?.length || 0;
+      alert(`${registeredCount}개의 영화가 성공적으로 등록되었습니다.`);
+      clearSelection();
     },
-    onError: () => {
+    onError: (error) => {
+      alert(`등록 실패: ${error.message}`);
     },
   });
 };
@@ -49,9 +53,10 @@ export const useAdminReviewBlind = () => {
   return useMutation({
     mutationFn: reviewBlind,
     onSuccess: () => {
+      alert('리뷰가 블라인드 처리되었습니다.');
     },
-    onError: (error) => {
-      console.error(error);
+    onError: () => {
+      alert('리뷰 블라인드 처리 중 오류가 발생했습니다.');
     },
   });
 };
@@ -77,7 +82,7 @@ export const useAdminEditMovie = () => {
       });
     },
     onError: (error) => {
-    console.error('영화 정보 수정 실패:', error.message);
+      alert(`영화 정보 수정 실패: ${error.message}`);
     },
   });
 };
@@ -85,8 +90,8 @@ export const useAdminEditMovie = () => {
 export const useAdminAddPoster = () => {
   return useMutation({
     mutationFn: uploadPoster,
-    onSuccess: (data) => {
-      console.log("포스터 업로드 성공:", data);
+    onSuccess: () => {
+      alert('포스터 업로드 성공')
     },
     onError: (error) => {
       console.error("포스터 업로드 실패:", error.message);

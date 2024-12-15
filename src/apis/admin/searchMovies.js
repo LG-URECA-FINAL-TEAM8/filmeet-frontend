@@ -19,7 +19,6 @@ export const fetchMovies = async (searchTerm) => {
   );
 
   if (response.status === 401) {
-    console.warn('AccessToken 만료됨. 갱신 시도 중...');
     const refreshToken = localStorage.getItem('refreshToken');
     await postRefresh(refreshToken);
 

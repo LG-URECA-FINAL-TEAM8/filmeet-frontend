@@ -20,7 +20,6 @@ export const registerMovies = async (selectedMovies) => {
     posters: movie.posters || [],
   }));
 
-
   let response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/movies/add`, {
     method: "POST",
     headers: {
@@ -30,9 +29,7 @@ export const registerMovies = async (selectedMovies) => {
     body: JSON.stringify(payload),
   });
 
-
   if (response.status === 401) {
-    console.warn("AccessToken 만료됨. 갱신 시도 중...");
     const refreshToken = localStorage.getItem("refreshToken");
     await postRefresh(refreshToken);
 
@@ -48,7 +45,6 @@ export const registerMovies = async (selectedMovies) => {
   }
 
   if (!response.ok) {
-    console.error("서버 응답:", await response.text());
     throw new Error("영화 등록 실패");
   }
 

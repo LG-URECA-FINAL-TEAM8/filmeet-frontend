@@ -24,7 +24,6 @@ export const editMovie = async ({ movieId, title, image, likeCount }) => {
   });
   
   if (response.status === 401) {
-    console.warn("AccessToken 만료됨. 갱신 시도 중...");
     const refreshToken = localStorage.getItem("refreshToken");
     await postRefresh(refreshToken);
 
@@ -43,10 +42,8 @@ export const editMovie = async ({ movieId, title, image, likeCount }) => {
     });
   }
 
-
   if (!response.ok) {
     const errorText = await response.text();
-    console.error("서버 응답 오류:", errorText); 
     throw new Error(`영화 정보 수정 실패: ${errorText}`);
   }
 

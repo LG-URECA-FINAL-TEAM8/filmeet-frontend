@@ -29,8 +29,6 @@ export const deleteMovie = async (movieId) => {
   }
 
   if(!response.ok) {
-    console.error('영화 삭제 실패:', await response.text());
     throw new Error('영화 삭제 실패');
   }
-  console.log('영화 삭제 성공');
 }
