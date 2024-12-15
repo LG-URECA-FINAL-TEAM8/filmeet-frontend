@@ -1,5 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { ProfileImage, ProfileName, FollowStats, FollowButton, SettingsWrapper, SettingsIcon } from '../../styles/profile/profile';
+import {
+  ProfileImage,
+  ProfileName,
+  FollowStats,
+  FollowButton,
+  SettingsWrapper,
+  SettingsIcon,
+} from '../../styles/profile/profile';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Stats from './Stats';
 import { useFollowCount } from '../../apis/myPage/queries';
@@ -12,7 +19,6 @@ const ProfileHeader = ({ userInfo }) => {
   const [showModal, setShowModal] = useState(false);
   const { data: result, isLoading } = useFollowCount(userId);
   const followData = result?.data;
-  console.log(userInfo?.profileImage);
 
   const Profiles = {
     stats: [
@@ -22,7 +28,6 @@ const ProfileHeader = ({ userInfo }) => {
   };
 
   const handleNavigate = (path) => {
-    console.log(`Navigating to: ${path}`);
     navigate(path);
   };
   // 로딩 상태 처리
