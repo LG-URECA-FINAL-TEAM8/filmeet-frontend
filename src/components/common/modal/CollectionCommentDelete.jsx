@@ -1,36 +1,42 @@
 import ReactModal from "react-modal";
 import styled from "styled-components";
-import useCollectionsDeleteStore from "../../../store/collections/useCollectionsDeleteStore";
-import { useNavigate } from "react-router-dom";
+import { useDeleteComment } from "../../../apis/myPage/collection/queries";
+import useCommentDeleteStore from "../../../store/collections/useCommentDeleteStore";
 
 const MODALTEXTS = {
   modalTitle: "알림",
-  deleteComment: "컬렉션을 정말 삭제하시겠어요?",
+  deleteComment: "댓글을 정말 삭제하시겠어요?",
   cancel: "취소",
   confirm: "확인",
 };
 
 ReactModal.setAppElement("#root");
 
-const CollectionDeleteModal = () => {
-  const { isModalOpen, closeModal, selectedCollection, removeCollection } =
-    useCollectionsDeleteStore();
-  const navigate = useNavigate();
+const CollectionCommentDelete = () => {
+  const { isModalOpen, closeModal, selectedComment } = useCommentDeleteStore();
+  const { mutate: deleteComment } = useDeleteComment();
 
   const handleConfirm = async () => {
-    if (!selectedCollection) {
+    if (!selectedComment) {
       return;
     }
 
-    const { collectionId, movies = [] } = selectedCollection; // 기본값 설정
+    const { collectionId, collectionCommentId } = selectedComment;
 
-      const movieIds = movies.length > 0 ? movies.map((movie) => movie.movieId) : [];
-      await removeCollection(collectionId, movieIds, navigate); // `navigate` 전달
-      closeModal();
-      navigate("/mypage/collections"); 
+    deleteComment(
+      { collectionId, collectionCommentId },
+      {
+        onSuccess: () => {
+          closeModal();
+        },
+        onError: (error) => {
+          console.error("댓글 삭제 실패:", error);
+        },
+      }
+    );
   };
 
-  if (!isModalOpen) return null;
+  if (!isModalOpen) return null; // 모달이 닫혀 있으면 렌더링 X
 
   return (
     <ReactModal isOpen={isModalOpen} onRequestClose={closeModal} style={customStyles}>
@@ -47,7 +53,7 @@ const CollectionDeleteModal = () => {
   );
 };
 
-export default CollectionDeleteModal;
+export default CollectionCommentDelete;
 
 const customStyles = {
   overlay: {
@@ -58,29 +64,32 @@ const customStyles = {
     height: "7.5rem",
     margin: "auto",
     borderRadius: "0.6rem",
-    padding: "1.25rem 0 0 0",
+    padding: "1.2rem 0 0 0",
     overflow: "hidden",
   },
 };
 
 const S = {
   Container: styled.div`
-    margin: 0 1.25rem;
     width: 15rem;
+    margin: 0 1.25rem;
     text-align: center;
   `,
+
   Title: styled.h2`
     margin: 0;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 1.1rem;
     font-weight: ${(props) => props.theme.font.fontWeightBold};
   `,
+
   Message: styled.div`
     margin: 0.5rem 0 1.5rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontGray};
   `,
+
   ButtonGroup: styled.div`
     display: flex;
     align-items: center;
@@ -88,9 +97,10 @@ const S = {
     width: 15rem;
     border-top: ${(props) => props.theme.font.borderDefault};
   `,
+
   CancelButton: styled.button`
-    margin: 0.7rem 0;
     flex: 1;
+    margin: 0.7rem 0;
     background: none;
     border: none;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
@@ -98,14 +108,16 @@ const S = {
     color: ${(props) => props.theme.color.fontPink};
     cursor: pointer;
   `,
+
   Divider: styled.div`
     width: 0.1rem;
     height: 1.5rem;
     background-color: ${(props) => props.theme.color.commentColor};
   `,
+
   ConfirmButton: styled.button`
-    margin: 0.7rem 0;
     flex: 1;
+    margin: 0.7rem 0;
     background: none;
     border: none;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
@@ -114,5 +126,4 @@ const S = {
     cursor: pointer;
   `,
 };
-
 

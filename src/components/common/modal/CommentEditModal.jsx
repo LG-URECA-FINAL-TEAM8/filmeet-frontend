@@ -87,7 +87,7 @@ const customStyles = {
     width: "40rem",
     height: "29rem",
     margin: "auto",
-    borderRadius: "0.62rem",
+    borderRadius: "0.6rem",
     padding: "0",
     overflow: "hidden",
   },
@@ -98,7 +98,7 @@ const customStyles = {
 const S = {
   Content: styled.div`
     width: 37.5rem;
-    height: 26.87rem;
+    height: 27rem;
     padding: 1.12rem 1.25rem 1.12rem;
     display: flex;
     flex-direction: column;
@@ -108,7 +108,7 @@ const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 2.06rem;
+    height: 2rem;
   `,
   CommentTitle: styled.div`
     text-align: left;
@@ -128,7 +128,7 @@ const S = {
   `,
   TextArea: styled.textarea`
     width: 100%;
-    min-height: 20.62rem;
+    min-height: 21rem;
     border: none;
     outline: none;
     border-radius: 0.25rem;
@@ -141,10 +141,10 @@ const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 2.06rem;
+    height: 2rem;
   `,
   TextLength: styled.div`
-    font-size: 0.87rem;
+    font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontGray};
   `,
   SaveButton: styled.button`
@@ -152,7 +152,7 @@ const S = {
     height: 2.25rem;
     background-color: ${(props) => props.theme.color.fontPink};
     color: ${(props) => props.theme.color.mainColor};
-    font-size: 0.87rem;
+    font-size: 0.9rem;
     border: none;
     cursor: pointer;
     border-radius: 0.25rem;

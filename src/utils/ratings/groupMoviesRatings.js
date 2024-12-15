@@ -5,7 +5,7 @@ export const groupMoviesByRating = (movies, ratings) => {
   }, {});
 
   movies.forEach((movie) => {
-    const ratingKey = ratings.find((rating) => rating === movie.rating);
+    const ratingKey = ratings.find((rating) => rating === movie.ratingScore);
     if (ratingKey !== undefined) {
       groupedMovies[ratingKey].push(movie);
     }

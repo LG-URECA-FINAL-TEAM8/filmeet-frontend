@@ -73,9 +73,9 @@ function Content({ movieData, movieId }) {
                   </S.StatItemBox>
                 </S.IconContainer>
               </S.StatSection>
-              {movieData?.myMovieReview?.reviewId && (
+              {movieData?.userMovieInteractionResponse?.reviewId && (
                 <CommentCard
-                  myCommentData={movieData?.myMovieReview}
+                  myCommentData={movieData?.userMovieInteractionResponse}
                   movieId={movieId}
                   openModal={openModal}
                 />
