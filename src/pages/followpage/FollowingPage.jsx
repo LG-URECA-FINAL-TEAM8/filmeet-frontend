@@ -11,8 +11,6 @@ const FollowingPage = () => {
 
   const userId = userInfo.data?.id;
 
-  console.log(`Logged-in userId from useUserInfo: ${userId}`);
-
   return (
     <FollowPageWrapper>
       <TopHeader title="팔로잉 중" />
