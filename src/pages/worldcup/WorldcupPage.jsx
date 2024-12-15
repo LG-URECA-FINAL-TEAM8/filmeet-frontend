@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useCreateGame } from "../../apis/worldcup/queries";
 import GameStartButton from "../../components/worldcup/GameStartButton";
 import WorldcupFooter from "../../components/worldcup/WorldcupFooter";
@@ -7,42 +8,77 @@ import useWorldcupStore from "../../store/worldcup/worldcupStore";
 import { PageWrapper } from "../../styles/worldcup/worldcup";
 
 const WorldcupPage = () => {
-  const { isGameStarted, setGameStarted, setLoading } = useWorldcupStore();
+  const {
+    isGameStarted,
+    setGameStarted,
+    isLoading,
+    setLoading,
+    gameId,
+    setGameId,
+    currentRound,
+    setCurrentRound,
+    currentMatches,
+    setCurrentMatches,
+    isGameFinished,
+    setIsGameFinished,
+    winner,
+    setWinner,
+  } = useWorldcupStore();
+
   const createGameMutation = useCreateGame();
 
   const handleGameCreate = () => {
-    console.log("게임 생성 요청 시작");
-    setLoading(true); // 로딩 상태 활성화
-
+    setLoading(true);
     createGameMutation.mutate(
       { title: "2024 인기 영화 이상형 월드컵", totalRounds: 16 },
       {
-        onSuccess: () => {
-          console.log("게임 생성 성공");
-          setGameStarted(); // 게임 시작
-          setLoading(false); // 로딩 종료
+        onSuccess: (response) => {
+          setGameId(response.data);
+          setGameStarted();
+          setLoading(false);
         },
         onError: (error) => {
-          console.error("게임 생성 실패:", error.message || error);
-          setLoading(false); // 로딩 종료
+          setLoading(false);
         },
       }
     );
   };
 
-  console.log("현재 게임 시작 상태:", isGameStarted);
+  const handleNextRound = (nextRoundMatches) => {
+    if (nextRoundMatches.length === 1) {
+      setIsGameFinished(true);
+      setWinner(nextRoundMatches[0].movie1);
+      return;
+    }
+    setCurrentRound(currentRound / 2);
+    setCurrentMatches(nextRoundMatches);
+  };
+
+  useEffect(() => {
+    if (!isGameStarted) {
+      setCurrentRound(16);
+      setCurrentMatches([]);
+      setWinner(null);
+      setIsGameFinished(false);
+    }
+  }, [isGameStarted, setCurrentRound, setCurrentMatches, setWinner, setIsGameFinished]);
 
   return (
     <PageWrapper>
       {!isGameStarted ? (
         <GameStartButton
           onClick={handleGameCreate}
-          isLoading={createGameMutation.isLoading}
+          isLoading={isLoading || createGameMutation.isLoading}
         />
+      ) : isGameFinished ? (
+        <div>
+          <h2>우승자가 결정되었습니다!</h2>
+          <div>🎉 우승 영화: {winner?.title || "알 수 없음"} 🎉</div>
+        </div>
       ) : (
         <>
-          <WorldcupHeader totalRounds={16} />
-          <WorldcupMatch />
+          <WorldcupHeader totalRounds={currentRound === 2 ? "결승" : `${currentRound}`} />
+          <WorldcupMatch onNextRound={handleNextRound} />
           <WorldcupFooter />
         </>
       )}
@@ -51,4 +87,3 @@ const WorldcupPage = () => {
 };
 
 export default WorldcupPage;
-

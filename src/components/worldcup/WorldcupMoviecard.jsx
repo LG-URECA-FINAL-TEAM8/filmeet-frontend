@@ -6,9 +6,16 @@ import SvgStar from "../../assets/svg/Star";
 
 const { Meta } = Card;
 
-const WorldcupMoviecard = ({ image, title, rating, likes, comments }) => {
+const WorldcupMoviecard = ({ image, title, rating, likes, comments, onClick }) => {
   return (
-    <S.StyledCard hoverable cover={<S.StyledImage alt={title} src={image} />}>
+    <S.StyledCard
+      hoverable
+      cover={<S.StyledImage alt={title} src={image} />}
+      onClick={() => {
+        console.log("카드 클릭됨:", title); // 디버깅용 로그 추가
+        if (onClick) onClick(); // onClick이 전달되었는지 확인
+      }}
+    >
       <S.StyledMeta
         title={<S.CardTitle>{title}</S.CardTitle>}
         description={
