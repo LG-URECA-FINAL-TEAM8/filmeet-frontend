@@ -1,15 +1,20 @@
 import styled from 'styled-components';
 
-const SvgCircle = ({ isSelected }) => {
-  console.log('isSelected:', isSelected); // 값 확인
+const SvgCircle = ({ isSelected, isDisabled }) => {
   return (
-    <StyledSvg isSelected={isSelected}>
+    <StyledSvg isSelected={isSelected} isDisabled={isDisabled}>
       <circle cx="12" cy="12" r="11" />
-      {isSelected && (
-        <text x="12" y="16" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
-          ✓
-        </text>
-      )}
+      {/* 체크 표시가 항상 렌더링되며, 색상은 상태에 따라 설정 */}
+      <text
+        x="12"
+        y="16"
+        textAnchor="middle"
+        fontSize="12"
+        fontWeight="bold"
+        fill={isDisabled ? '#FFFFFF' : '#FFFFFF'}
+      >
+        ✓
+      </text>
     </StyledSvg>
   );
 };
@@ -20,12 +25,19 @@ const StyledSvg = styled.svg`
   width: 24px;
   height: 24px;
   vertical-align: middle;
-  viewbox: '0 0 24 24';
 
   circle {
-    fill: ${(props) => (props.isSelected ? props.theme.color.fontPink : 'none')};
+    fill: ${(props) =>
+      props.isDisabled
+        ? props.theme.color.collectionColor
+        : props.isSelected
+        ? props.theme.color.fontPink
+        : 'none'};
     stroke: ${(props) =>
-      props.isSelected ? props.theme.color.fontPink : props.theme.color.collectionColor};
+      props.isDisabled || props.isSelected
+        ? props.theme.color.fontWhite // 비활성화 또는 선택된 상태는 흰색 외곽선
+        : props.theme.color.collectionColor}; // 기본 외곽선
     stroke-width: 2;
   }
+
 `;

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const MyPageContainer = styled.div`
-  background-color: ${({ theme }) => theme.color.mainColor};
+  background-color: ${({ theme }) => theme.color.commentColor};
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -12,9 +12,10 @@ export const MyPageContainer = styled.div`
 // 프로필 컨테이너
 export const ProfileContainer = styled.div`
   width: 40rem;
-  height: 36.25rem;
+  height: 25rem;
   background-color: ${({ theme }) => theme.color.mainColor};
-  border-radius: 50%;
+  border-radius: 0.3rem;
+  border: ${(props) => {props.theme.font.borderDefault}};
   position: relative;
   padding: 0rem 1rem;
   margin: 0 auto;
@@ -48,7 +49,7 @@ export const SettingsIcon = styled(FontAwesomeIcon)`
 `;
 
 // 프로필 이미지
-export const ProfileImage = styled.div`
+export const ProfileImage = styled.img`
   width: 8.5rem;
   height: 8.5rem;
   border-radius: 50%;
