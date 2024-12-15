@@ -27,6 +27,7 @@ const pageComponents = {
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieCommentAll: () => import('../pages/movieDetail/MovieCommentDetail'),
   Bin: () => import('../components/common/bin/Bin'),
+  UserPage: () => import('../pages/userpage/userPage'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -48,6 +49,7 @@ const routes = [
       { path: 'register', element: createLazyComponent(pageComponents.Register) },
       { path: 'login', element: createLazyComponent(pageComponents.Login) },
       { path: 'mypage', element: createLazyComponent(pageComponents.MyPage) },
+      { path: 'userpage/:userId', element: createLazyComponent(pageComponents.UserPage) },
       { path: 'movie/genre', element: createLazyComponent(pageComponents.GenreMovie) },
       { path: 'mypage/ratings', element: createLazyComponent(pageComponents.RatingsPage) },
       {
