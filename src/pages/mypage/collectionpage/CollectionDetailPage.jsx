@@ -2,19 +2,39 @@ import { useParams } from 'react-router-dom';
 import useCollectionsStore from '../../../store/collections/useCollectionsStore';
 import CollectionDetail from '../../../components/collection/CollectionDetail';
 import { Wrapper } from '../../../styles/collectionspage/collections';
+import { useEffect } from 'react';
+import { useUserInfo } from '../../../apis/users/queries';
 
 const CollectionDetailPage = () => {
   const { collectionId } = useParams();
-  const { collections } = useCollectionsStore();
-  const collectionData = collections.find((col) => col.id === parseInt(collectionId, 10));
+  const { collectionDetail, fetchCollectionDetail, fetchCollectionMovies, collectionMovies, isLoading, error } =
+    useCollectionsStore();
 
-  if (!collectionData) {
-    return <div>존재하지 않는 컬렉션입니다.</div>;
+  const { data: userResult } = useUserInfo(); // 유저 정보 가져오기
+  const userInfo = userResult?.data; // 로그인한 유저 정보
+
+  useEffect(() => {
+    if (collectionId) {
+      fetchCollectionDetail(collectionId); // 컬렉션 상세 데이터 가져오기
+      fetchCollectionMovies(collectionId); // 컬렉션에 포함된 영화 데이터 가져오기
+    }
+  }, [collectionId, fetchCollectionDetail, fetchCollectionMovies]);
+
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>오류 발생: {error.message}</div>;
+  }
+
+  if (!collectionDetail) {
+    return <div>컬렉션 상세 정보를 찾을 수 없습니다.</div>;
   }
 
   return (
     <Wrapper>
-      <CollectionDetail collectionData={collectionData} />
+      <CollectionDetail collectionData={collectionDetail} movies={collectionMovies} userInfo={userInfo} />
     </Wrapper>
   );
 };
