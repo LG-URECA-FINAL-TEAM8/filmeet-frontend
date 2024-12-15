@@ -1,11 +1,13 @@
 import styled from "styled-components";
 
 const WorldcupHeader = ({ totalRounds, title = "시네마 월드컵", subtitle = "무슨 영화가 더 끌리는지 선택해주세요!!", round = "강" }) => {
+  const roundText = totalRounds === 2 ? "결승" : `${totalRounds}${round}`;
+
   return (
     <S.HeaderContainer>
       <S.Title>{title}</S.Title>
       <S.Subtitle>{subtitle}</S.Subtitle>
-      <S.RoundIndicator>{totalRounds}{round}</S.RoundIndicator>
+      <S.RoundIndicator>{roundText}</S.RoundIndicator>
     </S.HeaderContainer>
   );
 };
