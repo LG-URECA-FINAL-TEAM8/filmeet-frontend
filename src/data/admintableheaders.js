@@ -21,7 +21,13 @@ const tableHeaders = {
       createdDate: '작성일',
       action: '숨김',
     },
+    rankingManagement: {
+      movieName: '제목',
+      likeNum: '좋아요 수',
+      avgRating: '평점',
+      genre: '장르',
+      releaseDate: '개봉일',
+    }
   };
-  
   export default tableHeaders;
   
