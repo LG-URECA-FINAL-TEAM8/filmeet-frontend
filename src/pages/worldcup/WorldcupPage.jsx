@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React from "react";
 import { useCreateGame } from "../../apis/worldcup/queries";
 import GameStartButton from "../../components/worldcup/GameStartButton";
 import WorldcupFooter from "../../components/worldcup/WorldcupFooter";
@@ -11,74 +11,43 @@ const WorldcupPage = () => {
   const {
     isGameStarted,
     setGameStarted,
-    isLoading,
-    setLoading,
     gameId,
     setGameId,
     currentRound,
     setCurrentRound,
-    currentMatches,
-    setCurrentMatches,
-    isGameFinished,
-    setIsGameFinished,
-    winner,
-    setWinner,
   } = useWorldcupStore();
 
   const createGameMutation = useCreateGame();
 
+  // 게임 생성
   const handleGameCreate = () => {
-    setLoading(true);
     createGameMutation.mutate(
       { title: "2024 인기 영화 이상형 월드컵", totalRounds: 16 },
       {
         onSuccess: (response) => {
           setGameId(response.data);
           setGameStarted();
-          setLoading(false);
-        },
-        onError: (error) => {
-          setLoading(false);
+          setCurrentRound(16); // 초기 라운드 설정
         },
       }
     );
   };
 
-  const handleNextRound = (nextRoundMatches) => {
-    if (nextRoundMatches.length === 1) {
-      setIsGameFinished(true);
-      setWinner(nextRoundMatches[0].movie1);
-      return;
-    }
-    setCurrentRound(currentRound / 2);
-    setCurrentMatches(nextRoundMatches);
+  const handleGameFinish = () => {
+    console.log("게임이 종료되었습니다.");
   };
-
-  useEffect(() => {
-    if (!isGameStarted) {
-      setCurrentRound(16);
-      setCurrentMatches([]);
-      setWinner(null);
-      setIsGameFinished(false);
-    }
-  }, [isGameStarted, setCurrentRound, setCurrentMatches, setWinner, setIsGameFinished]);
 
   return (
     <PageWrapper>
       {!isGameStarted ? (
         <GameStartButton
           onClick={handleGameCreate}
-          isLoading={isLoading || createGameMutation.isLoading}
+          isLoading={createGameMutation.isLoading}
         />
-      ) : isGameFinished ? (
-        <div>
-          <h2>우승자가 결정되었습니다!</h2>
-          <div>🎉 우승 영화: {winner?.title || "알 수 없음"} 🎉</div>
-        </div>
       ) : (
         <>
-          <WorldcupHeader totalRounds={currentRound === 2 ? "결승" : `${currentRound}`} />
-          <WorldcupMatch onNextRound={handleNextRound} />
+          <WorldcupHeader totalRounds={currentRound} />
+          <WorldcupMatch onGameFinish={handleGameFinish} />
           <WorldcupFooter />
         </>
       )}

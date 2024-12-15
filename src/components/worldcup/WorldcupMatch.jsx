@@ -1,114 +1,59 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import VersusText from "./VersusText";
 import WorldcupMoviecard from "./WorldcupMoviecard";
 import { useGameDetail, useSelectWinner } from "../../apis/worldcup/queries";
 import useWorldcupStore from "../../store/worldcup/worldcupStore";
 
-const WorldcupMatch = ({ onNextRound }) => {
-  const {
-    gameId,
-    currentRound,
-    currentMatches,
-    setCurrentMatches,
-    nextRoundMatches,
-    setNextRoundMatches,
-    resetNextRoundMatches,
-    currentMatchIndex,
-    setCurrentMatchIndex,
-    incrementMatchIndex,
-  } = useWorldcupStore();
-
-  const { data, isLoading, error } = useGameDetail(gameId);
+const WorldcupMatch = ({ onGameFinish }) => {
+  const { gameId, currentRound, setCurrentRound, setCurrentMatches } = useWorldcupStore();
+  const { data, refetch } = useGameDetail(gameId); // 게임 상세 조회 API
   const selectWinnerMutation = useSelectWinner();
 
-  // 초기 데이터 로드
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [roundMatches, setRoundMatches] = useState([]);
+
+  // 라운드 데이터 필터링 및 업데이트
   useEffect(() => {
-    if (data && data.data && currentMatches.length === 0) {
-      const initialMatches = data.data.matches.slice(0, currentRound); // 현재 라운드 매치 데이터 설정
-      console.log("초기 currentMatches 설정:", initialMatches);
-      setCurrentMatches(initialMatches);
+    if (data?.data?.matches) {
+      const matches = data.data.matches.filter((match) => match.roundNumber === currentRound);
+      setRoundMatches(matches);
+      setCurrentIndex(0); // 새 라운드가 시작될 때 인덱스 초기화
     }
-  }, [data, currentRound, setCurrentMatches]);
+  }, [data, currentRound]);
 
-  // 모든 매치가 완료되었을 때만 다음 라운드로 이동
-  useEffect(() => {
-    console.log("currentMatchIndex:", currentMatchIndex);
-    console.log("currentMatches length:", currentMatches.length);
-    console.log("nextRoundMatches length:", nextRoundMatches.length);
-    console.log("currentRound / 2:", currentRound / 2);
+  const currentMatch = roundMatches[currentIndex];
 
-    if (
-      currentMatchIndex >= currentMatches.length && // 모든 매치 완료
-      nextRoundMatches.length === currentRound / 2 // 다음 라운드 매치 완성
-    ) {
-      console.log("다음 라운드로 이동합니다.");
-      onNextRound(nextRoundMatches); // 다음 라운드로 이동
-      resetNextRoundMatches(); // 다음 라운드 매치 데이터 초기화
-      setCurrentMatchIndex(0); // 매치 인덱스 초기화
+  // 라운드 종료 처리
+  const proceedToNextRound = async () => {
+    if (currentRound === 2) {
+      console.log("게임 종료!");
+      onGameFinish();
+      return;
     }
-  }, [
-    currentMatchIndex,
-    currentMatches.length,
-    nextRoundMatches.length,
-    currentRound,
-    onNextRound,
-    resetNextRoundMatches,
-    setCurrentMatchIndex,
-  ]);
 
-  if (isLoading) return <div>매치 데이터를 불러오는 중입니다...</div>;
-  if (error) return <div>매치 데이터를 불러오는 데 실패했습니다. 다시 시도해주세요.</div>;
+    console.log(`라운드 ${currentRound} 종료. 다음 라운드 진행.`);
 
-  const currentMatch = currentMatches[currentMatchIndex]; // 현재 처리 중인 매치
-
-  if (!currentMatch) {
-    // 모든 매치가 완료된 경우
-    return <div>다음 라운드로 이동 중...</div>;
-  }
+    // 최신 게임 데이터를 가져와 다음 라운드 설정
+    await refetch();
+    setCurrentRound(currentRound / 2);
+  };
 
   // 승자 선택 핸들러
   const handleSelectWinner = (movieId) => {
-    console.log("영화 선택됨:", movieId);
-
     selectWinnerMutation.mutate(
-      {
-        gameMatchId: currentMatch.id, // 현재 매치 ID
-        selectedMovieId: movieId, // 선택한 영화 ID
-      },
+      { gameMatchId: currentMatch.id, selectedMovieId: movieId },
       {
         onSuccess: () => {
           console.log("승자 선택 완료!");
 
-          // 다음 라운드 데이터를 업데이트
-          setNextRoundMatches((prevMatches) => {
-            console.log("기존 nextRoundMatches 상태:", prevMatches);
-            const updatedMatches = [...prevMatches];
-            const lastMatch = updatedMatches[updatedMatches.length - 1];
-
-            if (lastMatch && !lastMatch.movie2) {
-              console.log("lastMatch.movie2가 비어 있음. movie2 추가 중...");
-              lastMatch.movie2 =
-                currentMatch.movie1.movieId === movieId
-                  ? currentMatch.movie1
-                  : currentMatch.movie2;
-            } else {
-              console.log("새로운 매치 추가...");
-              updatedMatches.push({
-                id: `next-${updatedMatches.length}`,
-                movie1:
-                  currentMatch.movie1.movieId === movieId
-                    ? currentMatch.movie1
-                    : currentMatch.movie2,
-                movie2: null,
-              });
-            }
-
-            console.log("nextRoundMatches 상태 업데이트 완료:", updatedMatches);
-            return updatedMatches;
-          });
-
-          incrementMatchIndex(); // 다음 매치로 이동
+          // 다음 매치로 이동
+          if (currentIndex + 1 < roundMatches.length) {
+            setCurrentIndex((prev) => prev + 1);
+          } else {
+            // 현재 라운드 모든 매치 완료
+            proceedToNextRound();
+          }
         },
         onError: (error) => {
           console.error("승자 선택 실패:", error);
@@ -116,6 +61,10 @@ const WorldcupMatch = ({ onNextRound }) => {
       }
     );
   };
+
+  if (!currentMatch) {
+    return <div>다음 라운드 데이터를 불러오는 중입니다...</div>;
+  }
 
   return (
     <S.MovieGrid>
