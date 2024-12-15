@@ -43,6 +43,6 @@ export const pagecontents = {
     deleteListComment: "댓글을 삭제하시겠어요?",
     alarm: "알림",
     cancel: "취소",
-    confirm: "확인"
+    confirm: "확인",
   },
 };

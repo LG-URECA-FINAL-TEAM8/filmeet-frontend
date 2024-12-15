@@ -5,20 +5,16 @@ import { useLikesStore } from "../../../store/comment/useLikesStore";
 import { useMenuStore } from "../../../store/comment/useMenuStore";
 import useCommentStore from "../../../store/modal/useCommentStore";
 import { useFetchComments } from "../../../apis/commentDetails/queries";
+import { pagecontents } from "../../../data/pagecontents";
 
 
-const TEXTS = {
-  noComments: "댓글이 없습니다.",
-  like: "좋아요",
-  editComment: "댓글 수정",
-  deleteComment: "댓글 삭제",
-};
+
 
 const createLikeKey = (type, id) => `${type}-${id}`;
 
-const CommentList = ({ reviewId, userInfo, onEdit }) => { // userInfo 추가
+const CommentList = ({ reviewId, userInfo, onEdit }) => { 
   const { data: comments, isLoading, isError, error } = useFetchComments({ reviewId });
-
+  const { editComment,  deleteComment, noComments } = pagecontents.commentPageContent;
   const { likes, toggleLike } = useLikesStore();
   const { openMenuId, openMenu, closeMenu } = useMenuStore();
   const { openModal } = useCommentStore();
@@ -36,7 +32,7 @@ const CommentList = ({ reviewId, userInfo, onEdit }) => { // userInfo 추가
   }
 
   if (comments.length === 0) {
-    return <S.NoCommentMessage>{TEXTS.noComments}</S.NoCommentMessage>;
+    return <S.NoCommentMessage>{noComments}</S.NoCommentMessage>;
   }
 
   const handleLikeClick = (id) => {
@@ -80,16 +76,16 @@ const CommentList = ({ reviewId, userInfo, onEdit }) => { // userInfo 추가
                 <S.CommentText>{comment.content}</S.CommentText>
                 <S.ActionRow>
                   <S.LikeSection onClick={() => handleLikeClick(comment.reviewCommentId)} />
-                  {isAuthor && ( // 작성자만 수정/삭제 버튼 표시
+                  {isAuthor && ( 
                     <S.SvgOptionWrapper>
                       <SvgOption onClick={() => handleMenuToggle(comment.reviewCommentId)} />
                       {isMenuOpen && (
                         <S.OptionsMenu>
                           <S.MenuItem onClick={() => handleEditClick(comment)}>
-                            {TEXTS.editComment}
+                            {editComment}
                           </S.MenuItem>
                           <S.MenuItem onClick={() => handleDeleteClick(comment)}>
-                            {TEXTS.deleteComment}
+                            {deleteComment}
                           </S.MenuItem>
                         </S.OptionsMenu>
                       )}
