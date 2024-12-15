@@ -23,6 +23,7 @@ export const lightTheme = {
     footerBlack: '#1C1D1F',
     fontDark: '#292a32',
     mainGray: '#F0F0F3',
+    fontGreen: '#0D8F8B',
     badgeOrange: '#F77234',
     badgePink: '#ff00ff',
     badgeGreen: '#008000',

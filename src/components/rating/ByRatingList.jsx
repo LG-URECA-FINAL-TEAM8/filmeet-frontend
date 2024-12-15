@@ -6,15 +6,24 @@ import { useNavigate } from "react-router-dom";
 import MovieRatingSections from "./MovieRatingSections";
 import { pagecontents } from "../../data/pagecontents";
 import { createBackClickHandler, createFilterClickHandler } from "../../utils/ratings/navigationHandlers";
+import { useMovieRatings } from "../../apis/myPage/rating/queries";
+import { groupMoviesByRating } from "../../utils/ratings/groupMoviesRatings";
 
 const ByRatingList = () => {
   const { activeFilter, setActiveFilter } = useRatingsStore();
-  const { title, filters } = pagecontents.movieRatingList;
   const navigate = useNavigate();
+  const { data, isLoading, error } = useMovieRatings(0, 100, "createdAt,desc");
+  const groupedRatings = groupMoviesByRating(data?.data?.content || [], pagecontents.movieRatingSections.ratings);
+
+  // 하드코딩된 필터 데이터 활용
+  const { title, filters } = pagecontents.movieRatingList;
 
   const handleBackClick = createBackClickHandler(navigate, "/mypage/ratings");
   const handleFilterClick = createFilterClickHandler(setActiveFilter);
   const filterClickHandlers = filters.map((option) => () => handleFilterClick(option.value));
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>오류가 발생했습니다: {error.message}</div>;
 
   return (
     <>
@@ -35,7 +44,7 @@ const ByRatingList = () => {
           ))}
         </S.FilterContainer>
       </S.TopContainer>
-      <MovieRatingSections />
+      <MovieRatingSections groupedRatings={groupedRatings} />
     </>
   );
 };
