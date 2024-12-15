@@ -6,7 +6,7 @@ import { useGameDetail, useSelectWinner } from "../../apis/worldcup/queries";
 import useWorldcupStore from "../../store/worldcup/worldcupStore";
 
 const WorldcupMatch = ({ onGameFinish }) => {
-  const { gameId, currentRound, setCurrentRound, setCurrentMatches } = useWorldcupStore();
+  const { gameId, currentRound, setCurrentRound, setWinnerMovie } = useWorldcupStore();
   const { data, refetch } = useGameDetail(gameId); // 게임 상세 조회 API
   const selectWinnerMutation = useSelectWinner();
 
@@ -28,6 +28,7 @@ const WorldcupMatch = ({ onGameFinish }) => {
   const proceedToNextRound = async () => {
     if (currentRound === 2) {
       console.log("게임 종료!");
+      setWinnerMovie(currentMatch.movie1); // movie1을 우승 영화로 설정
       onGameFinish();
       return;
     }

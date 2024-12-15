@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createGameApi, getGameDetailApi, selectWinnerApi } from "./worldcup";
+import { createGameApi, getGameDetailApi, getRecommendMoviesApi, selectWinnerApi } from "./worldcup";
 
 export const useCreateGame = () => {
     return useMutation({
@@ -35,3 +35,12 @@ export const useGameDetail = (gameId) => {
       },
     });
   };
+
+  // 추천 영화 React Query 훅
+export const useRecommendMovies = (gameId) => {
+  return useQuery({
+    queryKey: ["recommendations", gameId],
+    queryFn: () => getRecommendMoviesApi(gameId),
+    enabled: !!gameId, // gameId가 있을 때만 실행
+  });
+};
