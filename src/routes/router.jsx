@@ -27,7 +27,6 @@ const pageComponents = {
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieCommentAll: () => import('../pages/movieDetail/MovieCommentDetail'),
   Bin: () => import('../components/common/bin/Bin'),
-  FCMTestPage: () => import('../pages/FCMTestPage'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -93,7 +92,6 @@ const routes = [
         path: '/moviedetail/comments/:reviewId',
         element: createLazyComponent(pageComponents.CommentsDetailPage),
       },
-      { path: 'fcm', element: createLazyComponent(pageComponents.FCMTestPage) },
     ],
     errorElement: <ErrorPage />,
   },

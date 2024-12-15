@@ -6,7 +6,8 @@ export const handleAuthClick = (
   loginMutate,
   refetchUserInfo,
   setCode,
-  isLoggedIn
+  isLoggedIn,
+  registerToken
 ) => {
   if (userData && value === '회원가입') {
     signupMutate(userData, {
@@ -26,9 +27,11 @@ export const handleAuthClick = (
       onSuccess: async () => {
         if (isLoggedIn === false || isLoggedIn == null) {
           await refetchUserInfo();
+          await registerToken();
           navigate('/genre');
         } else {
           await refetchUserInfo();
+          await registerToken();
           navigate('/');
         }
       },

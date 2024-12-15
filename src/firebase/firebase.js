@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging, onMessage } from "firebase/messaging";
+import { initializeApp } from 'firebase/app';
+import { getMessaging, getToken } from 'firebase/messaging';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -10,29 +10,32 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID,
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const messaging = getMessaging(firebaseApp);
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
 
-// 알림 권한 요청 함수
 export const requestNotificationPermission = async () => {
-  if (Notification.permission === "default") {
+  try {
     const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      console.log("알림 권한이 허용되었습니다.");
+    if (permission === 'granted') {
+      return true;
     } else {
-      console.error("알림 권한이 거부되었습니다.");
+      return false;
     }
-  } else {
-    console.log("알림 권한 상태:", Notification.permission);
+  } catch (error) {
+    return error;
   }
 };
 
-// 포그라운드 메시지 처리
-onMessage(messaging, (payload) => {
-  console.log("포그라운드 메시지 수신:", payload);
-  if (payload.notification) {
-    alert(`알림: ${payload.notification.title} - ${payload.notification.body}`);
-  }
-});
+export const getFCMToken = async () => {
+  try {
+    const token = await getToken(messaging, {
+      vapidKey: import.meta.env.VITE_VAPID_KEY,
+    });
 
-export { firebaseApp, messaging };
+    return token;
+  } catch (error) {
+    console.error('Error getting FCM token:', error);
+    return null;
+  }
+};
+export { messaging };

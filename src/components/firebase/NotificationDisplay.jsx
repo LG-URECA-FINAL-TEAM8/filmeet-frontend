@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { onMessage } from "firebase/messaging";
-import { messaging } from "../../firebase/firebase";
-
+import { useState, useEffect } from 'react';
+import { onMessage } from 'firebase/messaging';
+import { messaging } from '../../firebase/firebase';
 const NotificationDisplay = () => {
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onMessage(messaging, (payload) => {
-      console.log("포그라운드 메시지 수신:", payload);
       setNotification({
         title: payload.notification?.title,
         body: payload.notification?.body,
