@@ -1,66 +1,54 @@
 import styled from "styled-components";
 import ReactModal from "react-modal";
-import useCommentStore from "../../../store/modal/useCommentStore";
-import { useEffect } from "react";
+import useCommentsStore from "../../../../store/collections/useCommentsStore";
+import { useUpdateComment } from "../../../../apis/myPage/collection/queries";
 
-ReactModal.setAppElement("#root");
-
-const CommentEditModal = ({ onSubmit }) => {
-  const { isOpen, modalType, commentData, comment, closeModal, setComment } = useCommentStore();
-
-  useEffect(() => {
-    if ((modalType === "edit" || modalType === "comment") && isOpen && commentData?.comment) {
-      setComment(commentData.comment);
-    }
-  }, [isOpen, modalType, commentData, setComment]);
-
-  if (!isOpen || (modalType !== "edit" && modalType !== "comment")) return null;
+const EditModal = () => {
+  const { isModalOpen, closeModal, commentContent, setCommentContent, collectionCommentId } = useCommentsStore();
+  const { mutate: updateCommentMutation, isLoading } = useUpdateComment();
 
   const handleSave = () => {
-    if (onSubmit) {
-      onSubmit({ ...commentData, comment });
-    }
-    closeModal();
+    if (!commentContent.trim()) {
+      return;
+    } 
+    updateCommentMutation(
+      {
+        collectionCommentId,
+        commentContent,
+      },
+      {
+        onSuccess: () => {
+          closeModal();
+        },
+      }
+    );
   };
 
-  const handleChange = (e) => {
-    setComment(e.target.value);
-  };
-
-  const getPlaceholder = () => {
-    if (modalType === "edit") {
-      return "내용을 수정해주세요.";
-    } else if (modalType === "comment") {
-      return `"${commentData?.title || ""}"에 대한 생각을 표현해주세요.`;
-    }
-    return "";
-  };
-  
   return (
-    <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
-           <S.Content>
+    <ReactModal isOpen={isModalOpen} onRequestClose={closeModal} style={customStyles}>
+      <S.Content>
         <S.CommentHeader>
-          <S.CommentTitle>{modalType === "edit" ? (commentData?.title || "댓글 수정") : "댓글"}</S.CommentTitle>
+          <S.CommentTitle>댓글 수정</S.CommentTitle>
           <S.CloseButton onClick={closeModal}>X</S.CloseButton>
         </S.CommentHeader>
         <S.CommentContent>
           <S.TextArea
-            value={comment}
-            onChange={handleChange}
-            placeholder={getPlaceholder()}
-            maxLength={10000}
+            value={commentContent?.comment}
+            onChange={(e) => setCommentContent(e.target.value)}
+            placeholder="내용을 수정해주세요."
           />
         </S.CommentContent>
         <S.Footer>
-          <S.TextLength>{(comment || "").length}/10000</S.TextLength>
-          <S.SaveButton onClick={handleSave}>{modalType === "comment" ? "저장" : "수정"}</S.SaveButton>
+          <S.SaveButton onClick={handleSave} disabled={isLoading}>
+            {isLoading ? "수정 중..." : "수정"}
+          </S.SaveButton>
         </S.Footer>
       </S.Content>
     </ReactModal>
   );
 };
 
-export default CommentEditModal;
+export default EditModal;
 
 const customStyles = {
   overlay: {
@@ -75,8 +63,6 @@ const customStyles = {
     overflow: "hidden",
   },
 };
-
-
 
 const S = {
   Content: styled.div`
@@ -96,7 +82,7 @@ const S = {
   CommentTitle: styled.div`
     text-align: left;
     font-family: ${(props) => props.theme.font.fontSuitBold};
-    font-size: 1.12rem;
+    font-size: 1.2rem;
   `,
   CloseButton: styled.button`
     background: none;
@@ -107,7 +93,7 @@ const S = {
   `,
   CommentContent: styled.div`
     flex: 1;
-    margin: 0.62rem 0;
+    margin: 0.6rem 0;
   `,
   TextArea: styled.textarea`
     width: 100%;
@@ -126,15 +112,12 @@ const S = {
     align-items: center;
     height: 2rem;
   `,
-  TextLength: styled.div`
-    font-size: 0.9rem;
-    color: ${(props) => props.theme.color.fontGray};
-  `,
   SaveButton: styled.button`
     width: 5rem;
-    height: 2.25rem;
+    height: 2rem;
     background-color: ${(props) => props.theme.color.fontPink};
     color: ${(props) => props.theme.color.mainColor};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
     border: none;
     cursor: pointer;
