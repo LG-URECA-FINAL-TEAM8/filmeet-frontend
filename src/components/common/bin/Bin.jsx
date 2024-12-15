@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { paraMeterHandler } from '../../../utils/auth/paraMeterHandler';
 import { useUserInfo } from '../../../apis/users/queries';
-
+import { handleRegisterToken } from '../../../utils/fcm/fcmTokenHandler';
 function Bin() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ function Bin() {
 
   useEffect(() => {
     if (userInfo && Object.keys(userInfo).length > 0) {
+      handleRegisterToken();
       navigate('/');
     }
   }, [userInfo, navigate]);
