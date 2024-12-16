@@ -174,3 +174,4 @@ export const getRecommendMoviesApi = async (gameId) => {
 
   return await response.json();
 };
+

@@ -42,5 +42,7 @@ export const useRecommendMovies = (gameId) => {
     queryKey: ["recommendations", gameId],
     queryFn: () => getRecommendMoviesApi(gameId),
     enabled: !!gameId, // gameId가 있을 때만 실행
+    refetchOnWindowFocus: false, // 창 전환 시 재요청 방지
   });
 };
+

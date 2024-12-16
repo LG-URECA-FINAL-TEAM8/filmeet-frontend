@@ -5,7 +5,7 @@ import { FinishPageWrapper } from "../../styles/worldcup/worldcup";
 import useWorldcupStore from "../../store/worldcup/worldcupStore";
 
 const WorldcupFinishPage = () => {
-  const { winnerMovie } = useWorldcupStore(); // 우승 영화 정보 가져오기
+  const { winnerMovie, gameId } = useWorldcupStore(); // 우승 영화 정보 가져오기
 
   // 우승 영화가 없을 경우 예외 처리
   if (!winnerMovie) {
@@ -15,6 +15,7 @@ const WorldcupFinishPage = () => {
   return (
     <FinishPageWrapper>
       {/* 우승 영화 카드 */}
+      <h1>앙 우승띠</h1>
       <ResultCard
         image={winnerMovie.posterUrl}
         title={winnerMovie.title}
@@ -22,7 +23,7 @@ const WorldcupFinishPage = () => {
         likes={winnerMovie.likeCounts || 0}
         comments={winnerMovie.commentCounts || 0}
       />
-      <ResultFooter />
+      <ResultFooter gameId={gameId} />
     </FinishPageWrapper>
   );
 };

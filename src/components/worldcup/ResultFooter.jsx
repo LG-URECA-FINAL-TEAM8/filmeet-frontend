@@ -1,25 +1,30 @@
 import styled from "styled-components";
 import SmallCard from "./ResultSmallCard";
+import { useRecommendMovies } from "../../apis/worldcup/queries";
 
 
-const ResultFooter = () => {
+const ResultFooter = ({ gameId }) => {
   const footerText = "월드컵 결과에 따른 추천";
-  
-  // 카드 데이터
-  const recommendedMovies = [
-    { id: 1, title: "영화 1", image: "https://via.placeholder.com/160x190" },
-    { id: 2, title: "영화 2", image: "https://via.placeholder.com/160x190" },
-    { id: 3, title: "영화 3", image: "https://via.placeholder.com/160x190" },
-    { id: 4, title: "영화 4", image: "https://via.placeholder.com/160x190" },
-    { id: 5, title: "영화 5", image: "https://via.placeholder.com/160x190" },
-  ];
+
+  // 추천 영화 가져오기
+  const { data, isLoading, error } = useRecommendMovies(gameId);
+
+  if (isLoading) return <div>추천 영화를 불러오는 중입니다...</div>;
+  if (error) return <div>추천 영화 불러오기 실패: {error.message}</div>;
+
+  // 추천 영화 데이터
+  const recommendedMovies = data || [];
 
   return (
     <S.Footer>
       <S.FooterText>{footerText}</S.FooterText>
       <S.CardGrid>
         {recommendedMovies.map((movie) => (
-          <SmallCard key={movie.id} title={movie.title} image={movie.image} />
+          <SmallCard
+            key={movie.movieId}
+            title={movie.title}
+            image={movie.posterUrl}
+          />
         ))}
       </S.CardGrid>
     </S.Footer>
