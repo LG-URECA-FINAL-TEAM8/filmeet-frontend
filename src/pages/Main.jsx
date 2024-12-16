@@ -1,7 +1,7 @@
 import React from 'react';
 import { MainBody } from '../styles/main/main';
 import Title from '../components/features/main/title/Title';
-import Poster from '../components/Common/poster/Poster';
+import Poster from "../components/common/poster/Poster";
 import HotFeed from '../components/features/comments/HotFeed';
 import {
   useUpcoming,
@@ -12,6 +12,7 @@ import {
 } from '../apis/getMovies/queries';
 import { useHotReview } from '../apis/reviews/queries';
 import useUserStore from '../store/user/userStore';
+import Footer from '../components/common/footer/Footer';
 
 function Main() {
   const userId = useUserStore((state) => state.userInfo?.id);
@@ -57,14 +58,17 @@ function Main() {
   ];
 
   return (
-    <MainBody>
-      {movieSections.map(({ title, component }, index) => (
-        <React.Fragment key={index}>
-          <Title>{title}</Title>
-          {component}
-        </React.Fragment>
-      ))}
-    </MainBody>
+    <>
+      <MainBody>
+        {movieSections.map(({ title, component }, index) => (
+          <React.Fragment key={index}>
+            <Title>{title}</Title>
+            {component}
+          </React.Fragment>
+        ))}
+        <Footer />
+      </MainBody>
+    </>
   );
 }
 

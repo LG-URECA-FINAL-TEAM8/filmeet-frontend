@@ -1,29 +1,45 @@
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { createNewCollection } from "../../apis/myPage/collection/collection";
-import useCollectionsStore from "../../store/collections/useCollectionsStore";
-import MovieSearchModal from "../Common/modal/MovieSearchModal";
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import MovieSearchModal from '../common/modal/MovieSearchModal';
+import { createNewCollection } from '../../apis/myPage/collection/collection';
+import useCollectionsStore from '../../store/collections/useCollectionsStore';
 
 const CollectionsLabel = {
-  NewCollection: "새 컬렉션",
-  Create: "만들기",
-  CollectionTitlePlaceholder: "컬렉션 제목",
-  CollectionDescriptionPlaceholder: "설명을 입력하기..",
-  Movies: "작품들",
-  Edit: "수정하기",
-  RemoveSelected: "개 제거",
-  AddMovie: "작품 추가",
-  Cancel: "취소",
+  NewCollection: '새 컬렉션',
+  Create: '만들기',
+  CollectionTitlePlaceholder: '컬렉션 제목',
+  CollectionDescriptionPlaceholder: '설명을 입력하기..',
+  Movies: '작품들',
+  Edit: '수정하기',
+  RemoveSelected: '개 제거',
+  AddMovie: '작품 추가',
+  Cancel: '취소',
 };
 
 const CreateCollection = () => {
   const navigate = useNavigate();
-  const { title, description, selectedMovies, isEditing, moviesToRemove, isModalOpen, openModal, closeModal, setTitle, setDescription,
-    addMovies, toggleMovieToRemove, removeSelectedMovies, enableEditMode, disableEditMode, resetFields } = useCollectionsStore();
+  const {
+    title,
+    description,
+    selectedMovies,
+    isEditing,
+    moviesToRemove,
+    isModalOpen,
+    openModal,
+    closeModal,
+    setTitle,
+    setDescription,
+    addMovies,
+    toggleMovieToRemove,
+    removeSelectedMovies,
+    enableEditMode,
+    disableEditMode,
+    resetFields,
+  } = useCollectionsStore();
 
   const handleSaveCollection = async () => {
     if (title.trim() && description.trim() && selectedMovies.length > 0) {
-      const userId = localStorage.getItem("userId");
+      const userId = localStorage.getItem('userId');
       const movieIds = selectedMovies.map((movie) => movie.id);
 
       const newCollectionData = {
@@ -32,9 +48,9 @@ const CreateCollection = () => {
         userId: Number(userId),
         movieIds,
       };
-        await createNewCollection(newCollectionData);
-        resetFields(); // 상태 초기화
-        navigate("/mypage/collections");
+      await createNewCollection(newCollectionData);
+      resetFields(); // 상태 초기화
+      navigate('/mypage/collections');
     }
   };
 
@@ -49,7 +65,7 @@ const CreateCollection = () => {
     removeSelectedMovies();
   };
 
-  const hasContent = title.trim() !== "" || description.trim() !== "";
+  const hasContent = title.trim() !== '' || description.trim() !== '';
 
   return (
     <S.Container>
@@ -87,16 +103,13 @@ const CreateCollection = () => {
                 </S.CancelButton>
                 <S.RemoveButton
                   onClick={handleRemoveSelectedMovies}
-                  disabled={moviesToRemove.length === 0}
-                >
+                  disabled={moviesToRemove.length === 0}>
                   {moviesToRemove.length}
                   {CollectionsLabel.RemoveSelected}
                 </S.RemoveButton>
               </S.ActionButtons>
             ) : (
-              <S.EditButton onClick={enableEditMode}>
-                {CollectionsLabel.Edit}
-              </S.EditButton>
+              <S.EditButton onClick={enableEditMode}>{CollectionsLabel.Edit}</S.EditButton>
             ))}
         </S.SectionHeader>
         <S.MoviesGrid>
@@ -105,17 +118,13 @@ const CreateCollection = () => {
             <S.AddText>{CollectionsLabel.AddMovie}</S.AddText>
           </S.AddCard>
           {selectedMovies.map((movie) => (
-            <S.MovieThumbnail
-              key={movie.id}
-              isSelected={moviesToRemove.includes(movie.id)}
-            >
+            <S.MovieThumbnail key={movie.id} isSelected={moviesToRemove.includes(movie.id)}>
               <S.ThumbnailImage src={movie.image} alt={movie.title} />
               <S.ThumbnailTitle>{movie.title}</S.ThumbnailTitle>
               {isEditing && (
                 <S.RemoveIcon
                   isSelected={moviesToRemove.includes(movie.id)}
-                  onClick={() => toggleMovieToRemove(movie.id)}
-                >
+                  onClick={() => toggleMovieToRemove(movie.id)}>
                   ⨉
                 </S.RemoveIcon>
               )}
@@ -344,4 +353,3 @@ const S = {
     transition: all 0.2s ease-in-out;
   `,
 };
-
