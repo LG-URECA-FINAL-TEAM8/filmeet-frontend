@@ -1,21 +1,24 @@
-import styled from "styled-components";
-import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
-import SvgIcReplyFilled24 from "../../../assets/svg/IcReplyFilled24";
-import { useNavigate } from "react-router-dom";
-import { createProfileClickHandler } from "../../../utils/ratings/navigationHandlers";
-import { useUserComments } from "../../../apis/myPage/comment/queries";
+import styled from 'styled-components';
+import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
+import SvgIcReplyFilled24 from '../../../assets/svg/IcReplyFilled24';
+import { useNavigate } from 'react-router-dom';
+import { createProfileClickHandler } from '../../../utils/ratings/navigationHandlers';
+import { useUserComments } from '../../../apis/myPage/comment/queries';
+import { useUserInfo } from '../../../apis/users/queries';
 
 const Comment = () => {
   const navigate = useNavigate();
-  const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
-  const { data, isLoading, error } = useUserComments();
+  const { data: result } = useUserInfo();
+  const userId = result?.data?.id;
+  const handleProfileClick = createProfileClickHandler(navigate, '/mypage');
+  const { data, isLoading, error } = useUserComments(userId);
 
   const comments = data?.data?.content || [];
 
   const handleCommentClick = (commentId) => {
     navigate(`/mypage/comments/${commentId}`);
   };
-  
+
   if (isLoading) {
     return <div>로딩 중...</div>;
   }
@@ -39,24 +42,22 @@ const Comment = () => {
             <S.Content>
               <S.Title>{item.movieTitle}</S.Title>
               <S.GenreYear>{item.releaseDate}</S.GenreYear>
-              <S.Comments onClick={() => handleCommentClick(item.reviewId)}>{item.reviewContent}</S.Comments>
+              <S.Comments onClick={() => handleCommentClick(item.reviewId)}>
+                {item.reviewContent}
+              </S.Comments>
             </S.Content>
-            <S.Rating>
-              ★ {item.ratingScore ? item.ratingScore.toFixed(1) : "N/A"}
-            </S.Rating>
+            <S.Rating>★ {item.ratingScore ? item.ratingScore.toFixed(1) : 'N/A'}</S.Rating>
           </S.MainContent>
           <S.FeedStats>
             <S.Stat>
-              <SvgIcLikeFilled24 width={"1rem"} height={"1rem"} /> {item.likeCounts}
+              <SvgIcLikeFilled24 width={'1rem'} height={'1rem'} /> {item.likeCounts}
             </S.Stat>
             <S.Stat>
-              <SvgIcReplyFilled24 width={"1rem"} height={"1rem"} /> {item.commentCounts}
+              <SvgIcReplyFilled24 width={'1rem'} height={'1rem'} /> {item.commentCounts}
             </S.Stat>
           </S.FeedStats>
           <S.Like>
-            <S.LikeButton>
-              좋아요
-            </S.LikeButton>
+            <S.LikeButton>좋아요</S.LikeButton>
           </S.Like>
         </S.Card>
       ))}
@@ -175,11 +176,11 @@ const S = {
   LikeButton: styled.button`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
-    background-color: ${(props) => (props.liked ? props.theme.color.fontPink : "transparent")};
+    background-color: ${(props) => (props.liked ? props.theme.color.fontPink : 'transparent')};
     color: ${(props) => (props.liked ? props.theme.color.fontWhite : props.theme.color.fontPink)};
     border: none;
     border-radius: 0.3rem;
     padding: 0.2rem 0.5rem;
-    cursor: pointer;   
+    cursor: pointer;
   `,
 };

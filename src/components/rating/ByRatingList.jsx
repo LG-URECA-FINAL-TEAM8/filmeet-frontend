@@ -1,24 +1,32 @@
-import * as S from "../../styles/rating/rating";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import useRatingsStore from "../../store/rating/useRatingsStore";
-import { useNavigate } from "react-router-dom";
-import MovieRatingSections from "./MovieRatingSections";
-import { pagecontents } from "../../data/pagecontents";
-import { createBackClickHandler, createFilterClickHandler } from "../../utils/ratings/navigationHandlers";
-import { useMovieRatings } from "../../apis/myPage/rating/queries";
-import { groupMoviesByRating } from "../../utils/ratings/groupMoviesRatings";
-
+import * as S from '../../styles/rating/rating';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import useRatingsStore from '../../store/rating/useRatingsStore';
+import { useNavigate } from 'react-router-dom';
+import MovieRatingSections from './MovieRatingSections';
+import { pagecontents } from '../../data/pagecontents';
+import {
+  createBackClickHandler,
+  createFilterClickHandler,
+} from '../../utils/ratings/navigationHandlers';
+import { useMovieRatings } from '../../apis/myPage/rating/queries';
+import { groupMoviesByRating } from '../../utils/ratings/groupMoviesRatings';
+import { useUserInfo } from '../../apis/users/queries';
 const ByRatingList = () => {
   const { activeFilter, setActiveFilter } = useRatingsStore();
+  const { data: result } = useUserInfo();
+  const userId = result?.data?.id;
   const navigate = useNavigate();
-  const { data, isLoading, error } = useMovieRatings(0, 100, "createdAt,desc");
-  const groupedRatings = groupMoviesByRating(data?.data?.content || [], pagecontents.movieRatingSections.ratings);
+  const { data, isLoading, error } = useMovieRatings(userId);
+  const groupedRatings = groupMoviesByRating(
+    data?.data?.content || [],
+    pagecontents.movieRatingSections.ratings
+  );
 
   // 하드코딩된 필터 데이터 활용
   const { title, filters } = pagecontents.movieRatingList;
 
-  const handleBackClick = createBackClickHandler(navigate, "/mypage/ratings");
+  const handleBackClick = createBackClickHandler(navigate, '/mypage/ratings');
   const handleFilterClick = createFilterClickHandler(setActiveFilter);
   const filterClickHandlers = filters.map((option) => () => handleFilterClick(option.value));
 
@@ -37,8 +45,7 @@ const ByRatingList = () => {
             <S.FilterButton
               key={filter.value}
               isActive={activeFilter === filter.value}
-              onClick={filterClickHandlers[index]}
-            >
+              onClick={filterClickHandlers[index]}>
               {filter.label}
             </S.FilterButton>
           ))}

@@ -12,6 +12,7 @@ function MovieDetail() {
   const movieDetailData = movieDetail?.data;
   const castDetailData = movieDetail?.data?.personnels;
   const movieCommentData = movieComment?.data?.content || [];
+  console.log(movieCommentData);
   return (
     <>
       <Banner movieData={movieDetailData} />
