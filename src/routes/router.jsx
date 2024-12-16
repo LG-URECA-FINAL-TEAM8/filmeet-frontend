@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import DefaultLayout from "../components/layout/DefaultLayout";
+import DefaultLayout from '../components/layout/DefaultLayout';
 import ErrorPage from '../pages/errorpage/ErrorPage';
 
 // 컴포넌트 동적 로딩 설정
@@ -27,6 +27,7 @@ const pageComponents = {
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieCommentAll: () => import('../pages/movieDetail/MovieCommentDetail'),
   Bin: () => import('../components/common/bin/Bin'),
+  UserPage: () => import('../pages/userpage/userPage'),
   Policy: () => import('../pages/policy/Policy'),
 };
 
@@ -50,6 +51,7 @@ const routes = [
       { path: 'login', element: createLazyComponent(pageComponents.Login) },
       { path: 'policy', element: createLazyComponent(pageComponents.Policy) },
       { path: 'mypage', element: createLazyComponent(pageComponents.MyPage) },
+      { path: 'userpage/:userId', element: createLazyComponent(pageComponents.UserPage) },
       { path: 'movie/genre', element: createLazyComponent(pageComponents.GenreMovie) },
       { path: 'mypage/ratings', element: createLazyComponent(pageComponents.RatingsPage) },
       {

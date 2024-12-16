@@ -1,22 +1,29 @@
-import styled from "styled-components";
-import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
-import SvgIcReplyFilled24 from "../../../assets/svg/IcReplyFilled24";
-import { useNavigate } from "react-router-dom";
-import { createProfileClickHandler } from "../../../utils/ratings/navigationHandlers";
-import useMovieCommentStore from "../../../store/moviedetail/useMovieCommentStore";
+import styled from 'styled-components';
+import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
+import SvgIcReplyFilled24 from '../../../assets/svg/IcReplyFilled24';
+import { useNavigate } from 'react-router-dom';
+import useMovieCommentStore from '../../../store/moviedetail/useMovieCommentStore';
 
-
-const MiniComment = ({ reviewId, nickName, profileImage, content, likeCounts, commentCounts }) => {
+const MiniComment = ({
+  reviewId,
+  nickName,
+  profileImage,
+  content,
+  likeCounts,
+  commentCounts,
+  userId,
+}) => {
   const navigate = useNavigate();
   const { likedComments, toggleLike } = useMovieCommentStore();
 
-  const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
+  const handleProfileClick = () => {
+    navigate(`/userpage/${userId}`);
+  };
 
   const handleCommentClick = (reviewId) => {
     navigate(`/moviedetail/comments/${reviewId}`);
   };
 
-  //코멘트 목록에 좋아요 상태변경
   const isLiked = likedComments[reviewId] || false;
 
   return (
@@ -30,11 +37,11 @@ const MiniComment = ({ reviewId, nickName, profileImage, content, likeCounts, co
       </S.MainContent>
       <S.FeedStats>
         <S.Stat>
-          <SvgIcLikeFilled24 width={"1rem"} height={"1rem"} />
+          <SvgIcLikeFilled24 width={'1rem'} height={'1rem'} />
           {likeCounts}
         </S.Stat>
         <S.Stat>
-          <SvgIcReplyFilled24 width={"1rem"} height={"1rem"} />
+          <SvgIcReplyFilled24 width={'1rem'} height={'1rem'} />
           {commentCounts}
         </S.Stat>
       </S.FeedStats>
@@ -135,11 +142,11 @@ const S = {
   LikeButton: styled.button`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
-    background-color: ${(props) => (props.liked ? props.theme.color.fontPink : "transparent")};
+    background-color: ${(props) => (props.liked ? props.theme.color.fontPink : 'transparent')};
     color: ${(props) => (props.liked ? props.theme.color.fontWhite : props.theme.color.fontPink)};
     border: none;
     border-radius: 0.3rem;
     padding: 0.2rem 0.5rem;
-    cursor: pointer;   
+    cursor: pointer;
   `,
 };

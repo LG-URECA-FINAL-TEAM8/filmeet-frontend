@@ -1,4 +1,3 @@
-import { movies } from '../../data/movies';
 import Poster from '../common/poster/Poster';
 import { groupMoviesByRating } from '../../utils/ratings/groupMoviesRatings';
 import * as S from '../../styles/rating/rating';
