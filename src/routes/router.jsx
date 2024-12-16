@@ -3,7 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import DefaultLayout from '../components/Layout/DefaultLayout';
 import ErrorPage from '../pages/errorpage/ErrorPage';
 
-//컴포넌트 동적 로딩 설정
+// 컴포넌트 동적 로딩 설정
 const pageComponents = {
   Main: () => import('../pages/Main'),
   Login: () => import('../pages/auth/Login'),
