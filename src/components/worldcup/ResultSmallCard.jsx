@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { StarFilled } from "@ant-design/icons";
 
-const SmallCard = ({ title, image, movieId }) => {
+const SmallCard = ({ title, image, movieId, rating }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
@@ -9,15 +10,29 @@ const SmallCard = ({ title, image, movieId }) => {
   };
 
   return (
-    <S.Card onClick={handleCardClick}>
-      <S.Image src={image} alt={title} />
-    </S.Card>
+    <S.CardWrapper>
+      <S.Card onClick={handleCardClick}>
+        <S.Image src={image} alt={title} />
+      </S.Card>
+      <S.Rating>
+        <StarFilled style={{ color: "#FF2F6E", marginRight: "0.3rem" }} />
+        {rating ? rating.toFixed(1) : "0.0"}
+      </S.Rating>
+    </S.CardWrapper>
   );
 };
 
 export default SmallCard;
 
 const S = {
+  CardWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-bottom: 1rem;
+  `,
+
   Card: styled.div`
     width: 10rem;
     height: 11.87rem;
@@ -49,10 +64,12 @@ const S = {
     object-fit: cover;
   `,
 
-  Title: styled.div`
+  Rating: styled.div`
     margin-top: 0.5rem;
     font-size: 0.9rem;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    color: ${(props) => props.theme.color.fontBlack};
+    color: ${(props) => props.theme.color.fontPink};
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+    display: flex;
+    align-items: center;
   `,
 };

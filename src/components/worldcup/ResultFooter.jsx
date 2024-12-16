@@ -25,6 +25,7 @@ const ResultFooter = ({ gameId }) => {
             title={movie.title}
             image={movie.posterUrl}
             movieId={movie.movieId}
+            rating={movie.ratingCounts}
           />
         ))}
       </S.CardGrid>

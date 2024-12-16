@@ -13,7 +13,6 @@ export const FinishPageWrapper = styled.div`
   justify-content: space-between; /* Header와 Footer 간 간격 조정 */
   align-items: center;
   height: 91vh; /* 화면 전체 채우기 */
-  padding: 2rem;
   background-color: ${(props) => props.theme.color.commentColor};
   box-sizing: border-box;
   overflow: hidden; /* 스크롤 방지 */
@@ -36,6 +35,12 @@ export const Title = styled.div`
     font-size: 5rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     margin-bottom: 1rem;
+  `;
+
+export const GameFinishTitle = styled.div`
+    font-size: 3rem;
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+    margin: 1rem 0 1rem 0;
   `;
 
 export const Subtitle = styled.div`

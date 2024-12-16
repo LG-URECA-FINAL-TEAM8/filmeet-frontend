@@ -1,8 +1,7 @@
-import React from "react";
 import ResultCard from "../../components/worldcup/ResultCard";
 import ResultFooter from "../../components/worldcup/ResultFooter";
-import { FinishPageWrapper } from "../../styles/worldcup/worldcup";
 import useWorldcupStore from "../../store/worldcup/worldcupStore";
+import { FinishPageWrapper, GameFinishTitle } from "../../styles/worldcup/worldcup";
 
 const WorldcupFinishPage = () => {
   const { winnerMovie, gameId } = useWorldcupStore(); // 우승 영화 정보 가져오기
@@ -15,7 +14,7 @@ const WorldcupFinishPage = () => {
   return (
     <FinishPageWrapper>
       {/* 우승 영화 카드 */}
-      <h1>우승</h1>
+      <GameFinishTitle>{winnerMovie.title}</GameFinishTitle>
       <ResultCard
         image={winnerMovie.posterUrl}
         title={winnerMovie.title}
