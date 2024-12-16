@@ -56,14 +56,7 @@ const ProgressBar = ({ percent, color, label }) => (
 
 const S = {
   RankPageWrapper: styled.div`
-    background-color: ${(props) => props.theme.color.fontWhite};
-  `,
-
-  Title: styled.h1`
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    font-family: ${(props) => props.theme.font.fontSuitBold};
-    color: ${(props) => props.theme.color.fontPink};
+    background-color: ${(props) => props.theme.color.commentColor};
   `,
 
   RankList: styled.div`
@@ -102,10 +95,9 @@ const S = {
     text-align: left;
   `,
 
-  GameTitle: styled.h3`
+  GameTitle: styled.h2`
     font-family: ${(props) => props.theme.font.fontSuitBold};
-    color: ${(props) => props.theme.color.fontGray};
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
   `,
 
   ProgressBarWrapper: styled.div`

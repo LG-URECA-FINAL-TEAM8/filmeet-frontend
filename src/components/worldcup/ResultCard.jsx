@@ -1,11 +1,18 @@
 import { Card } from "antd";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const { Meta } = Card;
 
-const ResultCard = ({ image, title }) => {
+const ResultCard = ({ image, title, movieId }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/moviedetail/${movieId}`); // 상세 페이지로 이동
+  };
+
   return (
-    <S.StyledCard hoverable cover={<S.StyledImage alt={title} src={image} />}></S.StyledCard>
+    <S.StyledCard hoverable cover={<S.StyledImage alt={title} src={image} />} onClick={handleCardClick}></S.StyledCard>
   );
 };
 

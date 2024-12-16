@@ -9,7 +9,7 @@ const WorldcupFinishPage = () => {
 
   // 우승 영화가 없을 경우 예외 처리
   if (!winnerMovie) {
-    return;
+    return
   }
 
   return (
@@ -22,6 +22,7 @@ const WorldcupFinishPage = () => {
         rating={winnerMovie.ratingCounts || 0}
         likes={winnerMovie.likeCounts || 0}
         comments={winnerMovie.commentCounts || 0}
+        movieId={winnerMovie.movieId}
       />
       <ResultFooter gameId={gameId} />
     </FinishPageWrapper>

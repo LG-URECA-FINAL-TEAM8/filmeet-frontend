@@ -1,8 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const SmallCard = ({ title, image }) => {
+const SmallCard = ({ title, image, movieId }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/moviedetail/${movieId}`); // 상세 페이지로 이동
+  };
+
   return (
-    <S.Card>
+    <S.Card onClick={handleCardClick}>
       <S.Image src={image} alt={title} />
     </S.Card>
   );

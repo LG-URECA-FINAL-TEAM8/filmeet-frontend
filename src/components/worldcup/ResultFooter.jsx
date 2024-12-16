@@ -9,8 +9,8 @@ const ResultFooter = ({ gameId }) => {
   // 추천 영화 가져오기
   const { data, isLoading, error } = useRecommendMovies(gameId);
 
-  if (isLoading) return <div>추천 영화를 불러오는 중입니다...</div>;
-  if (error) return <div>추천 영화 불러오기 실패: {error.message}</div>;
+  if (isLoading) return;
+  if (error) return;
 
   // 추천 영화 데이터
   const recommendedMovies = data || [];
@@ -24,6 +24,7 @@ const ResultFooter = ({ gameId }) => {
             key={movie.movieId}
             title={movie.title}
             image={movie.posterUrl}
+            movieId={movie.movieId}
           />
         ))}
       </S.CardGrid>
