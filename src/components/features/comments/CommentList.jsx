@@ -1,31 +1,32 @@
-import styled from "styled-components";
-import SvgOption from "../../../assets/svg/Option";
-import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
-import { useLikesStore } from "../../../store/comment/useLikesStore";
-import { useMenuStore } from "../../../store/comment/useMenuStore";
-import useCommentStore from "../../../store/modal/useCommentStore";
+import styled from 'styled-components';
+import SvgOption from '../../../assets/svg/Option';
+import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
+import { useMenuStore } from '../../../store/comment/useMenuStore';
+import useCommentStore from '../../../store/modal/useCommentStore';
+import { useFetchComments } from '../../../apis/commentDetails/queries';
+import { pagecontents } from '../../../data/pagecontents';
 
-const TEXTS = {
-  noComments: "댓글이 없습니다.",
-  like: "좋아요",
-  editComment: "댓글 수정",
-  deleteComment: "댓글 삭제",
-};
-
-const createLikeKey = (type, id) => `${type}-${id}`;
-
-const CommentList = ({ comments, onEdit }) => {
-  const { likes, toggleLike } = useLikesStore();
+const CommentList = ({ reviewId, userInfo, onEdit }) => {
+  const { data: comments, isLoading, isError, error } = useFetchComments({ reviewId });
+  const { editComment, deleteComment, noComments } = pagecontents.commentPageContent;
   const { openMenuId, openMenu, closeMenu } = useMenuStore();
   const { openModal } = useCommentStore();
 
-  if (!comments || comments.length === 0) {
-    return <S.NoCommentMessage>{TEXTS.noComments}</S.NoCommentMessage>;
+  if (isLoading) {
+    return <div>댓글을 불러오는 중...</div>;
   }
 
-  const handleLikeClick = (id) => {
-    toggleLike(createLikeKey("list", id));
-  };
+  if (isError) {
+    return <div>댓글을 불러오는 데 오류가 발생했습니다: {error.message}</div>;
+  }
+
+  if (!Array.isArray(comments)) {
+    return <div>댓글을 불러오는 데 문제가 발생했습니다.</div>;
+  }
+
+  if (comments.length === 0) {
+    return <S.NoCommentMessage>{noComments}</S.NoCommentMessage>;
+  }
 
   const handleMenuToggle = (id) => {
     if (openMenuId === id) {
@@ -36,51 +37,48 @@ const CommentList = ({ comments, onEdit }) => {
   };
 
   const handleEditClick = (comment) => {
-    onEdit ? onEdit(comment) : openModal("edit", { ...comment });
+    onEdit ? onEdit(comment) : openModal('commentedit', { ...comment });
     closeMenu();
   };
 
   const handleDeleteClick = (comment) => {
-    openModal("deleteComment", { ...comment });
+    openModal('deleteComment', { reviewId, commentId: comment.reviewCommentId });
     closeMenu();
   };
 
   return (
     <S.CommentContainer>
       {comments.map((comment) => {
-        const likeKey = createLikeKey("list", comment.id);
-        const commentLikes = likes[likeKey] || { count: 0, isLiked: false };
-        const isMenuOpen = openMenuId === comment.id;
+        const isMenuOpen = openMenuId === comment.reviewCommentId;
+        const isAuthor = comment.nickName === userInfo?.nickname; // 작성자인지 확인
 
         return (
-          <S.CommentWrapper key={comment.id}>
+          <S.CommentWrapper key={comment.reviewCommentId}>
             <S.CommentItem>
-              <S.UserProfile src={comment.userImage} alt={comment.userName} />
+              <S.UserProfile src={comment.profileImage} alt={comment.nickName} />
               <S.CommentContent>
                 <S.UserHeader>
-                  <S.UserName>{comment.userName}</S.UserName>
-                  <S.CommentTime>{comment.time}</S.CommentTime>
+                  <S.UserName>{comment.nickName}</S.UserName>
+                  <S.CommentTime>{comment.createdAt?.slice(0, 10)}</S.CommentTime>
                 </S.UserHeader>
                 <S.CommentText>{comment.content}</S.CommentText>
                 <S.ActionRow>
-                  <S.LikeSection onClick={() => handleLikeClick(comment.id)}>
-                    {TEXTS.like}
-                    <S.StyledSvgIcLikeFilled24 isLiked={commentLikes.isLiked} />
-                    {commentLikes.count}
-                  </S.LikeSection>
-                  <S.SvgOptionWrapper>
-                    <SvgOption onClick={() => handleMenuToggle(comment.id)} />
-                    {isMenuOpen && (
-                      <S.OptionsMenu>
-                        <S.MenuItem onClick={() => handleEditClick(comment)}>
-                          {TEXTS.editComment}
-                        </S.MenuItem>
-                        <S.MenuItem onClick={() => handleDeleteClick(comment)}>
-                          {TEXTS.deleteComment}
-                        </S.MenuItem>
-                      </S.OptionsMenu>
-                    )}
-                  </S.SvgOptionWrapper>
+                  <S.LikeSection />
+                  {isAuthor && (
+                    <S.SvgOptionWrapper>
+                      <SvgOption onClick={() => handleMenuToggle(comment.reviewCommentId)} />
+                      {isMenuOpen && (
+                        <S.OptionsMenu>
+                          <S.MenuItem onClick={() => handleEditClick(comment)}>
+                            {editComment}
+                          </S.MenuItem>
+                          <S.MenuItem onClick={() => handleDeleteClick(comment)}>
+                            {deleteComment}
+                          </S.MenuItem>
+                        </S.OptionsMenu>
+                      )}
+                    </S.SvgOptionWrapper>
+                  )}
                 </S.ActionRow>
               </S.CommentContent>
             </S.CommentItem>
@@ -195,6 +193,8 @@ const S = {
     padding: 0.31rem;
     font-size: 0.9rem;
     cursor: pointer;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+
     &:hover {
       background-color: ${(props) => props.theme.color.commentColor};
     }

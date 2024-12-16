@@ -1,25 +1,34 @@
-import ReactModal from "react-modal";
-import styled from "styled-components";
-import useCommentStore from "../../../store/modal/useCommentStore";
+import ReactModal from 'react-modal';
+import styled from 'styled-components';
+import useCommentStore from '../../../store/modal/useCommentStore';
+import { useDeleteComment, useDeleteReview } from '../../../apis/commentDetails/queries';
+import { useNavigate } from 'react-router-dom';
+import { pagecontents } from '../../../data/pagecontents';
 
-const MODALTEXTS = {
-  modalTitle: "알림",
-  deleteComment: "댓글을 삭제하시겠어요?",
-  deleteCommentary: "코멘트를 삭제하시겠어요?",
-  cancel: "취소",
-  confirm: "확인",
-};
+ReactModal.setAppElement('#root');
 
-ReactModal.setAppElement("#root");
-
-const CommentDeleteModal = ({ onConfirm }) => {
+const CommentDeleteModal = () => {
   const { isOpen, modalType, commentData, closeModal } = useCommentStore();
+  const { mutate: deleteCommentMutate } = useDeleteComment(); // 댓글 삭제 훅
+  const { mutate: deleteReviewMutate } = useDeleteReview();
+  const navigate = useNavigate();
+  const { deleteCommentary, deleteListComment, alarm, cancel, confirm } =
+    pagecontents.commentPageContent;
 
-  if (!isOpen || !["deleteComment", "deleteCommentary"].includes(modalType)) return null;
+  if (!isOpen || !['deleteComment', 'deleteCommentary'].includes(modalType)) return null;
 
-  const handleConfirm = () => {
-    if (onConfirm) {
-      onConfirm(commentData);
+  const handleConfirm = async () => {
+    if (modalType === 'deleteCommentary') {
+      deleteReviewMutate({
+        reviewId: commentData?.reviewId,
+        movieId: commentData?.movieId,
+      });
+      navigate('/mypage/comments');
+    } else if (modalType === 'deleteComment') {
+      deleteCommentMutate({
+        reviewId: commentData?.reviewId,
+        commentId: commentData?.commentId,
+      });
     }
     closeModal();
   };
@@ -27,12 +36,14 @@ const CommentDeleteModal = ({ onConfirm }) => {
   return (
     <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
       <S.Container>
-        <S.Title>{MODALTEXTS.modalTitle}</S.Title>
-        <S.Message>{MODALTEXTS[modalType]}</S.Message>
+        <S.Title>{alarm}</S.Title>
+        <S.Message>
+          {modalType === 'deleteCommentary' ? deleteCommentary : deleteListComment}
+        </S.Message>
         <S.ButtonGroup>
-          <S.CancelButton onClick={closeModal}>{MODALTEXTS.cancel}</S.CancelButton>
+          <S.CancelButton onClick={closeModal}>{cancel}</S.CancelButton>
           <S.Divider />
-          <S.ConfirmButton onClick={handleConfirm}>{MODALTEXTS.confirm}</S.ConfirmButton>
+          <S.ConfirmButton onClick={handleConfirm}>{confirm}</S.ConfirmButton>
         </S.ButtonGroup>
       </S.Container>
     </ReactModal>
@@ -43,15 +54,15 @@ export default CommentDeleteModal;
 
 const customStyles = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   content: {
-    width: "17.5rem",
-    height: "7.5rem",
-    margin: "auto",
-    borderRadius: "0.6rem",
-    padding: "1.25rem 0 0 0",
-    overflow: "hidden",
+    width: '17.5rem',
+    height: '7.5rem',
+    margin: 'auto',
+    borderRadius: '0.6rem',
+    padding: '1.25rem 0 0 0',
+    overflow: 'hidden',
   },
 };
 

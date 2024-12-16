@@ -46,7 +46,7 @@ const Comment = () => {
                 {item.reviewContent}
               </S.Comments>
             </S.Content>
-            <S.Rating>★ {item.ratingScore ? item.ratingScore.toFixed(1) : 'N/A'}</S.Rating>
+            <S.Rating>★ {item.ratingScore ? item.ratingScore.toFixed(1) : '0'}</S.Rating>
           </S.MainContent>
           <S.FeedStats>
             <S.Stat>
