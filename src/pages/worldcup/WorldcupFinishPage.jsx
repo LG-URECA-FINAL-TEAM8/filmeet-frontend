@@ -15,7 +15,7 @@ const WorldcupFinishPage = () => {
   return (
     <FinishPageWrapper>
       {/* 우승 영화 카드 */}
-      <h1>앙 우승띠</h1>
+      <h1>우승</h1>
       <ResultCard
         image={winnerMovie.posterUrl}
         title={winnerMovie.title}

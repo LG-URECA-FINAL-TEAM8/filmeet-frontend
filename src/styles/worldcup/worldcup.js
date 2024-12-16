@@ -21,15 +21,27 @@ export const FinishPageWrapper = styled.div`
 
 export const ButtonContainer = styled.div`
     display: flex;
-    flex-direction: column; /* 버튼을 세로로 배치 */
-    align-items: center; /* 버튼을 가운데 정렬 */
-    gap: 2rem; /* 버튼 사이 간격 설정 */
-    margin: 40px 600px;
-    padding: 30px 0 100px 0;
+    flex-direction: column; 
+    align-items: center; 
+    height: 450px;
+    gap: 2rem; 
+    margin: 40px 700px;
+    padding: 50px 10px 50px 10px;
     border-radius: 30px;
+    background-color: #D9D9D9;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
   `;
 
+export const Title = styled.div`
+    font-size: 5rem;
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+    margin-bottom: 1rem;
+  `;
 
-
+export const Subtitle = styled.div`
+    font-size: 2.5rem;
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+    color: ${(props) => props.theme.color.collectionColor};
+    margin-bottom: 3rem;
+  `;
 

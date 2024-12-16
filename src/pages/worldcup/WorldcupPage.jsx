@@ -1,13 +1,15 @@
 import { useCreateGame } from "../../apis/worldcup/queries";
+import SvgClapperboard from "../../assets/svg/Clapperboard";
 import GameStartButton from "../../components/worldcup/GameStartButton";
 import RankButton from "../../components/worldcup/RankButton";
 import WorldcupFooter from "../../components/worldcup/WorldcupFooter";
 import WorldcupHeader from "../../components/worldcup/WorldcupHeader";
 import WorldcupMatch from "../../components/worldcup/WorldcupMatch";
 import useWorldcupStore from "../../store/worldcup/worldcupStore";
-import { ButtonContainer, PageWrapper } from "../../styles/worldcup/worldcup";
+import { ButtonContainer, PageWrapper, Subtitle, Title } from "../../styles/worldcup/worldcup";
 
 const WorldcupPage = () => {
+
   const {
     isGameStarted,
     setGameStarted,
@@ -32,10 +34,6 @@ const WorldcupPage = () => {
     );
   };
 
-  const handleGameFinish = () => {
-    console.log("게임이 종료되었습니다.");
-  };
-
   return (
     <PageWrapper>
       {!isGameStarted ? (
@@ -44,12 +42,11 @@ const WorldcupPage = () => {
             onClick={handleGameCreate}
             isLoading={createGameMutation.isLoading}
           />
-          <RankButton />
         </ButtonContainer>
       ) : (
         <>
           <WorldcupHeader totalRounds={currentRound} />
-          <WorldcupMatch onGameFinish={handleGameFinish} />
+          <WorldcupMatch />
           <WorldcupFooter />
         </>
       )}

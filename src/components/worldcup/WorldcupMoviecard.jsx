@@ -78,6 +78,7 @@ const S = {
   StyledMeta: styled(Meta)`
     height: 4.37rem;
     display: flex;
+    text-align: center;
     flex-direction: flex-start;
     justify-content: space-between;
 

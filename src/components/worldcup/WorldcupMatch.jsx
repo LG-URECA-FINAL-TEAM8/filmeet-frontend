@@ -28,8 +28,6 @@ const WorldcupMatch = () => {
 
   // 라운드 종료 처리
   const proceedToNextRound = async () => {
-    console.log(`라운드 ${currentRound} 종료. 다음 라운드 진행.`);
-
     await refetch();
     setCurrentRound(currentRound / 2);
   };
@@ -40,11 +38,9 @@ const WorldcupMatch = () => {
       { gameMatchId: currentMatch.id, selectedMovieId: movieId },
       {
         onSuccess: async () => {
-          console.log("승자 선택 완료!");
   
           // 결승전 처리
           if (currentRound === 2) {
-            console.log("결승전 승자 선택됨. 우승 영화 확인 중...");
   
             try {
               // 게임 상세 조회를 다시 호출해 우승 영화 확인
@@ -57,8 +53,6 @@ const WorldcupMatch = () => {
                 String(finalMatch?.winner) === String(finalMatch?.movie1.movieId)
                   ? finalMatch.movie1
                   : finalMatch.movie2;
-  
-              console.log("우승 영화 설정 완료:", winnerMovie);
   
               setWinnerMovie(winnerMovie);
               navigate("/worldcupfinish"); // 결과 페이지로 이동

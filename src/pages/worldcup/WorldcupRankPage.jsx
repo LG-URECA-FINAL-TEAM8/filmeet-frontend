@@ -17,9 +17,9 @@ const WorldcupRankPage = () => {
           <S.RankItem key={game.id}>
             <S.Poster src={game.posterUrl} alt={game.title} />
             <S.GameInfo>
-              <h3>{game.rank}위: {game.title}</h3>
-              <p>승률: {game.victoryRatio}%</p>
-              <p>승리 비율: {game.winRate}%</p>
+              <S.GameTitle>{game.rank}위: {game.title}</S.GameTitle>
+              <S.GameRate>승률: {game.victoryRatio}%</S.GameRate>
+              <S.GameRate>승리 비율: {game.winRate}%</S.GameRate>
             </S.GameInfo>
           </S.RankItem>
         ))}
@@ -39,12 +39,15 @@ const S = {
   Title: styled.h1`
     font-size: 2rem;
     margin-bottom: 1.5rem;
+    font-family: ${(props) => props.theme.font.fontSuitBold};
   `,
 
   RankList: styled.div`
+    width: 640px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    margin: 0 auto;
   `,
 
   RankItem: styled.div`
@@ -76,5 +79,12 @@ const S = {
       margin: 0.3rem 0;
       font-size: 1rem;
     }
+  `,
+
+  GameTitle: styled.h3`
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+  `,
+  GameRate: styled.p`
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 };
