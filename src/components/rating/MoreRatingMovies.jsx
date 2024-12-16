@@ -4,7 +4,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { groupMoviesByRating } from "../../utils/ratings/groupMoviesRatings";
 import { movies } from "../../data/movies";
-import Poster from "../Common/poster/Poster";
+import Poster from "../common/poster/Poster";
 import { createBackClickHandler } from "../../utils/ratings/navigationHandlers";
 import { pagecontents } from "../../data/pagecontents";
 import { useMovieRatings } from "../../apis/myPage/rating/queries";

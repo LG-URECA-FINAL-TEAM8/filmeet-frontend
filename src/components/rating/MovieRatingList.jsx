@@ -1,5 +1,5 @@
 import * as S from "../../styles/rating/rating";
-import Poster from '../Common/poster/Poster';
+import Poster from '../common/poster/Poster';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import useRatingsStore from "../../store/rating/useRatingsStore";

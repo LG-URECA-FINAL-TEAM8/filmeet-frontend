@@ -2,28 +2,28 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAddComment, useFetchComments } from '../../apis/myPage/collection/queries';
-import SvgComment from '../../assets/svg/Comment';
+import SvgComment from '../../assets/svg/comment';
 import SvgIcLikeFilled24 from '../../assets/svg/IcLikeFilled24';
 import SvgOption from '../../assets/svg/Option';
 import useCollectionsDeleteStore from '../../store/collections/useCollectionsDeleteStore';
+import CollectionsDeleteModal from '../common/modal/CollectionsDeleteModal';
 import useCollectionsMenuStore from '../../store/collections/useCollectionsMenuStore';
 import useCollectionsStore from '../../store/collections/useCollectionsStore';
 import useCommentDeleteStore from '../../store/collections/useCommentDeleteStore';
 import useCommentsStore from '../../store/collections/useCommentsStore';
-import CollectionsDeleteModal from '../Common/modal/CollectionsDeleteModal';
-import Poster from '../Common/poster/Poster';
+import Poster from '../common/poster/Poster';
 import CollectionCommentDelete from '../common/modal/CollectionCommentDelete';
 import EditModal from '../common/modal/collection/EditModal';
 
 const CollectionsLabel = {
-  Like: "좋아요",
-  Comment: "댓글",
-  NoData: "데이터를 불러올 수 없습니다.",
-  Movies: "작품들",
-  Delete: "삭제",
-  Edit: "수정하기",
-  Submit: "등록",
-  Placeholder: "컬렉션에 댓글을 남겨보세요.",
+  Like: '좋아요',
+  Comment: '댓글',
+  NoData: '데이터를 불러올 수 없습니다.',
+  Movies: '작품들',
+  Delete: '삭제',
+  Edit: '수정하기',
+  Submit: '등록',
+  Placeholder: '컬렉션에 댓글을 남겨보세요.',
 };
 
 const CollectionDetail = ({ collectionData, movies, userInfo }) => {
@@ -55,7 +55,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
   );
   const { mutate: addCommentMutation, isLoading: isSubmittingComment } = useAddComment();
 
-  const [commentContent, setCommentContent] = useState("");
+  const [commentContent, setCommentContent] = useState('');
   const [openCommentMenu, setOpenCommentMenu] = useState(null);
 
   useEffect(() => {
@@ -94,7 +94,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
         await toggleLike(collectionData.collectionId);
       }
     } catch (error) {
-      console.error("좋아요 상태 변경 중 오류 발생:", error);
+      console.error('좋아요 상태 변경 중 오류 발생:', error);
     }
   };
 
@@ -103,11 +103,10 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
       { collectionId: collectionData.collectionId, commentContent },
       {
         onSuccess: () => {
-          setCommentContent(""); // 입력 필드 초기화
+          setCommentContent(''); // 입력 필드 초기화
           setOpenCommentMenu(null); // 옵션 메뉴 닫기
         },
-        onError: () => {
-        },
+        onError: () => {},
       }
     );
   };
@@ -121,10 +120,10 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
   }
 
   const {
-    userProfileImage: profileImage = "https://via.placeholder.com/38x38",
-    nickname: name = "알 수 없음",
-    collectionTitle: collectionName = "제목 없음",
-    collectionContent: description = "설명 없음",
+    userProfileImage: profileImage = 'https://via.placeholder.com/38x38',
+    nickname: name = '알 수 없음',
+    collectionTitle: collectionName = '제목 없음',
+    collectionContent: description = '설명 없음',
   } = collectionData;
 
   return (
@@ -133,38 +132,35 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
         backgroundImage={
           movies.length > 0 && movies[0].posterImage
             ? movies[0].posterImage
-            : "https://via.placeholder.com/640x260"
-        }
-      >
+            : 'https://via.placeholder.com/640x260'
+        }>
         <S.Overlay />
         <S.Profile>
           <S.ProfileImage src={profileImage} alt={`${name} 프로필`} />
           <S.UserName>{name}</S.UserName>
         </S.Profile>
         {isAuthor && (
-        <S.MoreOptions onClick={handleMenuToggle} data-menu-toggle>
-          <S.StyledSvgOption />
-        </S.MoreOptions>
+          <S.MoreOptions onClick={handleMenuToggle} data-menu-toggle>
+            <S.StyledSvgOption />
+          </S.MoreOptions>
         )}
         {isOpen && openMenuId === collectionData.collectionId && (
           <S.DropdownMenu>
-          <S.DropdownItem
-            onClick={() => {
-              closeMenu(); // 옵션 메뉴 닫기
-              handleDeleteClick(); // 삭제 모달 열기
-            }}
-          >
-            {CollectionsLabel.Delete}
-          </S.DropdownItem>
-          <S.DropdownItem
-            onClick={() => {
-              closeMenu(); // 옵션 메뉴 닫기
-              handleEditClick(); // 수정 페이지로 이동
-            }}
-          >
-            {CollectionsLabel.Edit}
-          </S.DropdownItem>
-        </S.DropdownMenu>
+            <S.DropdownItem
+              onClick={() => {
+                closeMenu(); // 옵션 메뉴 닫기
+                handleDeleteClick(); // 삭제 모달 열기
+              }}>
+              {CollectionsLabel.Delete}
+            </S.DropdownItem>
+            <S.DropdownItem
+              onClick={() => {
+                closeMenu(); // 옵션 메뉴 닫기
+                handleEditClick(); // 수정 페이지로 이동
+              }}>
+              {CollectionsLabel.Edit}
+            </S.DropdownItem>
+          </S.DropdownMenu>
         )}
       </S.Header>
 
@@ -177,10 +173,10 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
       </S.Content>
 
       <S.ActionSection>
-      <S.ActionButton onClick={handleLikeClick} disabled={liking}>
-        <StyledSvgIcLikeFilled24 isLiked={isLiked} width="1rem" height="1rem" />
-        <StyledLikeText isLiked={isLiked}>좋아요</StyledLikeText>
-      </S.ActionButton>
+        <S.ActionButton onClick={handleLikeClick} disabled={liking}>
+          <StyledSvgIcLikeFilled24 isLiked={isLiked} width="1rem" height="1rem" />
+          <StyledLikeText isLiked={isLiked}>좋아요</StyledLikeText>
+        </S.ActionButton>
         <S.ActionButton>
           <SvgComment width="1rem" height="1rem" />
           {CollectionsLabel.Comment}
@@ -205,54 +201,46 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
             <S.Comment key={index}>
               <S.CommentLeft>
                 <S.CommentUserProfile
-                  src={
-                    comment.profileImage || "https://via.placeholder.com/38x38"
-                  }
-                  alt={`${comment.nickname || "익명"} 프로필`}
+                  src={comment.profileImage || 'https://via.placeholder.com/38x38'}
+                  alt={`${comment.nickname || '익명'} 프로필`}
                 />
                 <S.CommentDetails>
-                  <S.CommentUser>
-                    {comment.nickname || "익명"}
-                  </S.CommentUser>
-                  <S.CommentText>
-                    {comment.commentContent}
-                  </S.CommentText>
+                  <S.CommentUser>{comment.nickname || '익명'}</S.CommentUser>
+                  <S.CommentText>{comment.commentContent}</S.CommentText>
                 </S.CommentDetails>
               </S.CommentLeft>
               <S.CommentTimeAndMenu>
-                <S.CommentTime>
-                  {new Date(comment.createdAt).toLocaleString()}
-                </S.CommentTime>
+                <S.CommentTime>{new Date(comment.createdAt).toLocaleString()}</S.CommentTime>
                 {comment.nickname === userInfo?.nickname && ( // 작성자일 때만 표시
-                <>
-                  <S.StyledCommentMenuIcon
-                    onClick={() => toggleCommentMenu(index)}
-                  />
-                  {openCommentMenu === index && (
-                    <S.CommentDropdown>
-                      <S.DropdownItem onClick={() => {
-                        setOpenCommentMenu(null); // 메뉴 닫기
-                        openEditModal({
-                          comment: comment.commentContent,  
-                          collectionId: collectionData.collectionId,  
-                          collectionCommentId: comment.collectionCommentId,  
-                        });
-                      }}>수정</S.DropdownItem>
-                      <S.DropdownItem
-                        onClick={() => {
-                          setOpenCommentMenu(null);
-                          openCommentModal({
-                            collectionId: collectionData.collectionId,
-                            collectionCommentId: comment.collectionCommentId,
-                          });
-                        }}
-                      >
-                        삭제
-                      </S.DropdownItem>
-                    </S.CommentDropdown>
-                  )}
-                </>
-              )}
+                  <>
+                    <S.StyledCommentMenuIcon onClick={() => toggleCommentMenu(index)} />
+                    {openCommentMenu === index && (
+                      <S.CommentDropdown>
+                        <S.DropdownItem
+                          onClick={() => {
+                            setOpenCommentMenu(null); // 메뉴 닫기
+                            openEditModal({
+                              comment: comment.commentContent,
+                              collectionId: collectionData.collectionId,
+                              collectionCommentId: comment.collectionCommentId,
+                            });
+                          }}>
+                          수정
+                        </S.DropdownItem>
+                        <S.DropdownItem
+                          onClick={() => {
+                            setOpenCommentMenu(null);
+                            openCommentModal({
+                              collectionId: collectionData.collectionId,
+                              collectionCommentId: comment.collectionCommentId,
+                            });
+                          }}>
+                          삭제
+                        </S.DropdownItem>
+                      </S.CommentDropdown>
+                    )}
+                  </>
+                )}
               </S.CommentTimeAndMenu>
             </S.Comment>
           ))}

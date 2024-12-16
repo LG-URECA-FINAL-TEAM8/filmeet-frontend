@@ -1,6 +1,6 @@
-import Comment from "../../../components/Features/comments/comment";
+import Comment from "../../../components/features/comments/Comment";
 import { CardContainer, CommentPageContainer } from "../../../styles/comment/comment";
-import TopHeader from "../../../components/Common/back/TopHeader";
+import TopHeader from "../../../components/common/back/TopHeader";
 
 const CommentsPage = () => {
   return (

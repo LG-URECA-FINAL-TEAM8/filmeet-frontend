@@ -1,34 +1,54 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { updateCollection } from "../../apis/myPage/collection/collectiondetail";
-import useCollectionsStore from "../../store/collections/useCollectionsStore";
-import MovieSearchModal from "../Common/modal/MovieSearchModal";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import MovieSearchModal from '../common/modal/MovieSearchModal';
+import { updateCollection } from '../../apis/myPage/collection/collectiondetail';
+import useCollectionsStore from '../../store/collections/useCollectionsStore';
 
 const CollectionsLabel = {
-  EditCollection: "컬렉션 수정",
-  Create: "수정 완료",
-  CollectionTitlePlaceholder: "컬렉션 제목",
-  CollectionDescriptionPlaceholder: "설명을 입력하기..",
-  Movies: "작품들",
-  Edit: "수정하기",
-  RemoveSelected: "개 제거",
-  AddMovie: "작품 추가",
-  Cancel: "취소",
+  EditCollection: '컬렉션 수정',
+  Create: '수정 완료',
+  CollectionTitlePlaceholder: '컬렉션 제목',
+  CollectionDescriptionPlaceholder: '설명을 입력하기..',
+  Movies: '작품들',
+  Edit: '수정하기',
+  RemoveSelected: '개 제거',
+  AddMovie: '작품 추가',
+  Cancel: '취소',
 };
 
 const EditCollection = () => {
-  const { selectedCollection, collectionMovies, collectionMoviesLoading, fetchCollectionMovies, title, description, selectedMovies,
-    isEditing, moviesToRemove, isModalOpen, openModal, closeModal, setTitle, setDescription, addMovies, toggleMovieToRemove,
-    removeSelectedMovies, enableEditMode, disableEditMode, resetFields, confirmTempSelectedMovies } = useCollectionsStore();
+  const {
+    selectedCollection,
+    collectionMovies,
+    collectionMoviesLoading,
+    fetchCollectionMovies,
+    title,
+    description,
+    selectedMovies,
+    isEditing,
+    moviesToRemove,
+    isModalOpen,
+    openModal,
+    closeModal,
+    setTitle,
+    setDescription,
+    addMovies,
+    toggleMovieToRemove,
+    removeSelectedMovies,
+    enableEditMode,
+    disableEditMode,
+    resetFields,
+    confirmTempSelectedMovies,
+  } = useCollectionsStore();
 
   const navigate = useNavigate();
 
   //컬렉션 상세에서 수정하기 누를시 제목, 내용 가져오기 위해서서
   useEffect(() => {
     if (selectedCollection) {
-      setTitle(selectedCollection.collectionTitle || "");
-      setDescription(selectedCollection.collectionContent || "");
+      setTitle(selectedCollection.collectionTitle || '');
+      setDescription(selectedCollection.collectionContent || '');
       // 특정 컬렉션의 영화 가져오기
       fetchCollectionMovies(selectedCollection.collectionId);
     }
@@ -52,17 +72,17 @@ const EditCollection = () => {
     if (!title.trim() || !description.trim()) {
       return;
     }
-      const movieIds = selectedMovies.map((movie) => movie.id); // 영화 ID 목록 생성
-      const updatedCollection = {
-        title: title.trim(),
-        content: description.trim(),
-        collectionId: selectedCollection.collectionId,
-        movieIds,
-      };
+    const movieIds = selectedMovies.map((movie) => movie.id); // 영화 ID 목록 생성
+    const updatedCollection = {
+      title: title.trim(),
+      content: description.trim(),
+      collectionId: selectedCollection.collectionId,
+      movieIds,
+    };
 
-      await updateCollection(updatedCollection); // PATCH 요청
-      resetFields(); // 상태 초기화
-      navigate("/mypage/collections"); // 목록 페이지로 이동
+    await updateCollection(updatedCollection); // PATCH 요청
+    resetFields(); // 상태 초기화
+    navigate('/mypage/collections'); // 목록 페이지로 이동
   };
 
   const handleCancelEdit = () => {
@@ -76,7 +96,7 @@ const EditCollection = () => {
     removeSelectedMovies();
   };
 
-  const hasContent = title.trim() !== "" || description.trim() !== "";
+  const hasContent = title.trim() !== '' || description.trim() !== '';
 
   return (
     <S.Container>
@@ -114,16 +134,13 @@ const EditCollection = () => {
                 </S.CancelButton>
                 <S.RemoveButton
                   onClick={handleRemoveSelectedMovies}
-                  disabled={moviesToRemove.length === 0}
-                >
+                  disabled={moviesToRemove.length === 0}>
                   {moviesToRemove.length}
                   {CollectionsLabel.RemoveSelected}
                 </S.RemoveButton>
               </S.ActionButtons>
             ) : (
-              <S.EditButton onClick={enableEditMode}>
-                {CollectionsLabel.Edit}
-              </S.EditButton>
+              <S.EditButton onClick={enableEditMode}>{CollectionsLabel.Edit}</S.EditButton>
             ))}
         </S.SectionHeader>
         <S.MoviesGrid>
@@ -132,17 +149,13 @@ const EditCollection = () => {
             <S.AddText>{CollectionsLabel.AddMovie}</S.AddText>
           </S.AddCard>
           {selectedMovies.map((movie) => (
-            <S.MovieThumbnail
-              key={movie.id}
-              isSelected={moviesToRemove.includes(movie.id)}
-            >
+            <S.MovieThumbnail key={movie.id} isSelected={moviesToRemove.includes(movie.id)}>
               <S.ThumbnailImage src={movie.image} alt={movie.title} />
               <S.ThumbnailTitle>{movie.title}</S.ThumbnailTitle>
               {isEditing && (
                 <S.RemoveIcon
                   isSelected={moviesToRemove.includes(movie.id)}
-                  onClick={() => toggleMovieToRemove(movie.id)}
-                >
+                  onClick={() => toggleMovieToRemove(movie.id)}>
                   ⨉
                 </S.RemoveIcon>
               )}
@@ -372,4 +385,3 @@ const S = {
     transition: all 0.2s ease-in-out;
   `,
 };
-
