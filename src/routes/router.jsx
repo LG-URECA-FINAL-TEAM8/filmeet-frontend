@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import DefaultLayout from '../components/Layout/DefaultLayout';
+import DefaultLayout from "../components/layout/DefaultLayout";
 import ErrorPage from '../pages/errorpage/ErrorPage';
 
 // 컴포넌트 동적 로딩 설정
@@ -29,6 +29,7 @@ const pageComponents = {
   AdminPage: () => import('../pages/admin/AdminPage'),
   AdminLoginPage: () => import('../pages/admin/AdminLoginPage'),
   Bin: () => import('../components/common/bin/Bin'),
+  Policy: () => import('../pages/policy/Policy'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -49,6 +50,7 @@ const routes = [
       { index: true, element: createLazyComponent(pageComponents.Main) },
       { path: 'register', element: createLazyComponent(pageComponents.Register) },
       { path: 'login', element: createLazyComponent(pageComponents.Login) },
+      { path: 'policy', element: createLazyComponent(pageComponents.Policy) },
       { path: 'mypage', element: createLazyComponent(pageComponents.MyPage) },
       { path: 'movie/genre', element: createLazyComponent(pageComponents.GenreMovie) },
       { path: 'mypage/ratings', element: createLazyComponent(pageComponents.RatingsPage) },

@@ -6,8 +6,8 @@ import { pagecontents } from "../../data/pagecontents"
 import { useNavigate } from "react-router-dom";
 import { createProfileClickHandler } from "../../utils/ratings/navigationHandlers";
 import { useLikesStore } from "../../store/comment/useLikesStore";
-import CommentEditModal from "../Common/modal/CommentEditModal";
-import CommentDeleteModal from "../Common/modal/CommentDeleteModal";
+import CommentEditModal from "../common/modal/CommentEditModal";
+import CommentDeleteModal from "../common/modal/CommentDeleteModal";
 
 const CommentHeader = ({ commentData }) => {
   const navigate = useNavigate(); 

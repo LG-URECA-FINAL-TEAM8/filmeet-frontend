@@ -1,4 +1,6 @@
-import Poster from '../Common/poster/Poster';
+import { movies } from '../../data/movies';
+import Poster from '../common/poster/Poster';
+import { groupMoviesByRating } from '../../utils/ratings/groupMoviesRatings';
 import * as S from '../../styles/rating/rating';
 import { useNavigate } from 'react-router-dom';
 import { pagecontents } from '../../data/pagecontents';
