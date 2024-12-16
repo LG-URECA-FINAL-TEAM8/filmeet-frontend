@@ -1,12 +1,10 @@
 import { useCreateGame } from "../../apis/worldcup/queries";
-import SvgClapperboard from "../../assets/svg/Clapperboard";
 import GameStartButton from "../../components/worldcup/GameStartButton";
-import RankButton from "../../components/worldcup/RankButton";
 import WorldcupFooter from "../../components/worldcup/WorldcupFooter";
 import WorldcupHeader from "../../components/worldcup/WorldcupHeader";
 import WorldcupMatch from "../../components/worldcup/WorldcupMatch";
 import useWorldcupStore from "../../store/worldcup/worldcupStore";
-import { ButtonContainer, PageWrapper, Subtitle, Title } from "../../styles/worldcup/worldcup";
+import { ButtonContainer, PageWrapper } from "../../styles/worldcup/worldcup";
 
 const WorldcupPage = () => {
 

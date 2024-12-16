@@ -1,5 +1,5 @@
 import { Card } from "antd";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import SvgComment from "../../assets/svg/Comment";
 import SvgIcLikeFilled24 from "../../assets/svg/IcLikeFilled24";
 import SvgStar from "../../assets/svg/Star";
@@ -9,20 +9,25 @@ const { Meta } = Card;
 
 const WorldcupMoviecard = ({ image, title, rating, likes, comments, onClick }) => {
   const [isVanishing, setIsVanishing] = useState(false);
+  const [isSelected, setIsSelected] = useState(false); // 선택된 상태 추가
 
   const handleCardClick = () => {
-    setIsVanishing(true); // vanishOut 클래스 추가
+    setIsVanishing(true);
+    setIsSelected(true); // 선택 상태 활성화
     setTimeout(() => {
       if (onClick) onClick();
+      setIsVanishing(false);
+      setIsSelected(false);
     }, 1000);
   };
 
   return (
     <S.StyledCard
       hoverable
-      className={isVanishing ? "vanishOut" : ""}
-      cover={<S.StyledImage alt={title} src={image} />}
+      className={`${isVanishing ? "vanishOut" : ""} ${isSelected ? "selected" : ""}`}
+      isSelected={isSelected}
       onClick={handleCardClick}
+      cover={<S.StyledImage alt={title} src={image} />}
     >
       <S.StyledMeta
         title={<S.CardTitle>{title}</S.CardTitle>}
@@ -46,6 +51,16 @@ const WorldcupMoviecard = ({ image, title, rating, likes, comments, onClick }) =
 
 export default WorldcupMoviecard;
 
+// 애니메이션 정의
+const scaleUp = keyframes`
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.3); // 더 크게 확대
+  }
+`;
+
 const S = {
   StyledCard: styled(Card)`
     width: 25rem;
@@ -55,6 +70,14 @@ const S = {
     box-shadow: 0 0.25rem 0.37rem rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
+    ${(props) =>
+      props.isSelected &&
+      css`
+        animation: ${scaleUp} 0.4s forwards; // 0.4초로 애니메이션 지속 시간 설정
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+        z-index: 10; // 확대된 카드가 위로 보이도록 설정
+      `}
+
     .ant-card-body {
       padding: 1rem;
     }
@@ -62,11 +85,6 @@ const S = {
     &:hover {
       transform: scale(1.05);
       box-shadow: 0 0.37rem 0.93rem rgba(0, 0, 0, 0.2);
-    }
-
-    &:active {
-      transform: scale(1.02);
-      box-shadow: 0 0.25rem 0.62rem rgba(0, 0, 0, 0.2);
     }
   `,
 
@@ -78,9 +96,8 @@ const S = {
   StyledMeta: styled(Meta)`
     height: 4.37rem;
     display: flex;
-    text-align: center;
-    flex-direction: flex-start;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
 
     .ant-card-meta-title {
       margin-bottom: 0.5rem;
@@ -102,8 +119,8 @@ const S = {
 
   CardDetails: styled.div`
     display: flex;
-    flex-direction: flex-start;
     gap: 0.5rem;
+    justify-content: center;
   `,
 
   StarItem: styled.div`
