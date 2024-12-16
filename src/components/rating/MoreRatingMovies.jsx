@@ -1,21 +1,21 @@
-import * as S from "../../styles/rating/rating";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, useParams } from "react-router-dom";
-import { groupMoviesByRating } from "../../utils/ratings/groupMoviesRatings";
-import { movies } from "../../data/movies";
-import Poster from "../common/poster/Poster";
-import { createBackClickHandler } from "../../utils/ratings/navigationHandlers";
-import { pagecontents } from "../../data/pagecontents";
-import { useMovieRatings } from "../../apis/myPage/rating/queries";
-
+import * as S from '../../styles/rating/rating';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate, useParams } from 'react-router-dom';
+import Poster from '../common/poster/Poster';
+import { createBackClickHandler } from '../../utils/ratings/navigationHandlers';
+import { pagecontents } from '../../data/pagecontents';
+import { useMovieRatings } from '../../apis/myPage/rating/queries';
+import { useUserInfo } from '../../apis/users/queries';
 const MoreRatingMovies = () => {
   const navigate = useNavigate();
   const { rating } = useParams();
   const parsedRating = parseFloat(rating);
+  const { data: result } = useUserInfo();
+  const userId = result?.data?.id;
 
-  const { data, isLoading, error } = useMovieRatings(0, 100, "createdAt,desc");
-  const handleBackClick = createBackClickHandler(navigate, "/mypage/contents/movies/ratings");
+  const { data, isLoading, error } = useMovieRatings(userId, 0, 100, 'createdAt,desc');
+  const handleBackClick = createBackClickHandler(navigate, '/mypage/contents/movies/ratings');
   const { noResults } = pagecontents.moreRatingMovies;
 
   if (isLoading) {
@@ -27,9 +27,8 @@ const MoreRatingMovies = () => {
   }
 
   // API 데이터에서 별점이 동일한 영화 필터링
-  const moviesForRating = data?.data?.content?.filter(
-    (movie) => movie.ratingScore === parsedRating
-  ) || [];
+  const moviesForRating =
+    data?.data?.content?.filter((movie) => movie.ratingScore === parsedRating) || [];
 
   const renderMoviesContent = (movies) => {
     if (movies.length > 0) {
