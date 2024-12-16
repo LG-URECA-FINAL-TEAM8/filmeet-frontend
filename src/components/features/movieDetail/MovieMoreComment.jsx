@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
-import SvgIcReplyFilled24 from "../../../assets/svg/IcReplyFilled24";
-import { useNavigate } from "react-router-dom";
-import useMovieCommentStore from "../../../store/moviedetail/useMovieCommentStore";
+import styled from 'styled-components';
+import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
+import SvgIcReplyFilled24 from '../../../assets/svg/IcReplyFilled24';
+import { useNavigate } from 'react-router-dom';
+import useMovieCommentStore from '../../../store/moviedetail/useMovieCommentStore';
 
 const MovieMoreComment = ({ comments }) => {
   const navigate = useNavigate();
@@ -28,11 +28,11 @@ const MovieMoreComment = ({ comments }) => {
             </S.MainContent>
             <S.FeedStats>
               <S.Stat>
-                <SvgIcLikeFilled24 width={"1rem"} height={"1rem"} />
+                <SvgIcLikeFilled24 width={'1rem'} height={'1rem'} />
                 {item.likeCounts}
               </S.Stat>
               <S.Stat>
-                <SvgIcReplyFilled24 width={"1rem"} height={"1rem"} />
+                <SvgIcReplyFilled24 width={'1rem'} height={'1rem'} />
                 {item.commentCounts}
               </S.Stat>
             </S.FeedStats>
@@ -130,7 +130,7 @@ const S = {
   LikeButton: styled.button`
     font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.9rem;
-    background-color: ${(props) => (props.liked ? props.theme.color.fontPink : "transparent")};
+    background-color: ${(props) => (props.liked ? props.theme.color.fontPink : 'transparent')};
     color: ${(props) => (props.liked ? props.theme.color.fontWhite : props.theme.color.fontPink)};
     border: none;
     border-radius: 0.3rem;

@@ -5,3 +5,14 @@
   font-weight: normal;
   font-style: normal;
 }
+html,
+body {
+  height: 100%; /* 페이지 전체 높이 유지 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}

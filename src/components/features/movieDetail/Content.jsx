@@ -1,89 +1,97 @@
-import { Rate } from "antd";
-import styled from "styled-components";
-import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
-import SvgPencil from "../../../assets/svg/Pencil";
-import { movieDetailData } from "../../../data/moviedetail";
-import useMovieCommentStore from "../../../store/moviedetail/useMovieCommentStore";
-import MovieDetailModal from "../../common/modal/MovieDetailModal";
-import SvgDelete from "../../../assets/svg/Delete";
+import { Rate } from 'antd';
+import styled from 'styled-components';
+import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
+import SvgPencil from '../../../assets/svg/Pencil';
+import useMovieCommentStore from '../../../store/moviedetail/useMovieCommentStore';
+import MovieDetailModal from '../../common/modal/MovieDetailModal';
+import { ContentText } from '../../../data/movieDetail/text';
+import { useMovieEvaluation, useDeleteEvaluation } from '../../../apis/evaluation/query';
+import { useMovieLikeUpdate, useMovieLikeDelete } from '../../../apis/movieDetail/query';
+import CommentCard from './CommentCard';
 
-function Content() {
+function Content({ movieData, movieId }) {
   const { openModal } = useMovieCommentStore();
-  const { plot, posterUrl, averageRating, ratingCounts, isLiked, myMovieReview, myMovieRating } = movieDetailData;
-
-  const ContentText = {
-    ratingtext: "평가하기",
-    ratingavgtext: "평균 평점",
-    commenttext: "코멘트",
-    liketext: "좋아요",
-    mycomment: "내가 쓴 코멘트",
-    edit: "수정",
-    delete: "삭제",
-  }
-
-  const handleRatingChange = (newRating) => {
-    console.log("새로운 별점:", newRating);
+  const { mutate: evaluationMutate } = useMovieEvaluation();
+  const { mutate: deleteMutate } = useDeleteEvaluation();
+  const { mutate: likeMovieMutate } = useMovieLikeUpdate();
+  const { mutate: deleteLikeMutate } = useMovieLikeDelete();
+  const handleRatingChange = (ratingScore) => {
+    if (ratingScore === 0) {
+      deleteMutate({ movieId });
+    } else {
+      evaluationMutate({ ratingScore, movieId });
+    }
+  };
+  const handleLikeChange = (movieId, isLiked) => {
+    if (isLiked) {
+      deleteLikeMutate({ movieId });
+    } else {
+      likeMovieMutate({ movieId });
+    }
+  };
+  const handleOpenModal = () => {
+    openModal();
   };
 
   return (
     <>
       <S.ContentWrapper>
-      <S.ContentContainer>
-        <S.MovieSection>
-          <S.MoviePoster bgImage={posterUrl} />
-          <S.StatAndSynopsis>
-            <S.StatSection>
-              <S.StatItem>
-                <S.RatingStars>
-                  <StyledRate 
-                    allowHalf
-                    // value={averageRating}
-                    onChange={handleRatingChange} 
-                  />
-                </S.RatingStars>
-                <S.StatDescription>{ContentText.ratingtext}</S.StatDescription>
-              </S.StatItem>
-              <S.StatItem>
-                <S.StatScore>
-                  {averageRating.toFixed(1)}
-                  <S.StatDescription>{ContentText.ratingavgtext}({ratingCounts}명)</S.StatDescription>
-                </S.StatScore>
-              </S.StatItem>
-              <S.IconContainer>
-                <S.StatItemBox liked={isLiked}>
-                  <SvgIcLikeFilled24 />
-                  <S.StatDescription>{ContentText.liketext}</S.StatDescription>
-                </S.StatItemBox>
-                <S.StatItemBox>
-                  <SvgPencil onClick={openModal} />
-                  <S.StatDescription>{ContentText.commenttext}</S.StatDescription>
-                </S.StatItemBox>
-              </S.IconContainer>
-            </S.StatSection>
-
-            {myMovieReview && (
-              <S.MyCommentsSection>
-              <S.MyCommentsTitle>{ContentText.mycomment}</S.MyCommentsTitle>
-              <S.CommentCard>
-                <S.ProfileImage bgImage={myMovieRating?.myprofileImage}/>
-                <S.CommentText>{myMovieReview.content}</S.CommentText>
-                <S.CommentActions>
-                  <S.DeleteButton><SvgDelete width="1rem" height="1rem"/> {ContentText.delete}</S.DeleteButton>
-                  <S.EditButton><SvgPencil width="1rem" height="1rem"/> {ContentText.edit}</S.EditButton>
-                </S.CommentActions>
-              </S.CommentCard>
-            </S.MyCommentsSection>
-          )}
-            <S.SynopsisSection>
-              <S.SynopsisContent>{plot}</S.SynopsisContent>
-            </S.SynopsisSection>
-          </S.StatAndSynopsis>
-        </S.MovieSection>
-      </S.ContentContainer>
-    </S.ContentWrapper>
+        <S.ContentContainer>
+          <S.MovieSection>
+            <S.MoviePoster bgImage={movieData?.posterUrl} />
+            <S.StatAndSynopsis>
+              <S.StatSection>
+                <S.StatItem>
+                  <S.RatingStars>
+                    <StyledRate
+                      allowHalf
+                      value={movieData?.userMovieInteractionResponse?.ratingScore}
+                      onChange={(ratingScore) => handleRatingChange(ratingScore, movieId)}
+                    />
+                  </S.RatingStars>
+                  <S.StatDescription>{ContentText.ratingtext}</S.StatDescription>
+                </S.StatItem>
+                <S.StatItem>
+                  <S.StatScore>
+                    {movieData?.averageRating.toFixed(1)}
+                    <S.StatDescription>
+                      {ContentText.ratingavgtext}({movieData?.ratingCounts}명)
+                    </S.StatDescription>
+                  </S.StatScore>
+                </S.StatItem>
+                <S.IconContainer>
+                  <S.StatItemBox liked={movieData?.userMovieInteractionResponse?.isLiked}>
+                    <S.SvgIcLikeFilled24
+                      isLiked={movieData?.userMovieInteractionResponse?.isLiked}
+                      onClick={() =>
+                        handleLikeChange(movieId, movieData?.userMovieInteractionResponse?.isLiked)
+                      }
+                    />
+                    <S.StatDescription>{ContentText.liketext}</S.StatDescription>
+                  </S.StatItemBox>
+                  <S.StatItemBox>
+                    <SvgPencil onClick={handleOpenModal} />
+                    <S.StatDescription>{ContentText.commenttext}</S.StatDescription>
+                  </S.StatItemBox>
+                </S.IconContainer>
+              </S.StatSection>
+              {movieData?.userMovieInteractionResponse?.reviewId && (
+                <CommentCard
+                  myCommentData={movieData?.userMovieInteractionResponse}
+                  movieId={movieId}
+                  openModal={openModal}
+                />
+              )}
+              <S.SynopsisSection>
+                <S.SynopsisContent>{movieData?.plot}</S.SynopsisContent>
+              </S.SynopsisSection>
+            </S.StatAndSynopsis>
+          </S.MovieSection>
+        </S.ContentContainer>
+      </S.ContentWrapper>
 
       {/* MovieDetailModal 렌더링 */}
-      <MovieDetailModal />
+      <MovieDetailModal movieId={movieId} />
     </>
   );
 }
@@ -94,6 +102,13 @@ const S = {
   ContentWrapper: styled.div`
     width: 100%;
     background-color: ${(props) => props.theme.color.commentColor};
+  `,
+  SvgIcLikeFilled24: styled(SvgIcLikeFilled24)`
+    color: ${(props) => (props.isLiked ? props.theme.color.fontPink : props.theme.color.fontGray)};
+    transition: fill 0.3s ease;
+    &:hover {
+      transform: scale(1.1);
+    }
   `,
 
   ContentContainer: styled.div`
@@ -209,62 +224,7 @@ const S = {
     margin-right: 1rem;
     background: url(${(props) => props.bgImage}) no-repeat center / cover;
   `,
-
-  MyCommentsSection: styled.div`
-    margin: 0 0 0;
-    padding: 1rem 0;
-    background-color: ${(props) => props.theme.color.commentColor};
-    border-radius: 0.5rem;
-  `,
-
-  MyCommentsTitle: styled.h4`
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 0.7rem;
-    color: ${(props) => props.theme.color.fontGray};
-    margin: 0 0 0.6rem;
-  `,
-
-  CommentCard: styled.div`
-    width: 61rem;
-    height: 4.4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: ${(props) => props.theme.color.mainColor};
-    border: ${(props) => props.theme.font.borderDefault};
-    border-radius: 0.3rem;
-  `,
-
-  CommentText: styled.div`
-    flex: 1;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 1rem;
-    margin: 0 1rem;
-  `,
-
-  CommentActions: styled.div`
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-  `,
-
-  EditButton: styled.button`
-    font-size: 0.9rem;
-    color: ${(props) => props.theme.color.fontGray};
-    background: none;
-    border: none;
-    cursor: pointer;
-  `,
-
-  DeleteButton: styled.button`
-    font-size: 0.9rem;
-    color: ${(props) => props.theme.color.fontGray};
-    background: none;
-    border: none;
-    cursor: pointer;
-  `,
-  };
+};
 
 const StyledRate = styled(Rate)`
   font-size: 2.2rem;
@@ -278,5 +238,3 @@ const StyledRate = styled(Rate)`
     color: ${(props) => props.theme.color.fontPink};
   }
 `;
-
-

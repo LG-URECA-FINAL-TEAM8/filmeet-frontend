@@ -1,11 +1,25 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueries } from '@tanstack/react-query';
 import {
   UpComingMovies,
   BoxOfficeMovies,
   FillMeetTop,
   Recommendation,
   RandomGenre,
+  fetchEvaluation,
+  genreMovies,
 } from './movies';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import genresText from '../../data/main/text';
+
+export const useGenreMovies = () => {
+  return useQueries({
+    queries: Object.keys(genresText).map((genreKey) => ({
+      queryKey: ['genreMovies', genreKey],
+      queryFn: () => genreMovies({ genre: genreKey }),
+      refetchOnWindowFocus: false,
+    })),
+  });
+};
 
 export const useUpcoming = () => {
   const { data, isLoading, error } = useQuery({
@@ -59,4 +73,17 @@ export const useRandomGenre = (options = {}) => {
   });
 
   return { data, isLoading, error };
+};
+
+export const useEvaluation = () => {
+  return useInfiniteQuery({
+    queryKey: ['evaluation'],
+    queryFn: fetchEvaluation,
+    getNextPageParam: (lastPage) => {
+      return lastPage.data.moviesResponseSliceResponse?.hasNext
+        ? lastPage.data.moviesResponseSliceResponse.currentPage + 1
+        : undefined;
+    },
+    refetchOnWindowFocus: false,
+  });
 };

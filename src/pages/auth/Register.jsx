@@ -9,7 +9,7 @@ import { registerInput } from '../../data/auth/input';
 import Message from '../../components/common/message/Message';
 import { validateEmail, validatePassword } from '../../utils/auth/registerHandler';
 import useErrorStore from '../../store/auth/errorStore';
-import { NaverLogo } from '../../assets/svg';
+import { NaverLogo, GoogleLogo } from '../../assets/svg';
 import { handleLoginClick } from '../../utils/auth/socialLoginHandler';
 import { S } from '../../styles/auth/auth';
 
@@ -87,7 +87,8 @@ function Register() {
           <S.Line />
         </S.Divider>
         <S.SocialWrapper>
-          <NaverLogo onClick={handleNaverLoginClick} />
+          <NaverLogo onClick={() => handleLoginClick('naver')} />
+          <GoogleLogo onClick={() => handleLoginClick('google')} />
         </S.SocialWrapper>
       </S.AuthBody>
     </>

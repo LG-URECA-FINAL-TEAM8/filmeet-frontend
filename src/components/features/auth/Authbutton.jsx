@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import useLoginStore from '../../../store/auth/loginStore';
 import { useUserInfo } from '../../../apis/users/queries';
 import useErrorStore from '../../../store/auth/errorStore';
+import { registerToken } from '../../../firebase/registerToken';
 const AuthButton = ({ value, userData, disabled }) => {
   const { mutate: signupMutate } = useSignUp();
   const { mutate: loginMutate } = useLogin();
@@ -24,7 +25,8 @@ const AuthButton = ({ value, userData, disabled }) => {
       loginMutate,
       refetchUserInfo,
       setCode,
-      isLoggedIn
+      isLoggedIn,
+      registerToken
     );
   };
 

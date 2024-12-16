@@ -3,12 +3,13 @@ import { createBrowserRouter } from 'react-router-dom';
 import DefaultLayout from "../components/layout/DefaultLayout";
 import ErrorPage from '../pages/errorpage/ErrorPage';
 
-//컴포넌트 동적 로딩 설정
+// 컴포넌트 동적 로딩 설정
 const pageComponents = {
   Main: () => import('../pages/Main'),
   Login: () => import('../pages/auth/Login'),
   Register: () => import('../pages/auth/Register'),
   MyPage: () => import('../pages/mypage/MyPage'),
+  GenreMovie: () => import('../pages/main/GenreMovie'),
   RatingsPage: () => import('../pages/mypage/ratingpage/RatingsPage'),
   MovieRatingsPage: () => import('../pages/mypage/ratingpage/MovieRatingsPage'),
   AllMoviesByRatingsPage: () => import('../pages/mypage/ratingpage/AllMoviesByRatingsPage'),
@@ -21,10 +22,12 @@ const pageComponents = {
   GenrePage: () => import('../pages/GenrePage'),
   FollowerPage: () => import('../pages/followpage/FollowerPage'),
   FollowingPage: () => import('../pages/followpage/FollowingPage'),
-  AlarmHistoryPage: () => import('../pages/AlarmHistoryPage'),
-  StarRatingPage: () => import('../pages/StarRatingPage'),
+  AlarmHistoryPage: () => import('../pages/header/AlarmHistoryPage'),
+  StarRatingPage: () => import('../pages/header/StarRatingPage'),
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
-  MovieComment: () => import('../pages/movieDetail/MovieComment'),
+  MovieCommentAll: () => import('../pages/movieDetail/MovieCommentDetail'),
+  Bin: () => import('../components/common/bin/Bin'),
+  Policy: () => import('../pages/policy/Policy'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -35,7 +38,8 @@ const createLazyComponent = (importFn) => {
     </React.Suspense>
   );
 };
-
+//next는 빌드 파일 자체가 페이지 별로 나눠서 생성이 됨. 리액트는 한번에 묶이기 때문에 파일 자체 크기가 큼 그러다 보니
+//로딩이 오래걸리고 이런 현상이 발생할 수 있음
 const routes = [
   {
     path: '/',
@@ -44,7 +48,9 @@ const routes = [
       { index: true, element: createLazyComponent(pageComponents.Main) },
       { path: 'register', element: createLazyComponent(pageComponents.Register) },
       { path: 'login', element: createLazyComponent(pageComponents.Login) },
+      { path: 'policy', element: createLazyComponent(pageComponents.Policy) },
       { path: 'mypage', element: createLazyComponent(pageComponents.MyPage) },
+      { path: 'movie/genre', element: createLazyComponent(pageComponents.GenreMovie) },
       { path: 'mypage/ratings', element: createLazyComponent(pageComponents.RatingsPage) },
       {
         path: 'mypage/contents/movies/ratings',
@@ -75,11 +81,15 @@ const routes = [
       { path: 'genre', element: createLazyComponent(pageComponents.GenrePage) },
       { path: 'followers', element: createLazyComponent(pageComponents.FollowerPage) },
       { path: 'followings', element: createLazyComponent(pageComponents.FollowingPage) },
-      { path: 'alarmhistorys', element: createLazyComponent(pageComponents.AlarmHistoryPage) },
+      { path: 'notifications', element: createLazyComponent(pageComponents.AlarmHistoryPage) },
+      { path: 'bin', element: createLazyComponent(pageComponents.Bin) },
       { path: 'error', element: <ErrorPage /> },
       { path: 'review', element: createLazyComponent(pageComponents.StarRatingPage) },
-      { path: 'moviedetail', element: createLazyComponent(pageComponents.MovieDetail) },
-      { path: 'moviedetail/moviecomment', element: createLazyComponent(pageComponents.MovieComment) },
+      { path: 'moviedetail/:id', element: createLazyComponent(pageComponents.MovieDetail) },
+      {
+        path: 'moviedetail/:id/moviecommentAll',
+        element: createLazyComponent(pageComponents.MovieCommentAll),
+      },
       {
         path: '/moviedetail/comments/:reviewId',
         element: createLazyComponent(pageComponents.CommentsDetailPage),

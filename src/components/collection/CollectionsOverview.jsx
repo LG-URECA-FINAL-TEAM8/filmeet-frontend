@@ -27,14 +27,14 @@ export default CollectionsOverview;
 
 const S = {
   Container: styled.section`
-    flex: 1;
-    width: 100%;
-    max-width: 40rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex: 1;
+    width: 100%;
+    max-width: 40rem;
     margin: 0 auto;
-    padding: 0.75rem 0 0.87rem 0;
+    padding: 0.7rem 0 0.8rem 0;
   `,
 
   Title: styled.h1`
@@ -53,4 +53,5 @@ const S = {
     transition: color 0.3s ease;
   `,
 };
+
 

@@ -1,23 +1,28 @@
-import styled from "styled-components";
-import MovieSearchModal from "../common/modal/MovieSearchModal";
-import useCollectionsStore from "../../store/collections/useCollectionsStore";
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import MovieSearchModal from '../common/modal/MovieSearchModal';
+import { updateCollection } from '../../apis/myPage/collection/collectiondetail';
+import useCollectionsStore from '../../store/collections/useCollectionsStore';
 
 const CollectionsLabel = {
-  EditCollection: "컬렉션 수정",
-  Create: "수정 완료",
-  CollectionTitlePlaceholder: "컬렉션 제목",
-  CollectionDescriptionPlaceholder: "설명을 입력하기..",
-  Movies: "작품들",
-  Edit: "수정하기",
-  RemoveSelected: "개 제거",
-  AddMovie: "작품 추가",
-  Cancel: "취소",
+  EditCollection: '컬렉션 수정',
+  Create: '수정 완료',
+  CollectionTitlePlaceholder: '컬렉션 제목',
+  CollectionDescriptionPlaceholder: '설명을 입력하기..',
+  Movies: '작품들',
+  Edit: '수정하기',
+  RemoveSelected: '개 제거',
+  AddMovie: '작품 추가',
+  Cancel: '취소',
 };
 
 const EditCollection = () => {
   const {
     selectedCollection,
+    collectionMovies,
+    collectionMoviesLoading,
+    fetchCollectionMovies,
     title,
     description,
     selectedMovies,
@@ -34,28 +39,50 @@ const EditCollection = () => {
     enableEditMode,
     disableEditMode,
     resetFields,
-    addCollection,
     confirmTempSelectedMovies,
   } = useCollectionsStore();
 
+  const navigate = useNavigate();
+
+  //컬렉션 상세에서 수정하기 누를시 제목, 내용 가져오기 위해서서
   useEffect(() => {
     if (selectedCollection) {
-      setTitle(selectedCollection.name); 
-      setDescription(selectedCollection.description);
-      addMovies(selectedCollection.movies || []);
+      setTitle(selectedCollection.collectionTitle || '');
+      setDescription(selectedCollection.collectionContent || '');
+      // 특정 컬렉션의 영화 가져오기
+      fetchCollectionMovies(selectedCollection.collectionId);
     }
-  }, [selectedCollection, setTitle, setDescription, addMovies]);
+  }, [selectedCollection, setTitle, setDescription, fetchCollectionMovies]);
 
-  const handleSaveCollection = () => {
-    if (title.trim()) {
-      addCollection({
-        id: Date.now(),
-        name: title,
-        description,
-        movies: selectedMovies,
-      });
-      resetFields();
+  //컬렉션 상세에서 수정하기 누를시 영화목록 가져오기 위해서
+  useEffect(() => {
+    if (!collectionMoviesLoading) {
+      // 가져온 영화 데이터를 selectedMovies로 설정
+      const formattedMovies = (collectionMovies || []).map((movie) => ({
+        id: movie.movieId,
+        title: movie.title,
+        image: movie.posterImage,
+        releaseDate: movie.releaseDate,
+      }));
+      addMovies(formattedMovies);
     }
+  }, [collectionMovies, collectionMoviesLoading, addMovies]);
+
+  const handleSaveCollection = async () => {
+    if (!title.trim() || !description.trim()) {
+      return;
+    }
+    const movieIds = selectedMovies.map((movie) => movie.id); // 영화 ID 목록 생성
+    const updatedCollection = {
+      title: title.trim(),
+      content: description.trim(),
+      collectionId: selectedCollection.collectionId,
+      movieIds,
+    };
+
+    await updateCollection(updatedCollection); // PATCH 요청
+    resetFields(); // 상태 초기화
+    navigate('/mypage/collections'); // 목록 페이지로 이동
   };
 
   const handleCancelEdit = () => {
@@ -69,7 +96,7 @@ const EditCollection = () => {
     removeSelectedMovies();
   };
 
-  const hasContent = title.trim() !== "" || description.trim() !== "";
+  const hasContent = title.trim() !== '' || description.trim() !== '';
 
   return (
     <S.Container>
@@ -97,7 +124,7 @@ const EditCollection = () => {
         </S.InputBox>
       </S.InputContainer>
       <S.Section>
-      <S.SectionHeader>
+        <S.SectionHeader>
           <span>{CollectionsLabel.Movies}</span>
           {selectedMovies.length > 0 &&
             (isEditing ? (
@@ -105,15 +132,15 @@ const EditCollection = () => {
                 <S.CancelButton onClick={handleCancelEdit}>
                   {CollectionsLabel.Cancel}
                 </S.CancelButton>
-                <S.RemoveButton onClick={handleRemoveSelectedMovies} disabled={moviesToRemove.length === 0}>
+                <S.RemoveButton
+                  onClick={handleRemoveSelectedMovies}
+                  disabled={moviesToRemove.length === 0}>
                   {moviesToRemove.length}
                   {CollectionsLabel.RemoveSelected}
                 </S.RemoveButton>
               </S.ActionButtons>
             ) : (
-              <S.EditButton onClick={enableEditMode}>
-                {CollectionsLabel.Edit}
-              </S.EditButton>
+              <S.EditButton onClick={enableEditMode}>{CollectionsLabel.Edit}</S.EditButton>
             ))}
         </S.SectionHeader>
         <S.MoviesGrid>
@@ -122,17 +149,13 @@ const EditCollection = () => {
             <S.AddText>{CollectionsLabel.AddMovie}</S.AddText>
           </S.AddCard>
           {selectedMovies.map((movie) => (
-            <S.MovieThumbnail
-              key={movie.id}
-              isSelected={moviesToRemove.includes(movie.id)}
-            >
+            <S.MovieThumbnail key={movie.id} isSelected={moviesToRemove.includes(movie.id)}>
               <S.ThumbnailImage src={movie.image} alt={movie.title} />
               <S.ThumbnailTitle>{movie.title}</S.ThumbnailTitle>
               {isEditing && (
                 <S.RemoveIcon
                   isSelected={moviesToRemove.includes(movie.id)}
-                  onClick={() => toggleMovieToRemove(movie.id)}
-                >
+                  onClick={() => toggleMovieToRemove(movie.id)}>
                   ⨉
                 </S.RemoveIcon>
               )}
@@ -160,7 +183,7 @@ const S = {
     width: 100%;
     max-width: 40rem;
     margin: 0 auto;
-    padding: 1.25rem 0 1.25rem 0;
+    padding: 1.25rem 0;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
@@ -179,13 +202,13 @@ const S = {
 
   SaveButton: styled.button`
     padding: 0.3rem 0.9rem;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 1rem;
-    color: ${(props) =>
-      props.hasContent ? props.theme.color.fontPink : props.theme.color.collectionColor};
-    background-color: transparent;
     border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
     border-radius: 0.3rem;
+    background-color: transparent;
+    color: ${(props) =>
+      props.hasContent ? props.theme.color.fontPink : props.theme.color.collectionColor};
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
   `,
@@ -257,11 +280,11 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 6.25rem;
-    height: 8.9rem;
+    width: 6rem;
+    height: 9rem;
     margin: 0;
-    border-radius: 0.3rem;
     border: 0.1rem solid ${(props) => props.theme.color.collectionColor};
+    border-radius: 0.3rem;
     background-color: ${(props) => props.theme.color.commentColor};
     color: ${(props) => props.theme.color.collectionColor};
     text-align: center;
@@ -286,7 +309,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 6.25rem;
+    width: 6rem;
     margin: 0 auto;
     border-radius: 0.3rem;
     overflow: hidden;
@@ -296,7 +319,7 @@ const S = {
 
   ThumbnailImage: styled.img`
     width: 100%;
-    height: 8.9rem;
+    height: 9rem;
     object-fit: cover;
     border-radius: 0.3rem;
   `,
@@ -304,8 +327,8 @@ const S = {
   ThumbnailTitle: styled.div`
     margin-top: 0.4rem;
     width: 100%;
-    font-size: 0.9rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 0.9rem;
     color: ${(props) => props.theme.color.fontBlack};
     text-align: center;
     overflow: hidden;
@@ -315,17 +338,17 @@ const S = {
 
   RemoveIcon: styled.div`
     position: absolute;
-  top: 0.3rem;
-  right: 0.3rem;
-  font-size: 1rem;
-  color: ${(props) =>
-    props.isSelected ? props.theme.color.fontPink : props.theme.color.fontWhite}; /* 선택 여부에 따라 색상 변경 */
-  cursor: pointer;
-  transition: color 0.2s ease-in-out;
+    top: 0.3rem;
+    right: 0.3rem;
+    font-size: 1rem;
+    color: ${(props) =>
+      props.isSelected ? props.theme.color.fontPink : props.theme.color.fontWhite};
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
 
-  &:hover {
-    color: ${(props) => props.theme.color.fontPink}; /* Hover 시 핑크 */
-  }
+    &:hover {
+      color: ${(props) => props.theme.color.fontPink};
+    }
   `,
 
   EditButton: styled.button`
@@ -340,26 +363,25 @@ const S = {
   RemoveButton: styled.button`
     border: none;
     background: none;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 0.8rem;
     color: ${(props) =>
-    props.disabled
-      ? props.theme.color.collectionColor
-      : props.theme.color.fontPink};
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
+      props.disabled ? props.theme.color.collectionColor : props.theme.color.fontPink};
     cursor: pointer;
   `,
-  ActionButtons: styled.div`
-  display: flex;
-  align-items: center;
-`,
 
-CancelButton: styled.button`
-  border: none;
-  background: none;
-  font-family: ${(props) => props.theme.font.fontSuitRegular};
-  font-size: 0.8rem;
-  color: ${(props) => props.theme.color.fontPink};
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-`,
+  ActionButtons: styled.div`
+    display: flex;
+    align-items: center;
+  `,
+
+  CancelButton: styled.button`
+    border: none;
+    background: none;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 0.8rem;
+    color: ${(props) => props.theme.color.fontPink};
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  `,
 };
