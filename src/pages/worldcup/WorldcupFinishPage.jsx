@@ -9,7 +9,7 @@ const WorldcupFinishPage = () => {
 
   // 우승 영화가 없을 경우 예외 처리
   if (!winnerMovie) {
-    return <div>우승 영화 정보가 없습니다.</div>;
+    return;
   }
 
   return (

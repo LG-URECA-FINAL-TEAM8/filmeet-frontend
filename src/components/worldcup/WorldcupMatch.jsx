@@ -77,7 +77,7 @@ const WorldcupMatch = () => {
   };
 
   if (!currentMatch) {
-    return <div>다음 라운드 데이터를 불러오는 중입니다...</div>;
+    return
   }
 
   return (
