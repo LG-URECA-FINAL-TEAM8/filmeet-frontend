@@ -1,5 +1,5 @@
+import TopHeader from '../../components/common/back/TopHeader';
 import { useUserInfo } from '../../apis/users/queries';
-import TopHeader from '../../components/Common/back/TopHeader';
 import FollowersList from '../../components/follow/FollowerList';
 import { FollowPageWrapper } from '../../styles/follow/follow';
 

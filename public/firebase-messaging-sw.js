@@ -1,14 +1,16 @@
-importScripts('https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.22.1/firebase-messaging-compat.js');
 
-firebase.initializeApp({
-  apiKey: process.env.VITE_API_KEY,
-  authDomain: process.env.VITE_AUTH_DOMAIN,
-  projectId: process.env.VITE_PROJECT_ID,
-  storageBucket: process.env.VITE_STORAGE_BUCKET,
-  messagingSenderId: process.env.VITE_MESSAGING_SENDER_ID,
-  appId: process.env.VITE_APP_ID,
-});
+const firebaseConfig = {
+  apiKey: '__VITE_API_KEY__',
+  authDomain: '__VITE_AUTH_DOMAIN__',
+  projectId: '__VITE_PROJECT_ID__',
+  storageBucket: '__VITE_STORAGE_BUCKET__',
+  messagingSenderId: '__VITE_MESSAGING_SENDER_ID__',
+  appId: '__VITE_APP_ID__',
+};
+
+firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
