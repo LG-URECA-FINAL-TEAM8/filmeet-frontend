@@ -1,17 +1,16 @@
-import React from "react";
 import { useCreateGame } from "../../apis/worldcup/queries";
 import GameStartButton from "../../components/worldcup/GameStartButton";
+import RankButton from "../../components/worldcup/RankButton";
 import WorldcupFooter from "../../components/worldcup/WorldcupFooter";
 import WorldcupHeader from "../../components/worldcup/WorldcupHeader";
 import WorldcupMatch from "../../components/worldcup/WorldcupMatch";
 import useWorldcupStore from "../../store/worldcup/worldcupStore";
-import { PageWrapper } from "../../styles/worldcup/worldcup";
+import { ButtonContainer, PageWrapper } from "../../styles/worldcup/worldcup";
 
 const WorldcupPage = () => {
   const {
     isGameStarted,
     setGameStarted,
-    gameId,
     setGameId,
     currentRound,
     setCurrentRound,
@@ -40,10 +39,13 @@ const WorldcupPage = () => {
   return (
     <PageWrapper>
       {!isGameStarted ? (
-        <GameStartButton
-          onClick={handleGameCreate}
-          isLoading={createGameMutation.isLoading}
-        />
+        <ButtonContainer>
+          <GameStartButton
+            onClick={handleGameCreate}
+            isLoading={createGameMutation.isLoading}
+          />
+          <RankButton />
+        </ButtonContainer>
       ) : (
         <>
           <WorldcupHeader totalRounds={currentRound} />

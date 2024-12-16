@@ -19,4 +19,17 @@ export const FinishPageWrapper = styled.div`
   overflow: hidden; /* 스크롤 방지 */
 `;
 
+export const ButtonContainer = styled.div`
+    display: flex;
+    flex-direction: column; /* 버튼을 세로로 배치 */
+    align-items: center; /* 버튼을 가운데 정렬 */
+    gap: 2rem; /* 버튼 사이 간격 설정 */
+    margin: 40px 600px;
+    padding: 30px 0 100px 0;
+    border-radius: 30px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+  `;
+
+
+
 

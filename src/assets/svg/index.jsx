@@ -1,5 +1,6 @@
 export { default as CastDefault } from './CastDefault';
 export { default as Circle } from './Circle';
+export { default as Clapperboard } from './Clapperboard';
 export { default as Comment } from './Comment';
 export { default as DefaultProfile } from './DefaultProfile';
 export { default as Delete } from './Delete';

@@ -175,3 +175,37 @@ export const getRecommendMoviesApi = async (gameId) => {
   return await response.json();
 };
 
+// 게임 랭킹 조회 API
+export const getGameRankingsApi = async () => {
+  let response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/games/rankings`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  // AccessToken 만료 처리
+  if (response.status === 401) {
+    console.warn("AccessToken 만료됨. 갱신 시도 중...");
+    const refreshToken = localStorage.getItem("refreshToken");
+    await postRefresh(refreshToken);
+
+    accessToken = localStorage.getItem("accessToken"); // 갱신된 토큰
+    response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/games/rankings`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    console.error("게임 랭킹 조회 실패:", errorMessage);
+    throw new Error(`게임 랭킹 조회 실패: ${response.statusText}`);
+  }
+
+  return await response.json();
+};

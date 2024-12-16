@@ -29,6 +29,7 @@ const pageComponents = {
   Bin: () => import('../components/common/bin/Bin'),
   WorldcupPage: () => import('../pages/worldcup/WorldcupPage'),
   WorldcupFinishPage: () => import('../pages/worldcup/WorldcupFinishPage'),
+  WorldcupRankPage: () => import('../pages/worldcup/WorldcupRankPage'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -96,6 +97,7 @@ const routes = [
       },
       { path: 'worldcup', element: createLazyComponent(pageComponents.WorldcupPage) },
       { path: 'worldcupfinish', element: createLazyComponent(pageComponents.WorldcupFinishPage) },
+      { path: 'worldcuprank', element: createLazyComponent(pageComponents.WorldcupRankPage) },
     ],
     errorElement: <ErrorPage />,
   },

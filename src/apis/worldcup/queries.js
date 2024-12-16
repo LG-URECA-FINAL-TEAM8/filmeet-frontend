@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createGameApi, getGameDetailApi, getRecommendMoviesApi, selectWinnerApi } from "./worldcup";
+import { createGameApi, getGameDetailApi, getGameRankingsApi, getRecommendMoviesApi, selectWinnerApi } from "./worldcup";
 
 export const useCreateGame = () => {
     return useMutation({
@@ -46,3 +46,11 @@ export const useRecommendMovies = (gameId) => {
   });
 };
 
+// 게임 랭킹 조회 훅
+export const useGameRankings = () => {
+  return useQuery({
+    queryKey: ["gameRankings"],
+    queryFn: getGameRankingsApi,
+    refetchOnWindowFocus: false, // 창 전환 시 재요청 방지
+  });
+};
