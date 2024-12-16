@@ -1,19 +1,17 @@
 import { Card } from "antd";
 import styled, { keyframes, css } from "styled-components";
-import SvgComment from "../../assets/svg/Comment";
-import SvgIcLikeFilled24 from "../../assets/svg/IcLikeFilled24";
 import SvgStar from "../../assets/svg/Star";
 import { useState } from "react";
 
 const { Meta } = Card;
 
-const WorldcupMoviecard = ({ image, title, rating, likes, comments, onClick }) => {
+const WorldcupMoviecard = ({ image, title, rating, onClick }) => {
   const [isVanishing, setIsVanishing] = useState(false);
-  const [isSelected, setIsSelected] = useState(false); // 선택된 상태 추가
+  const [isSelected, setIsSelected] = useState(false);
 
   const handleCardClick = () => {
     setIsVanishing(true);
-    setIsSelected(true); // 선택 상태 활성화
+    setIsSelected(true);
     setTimeout(() => {
       if (onClick) onClick();
       setIsVanishing(false);
@@ -22,30 +20,23 @@ const WorldcupMoviecard = ({ image, title, rating, likes, comments, onClick }) =
   };
 
   return (
-    <S.StyledCard
-      hoverable
-      className={`${isVanishing ? "vanishOut" : ""} ${isSelected ? "selected" : ""}`}
-      isSelected={isSelected}
-      onClick={handleCardClick}
-      cover={<S.StyledImage alt={title} src={image} />}
-    >
-      <S.StyledMeta
-        title={<S.CardTitle>{title}</S.CardTitle>}
-        description={
-          <S.CardDetails>
-            <S.StarItem>
-              <SvgStar width={20} height={20} /> {rating.toFixed(1)}
-            </S.StarItem>
-            <S.DetailItem>
-              <SvgIcLikeFilled24 width={24} height={24} /> {likes}
-            </S.DetailItem>
-            <S.DetailItem>
-              <SvgComment width={24} height={24} /> {comments}
-            </S.DetailItem>
-          </S.CardDetails>
-        }
-      />
-    </S.StyledCard>
+    <S.CardWrapper>
+      <S.StyledCard
+        hoverable
+        className={`${isVanishing ? "vanishOut" : ""} ${isSelected ? "selected" : ""}`}
+        isSelected={isSelected}
+        onClick={handleCardClick}
+        cover={<S.StyledImage alt={title} src={image} />}>
+        <S.CardDetails>
+          <S.CardTitle>{title}</S.CardTitle>
+          <S.StarItem>
+            <SvgStar width={20} height={20} />
+            {rating.toFixed(1)}
+          </S.StarItem>
+      </S.CardDetails>
+      </S.StyledCard>
+      
+    </S.CardWrapper>
   );
 };
 
@@ -57,14 +48,23 @@ const scaleUp = keyframes`
     transform: scale(1);
   }
   to {
-    transform: scale(1.3); // 더 크게 확대
+    transform: scale(1.1);
   }
 `;
 
 const S = {
+  CardWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem; /* 카드와 별점/제목 사이 간격 */
+    margin-bottom: 1rem;
+  `,
+
   StyledCard: styled(Card)`
     width: 25rem;
-    height: 31rem;
+    height: 35rem;
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 0.25rem 0.37rem rgba(0, 0, 0, 0.1);
@@ -73,14 +73,9 @@ const S = {
     ${(props) =>
       props.isSelected &&
       css`
-        animation: ${scaleUp} 0.4s forwards; // 0.4초로 애니메이션 지속 시간 설정
-        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
-        z-index: 10; // 확대된 카드가 위로 보이도록 설정
+        animation: ${scaleUp} 0.3s forwards;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
       `}
-
-    .ant-card-body {
-      padding: 1rem;
-    }
 
     &:hover {
       transform: scale(1.05);
@@ -89,55 +84,29 @@ const S = {
   `,
 
   StyledImage: styled.img`
-    height: 25rem;
+    height: 28rem;
     object-fit: cover;
-  `,
-
-  StyledMeta: styled(Meta)`
-    height: 4.37rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .ant-card-meta-title {
-      margin-bottom: 0.5rem;
-      font-size: 1.2rem;
-      font-family: ${(props) => props.theme.font.fontSuitBold};
-    }
-
-    .ant-card-meta-description {
-      font-size: 0.9rem;
-      color: ${(props) => props.theme.color.fontGray};
-    }
-  `,
-
-  CardTitle: styled.h3`
-    font-family: ${(props) => props.theme.font.fontSuitBold};
-    font-size: 1.2rem;
-    margin: 0;
   `,
 
   CardDetails: styled.div`
     display: flex;
-    gap: 0.5rem;
-    justify-content: center;
+    flex-direction: column;
+    gap: 0.3rem; /* 별점과 제목 사이 간격 */
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+  `,
+
+  CardTitle: styled.h3`
+    display: flex;
+    font-size: 1.2rem;
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+    margin: 0;
   `,
 
   StarItem: styled.div`
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    gap: 0.3rem;
     font-size: 1rem;
     color: ${(props) => props.theme.color.fontPink};
-  `,
-
-  DetailItem: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 1rem;
-    color: ${(props) => props.theme.color.fontGray};
   `,
 };

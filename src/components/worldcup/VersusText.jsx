@@ -12,6 +12,6 @@ const S = {
     font-size: 2.5rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     align-self: center;
-    margin: 0 7.5rem 0 7.5rem;
+    margin: 0 3rem 0 3rem;
   `,
 };

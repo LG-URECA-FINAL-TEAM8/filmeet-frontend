@@ -4,7 +4,7 @@ import { useRecommendMovies } from "../../apis/worldcup/queries";
 
 
 const ResultFooter = ({ gameId }) => {
-  const footerText = "월드컵 결과에 따른 추천";
+  const footerText = "당신의 선택에 따른 추천 및 인기 영화! 원하는 영화를 선택해서 평점을 남겨주세요.";
 
   // 추천 영화 가져오기
   const { data, isLoading, error } = useRecommendMovies(gameId);

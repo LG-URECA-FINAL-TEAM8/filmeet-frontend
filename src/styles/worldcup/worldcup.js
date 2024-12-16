@@ -38,7 +38,7 @@ export const Title = styled.div`
   `;
 
 export const GameFinishTitle = styled.div`
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     margin: 1rem 0 1rem 0;
   `;

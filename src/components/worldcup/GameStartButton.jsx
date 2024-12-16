@@ -8,13 +8,6 @@ const GameStartButton = ({ onClick, isLoading }) => {
   <S.Title>FILMEET</S.Title>
   <S.Subtitle>A WORLD CUP-STYLE GAME</S.Subtitle>
   <S.RoundContainer>
-    <S.TextContainer>
-      <S.RoundText>16강</S.RoundText>
-      <S.SubText>
-        팝콘보다 뜨거운 <br />
-        내 영화 랭킹 <S.Highlight>TOP</S.Highlight>
-      </S.SubText>
-    </S.TextContainer>
     <S.IconWrapper>
       <SvgClapperboard width="6rem" height="6rem" />
     </S.IconWrapper>

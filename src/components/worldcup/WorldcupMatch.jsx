@@ -107,6 +107,7 @@ export default WorldcupMatch;
 
 const S = {
   MovieGrid: styled.div`
+    background-color: ${(props) => props.theme.color.commentColor};
     display: flex;
     gap: 2rem;
     justify-content: center;

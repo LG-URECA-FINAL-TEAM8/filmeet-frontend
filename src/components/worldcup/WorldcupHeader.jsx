@@ -1,13 +1,12 @@
 import styled from "styled-components";
 
-const WorldcupHeader = ({ totalRounds, title = "시네마 월드컵", subtitle = "무슨 영화가 더 끌리는지 선택해주세요!!", round = "강" }) => {
+const WorldcupHeader = ({ totalRounds, subtitle = "무슨 영화가 더 끌리는지 선택해주세요!!", round = "강" }) => {
   const roundText = totalRounds === 2 ? "결승" : `${totalRounds}${round}`;
 
   return (
     <S.HeaderContainer>
-      <S.Title>{title}</S.Title>
+      <S.Title>{roundText}</S.Title>
       <S.Subtitle>{subtitle}</S.Subtitle>
-      <S.RoundIndicator>{roundText}</S.RoundIndicator>
     </S.HeaderContainer>
   );
 };
@@ -25,7 +24,7 @@ const S = {
 
   Title: styled.h1`
     margin: 0.5rem 0;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     color: ${(props) => props.theme.color.fontBlack};
   `,
@@ -33,7 +32,7 @@ const S = {
   Subtitle: styled.p`
     margin: 0.5rem 0;
     font-size: 1.2rem;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-family: ${(props) => props.theme.font.fontSuitBold};
     color: ${(props) => props.theme.color.fontGray};
   `,
 
