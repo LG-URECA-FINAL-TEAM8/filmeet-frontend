@@ -10,7 +10,7 @@ const Rating = () => {
   const navigate = useNavigate();
   const { data: result } = useUserInfo();
   const userId = result?.data?.id;
-  const { data, isLoading, error } = useMovieRatings(userId, 0, 1000, 'createdAt,asc');
+  const { data, isLoading, error } = useMovieRatings(userId);
 
   const handleCategoryClick = () => {
     navigate('/mypage/contents/movies/ratings');

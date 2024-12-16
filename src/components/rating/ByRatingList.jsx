@@ -17,7 +17,7 @@ const ByRatingList = () => {
   const { data: result } = useUserInfo();
   const userId = result?.data?.id;
   const navigate = useNavigate();
-  const { data, isLoading, error } = useMovieRatings(userId, 0, 100, 'createdAt,desc');
+  const { data, isLoading, error } = useMovieRatings(userId);
   const groupedRatings = groupMoviesByRating(
     data?.data?.content || [],
     pagecontents.movieRatingSections.ratings

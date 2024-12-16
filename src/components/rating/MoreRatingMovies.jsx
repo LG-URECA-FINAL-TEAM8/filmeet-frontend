@@ -14,7 +14,7 @@ const MoreRatingMovies = () => {
   const { data: result } = useUserInfo();
   const userId = result?.data?.id;
 
-  const { data, isLoading, error } = useMovieRatings(userId, 0, 100, 'createdAt,desc');
+  const { data, isLoading, error } = useMovieRatings(userId);
   const handleBackClick = createBackClickHandler(navigate, '/mypage/contents/movies/ratings');
   const { noResults } = pagecontents.moreRatingMovies;
 
