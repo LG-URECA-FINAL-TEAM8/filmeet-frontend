@@ -1,29 +1,30 @@
-import ReactModal from "react-modal";
-import styled from "styled-components";
-import useCommentStore from "../../../store/modal/useCommentStore";
-import { useDeleteComment, useDeleteReview } from "../../../apis/commentDetails/queries";
-import { useNavigate } from "react-router-dom";
-import { pagecontents } from "../../../data/pagecontents";
+import ReactModal from 'react-modal';
+import styled from 'styled-components';
+import useCommentStore from '../../../store/modal/useCommentStore';
+import { useDeleteComment, useDeleteReview } from '../../../apis/commentDetails/queries';
+import { useNavigate } from 'react-router-dom';
+import { pagecontents } from '../../../data/pagecontents';
 
-ReactModal.setAppElement("#root");
+ReactModal.setAppElement('#root');
 
 const CommentDeleteModal = () => {
   const { isOpen, modalType, commentData, closeModal } = useCommentStore();
   const { mutate: deleteCommentMutate } = useDeleteComment(); // 댓글 삭제 훅
-  const { mutate: deleteReviewMutate } = useDeleteReview(); // 리뷰 삭제 훅
+  const { mutate: deleteReviewMutate } = useDeleteReview();
   const navigate = useNavigate();
-  const {  deleteCommentary, deleteListComment, alarm, cancel, confirm, } = pagecontents.commentPageContent;
+  const { deleteCommentary, deleteListComment, alarm, cancel, confirm } =
+    pagecontents.commentPageContent;
 
-  if (!isOpen || !["deleteComment", "deleteCommentary"].includes(modalType)) return null;
+  if (!isOpen || !['deleteComment', 'deleteCommentary'].includes(modalType)) return null;
 
   const handleConfirm = async () => {
-    if (modalType === "deleteCommentary") {
+    if (modalType === 'deleteCommentary') {
       deleteReviewMutate({
         reviewId: commentData?.reviewId,
         movieId: commentData?.movieId,
       });
-      navigate("/mypage/comments");
-    } else if (modalType === "deleteComment") {
+      navigate('/mypage/comments');
+    } else if (modalType === 'deleteComment') {
       deleteCommentMutate({
         reviewId: commentData?.reviewId,
         commentId: commentData?.commentId,
@@ -37,7 +38,7 @@ const CommentDeleteModal = () => {
       <S.Container>
         <S.Title>{alarm}</S.Title>
         <S.Message>
-          {modalType === "deleteCommentary" ? deleteCommentary : deleteListComment}
+          {modalType === 'deleteCommentary' ? deleteCommentary : deleteListComment}
         </S.Message>
         <S.ButtonGroup>
           <S.CancelButton onClick={closeModal}>{cancel}</S.CancelButton>
@@ -51,18 +52,17 @@ const CommentDeleteModal = () => {
 
 export default CommentDeleteModal;
 
-
 const customStyles = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   content: {
-    width: "17.5rem",
-    height: "7.5rem",
-    margin: "auto",
-    borderRadius: "0.6rem",
-    padding: "1.25rem 0 0 0",
-    overflow: "hidden",
+    width: '17.5rem',
+    height: '7.5rem',
+    margin: 'auto',
+    borderRadius: '0.6rem',
+    padding: '1.25rem 0 0 0',
+    overflow: 'hidden',
   },
 };
 

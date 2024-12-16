@@ -1,60 +1,40 @@
-import styled from "styled-components";
-import SvgIcLikeFilled24 from "../../assets/svg/IcLikeFilled24";
-import SvgComment from "../../assets/svg/Comment";
-import { pagecontents } from "../../data/pagecontents";
-import { useLikesStore } from "../../store/comment/useLikesStore";
-import useCommentStore from "../../store/modal/useCommentStore";
-import { useLikeReview, useCancelLikeReview } from "../../apis/commentDetails/queries"; // 좋아요, 좋아요 취소 훅 가져오기
-import { useEffect } from "react";
-
+import styled from 'styled-components';
+import SvgIcLikeFilled24 from '../../assets/svg/IcLikeFilled24';
+import SvgComment from '../../assets/svg/Comment';
+import { pagecontents } from '../../data/pagecontents';
+import useCommentStore from '../../store/modal/useCommentStore';
+import { useLikeReview, useCancelLikeReview } from '../../apis/commentDetails/queries'; // 좋아요, 좋아요 취소 훅 가져오기
+import { handleLikeClick } from '../../hooks/comment/useLikeHandler';
 const CommentBody = ({ commentData, reviewId }) => {
-  const { likes, initializeLikes, toggleLikeStatus } = useLikesStore(); // zustand 상태 관리
   const { like, comment } = pagecontents.commentPageContent;
   const { openModal } = useCommentStore();
 
   const { mutate: likeReviewMutate } = useLikeReview();
   const { mutate: cancelLikeMutate } = useCancelLikeReview();
 
-  // 좋아요 상태 가져오기
-  const likeState = likes[commentData?.id] || { isLiked: false, likeCounts: 0 };
-
-  // 좋아요 초기화
-  useEffect(() => {
-    if (reviewId && commentData) {
-      initializeLikes(commentData.id, commentData.isLiked || false, commentData.likeCounts || 0);
-    }
-  }, [reviewId, commentData, initializeLikes]);
-
-  const handleLikeClick = async () => {
-    if (likeState.liking) return; // 요청 중인 경우 중복 요청 방지
-
-    try {
-      if (likeState.isLiked) {
-        await cancelLikeMutate(reviewId); // 좋아요 취소 호출
-        toggleLikeStatus(commentData.id, false, likeState.likeCounts - 1);
-      } else {
-        await likeReviewMutate(reviewId); // 좋아요 추가 호출
-        toggleLikeStatus(commentData.id, true, likeState.likeCounts + 1);
-      }
-    } catch (error) {
-      console.error("좋아요 상태 변경 중 오류 발생:", error);
-    }
+  const handleActionClick = () => {
+    handleLikeClick({
+      commentData,
+      reviewId,
+      likeReviewMutate,
+      cancelLikeMutate,
+    });
   };
 
   const handleCommentClick = () => {
-    openModal("comment", {
+    openModal('comment', {
       reviewId,
       movieTitle: commentData?.movieTitle,
-      content: "",
+      content: '',
     });
   };
 
   return (
     <S.Body>
       {/* 좋아요 버튼 */}
-      <S.ActionContainer onClick={handleLikeClick}>
-        <S.Action isLiked={likeState.isLiked}>
-          <S.StyledSvgIcLikeFilled24 isLiked={likeState.isLiked} />
+      <S.ActionContainer onClick={handleActionClick}>
+        <S.Action isLiked={commentData?.isLiked}>
+          <S.StyledSvgIcLikeFilled24 isLiked={commentData?.isLiked} />
           {like}
         </S.Action>
       </S.ActionContainer>

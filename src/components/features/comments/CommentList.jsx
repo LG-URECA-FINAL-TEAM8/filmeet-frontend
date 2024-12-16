@@ -1,21 +1,14 @@
-import styled from "styled-components";
-import SvgOption from "../../../assets/svg/Option";
-import SvgIcLikeFilled24 from "../../../assets/svg/IcLikeFilled24";
-import { useLikesStore } from "../../../store/comment/useLikesStore";
-import { useMenuStore } from "../../../store/comment/useMenuStore";
-import useCommentStore from "../../../store/modal/useCommentStore";
-import { useFetchComments } from "../../../apis/commentDetails/queries";
-import { pagecontents } from "../../../data/pagecontents";
+import styled from 'styled-components';
+import SvgOption from '../../../assets/svg/Option';
+import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
+import { useMenuStore } from '../../../store/comment/useMenuStore';
+import useCommentStore from '../../../store/modal/useCommentStore';
+import { useFetchComments } from '../../../apis/commentDetails/queries';
+import { pagecontents } from '../../../data/pagecontents';
 
-
-
-
-const createLikeKey = (type, id) => `${type}-${id}`;
-
-const CommentList = ({ reviewId, userInfo, onEdit }) => { 
+const CommentList = ({ reviewId, userInfo, onEdit }) => {
   const { data: comments, isLoading, isError, error } = useFetchComments({ reviewId });
-  const { editComment,  deleteComment, noComments } = pagecontents.commentPageContent;
-  const { likes, toggleLike } = useLikesStore();
+  const { editComment, deleteComment, noComments } = pagecontents.commentPageContent;
   const { openMenuId, openMenu, closeMenu } = useMenuStore();
   const { openModal } = useCommentStore();
 
@@ -35,10 +28,6 @@ const CommentList = ({ reviewId, userInfo, onEdit }) => {
     return <S.NoCommentMessage>{noComments}</S.NoCommentMessage>;
   }
 
-  const handleLikeClick = (id) => {
-    toggleLike(createLikeKey("list", id));
-  };
-
   const handleMenuToggle = (id) => {
     if (openMenuId === id) {
       closeMenu();
@@ -48,13 +37,12 @@ const CommentList = ({ reviewId, userInfo, onEdit }) => {
   };
 
   const handleEditClick = (comment) => {
-    onEdit ? onEdit(comment) : openModal("commentedit", { ...comment });
+    onEdit ? onEdit(comment) : openModal('commentedit', { ...comment });
     closeMenu();
   };
 
   const handleDeleteClick = (comment) => {
-    console.log("리뷰 ID:", reviewId);
-    openModal("deleteComment", { reviewId, commentId: comment.reviewCommentId });
+    openModal('deleteComment', { reviewId, commentId: comment.reviewCommentId });
     closeMenu();
   };
 
@@ -71,12 +59,12 @@ const CommentList = ({ reviewId, userInfo, onEdit }) => {
               <S.CommentContent>
                 <S.UserHeader>
                   <S.UserName>{comment.nickName}</S.UserName>
-                  <S.CommentTime>{comment.createdAt}</S.CommentTime>
+                  <S.CommentTime>{comment.createdAt?.slice(0, 10)}</S.CommentTime>
                 </S.UserHeader>
                 <S.CommentText>{comment.content}</S.CommentText>
                 <S.ActionRow>
-                  <S.LikeSection onClick={() => handleLikeClick(comment.reviewCommentId)} />
-                  {isAuthor && ( 
+                  <S.LikeSection />
+                  {isAuthor && (
                     <S.SvgOptionWrapper>
                       <SvgOption onClick={() => handleMenuToggle(comment.reviewCommentId)} />
                       {isMenuOpen && (
@@ -205,6 +193,8 @@ const S = {
     padding: 0.31rem;
     font-size: 0.9rem;
     cursor: pointer;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+
     &:hover {
       background-color: ${(props) => props.theme.color.commentColor};
     }

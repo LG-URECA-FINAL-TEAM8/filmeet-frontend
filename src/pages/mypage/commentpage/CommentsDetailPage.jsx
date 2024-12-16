@@ -1,18 +1,16 @@
-import { useParams } from "react-router-dom";
-import CommentHeader from "../../../components/commentDetail/CommentHeader";
-import CommentBody from "../../../components/commentDetail/CommentBody";
-import { CommentDetailContainer } from "../../../styles/comment/comment";
-import { useCommentDetails } from "../../../apis/commentDetails/queries";
-import CommentList from "../../../components/features/comments/CommentList";
-import { useUserInfo } from "../../../apis/users/queries";
+import { useParams } from 'react-router-dom';
+import CommentHeader from '../../../components/commentDetail/CommentHeader';
+import CommentBody from '../../../components/commentDetail/CommentBody';
+import { CommentDetailContainer } from '../../../styles/comment/comment';
+import { useCommentDetails } from '../../../apis/commentDetails/queries';
+import CommentList from '../../../components/features/comments/CommentList';
+import { useUserInfo } from '../../../apis/users/queries';
 
 const CommentsDetailPage = () => {
   const { reviewId } = useParams(); // URL에서 reviewId 추출
   const { data: result } = useUserInfo();
   const userInfo = result?.data;
   const { data: commentData } = useCommentDetails({ reviewId });
-
-
 
   return (
     <CommentDetailContainer>

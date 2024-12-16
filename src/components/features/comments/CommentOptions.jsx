@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import { useMenuStore } from "../../store/comment/useMenuStore";
+import styled from 'styled-components';
+import { useMenuStore } from '../../store/comment/useMenuStore';
 
 const TEXTS = {
-  edit: "댓글 수정",
-  delete: "댓글 삭제",
+  edit: '댓글 수정',
+  delete: '댓글 삭제',
 };
 
 const CommentOptions = ({ commentId }) => {
@@ -57,10 +57,12 @@ const S = {
     width: 6.25rem;
     z-index: 10;
   `,
-  MenuItem: styled.div`
+  MenuItem: styled.span`
     padding: 0.5rem;
     font-size: 0.9rem;
     cursor: pointer;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+
     &:hover {
       background-color: ${(props) => props.theme.color.commentColor};
     }
