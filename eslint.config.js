@@ -11,12 +11,12 @@ export default [
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2021,
       globals: globals.browser,
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+        sourceType: 'module', // 유지, 다른 파일에만 영향을 줌
       },
     },
     settings: { react: { version: '18.3' } },
@@ -53,7 +53,7 @@ export default [
         self: 'readonly',
       },
       ecmaVersion: 2020,
-      sourceType: 'script',
+      sourceType: 'script', // 수정: module -> script
     },
     rules: {
       'no-undef': 'off',

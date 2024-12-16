@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import DefaultLayout from '../components/Layout/DefaultLayout';
+import DefaultLayout from "../components/layout/DefaultLayout";
 import ErrorPage from '../pages/errorpage/ErrorPage';
 
 // 컴포넌트 동적 로딩 설정
