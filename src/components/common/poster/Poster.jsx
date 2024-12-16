@@ -51,7 +51,7 @@ function Poster({ caseType = 0, movies }) {
         <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie?.movieId)}>
           <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           <S.PostTitle>{movie.title}</S.PostTitle>
-          <S.GrayField>{movie.averageRating}</S.GrayField>
+          <S.RatingField>{`★${movie.averageRating}`}</S.RatingField>
         </S.PostItem>
       )),
 
@@ -69,9 +69,9 @@ function Poster({ caseType = 0, movies }) {
         const formattedAudience = `${Math.floor((movie.totalAudience || 0) / 10000)}만 명`;
         return (
           <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie.movieId)}>
-            <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
+            <S.PostCardImg src={movie.posterUrl} alt={movie.movieName} />
             <S.PostTitle>{movie.title}</S.PostTitle>
-            <S.GrayField>{`누적 관객 ${formattedAudience}`}</S.GrayField>
+            <S.RatingField>{`누적 관객 ${formattedAudience}`}</S.RatingField>
           </S.PostItem>
         );
       }),
@@ -222,12 +222,12 @@ const S = {
     font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,
 
-  GrayField: styled.div`
+  RatingField: styled.div`
     display: flex;
     justify-content: flex-start;
     margin-top: 0.5rem;
     width: 100%;
-    color: ${(props) => props.theme.color.fontGray};
+    color: ${(props) => props.theme.color.fontPink};
     font-size: 0.9rem;
     font-weight: ${(props) => props.theme.font.fontWeightRegular};
     font-family: ${(props) => props.theme.font.fontSuitRegular};
