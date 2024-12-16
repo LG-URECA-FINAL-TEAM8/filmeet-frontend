@@ -2,6 +2,7 @@ import styled from 'styled-components';
 export const MainBody = styled.body`
   height: 100vh;
   display: flex;
+  flex: 1;
   flex-direction: column;
   background-color: ${(props) => props.theme.color.mainColor};
   padding: 1rem 20rem;

@@ -12,6 +12,7 @@ import {
 } from '../apis/getMovies/queries';
 import { useHotReview } from '../apis/reviews/queries';
 import useUserStore from '../store/user/userStore';
+import Footer from '../components/common/footer/Footer';
 
 function Main() {
   const userId = useUserStore((state) => state.userInfo?.id);
@@ -57,14 +58,17 @@ function Main() {
   ];
 
   return (
-    <MainBody>
-      {movieSections.map(({ title, component }, index) => (
-        <React.Fragment key={index}>
-          <Title>{title}</Title>
-          {component}
-        </React.Fragment>
-      ))}
-    </MainBody>
+    <>
+      <MainBody>
+        {movieSections.map(({ title, component }, index) => (
+          <React.Fragment key={index}>
+            <Title>{title}</Title>
+            {component}
+          </React.Fragment>
+        ))}
+        <Footer />
+      </MainBody>
+    </>
   );
 }
 
