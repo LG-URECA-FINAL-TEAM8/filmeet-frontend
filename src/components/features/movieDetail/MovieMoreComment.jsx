@@ -9,7 +9,7 @@ const MovieMoreComment = ({ comments }) => {
   const { likedComments, toggleLike } = useMovieCommentStore();
 
   const handleCommentClick = (reviewId) => {
-    navigate(`/moviedetail/moviecomment/${reviewId}`);
+    navigate(`/moviedetail/comments/${reviewId}`);
   };
 
   return (

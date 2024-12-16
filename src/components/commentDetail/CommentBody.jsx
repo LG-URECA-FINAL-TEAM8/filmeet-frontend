@@ -1,33 +1,45 @@
-import styled from "styled-components";
-import SvgIcLikeFilled24 from "../../assets/svg/IcLikeFilled24";
-import SvgComment from "../../assets/svg/Comment";
-import { pagecontents } from "../../data/pagecontents";
-import { useLikesStore } from "../../store/comment/useLikesStore";
-import useCommentStore from "../../store/modal/useCommentStore";
-
-const CommentBody = ({ commentData }) => {
-  const { likes, toggleLike } = useLikesStore();
+import styled from 'styled-components';
+import SvgIcLikeFilled24 from '../../assets/svg/IcLikeFilled24';
+import SvgComment from '../../assets/svg/Comment';
+import { pagecontents } from '../../data/pagecontents';
+import useCommentStore from '../../store/modal/useCommentStore';
+import { useLikeReview, useCancelLikeReview } from '../../apis/commentDetails/queries'; // 좋아요, 좋아요 취소 훅 가져오기
+import { handleLikeClick } from '../../hooks/comment/useLikeHandler';
+const CommentBody = ({ commentData, reviewId }) => {
   const { like, comment } = pagecontents.commentPageContent;
   const { openModal } = useCommentStore();
-  const commentLikes = likes[commentData.id] || { count: 0, isLiked: false };
 
-  const handleLikeClick = () => {
-    toggleLike(commentData.id);
+  const { mutate: likeReviewMutate } = useLikeReview();
+  const { mutate: cancelLikeMutate } = useCancelLikeReview();
+
+  const handleActionClick = () => {
+    handleLikeClick({
+      commentData,
+      reviewId,
+      likeReviewMutate,
+      cancelLikeMutate,
+    });
   };
 
   const handleCommentClick = () => {
-    openModal("comment", { title: commentData.title, content: "" });
+    openModal('comment', {
+      reviewId,
+      movieTitle: commentData?.movieTitle,
+      content: '',
+    });
   };
 
   return (
     <S.Body>
-      <S.ActionContainer onClick={handleLikeClick}>
-        <S.Action isLiked={commentLikes.isLiked}>
-          <S.StyledSvgIcLikeFilled24 isLiked={commentLikes.isLiked} />
+      {/* 좋아요 버튼 */}
+      <S.ActionContainer onClick={handleActionClick}>
+        <S.Action isLiked={commentData?.isLiked}>
+          <S.StyledSvgIcLikeFilled24 isLiked={commentData?.isLiked} />
           {like}
         </S.Action>
       </S.ActionContainer>
       <S.Divider />
+      {/* 댓글 버튼 */}
       <S.ActionContainer onClick={handleCommentClick}>
         <S.Action>
           <SvgComment />
@@ -40,7 +52,6 @@ const CommentBody = ({ commentData }) => {
 
 export default CommentBody;
 
-// 스타일 객체로 분리
 const S = {
   Body: styled.div`
     width: 100%;

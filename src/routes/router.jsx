@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import DefaultLayout from "../components/layout/DefaultLayout";
+import DefaultLayout from '../components/layout/DefaultLayout';
 import ErrorPage from '../pages/errorpage/ErrorPage';
 
 // 컴포넌트 동적 로딩 설정
@@ -27,6 +27,7 @@ const pageComponents = {
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieCommentAll: () => import('../pages/movieDetail/MovieCommentDetail'),
   Bin: () => import('../components/common/bin/Bin'),
+  UserPage: () => import('../pages/userpage/userPage'),
   Policy: () => import('../pages/policy/Policy'),
   WorldcupPage: () => import('../pages/worldcup/WorldcupPage'),
   WorldcupFinishPage: () => import('../pages/worldcup/WorldcupFinishPage'),
@@ -53,6 +54,7 @@ const routes = [
       { path: 'login', element: createLazyComponent(pageComponents.Login) },
       { path: 'policy', element: createLazyComponent(pageComponents.Policy) },
       { path: 'mypage', element: createLazyComponent(pageComponents.MyPage) },
+      { path: 'userpage/:userId', element: createLazyComponent(pageComponents.UserPage) },
       { path: 'movie/genre', element: createLazyComponent(pageComponents.GenreMovie) },
       { path: 'mypage/ratings', element: createLazyComponent(pageComponents.RatingsPage) },
       {
@@ -65,7 +67,7 @@ const routes = [
       },
       { path: 'mypage/comments', element: createLazyComponent(pageComponents.CommentsPage) },
       {
-        path: 'mypage/comments/:commentId',
+        path: 'mypage/comments/:reviewId',
         element: createLazyComponent(pageComponents.CommentsDetailPage),
       },
       { path: 'mypage/collections', element: createLazyComponent(pageComponents.CollectionsPage) },

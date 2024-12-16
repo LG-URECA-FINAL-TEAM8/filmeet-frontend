@@ -1,59 +1,73 @@
 import styled from "styled-components";
 import ReactModal from "react-modal";
-import useCommentStore from "../../../store/modal/useCommentStore";
 import { useEffect } from "react";
+import useCommentStore from "../../../store/modal/useCommentStore";
+import { useCreateComment, useEditReview, useUpdateComment } from "../../../apis/commentDetails/queries"; // useUpdateComment 추가
 
 ReactModal.setAppElement("#root");
 
-const CommentEditModal = ({ onSubmit }) => {
+const CommentEditModal = () => {
   const { isOpen, modalType, commentData, comment, closeModal, setComment } = useCommentStore();
-
+  const createCommentMutation = useCreateComment();
+  const updateReviewMutation = useEditReview();
+  const updateCommentMutation = useUpdateComment(); 
   useEffect(() => {
-    if ((modalType === "edit" || modalType === "comment") && isOpen && commentData?.comment) {
-      setComment(commentData.comment);
+    if (isOpen && modalType === "comment") {
+      // 모달이 열릴 때 로깅할 데이터
     }
-  }, [isOpen, modalType, commentData, setComment]);
+  }, [isOpen, modalType, commentData]);
 
-  if (!isOpen || (modalType !== "edit" && modalType !== "comment")) return null;
+  if (!isOpen || (modalType !== "edit" && modalType !== "comment" && modalType !== "commentedit")) return null;
 
   const handleSave = () => {
-    if (onSubmit) {
-      onSubmit({ ...commentData, comment });
+    if (modalType === "comment" && commentData?.reviewId) {
+      // 댓글 생성
+      createCommentMutation.mutate({
+        reviewId: commentData.reviewId,
+        content: comment,
+      });
+    } else if (modalType === "edit") {
+      // 리뷰 댓글 수정
+      updateReviewMutation.mutate({
+        reviewId: commentData.reviewId,
+        content: comment,
+      });
+    } else if (modalType === "commentedit") {
+      // 일반 댓글 수정
+      updateCommentMutation.mutate({
+        reviewCommentId: commentData.reviewCommentId,
+        content: comment,
+      });
     }
-    closeModal();
   };
-
-  const handleChange = (e) => {
-    setComment(e.target.value);
-  };
-
-  const getPlaceholder = () => {
-    if (modalType === "edit") {
-      return "내용을 수정해주세요.";
-    } else if (modalType === "comment") {
-      return `"${commentData?.title || ""}"에 대한 생각을 표현해주세요.`;
-    }
-    return "";
-  };
-  
   return (
     <ReactModal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
-           <S.Content>
+      <S.Content>
         <S.CommentHeader>
-          <S.CommentTitle>{modalType === "edit" ? (commentData?.title || "댓글 수정") : "댓글"}</S.CommentTitle>
+          <S.CommentTitle>
+            {modalType === "edit"
+              ? commentData?.movieTitle
+              : modalType === "comment"
+              ? "댓글"
+              : modalType === "commentedit"
+              ? "댓글"
+              : ""}
+          </S.CommentTitle>
           <S.CloseButton onClick={closeModal}>X</S.CloseButton>
         </S.CommentHeader>
         <S.CommentContent>
           <S.TextArea
             value={comment}
-            onChange={handleChange}
-            placeholder={getPlaceholder()}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder={`${commentData?.movieTitle || "제목 없음"}에 대한 생각을 표현해주세요.`}
             maxLength={10000}
           />
         </S.CommentContent>
         <S.Footer>
           <S.TextLength>{(comment || "").length}/10000</S.TextLength>
-          <S.SaveButton onClick={handleSave}>{modalType === "comment" ? "저장" : "수정"}</S.SaveButton>
+          <S.SaveButton onClick={handleSave}>
+            {modalType === "comment" ? "저장" : "수정"}
+          </S.SaveButton>
         </S.Footer>
       </S.Content>
     </ReactModal>
@@ -61,6 +75,9 @@ const CommentEditModal = ({ onSubmit }) => {
 };
 
 export default CommentEditModal;
+
+
+
 
 const customStyles = {
   overlay: {
