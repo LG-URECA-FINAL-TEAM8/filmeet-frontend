@@ -7,7 +7,7 @@
 }
 html,
 body {
-  overflow: auto; /* 스크롤 활성화 */
+  height: 100%; /* 페이지 전체 높이 유지 */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE */
 }
