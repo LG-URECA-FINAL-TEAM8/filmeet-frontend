@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useGameRankings } from "../../apis/worldcup/queries";
 import { useNavigate } from "react-router-dom";
+import TopHeader from "../../components/common/back/TopHeader";
 
 const WorldcupRankPage = () => {
   const { data, isLoading, error } = useGameRankings();
@@ -17,7 +18,7 @@ const WorldcupRankPage = () => {
 
   return (
     <S.RankPageWrapper>
-      <S.Title>게임 랭킹</S.Title>
+      <TopHeader title="게임 랭킹" />
       <S.RankList>
         {rankings.map((game) => (
           <S.RankItem key={game.id} onClick={() => handleGameClick(game.id)}>
@@ -55,7 +56,6 @@ const ProgressBar = ({ percent, color, label }) => (
 
 const S = {
   RankPageWrapper: styled.div`
-    padding: 2rem;
     background-color: ${(props) => props.theme.color.fontWhite};
   `,
 
@@ -70,7 +70,7 @@ const S = {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    margin: 0 auto;
+    margin: 1rem auto;
     max-width: 800px;
   `,
 
