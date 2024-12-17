@@ -27,7 +27,6 @@ const pageComponents = {
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieCommentAll: () => import('../pages/movieDetail/MovieCommentDetail'),
   Bin: () => import('../components/common/bin/Bin'),
-  UserPage: () => import('../pages/userpage/userPage'),
   Policy: () => import('../pages/policy/Policy'),
 };
 
@@ -50,30 +49,35 @@ const routes = [
       { path: 'register', element: createLazyComponent(pageComponents.Register) },
       { path: 'login', element: createLazyComponent(pageComponents.Login) },
       { path: 'policy', element: createLazyComponent(pageComponents.Policy) },
-      { path: 'mypage', element: createLazyComponent(pageComponents.MyPage) },
-      { path: 'userpage/:userId', element: createLazyComponent(pageComponents.UserPage) },
+      { path: 'mypage/:userId', element: createLazyComponent(pageComponents.MyPage) },
       { path: 'movie/genre', element: createLazyComponent(pageComponents.GenreMovie) },
-      { path: 'mypage/ratings', element: createLazyComponent(pageComponents.RatingsPage) },
+      { path: 'mypage/ratings/:userId', element: createLazyComponent(pageComponents.RatingsPage) },
       {
-        path: 'mypage/contents/movies/ratings',
+        path: 'mypage/contents/movies/ratings/:userId',
         element: createLazyComponent(pageComponents.MovieRatingsPage),
       },
       {
         path: 'mypage/contents/movies/ratings/:rating',
         element: createLazyComponent(pageComponents.AllMoviesByRatingsPage),
       },
-      { path: 'mypage/comments', element: createLazyComponent(pageComponents.CommentsPage) },
       {
-        path: 'mypage/comments/:reviewId',
+        path: 'mypage/comments/:userId',
+        element: createLazyComponent(pageComponents.CommentsPage),
+      },
+      {
+        path: 'mypage/comments/detail/:reviewId',
         element: createLazyComponent(pageComponents.CommentsDetailPage),
       },
-      { path: 'mypage/collections', element: createLazyComponent(pageComponents.CollectionsPage) },
+      {
+        path: 'mypage/collections/:userId',
+        element: createLazyComponent(pageComponents.CollectionsPage),
+      },
       {
         path: 'mypage/collections/create',
         element: createLazyComponent(pageComponents.CollectionCreatePage),
       },
       {
-        path: 'mypage/collections/:collectionId',
+        path: 'mypage/collections/detail/:collectionId',
         element: createLazyComponent(pageComponents.CollectionDetailPage),
       },
       {

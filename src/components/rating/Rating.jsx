@@ -4,19 +4,18 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import * as S from '../../styles/rating/rating';
 import { createBackClickHandler } from '../../utils/ratings/navigationHandlers';
 import { useMovieRatings } from '../../apis/myPage/rating/queries';
-import { useUserInfo } from '../../apis/users/queries';
+import { useParams } from 'react-router-dom';
 
 const Rating = () => {
   const navigate = useNavigate();
-  const { data: result } = useUserInfo();
-  const userId = result?.data?.id;
+  const { userId } = useParams();
   const { data, isLoading, error } = useMovieRatings(userId);
 
   const handleCategoryClick = () => {
-    navigate('/mypage/contents/movies/ratings');
+    navigate(`/mypage/contents/movies/ratings/${userId}`);
   };
 
-  const handleBackClick = createBackClickHandler(navigate, '/mypage');
+  const handleBackClick = createBackClickHandler(navigate, userId);
 
   if (isLoading) {
     return <div>로딩 중...</div>;

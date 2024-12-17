@@ -1,9 +1,12 @@
 import { MyPageContainer, ProfileContainer } from '../../styles/profile/profile';
 import ProfileHeader from '../../components/profile/ProfileHeader';
-import { useUserInfo } from '../../apis/users/queries';
+import { useParams } from 'react-router-dom';
+import { useUserInfoId } from '../../apis/users/queries';
 const MyPage = () => {
-  const { data: result } = useUserInfo();
+  const { userId } = useParams();
+  const { data: result } = useUserInfoId(userId);
   const userInfo = result?.data;
+  console.log(userInfo);
 
   return (
     <MyPageContainer>

@@ -17,7 +17,7 @@ const MiniComment = ({
   const { likedComments, toggleLike } = useMovieCommentStore();
 
   const handleProfileClick = () => {
-    navigate(`/userpage/${userId}`);
+    navigate(`/mypage/${userId}`);
   };
 
   const handleCommentClick = (reviewId) => {

@@ -4,19 +4,18 @@ import SvgIcReplyFilled24 from '../../../assets/svg/IcReplyFilled24';
 import { useNavigate } from 'react-router-dom';
 import { createProfileClickHandler } from '../../../utils/ratings/navigationHandlers';
 import { useUserComments } from '../../../apis/myPage/comment/queries';
-import { useUserInfo } from '../../../apis/users/queries';
+import { useParams } from 'react-router-dom';
 
 const Comment = () => {
   const navigate = useNavigate();
-  const { data: result } = useUserInfo();
-  const userId = result?.data?.id;
-  const handleProfileClick = createProfileClickHandler(navigate, '/mypage');
+  const { userId } = useParams();
+  const handleProfileClick = createProfileClickHandler(navigate, userId);
   const { data, isLoading, error } = useUserComments(userId);
 
   const comments = data?.data?.content || [];
 
   const handleCommentClick = (commentId) => {
-    navigate(`/mypage/comments/${commentId}`);
+    navigate(`/mypage/comments/detail/${commentId}`);
   };
 
   if (isLoading) {

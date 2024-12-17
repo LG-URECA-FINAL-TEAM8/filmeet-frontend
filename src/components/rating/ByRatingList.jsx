@@ -11,11 +11,9 @@ import {
 } from '../../utils/ratings/navigationHandlers';
 import { useMovieRatings } from '../../apis/myPage/rating/queries';
 import { groupMoviesByRating } from '../../utils/ratings/groupMoviesRatings';
-import { useUserInfo } from '../../apis/users/queries';
-const ByRatingList = () => {
+
+const ByRatingList = ({ userId }) => {
   const { activeFilter, setActiveFilter } = useRatingsStore();
-  const { data: result } = useUserInfo();
-  const userId = result?.data?.id;
   const navigate = useNavigate();
   const { data, isLoading, error } = useMovieRatings(userId);
   const groupedRatings = groupMoviesByRating(
@@ -26,7 +24,7 @@ const ByRatingList = () => {
   // 하드코딩된 필터 데이터 활용
   const { title, filters } = pagecontents.movieRatingList;
 
-  const handleBackClick = createBackClickHandler(navigate, '/mypage/ratings');
+  const handleBackClick = createBackClickHandler(navigate, `/`);
   const handleFilterClick = createFilterClickHandler(setActiveFilter);
   const filterClickHandlers = filters.map((option) => () => handleFilterClick(option.value));
 

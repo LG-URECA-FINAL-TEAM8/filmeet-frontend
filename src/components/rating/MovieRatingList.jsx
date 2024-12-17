@@ -9,13 +9,10 @@ import {
   createFilterClickHandler,
 } from '../../utils/ratings/navigationHandlers';
 import { useMovieRatings } from '../../apis/myPage/rating/queries';
-import { useUserInfo } from '../../apis/users/queries';
 
-const MovieRatingList = () => {
+const MovieRatingList = ({ userId }) => {
   const { activeFilter, setActiveFilter } = useRatingsStore();
   const navigate = useNavigate();
-  const { data: result } = useUserInfo();
-  const userId = result?.data?.id;
   // 평가한 영화 데이터 가져오기
   const { data, isLoading, error } = useMovieRatings(userId);
   const movies = data?.data?.content || [];
@@ -28,7 +25,7 @@ const MovieRatingList = () => {
     ],
   };
 
-  const handleBackClick = createBackClickHandler(navigate, '/mypage/ratings');
+  const handleBackClick = createBackClickHandler(navigate, `/`);
   const handleFilterClick = createFilterClickHandler(setActiveFilter);
   const filterClickHandlers = filters.map((option) => () => handleFilterClick(option.value));
 
