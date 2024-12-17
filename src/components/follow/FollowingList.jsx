@@ -1,8 +1,10 @@
 import * as S from '../../styles/follow/follow';
 import { useFollowings } from '../../apis/myPage/follow/queries';
+import { useDeleteFollow } from '../../apis/follow/query';
 
 const FollowingList = ({ userId }) => {
   const { data, isLoading, error } = useFollowings(userId);
+  const { mutate: deleteFollow } = useDeleteFollow();
 
   if (isLoading) {
     return <div>로딩 중...</div>;
@@ -14,6 +16,10 @@ const FollowingList = ({ userId }) => {
   }
 
   const followings = data?.data?.content || [];
+
+  const handleFollowClick = (followingId) => {
+    deleteFollow({ userId: followingId });
+  };
 
   return (
     <S.ListWrapper>
@@ -27,7 +33,7 @@ const FollowingList = ({ userId }) => {
           </S.AvatarWrapper>
           <S.InfoWrapper>
             <S.Name>{following.nickname}</S.Name>
-            <S.FollowButton>취소</S.FollowButton>
+            <S.FollowButton onClick={() => handleFollowClick(following.id)}>취소</S.FollowButton>
           </S.InfoWrapper>
         </S.ListItem>
       ))}
