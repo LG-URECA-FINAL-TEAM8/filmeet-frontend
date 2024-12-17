@@ -13,7 +13,7 @@ import { useFollowCount } from '../../apis/myPage/queries';
 import LogoutModal from '../common/modal/LogoutModal';
 import { useState } from 'react';
 import { useUserInfo } from '../../apis/users/queries';
-import { useAddFollow } from '../../apis/follow/query';
+import { useAddFollow, useDeleteFollow } from '../../apis/follow/query';
 
 const ProfileHeader = ({ userInfo, userId }) => {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ const ProfileHeader = ({ userInfo, userId }) => {
   const { data: result, isLoading } = useFollowCount(userId);
   const { data: loginUser } = useUserInfo();
   const { mutate: addFollow } = useAddFollow();
+  const { mutate: deleteFollow } = useDeleteFollow();
   const followData = result?.data;
   const loginUserData = loginUser?.data?.id;
 
@@ -31,7 +32,11 @@ const ProfileHeader = ({ userInfo, userId }) => {
     ],
   };
   const handleAddFollow = () => {
-    addFollow({ userId });
+    if (userInfo?.isFollowing) {
+      deleteFollow({ userId });
+    } else {
+      addFollow({ userId });
+    }
   };
   const handleNavigate = (path) => {
     navigate(path);
@@ -59,10 +64,10 @@ const ProfileHeader = ({ userInfo, userId }) => {
         ))}
       </FollowStats>
       <FollowButton
-        disabled={String(loginUserData) === String(userId)}
+        disabled={String(loginUserData) === String(userId) || loginUserData?.isFollowing === true}
         onClick={() => handleAddFollow()}>
-        Follow
-      </FollowButton>{' '}
+        {userInfo?.isFollowing ? 'Unfollow' : 'Follow'}
+      </FollowButton>
       <Stats count={userInfo} />
     </>
   );
