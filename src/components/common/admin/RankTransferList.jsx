@@ -9,10 +9,11 @@ function RankTransferList({ leftItems, setLeftItems, rightItems, setRightItems }
   const [rightChecked, setRightChecked] = useState([]);
   const mutation = useAdminMovieRecommend();
   const buttonText = {
-    moveToRight: '후보에서 추가 >',
-    moveToLeft: '< 최종 순위에서 제거',
-    update: '업데이트',
+    moveToRight: '추가',
+    moveToLeft: '제거',
+    update: '저장',
   };
+
   const handleToggle = (value, checkedList, setCheckedList) => {
     const currentIndex = checkedList.indexOf(value);
     const newChecked = [...checkedList];
@@ -65,8 +66,10 @@ function RankTransferList({ leftItems, setLeftItems, rightItems, setRightItems }
   );
 
   return (
-    <S.TransferContainer>
-      {customList('후보',leftItems, leftChecked, setLeftChecked)}
+    <S.Wrapper>
+      <S.TransferContainer>
+        {customList('후보', leftItems, leftChecked, setLeftChecked)}
+      </S.TransferContainer>
       <S.ButtonContainer>
         <S.Button variant="contained" onClick={moveToRight}>
           {buttonText.moveToRight}
@@ -75,7 +78,9 @@ function RankTransferList({ leftItems, setLeftItems, rightItems, setRightItems }
           {buttonText.moveToLeft}
         </S.Button>
       </S.ButtonContainer>
-      {customList('최종 순위',rightItems, rightChecked, setRightChecked)}
+      <S.TransferContainer>
+        {customList('최종 순위', rightItems, rightChecked, setRightChecked)}
+      </S.TransferContainer>
       <S.Button
         variant="contained"
         color="primary"
@@ -85,17 +90,32 @@ function RankTransferList({ leftItems, setLeftItems, rightItems, setRightItems }
       >
         {buttonText.update}
       </S.Button>
-    </S.TransferContainer>
+    </S.Wrapper>
   );
 }
 
 export default RankTransferList;
 
 const S = {
-  TransferContainer: styled(Box)({
-    width: '60%',
-    marginTop: '1rem',
+  Wrapper: styled(Box)({
     display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '1rem',
+    width: '90%',
+    marginTop: '1rem',
+  }),
+  TransferContainer: styled(Box)({
+    width: '20%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '1rem',
+  }),
+  ButtonContainer: styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     gap: '1rem',
@@ -108,20 +128,16 @@ const S = {
     gap: '0.5rem',
   }),
   ListContainer: styled(Box)({
-    width: '40%',
+    width: '100%',
     height: '19rem',
     overflow: 'auto',
-    //border: `0.1rem solid ${lightTheme.color.fontGray}`,
     borderRadius: '0.5rem',
     backgroundColor: `${lightTheme.color.mainGray}`,
   }),
-  ButtonContainer: styled(Box)({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-  }),
   Button: styled(Button)({
-    width: '20%',
-    height: '5rem' 
-  })
+    width: '5rem',
+    height: '2.5rem',
+    backgroundColor: `${lightTheme.color.fontDark}`,
+  }),
 };
+

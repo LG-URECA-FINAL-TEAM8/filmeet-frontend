@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/system';
 import LockIcon from '@mui/icons-material/Lock';
-import LikeBadge from './LikeBadge';
 import ReviewerBadge from './ReviewerBadge';
 import { useState, useEffect } from 'react';
 import { lightTheme } from '../../../styles/themes';
@@ -51,9 +50,7 @@ function LikeManagement() {
         id,
         title: movieTitle,
         reviewer: username,
-        likes: 0,
-        rating: 'N/A',
-        createdDate: createdAt,
+        createdDate: createdAt.split('T')[0],
       }));
       setMovies(enhancedMovies);
     }
@@ -92,10 +89,6 @@ function LikeManagement() {
                 <S.TableBodyCell>
                   <ReviewerBadge count={movie.reviewer} />
                 </S.TableBodyCell>
-                <S.TableBodyCell>
-                  <LikeBadge count={movie.likes} />
-                </S.TableBodyCell>
-                <S.TableBodyCell>{movie.rating}</S.TableBodyCell>
                 <S.TableBodyCell>{movie.createdDate}</S.TableBodyCell>
                 <S.TableBodyCell>
                   <S.LockIcon onClick={() => handleBlind(movie.id, blindReview)} />
@@ -124,7 +117,6 @@ const S = {
     gap: '1rem',
     padding: '1rem',
   }),
-
   TextField: styled(TextField)({
     height: '2rem',
     marginLeft: '6rem',
@@ -132,14 +124,12 @@ const S = {
       height: '3rem',
     },
   }),
-
   SearchBox: styled(Box)({
     width: '100%',
     maxWidth: '20rem',
     marginBottom: '0.5rem',
     marginLeft: '49rem',
   }),
-
   TableContainer: styled(TableContainer)({
     maxWidth: '81rem',
     width: '100%',
@@ -147,7 +137,6 @@ const S = {
     fontSize: '1rem',
     border: lightTheme.font.borderDefault,
   }),
-
   TableHeadCell: styled(TableCell)({
     fontFamily: lightTheme.font.fontSuitRegular,
     fontWeight: lightTheme.font.fontWeightBold,
@@ -155,20 +144,17 @@ const S = {
     color: lightTheme.color.fontBlack,
     textTransform: 'uppercase',
   }),
-
   TableBodyCell: styled(TableCell)({
     fontFamily: lightTheme.font.fontSuitRegular,
     fontWeight: lightTheme.font.fontWeightRegular,
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
   }),
-
   LockIcon: styled(LockIcon)({
     cursor: 'pointer',
     marginLeft: '0.2rem',
     color: lightTheme.color.fontGray,
   }),
-
   Pagination: styled(Pagination)({
     marginTop: '1rem',
   }),

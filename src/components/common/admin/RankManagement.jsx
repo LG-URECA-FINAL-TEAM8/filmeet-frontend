@@ -8,8 +8,7 @@ import {
   TableHead, 
   TableRow, 
   Paper, 
-  Pagination, 
-  Checkbox 
+  Pagination,
 } from '@mui/material';
 import { handleSearch, handlePageChange } from '../../../utils/admin/movieManagementUtils';
 import { useState, useEffect, useMemo } from 'react';
@@ -18,13 +17,11 @@ import { lightTheme } from '../../../styles/themes';
 import tableHeaders from '../../../data/admintableheaders';
 import { useAdminSelectMovies } from '../../../apis/admin/queries';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
-import useSelectionStore from '../../../store/admin/useSelectionStore';
 import RankTransferList from './RankTransferList';
 
 function RankManagement() {
   const { rankingManagement } = tableHeaders;
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
-  const { selectedMovies, addMovie, removeMovie, clearSelection } = useSelectionStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [submittedTerm, setSubmittedTerm] = useState('');
   const { data, isLoading, error } = useAdminSelectMovies({
@@ -46,14 +43,6 @@ function RankManagement() {
     }
   }, [movies]);
 
-  const handleCheckboxChangeTable = (movieId) => {
-    if (selectedMovies.includes(movieId)) {
-      removeMovie(movieId);
-    } else {
-      addMovie(movieId);
-    }
-  };
-
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생: {error.message}</div>;
   if (!movies.length) return <div>검색 결과가 없습니다.</div>;
@@ -74,21 +63,6 @@ function RankManagement() {
         <Table>
           <TableHead>
             <TableRow>
-              <S.TableHeadCell>
-                <Checkbox
-                  indeterminate={
-                    selectedMovies.length > 0 && selectedMovies.length < movies.length
-                  }
-                  checked={movies.length > 0 && selectedMovies.length === movies.length}
-                  onChange={() => {
-                    if (selectedMovies.length === movies.length) {
-                      clearSelection();
-                    } else {
-                      movies.forEach((movie) => addMovie(movie.id));
-                    }
-                  }}
-                />
-              </S.TableHeadCell>
               {Object.values(rankingManagement).map((header) => (
                 <S.TableHeadCell key={header}>{header}</S.TableHeadCell>
               ))}
@@ -97,12 +71,6 @@ function RankManagement() {
           <TableBody>
             {movies.map((movie) => (
               <TableRow key={movie.id}>
-                <S.TableBodyCell>
-                  <Checkbox
-                    checked={selectedMovies.includes(movie.id)}
-                    onChange={() => handleCheckboxChangeTable(movie.id)}
-                  />
-                </S.TableBodyCell>
                 <S.TableBodyCell>{movie.title}</S.TableBodyCell>
                 <S.TableBodyCell>{movie.likeCounts || 0}</S.TableBodyCell>
                 <S.TableBodyCell>
@@ -173,14 +141,14 @@ const S = {
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
     textTransform: 'uppercase',
-    padding: '8px 16px',
+    padding: '0.5rem 1rem',
   }),
   TableBodyCell: styled(TableCell)({
     fontFamily: lightTheme.font.fontSuitRegular,
     fontWeight: lightTheme.font.fontWeightRegular,
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
-    padding: '4px 16px',
+    padding: '1rem 1rem',
   }),
   Pagination: styled(Pagination)({
     marginTop: '1rem',

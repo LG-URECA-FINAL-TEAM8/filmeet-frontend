@@ -16,8 +16,6 @@ const tableHeaders = {
     likeManagement: {
       movieName: '영화 이름',
       reviewer: '작성자',
-      likeNum: '좋아요 수',
-      avgRating: '평점',
       createdDate: '작성일',
       action: '숨김',
     },
