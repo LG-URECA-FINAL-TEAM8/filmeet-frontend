@@ -13,6 +13,8 @@ import HotFeed from '../components/features/comments/HotFeed';
 import Title from '../components/features/main/title/Title';
 import useUserStore from '../store/user/userStore';
 import { MainBody } from '../styles/main/main';
+import { Carousel } from 'antd'; // Ant Design Carousel 추가
+import 'antd/dist/reset.css';   // Ant Design 기본 스타일 적용
 
 function Main() {
   const userId = useUserStore((state) => state.userInfo?.id);
@@ -28,6 +30,13 @@ function Main() {
   const TopTenData = TopTen?.data || [];
   const ReviewData = HotReview?.data?.content || [];
   const RandomGenreData = RandomGenre?.data?.content || [];
+
+  // Carousel에 표시할 이미지 데이터
+  const carouselImages = [
+    '/assets/Kingdom.svg',
+    '/assets/hidden.svg',
+    '/assets/DP2.svg'
+  ];
 
   const movieSections = [
     userId
@@ -60,6 +69,37 @@ function Main() {
   return (
     <>
       <MainBody>
+        {/* Carousel Section */}
+        <Carousel autoplay>
+          {carouselImages.map((image, index) => (
+            <div key={index} style={{ position: 'relative' }}>
+              {/* Gradient Overlay */}
+              <div
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  left: 0,
+                  top: 0,
+                  zIndex: 2,
+                  backgroundImage: 'linear-gradient(to right, #000 0%, rgba(0, 0, 0, 0.25) 25%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.25) 75%, #000 100%)',
+                }}
+              ></div>
+              {/* Carousel Image */}
+              <img
+                src={image}
+                alt={`carousel-${index}`}
+                style={{
+                  width: '100%',
+                  height: '400px',
+                  objectFit: 'cover',
+                }}
+              />
+            </div>
+          ))}
+        </Carousel>
+
+        {/* Movie Sections */}
         {movieSections.map(({ title, component }, index) => (
           <React.Fragment key={index}>
             <Title>{title}</Title>
