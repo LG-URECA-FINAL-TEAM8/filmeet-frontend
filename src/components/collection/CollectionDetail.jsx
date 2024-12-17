@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAddComment, useFetchComments } from '../../apis/myPage/collection/queries';
-import SvgComment from '../../assets/svg/comment';
+import SvgComment from '../../assets/svg/Comment';
 import SvgIcLikeFilled24 from '../../assets/svg/IcLikeFilled24';
 import SvgOption from '../../assets/svg/Option';
 import useCollectionsDeleteStore from '../../store/collections/useCollectionsDeleteStore';
@@ -50,9 +50,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
   const { openEditModal } = useCommentsStore();
 
   // React Query Hooks
-  const { data: comments = [], isLoading: isCommentsLoading } = useFetchComments(
-    collectionData?.collectionId
-  );
+  const { data: comments = [] } = useFetchComments(collectionData?.collectionId);
   const { mutate: addCommentMutation, isLoading: isSubmittingComment } = useAddComment();
 
   const [commentContent, setCommentContent] = useState('');

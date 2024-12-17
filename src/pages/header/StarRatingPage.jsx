@@ -1,5 +1,5 @@
-import StarRatingBody from '../../components/StarRating/StarRatingBody';
-import StarRatingHeader from '../../components/StarRating/StarRatingHeader';
+import StarRatingBody from '../../components/starRating/StarRatingBody';
+import StarRatingHeader from '../../components/starRating/StarRatingHeader';
 import { StarRatingPageWrapper } from '../../styles/starrating/starrating';
 
 const StarRatingPage = () => {

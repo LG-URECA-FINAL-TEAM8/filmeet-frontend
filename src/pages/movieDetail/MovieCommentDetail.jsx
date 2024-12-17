@@ -1,4 +1,4 @@
-import TopHeader from '../../components/Common/back/TopHeader';
+import TopHeader from '../../components/common/back/TopHeader';
 import MovieMoreComment from '../../components/features/movieDetail/MovieMoreComment';
 import { CardContainer, CommentPageContainer } from '../../styles/comment/comment';
 import { useParams } from 'react-router-dom';
