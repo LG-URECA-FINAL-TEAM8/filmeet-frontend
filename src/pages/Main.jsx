@@ -1,18 +1,18 @@
 import React from 'react';
-import { MainBody } from '../styles/main/main';
-import Title from '../components/features/main/title/Title';
-import Poster from "../components/common/poster/Poster";
-import HotFeed from '../components/features/comments/HotFeed';
 import {
-  useUpcoming,
   useBoxOffice,
-  useTopTen,
-  useRecommendation,
   useRandomGenre,
+  useRecommendation,
+  useTopTen,
+  useUpcoming,
 } from '../apis/getMovies/queries';
 import { useHotReview } from '../apis/reviews/queries';
-import useUserStore from '../store/user/userStore';
 import Footer from '../components/common/footer/Footer';
+import Poster from "../components/common/poster/Poster";
+import HotFeed from '../components/features/comments/HotFeed';
+import Title from '../components/features/main/title/Title';
+import useUserStore from '../store/user/userStore';
+import { MainBody } from '../styles/main/main';
 
 function Main() {
   const userId = useUserStore((state) => state.userInfo?.id);
