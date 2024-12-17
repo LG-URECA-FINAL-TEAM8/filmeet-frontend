@@ -10,9 +10,10 @@ export default AvgRatingBadge;
 
 const S = {
   AvgRatingBadge: styled(Box) ({
-    width: '4rem',
+    width: '12rem',
     height: '2rem',
     borderRadius: '0.375rem',
+    whiteSpace: 'nowrap',
     textAlign: 'center',
     display: 'inline-flex',
     alignItems: 'center',
@@ -22,5 +23,8 @@ const S = {
     fontSize: '1rem',
     fontFamily: lightTheme.font.fontSuitRegular,
     fontWeight: lightTheme.font.fontWeightRegular,
+    position: 'relative',
+    top: '4px',
+    left: '-60px',
   })
 };

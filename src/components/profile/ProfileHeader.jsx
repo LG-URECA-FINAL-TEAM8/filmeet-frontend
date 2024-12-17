@@ -51,7 +51,7 @@ const ProfileHeader = ({ userInfo }) => {
         ))}
       </FollowStats>
       <FollowButton>Follow</FollowButton>
-      <Stats />
+      <Stats count={userInfo} />
     </>
   );
 };

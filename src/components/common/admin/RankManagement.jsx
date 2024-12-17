@@ -8,36 +8,45 @@ import {
   TableHead, 
   TableRow, 
   Paper, 
-  Pagination,
-  Checkbox
+  Pagination, 
+  Checkbox 
 } from '@mui/material';
-import { 
-  handleSearch, 
-  handlePageChange, 
-} from '../../../utils/admin/movieManagementUtils';
-import { useState } from 'react';
+import { handleSearch, handlePageChange } from '../../../utils/admin/movieManagementUtils';
+import { useState, useEffect, useMemo } from 'react';
 import { styled } from '@mui/system';
 import { lightTheme } from '../../../styles/themes';
 import tableHeaders from '../../../data/admintableheaders';
 import { useAdminSelectMovies } from '../../../apis/admin/queries';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useSelectionStore from '../../../store/admin/useSelectionStore';
+import RankTransferList from './RankTransferList';
 
 function RankManagement() {
   const { rankingManagement } = tableHeaders;
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
   const { selectedMovies, addMovie, removeMovie, clearSelection } = useSelectionStore();
-  const [ searchTerm, setSearchTerm ] = useState('');
-  const [ submittedTerm, setSubmittedTerm ] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [submittedTerm, setSubmittedTerm] = useState('');
   const { data, isLoading, error } = useAdminSelectMovies({
     page: currentPage,
     size: moviesPerPage,
     query: submittedTerm,
   });
-  const movies = data?.content || [];
-  const totalPages = data?.totalPages || 1
 
-  const handleCheckboxChange = (movieId) => {
+  const movies = useMemo(() => data?.content || [], [data]);
+  const totalPages = data?.totalPages || 1;
+
+  const [left, setLeft] = useState([]);
+  const [right, setRight] = useState([]);
+
+  // movies가 업데이트될 때만 left를 설정
+  useEffect(() => {
+    if (movies.length > 0) {
+      setLeft(movies);
+    }
+  }, [movies]);
+
+  const handleCheckboxChangeTable = (movieId) => {
     if (selectedMovies.includes(movieId)) {
       removeMovie(movieId);
     } else {
@@ -91,7 +100,7 @@ function RankManagement() {
                 <S.TableBodyCell>
                   <Checkbox
                     checked={selectedMovies.includes(movie.id)}
-                    onChange={() => handleCheckboxChange(movie.id)}
+                    onChange={() => handleCheckboxChangeTable(movie.id)}
                   />
                 </S.TableBodyCell>
                 <S.TableBodyCell>{movie.title}</S.TableBodyCell>
@@ -117,6 +126,12 @@ function RankManagement() {
         count={totalPages}
         page={currentPage}
         onChange={(event, value) => handlePageChange(value, setCurrentPage)}
+      />
+      <RankTransferList
+        leftItems={left}
+        setLeftItems={setLeft}
+        rightItems={right}
+        setRightItems={setRight}
       />
     </S.Container>
   );
@@ -158,12 +173,14 @@ const S = {
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
     textTransform: 'uppercase',
+    padding: '8px 16px',
   }),
   TableBodyCell: styled(TableCell)({
     fontFamily: lightTheme.font.fontSuitRegular,
     fontWeight: lightTheme.font.fontWeightRegular,
     fontSize: '1rem',
     color: lightTheme.color.fontBlack,
+    padding: '4px 16px',
   }),
   Pagination: styled(Pagination)({
     marginTop: '1rem',

@@ -2,65 +2,81 @@ import styled from "styled-components";
 import SvgPencil from "../../assets/svg/Pencil";
 import SvgDelete from "../../assets/svg/Delete";
 import useCommentStore from "../../store/modal/useCommentStore";
-import { pagecontents } from "../../data/pagecontents"
+import { pagecontents } from "../../data/pagecontents";
 import { useNavigate } from "react-router-dom";
 import { createProfileClickHandler } from "../../utils/ratings/navigationHandlers";
-import { useLikesStore } from "../../store/comment/useLikesStore";
-import CommentEditModal from "../common/modal/CommentEditModal";
 import CommentDeleteModal from "../common/modal/CommentDeleteModal";
+import CommentEditModal from "../common/modal/CommentEditModal";
 
-const CommentHeader = ({ commentData }) => {
-  const navigate = useNavigate(); 
-  const { likes } = useLikesStore();
+const CommentHeader = ({ commentData, userInfo }) => {
+  const navigate = useNavigate();
   const { openModal } = useCommentStore();
-  const commentLikes = likes[commentData.id] || { count: 0, isLiked: false };
-  const { likeComment, comment, count, edit, deleteText } = pagecontents.commentPageContent;
-
+  const isAuthor = commentData?.nickName === userInfo?.nickname;
+  const formattedDate = commentData?.createdAt?.slice(0, 10);
+  const { likeComment, comment, edit, deleteText } = pagecontents.commentPageContent
+  
   const handleProfileClick = createProfileClickHandler(navigate, "/mypage");
-
+  
   const handleEditClick = () => {
-    openModal("edit", commentData); 
+    openModal("edit", commentData);
   };
 
   const handleDeleteClick = () => {
-    openModal("deleteCommentary"); 
+    openModal("deleteCommentary", commentData);
   };
 
-return (
-  <>
-    <S.Header>
-      <S.MainContent>
-        <S.LeftContent>
-          <S.UserInfo>
-            <S.UserDetails>
-              <S.UserProfile src={commentData.userImage} alt={commentData.userName} onClick={handleProfileClick} />
-              <S.UserName onClick={handleProfileClick}>{commentData.userName}</S.UserName>
-              <S.CommentTime>{commentData.time}</S.CommentTime>
-            </S.UserDetails>
-          </S.UserInfo> 
-          <S.MovieDetails>
-            <S.MovieTitle>{commentData.title} ({commentData.year})</S.MovieTitle>
-            <S.MovieGenre>{commentData.genre}</S.MovieGenre>
-          </S.MovieDetails>
-        </S.LeftContent>
-          <S.MoviePoster src={commentData.image} alt={commentData.title} />
-      </S.MainContent>
-          <S.Content>{commentData.comment}</S.Content>
+  return (
+    <>
+      <S.Header>
+        <S.MainContent>
+          <S.LeftContent>
+            <S.UserInfo>
+              <S.UserDetails>
+                <S.UserProfile
+                  src={commentData?.profileImage}
+                  alt={commentData?.nickName}
+                  onClick={handleProfileClick}
+                />
+                <S.UserName onClick={handleProfileClick}>
+                  {commentData?.nickName}
+                </S.UserName>
+                <S.CommentTime>{formattedDate}</S.CommentTime> {/* 수정: createdAt -> formattedDate */}
+              </S.UserDetails>
+            </S.UserInfo>
+            <S.MovieDetails>
+              <S.MovieTitle>
+                {commentData?.movieTitle} ({commentData?.movieReleaseDate?.slice(0, 4)})
+              </S.MovieTitle>
+              <S.MovieGenre>{commentData?.genre}</S.MovieGenre>
+            </S.MovieDetails>
+          </S.LeftContent>
+          <S.MoviePoster src={commentData?.posterUrl} alt={commentData?.movieTitle} />
+        </S.MainContent>
+        <S.Content>{commentData?.content}</S.Content>
         <S.ActionRow>
           <S.ActionText>
-            {likeComment} {commentLikes.count} {comment} {count}
+            {likeComment} {commentData?.likeCounts} {comment} {commentData?.commentCounts}
           </S.ActionText>
-          <S.ActionButtons>
-            <S.EditButton onClick={handleEditClick}><SvgPencil/>{edit}</S.EditButton>
-            <S.DeleteButton onClick={handleDeleteClick}><SvgDelete/>{deleteText}</S.DeleteButton>
-          </S.ActionButtons>
+          {isAuthor && (
+            <S.ActionButtons>
+              <S.EditButton onClick={handleEditClick}>
+                <SvgPencil />
+                {edit}
+              </S.EditButton>
+              <S.DeleteButton onClick={handleDeleteClick}>
+                <SvgDelete />
+                {deleteText}
+              </S.DeleteButton>
+            </S.ActionButtons>
+          )}
         </S.ActionRow>
-    </S.Header>
-    <CommentEditModal/>
-    <CommentDeleteModal/>
-  </>
+      </S.Header>
+      <CommentEditModal />
+      <CommentDeleteModal />
+    </>
   );
 };
+
 
 const S = {
 

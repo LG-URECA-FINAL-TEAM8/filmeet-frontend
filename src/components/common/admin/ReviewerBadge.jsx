@@ -8,7 +8,7 @@ function ReviewerBadge({ count }) {
 
 export default ReviewerBadge;
 
-const S={
+const S = {
   ReviewerBadge: styled(Box) ({
     width: '10rem',
     height: '2rem',

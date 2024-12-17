@@ -1,5 +1,5 @@
 import { useGenreMovies } from '../../apis/getMovies/queries';
-import Poster from '../../components/Common/poster/Poster';
+import Poster from '../../components/common/poster/Poster';
 import { MainBody } from '../../styles/main/main';
 import Title from '../../components/features/main/title/Title';
 import genresText from '../../data/main/text';

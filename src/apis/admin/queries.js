@@ -7,6 +7,7 @@ import { reviewBlind } from './reviewBlind';
 import { editMovie } from './editMovie';
 import { uploadPoster } from "./uploadPoster";
 import { deleteMovie } from './deleteMovie';
+import { movieRecommend } from './movieRecommend';
 
 export const useAdminSearchMovies = (searchTerm) => {
   return useQuery({
@@ -110,6 +111,22 @@ export const useAdminDeleteMovie = () => {
     onError: (error) => {
       console.error('영화 삭제 실패:', error);
       alert('영화 삭제 중 오류가 발생했습니다.');
+    },
+  });
+};
+
+export const useAdminMovieRecommend = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: movieRecommend,
+    onSuccess: () => {
+      alert("추천 영화가 성공적으로 업데이트되었습니다.");
+      queryClient.invalidateQueries(["recommendedMovies"]);
+    },
+    onError: (error) => {
+      console.error("추천 영화 업데이트 실패:", error.message);
+      alert("추천 영화 업데이트에 실패했습니다.");
     },
   });
 };

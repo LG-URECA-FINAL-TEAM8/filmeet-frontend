@@ -40,13 +40,13 @@ function AddMovie() {
         id: movie.id || `${movie.title}-${index}`,
         title: movie.title,
         titleEng: movie.titleEng || "",
-        repRlsDate: movie.repRlsDate || null,
+        repRlsDate: movie.repRlsDate || "",
         staffs: movie.staffs || [],
         nation: movie.nation || "",
         plots: movie.plots || [],
         runtime: movie.runtime || "",
-        rating: movie.rating || "N/A",
-        genre: movie.genre || "N/A",
+        rating: movie.rating || "미정",
+        genre: movie.genre || "미정",
         posters: movie.posters || [],
       };
     });
