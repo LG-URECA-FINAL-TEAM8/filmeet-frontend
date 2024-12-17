@@ -13,12 +13,14 @@ import { useFollowCount } from '../../apis/myPage/queries';
 import LogoutModal from '../common/modal/LogoutModal';
 import { useState } from 'react';
 import { useUserInfo } from '../../apis/users/queries';
+import { useAddFollow } from '../../apis/follow/query';
 
 const ProfileHeader = ({ userInfo, userId }) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const { data: result, isLoading } = useFollowCount(userId);
   const { data: loginUser } = useUserInfo();
+  const { mutate: addFollow } = useAddFollow();
   const followData = result?.data;
   const loginUserData = loginUser?.data?.id;
 
@@ -28,7 +30,9 @@ const ProfileHeader = ({ userInfo, userId }) => {
       { label: 'Following', count: followData?.followingCount || 0, path: '/followings' },
     ],
   };
-
+  const handleAddFollow = () => {
+    addFollow({ userId });
+  };
   const handleNavigate = (path) => {
     navigate(path);
   };
@@ -54,7 +58,11 @@ const ProfileHeader = ({ userInfo, userId }) => {
           </div>
         ))}
       </FollowStats>
-      <FollowButton disabled={String(loginUserData) === String(userId)}>Follow</FollowButton>{' '}
+      <FollowButton
+        disabled={String(loginUserData) === String(userId)}
+        onClick={() => handleAddFollow()}>
+        Follow
+      </FollowButton>{' '}
       <Stats count={userInfo} />
     </>
   );
