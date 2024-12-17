@@ -28,16 +28,8 @@ const CollectionsLabel = {
 
 const CollectionDetail = ({ collectionData, movies, userInfo }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const {
-    setSelectedCollection,
-    toggleLike,
-    toggleCancelLike,
-    initializeLikeStatus,
-    collectionDetail,
-    liking,
-  } = useCollectionsStore();
+  const { setSelectedCollection, toggleLike, toggleCancelLike, collectionDetail, liking } =
+    useCollectionsStore();
 
   const isAuthor = collectionData?.userId === userInfo?.id;
   // 좋아요 상태 및 카운트는 store에서 직접 가져옴
@@ -55,13 +47,6 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
 
   const [commentContent, setCommentContent] = useState('');
   const [openCommentMenu, setOpenCommentMenu] = useState(null);
-
-  useEffect(() => {
-    if (collectionData) {
-      initializeLikeStatus(collectionData.isLiked || false, collectionData.likeCounts || 0);
-    }
-    closeMenu();
-  }, [location, closeMenu, collectionData, initializeLikeStatus]);
 
   const handleEditClick = () => {
     setSelectedCollection(collectionData);
