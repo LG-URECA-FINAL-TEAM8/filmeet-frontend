@@ -1,36 +1,23 @@
-import styled from 'styled-components';
-import { useEffect } from 'react';
-
-import { useFollowStore } from '../../store/follow/followStore';
+import * as S from '../../styles/follow/follow';
 import { useFollowings } from '../../apis/myPage/follow/queries';
 
 const FollowingList = ({ userId }) => {
-  const { followStates, initializeFollowStates, toggleFollow } = useFollowStore();
   const { data, isLoading, error } = useFollowings(userId);
 
-  useEffect(() => {
-    if (data?.content) {
-      initializeFollowStates(data.content.map(() => true)); // 초기 팔로잉 상태 설정
-    }
-  }, [data, initializeFollowStates]);
-
-  // 로딩 상태 처리
   if (isLoading) {
     return <div>로딩 중...</div>;
   }
 
-  // 에러 처리
   if (error) {
     console.error('Error fetching followings:', error);
     return <div>오류가 발생했습니다: {error.message}</div>;
   }
 
-  // 데이터 추출
-  const followings = data?.content || [];
+  const followings = data?.data?.content || [];
 
   return (
     <S.ListWrapper>
-      {followings.map((following, index) => (
+      {followings.map((following) => (
         <S.ListItem key={following.id}>
           <S.AvatarWrapper>
             <S.Avatar
@@ -40,12 +27,7 @@ const FollowingList = ({ userId }) => {
           </S.AvatarWrapper>
           <S.InfoWrapper>
             <S.Name>{following.nickname}</S.Name>
-            <S.FollowButton
-              isFollowing={followStates[index]}
-              onClick={() => toggleFollow(index)} // 팔로우 상태 토글
-            >
-              {followStates[index] ? '팔로잉' : '팔로우'}
-            </S.FollowButton>
+            <S.FollowButton>취소</S.FollowButton>
           </S.InfoWrapper>
         </S.ListItem>
       ))}
@@ -54,69 +36,3 @@ const FollowingList = ({ userId }) => {
 };
 
 export default FollowingList;
-
-const S = {
-  ListWrapper: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    list-style: none;
-    padding: 1rem 0 0 0;
-    margin: 0;
-  `,
-  ListItem: styled.li`
-    width: 100%;
-    max-width: 38rem;
-    height: 6.5rem;
-    display: flex;
-    align-items: center;
-    padding: 0 0.5rem;
-  `,
-  AvatarWrapper: styled.div`
-    width: 4.4rem;
-    height: 4.4rem;
-    margin-right: 0.4rem;
-  `,
-  Avatar: styled.img`
-    width: 4.4rem;
-    height: 4.4rem;
-    border-radius: 50%;
-  `,
-  InfoWrapper: styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 6.5rem;
-    border-bottom: ${(props) => props.theme.font.borderDefault};
-  `,
-  Name: styled.div`
-    width: 28rem;
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-    font-size: 1rem;
-    margin: 0 0 0.1rem;
-    padding: 0 0.6rem 0 0;
-  `,
-  FollowButton: styled.button`
-    width: 4rem;
-    height: 18rem;
-    padding: 0 0.7rem;
-    border: none;
-    border-radius: 1.25rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-
-    color: ${(props) =>
-      props.isFollowing ? props.theme.color.fontGray : props.theme.color.fontPink};
-    background-color: ${(props) =>
-      props.isFollowing ? props.theme.color.mainColor : '#ffe0e9'};
-
-    &:hover {
-      background-color: ${(props) =>
-        props.isFollowing ? '#ffe0e9' : props.theme.color.fontPink};
-      color: ${(props) => (props.isFollowing ? props.theme.color.fontPink : '#fff')};
-    }
-  `,
-};
