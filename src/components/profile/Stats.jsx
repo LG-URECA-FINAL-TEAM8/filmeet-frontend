@@ -11,8 +11,8 @@ const Stats = ({ count }) => {
   const navigate = useNavigate();
 
   const stats = [
-    { count: count?.reviewCount, label: '평가', path: '/mypage/ratings' },
-    { count: count?.movieRatingCount, label: '코멘트', path: '/mypage/comments' },
+    { count: count?.movieRatingCount, label: '평가', path: '/mypage/ratings' },
+    { count: count?.reviewCount, label: '코멘트', path: '/mypage/comments' },
     { count: count?.totalCollections, label: '컬렉션', path: '/mypage/collections' },
   ];
 

@@ -2,8 +2,8 @@ import { postRefresh } from '../../users/user';
 
 let accessToken = localStorage.getItem('accessToken');
 
-export const getMovieRatings = async (userId, page = 0, size = 10, sort = 'createdAt,asc') => {
-  const url = `${import.meta.env.VITE_API_BASE_URL}/users/${userId}/movies/ratings?page=${page}&size=${size}&sort=${sort}`;
+export const getMovieRatings = async (userId) => {
+  const url = `${import.meta.env.VITE_API_BASE_URL}/users/${userId}/movies/ratings?page=&size=200&sort=createdAt,asc`;
 
   let response = await fetch(url, {
     method: 'GET',
