@@ -194,7 +194,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
               </S.CommentLeft>
               <S.CommentTimeAndMenu>
                 <S.CommentTime>{new Date(comment.createdAt).toLocaleString()}</S.CommentTime>
-                {comment?.userId === userInfo?.id && ( // 작성자일 때만 표시
+                {comment?.commentUserId === userInfo?.id && ( // 작성자일 때만 표시
                   <>
                     <S.StyledCommentMenuIcon onClick={() => toggleCommentMenu(index)} />
                     {openCommentMenu === index && (
