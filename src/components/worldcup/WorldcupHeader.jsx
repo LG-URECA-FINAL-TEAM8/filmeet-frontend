@@ -1,7 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const WorldcupHeader = ({ totalRounds, subtitle = "선호하는 영화를 선택해주세요", round = "강" }) => {
-  const roundText = totalRounds === 2 ? "결승" : `${totalRounds}${round}`;
+const WorldcupHeader = ({
+  totalRounds,
+  subtitle = '선호하는 영화를 선택해주세요',
+  round = '강',
+}) => {
+  const roundText = totalRounds === 2 ? '결승' : `${totalRounds}${round}`;
 
   return (
     <S.HeaderContainer>
@@ -23,7 +27,7 @@ const S = {
   `,
 
   Title: styled.h1`
-    margin: 0.5rem 0;
+    margin: 3rem 0;
     font-size: 2rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     color: ${(props) => props.theme.color.fontBlack};

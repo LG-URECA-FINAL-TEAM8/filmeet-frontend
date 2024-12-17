@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const WorldcupFooter = () => {
-  const footerText = "당신의 영화 취향을 찾고있어요!";
+  const footerText = '당신의 영화 취향을 찾고있어요!';
 
   return <S.Footer>{footerText}</S.Footer>;
 };
@@ -11,7 +11,7 @@ export default WorldcupFooter;
 const S = {
   Footer: styled.footer`
     width: 100%;
-    height: 300px;
+    height: 20rem;
     text-align: center;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     font-size: 1rem;
