@@ -50,9 +50,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
   const { openEditModal } = useCommentsStore();
 
   // React Query Hooks
-  const { data: comments = [], isLoading: isCommentsLoading } = useFetchComments(
-    collectionData?.collectionId
-  );
+  const { data: comments = [] } = useFetchComments(collectionData?.collectionId);
   const { mutate: addCommentMutation, isLoading: isSubmittingComment } = useAddComment();
 
   const [commentContent, setCommentContent] = useState('');
