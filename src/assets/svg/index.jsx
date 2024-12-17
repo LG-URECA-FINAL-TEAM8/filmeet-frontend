@@ -1,5 +1,6 @@
 export { default as CastDefault } from './CastDefault';
 export { default as Circle } from './Circle';
+export { default as Clapperboard } from './Clapperboard';
 export { default as Comment } from './Comment';
 export { default as DefaultProfile } from './DefaultProfile';
 export { default as Delete } from './Delete';
@@ -10,3 +11,4 @@ export { default as NaverLogo } from './NaverLogo';
 export { default as Option } from './Option';
 export { default as Pencil } from './Pencil';
 export { default as Search } from './Search';
+export { default as Star } from './Star';

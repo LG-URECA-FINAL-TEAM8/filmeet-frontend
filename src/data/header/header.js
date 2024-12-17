@@ -1,6 +1,6 @@
 export const HEADER_BUTTONS = [
   { title: '홈', route: '/' },
-  { title: '탐색', route: '/explore' },
+  { title: '게임', route: '/worldcup' },
   { title: '장르별', route: 'movie/genre' },
 ];
 
