@@ -6,7 +6,7 @@ const GameStartButton = ({ onClick, isLoading }) => {
   return (
 <S.ButtonContainer>
   <S.Title>FILMEET</S.Title>
-  <S.Subtitle>A WORLD CUP-STYLE GAME</S.Subtitle>
+  <S.Subtitle>THE MOVIE WORLD CUP</S.Subtitle>
   <S.RoundContainer>
     <S.IconWrapper>
       <SvgClapperboard width="8rem" height="8rem" />
@@ -38,7 +38,7 @@ const S = {
 
   Subtitle: styled.p`
     font-size: 1.2rem;
-    color: ${(props) => props.theme.color.fontDark};
+    color: ${(props) => props.theme.color.fontGray};
     margin-top: 2rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
   `,

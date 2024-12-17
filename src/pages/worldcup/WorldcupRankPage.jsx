@@ -102,7 +102,7 @@ const S = {
 
   ProgressBarWrapper: styled.div`
     width: 100%;
-    background-color: ${(props) => props.theme.color.fontWhite};
+    background-color: ${(props) => props.theme.color.commentColor};
     border: 1px solid ${(props) => props.theme.color.fontGray};
     border-radius: 0.75rem;
     position: relative;
@@ -127,7 +127,7 @@ const S = {
     left: 1rem;
     transform: translateY(-50%);
     font-size: 0.9rem;
-    color: ${(props) => props.theme.color.fontWhite};
+    color: ${(props) => props.theme.color.fontBlack};
     font-family: ${(props) => props.theme.font.fontSuitBold};
   `,
 };
