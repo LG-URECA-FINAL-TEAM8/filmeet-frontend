@@ -3,6 +3,11 @@ import { Box, List, ListItem, ListItemText, Checkbox, Button, Typography } from 
 import { styled } from '@mui/system';
 import { lightTheme } from '../../../styles/themes';
 import { useAdminMovieRecommend } from '../../../apis/admin/queries';
+import {
+  handleToggle,
+  moveToRight,
+  moveToLeft
+} from '../../../utils/admin/rankTransferListUtils';
 
 function RankTransferList({ leftItems, setLeftItems, rightItems, setRightItems }) {
   const [leftChecked, setLeftChecked] = useState([]);
@@ -12,31 +17,6 @@ function RankTransferList({ leftItems, setLeftItems, rightItems, setRightItems }
     moveToRight: '추가',
     moveToLeft: '제거',
     update: '저장',
-  };
-
-  const handleToggle = (value, checkedList, setCheckedList) => {
-    const currentIndex = checkedList.indexOf(value);
-    const newChecked = [...checkedList];
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setCheckedList(newChecked);
-  };
-
-  const moveToRight = () => {
-    const selected = leftItems.filter((item) => leftChecked.includes(item.id));
-    setRightItems([...rightItems, ...selected]);
-    setLeftItems(leftItems.filter((item) => !leftChecked.includes(item.id)));
-    setLeftChecked([]);
-  };
-
-  const moveToLeft = () => {
-    const selected = rightItems.filter((item) => rightChecked.includes(item.id));
-    setLeftItems([...leftItems, ...selected]);
-    setRightItems(rightItems.filter((item) => !rightChecked.includes(item.id)));
-    setRightChecked([]);
   };
 
   const handleUpdate = () => {
@@ -71,10 +51,24 @@ function RankTransferList({ leftItems, setLeftItems, rightItems, setRightItems }
         {customList('후보', leftItems, leftChecked, setLeftChecked)}
       </S.TransferContainer>
       <S.ButtonContainer>
-        <S.Button variant="contained" onClick={moveToRight}>
+        <S.Button variant="contained" onClick={() => moveToRight(
+          leftItems, 
+          leftChecked, 
+          setRightItems, 
+          setLeftItems, 
+          setLeftChecked, 
+          rightItems
+        )}>
           {buttonText.moveToRight}
         </S.Button>
-        <S.Button variant="contained" onClick={moveToLeft}>
+        <S.Button variant="contained" onClick={() => moveToLeft(
+          rightItems, 
+          rightChecked, 
+          setLeftItems, 
+          setRightItems, 
+          setRightChecked, 
+          leftItems
+        )}>
           {buttonText.moveToLeft}
         </S.Button>
       </S.ButtonContainer>
@@ -140,4 +134,3 @@ const S = {
     backgroundColor: `${lightTheme.color.fontDark}`,
   }),
 };
-
