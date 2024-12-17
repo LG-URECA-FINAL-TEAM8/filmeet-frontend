@@ -59,12 +59,12 @@ const S = {
     align-items: center;
     text-align: center;
     gap: 0.5rem; /* 카드와 별점/제목 사이 간격 */
-    margin-bottom: 1rem;
+    margin:1rem 0 1rem 0;
   `,
 
   StyledCard: styled(Card)`
-    width: 25rem;
-    height: 35rem;
+    width: 20rem;
+    height: 30rem;
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 0.25rem 0.37rem rgba(0, 0, 0, 0.1);
@@ -84,7 +84,7 @@ const S = {
   `,
 
   StyledImage: styled.img`
-    height: 28rem;
+    height: 24rem;
     object-fit: cover;
   `,
 
@@ -97,7 +97,7 @@ const S = {
 
   CardTitle: styled.h3`
     display: flex;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-family: ${(props) => props.theme.font.fontSuitBold};
     margin: 0;
   `,

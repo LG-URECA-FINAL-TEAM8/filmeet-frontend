@@ -14,7 +14,7 @@ const S = {
     height: 300px;
     text-align: center;
     font-family: ${(props) => props.theme.font.fontSuitBold};
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: ${(props) => props.theme.font.fontWeightMedium};
     background-color: ${(props) => props.theme.color.commentColor};
     color: ${(props) => props.theme.color.fontPink};
