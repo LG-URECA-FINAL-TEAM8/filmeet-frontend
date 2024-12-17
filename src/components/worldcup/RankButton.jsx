@@ -36,7 +36,7 @@ const S = {
   
       &:hover {
         background-color: ${(props) =>
-          props.isLoading ? "#ccc" : props.theme.color.generePinkColor};
+          props.isLoading ? "#ccc" : props.theme.color.fontPink};
       }
     `,
   };

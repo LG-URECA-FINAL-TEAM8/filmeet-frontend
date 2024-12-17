@@ -9,7 +9,7 @@ const GameStartButton = ({ onClick, isLoading }) => {
   <S.Subtitle>A WORLD CUP-STYLE GAME</S.Subtitle>
   <S.RoundContainer>
     <S.IconWrapper>
-      <SvgClapperboard width="6rem" height="6rem" />
+      <SvgClapperboard width="8rem" height="8rem" />
     </S.IconWrapper>
   </S.RoundContainer>
   <S.ButtonGroup>
@@ -50,37 +50,8 @@ const S = {
     gap: 4rem; /* 아이콘과 텍스트 사이 간격 */
   `,
 
-  TextContainer: styled.div`
-    display: flex;
-    flex-direction: column; /* 텍스트 수직 정렬 */
-    align-items: center; /* 가운데 정렬 */
-    justify-content: center; /* 상하 정렬 */
-    margin-top: 2rem;
-  `,
-
-  RoundText: styled.p`
-    font-family: ${(props) => props.theme.font.fontSuitBold};
-    font-size: 2rem;
-    color: ${(props) => props.theme.color.fontGray};
-    margin: 0 0 0.5rem 0;
-  `,
-
-  SubText: styled.p`
-    font-size: 1.2rem;
-    color: ${(props) => props.theme.color.fontDark};
-    margin: 0;
-    line-height: 1.6; /* 줄 간격 일정하게 */
-    text-align: center; /* 텍스트 가운데 정렬 */
-    font-family: ${(props) => props.theme.font.fontSuitRegular};
-  `,
-
-  Highlight: styled.span`
-    color: ${(props) => props.theme.color.fontPink};
-    font-weight: bold;
-    font-family: ${(props) => props.theme.font.fontSuitBold};
-  `,
-
   IconWrapper: styled.div`
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,16 +62,17 @@ const S = {
     justify-content: center; /* 버튼을 가운데 정렬 */
     align-items: center;
     gap: 2rem; /* 버튼 사이 간격 설정 */
-    margin-top: 3rem; /* 버튼 그룹 위 여백 */
+    margin-top: 5rem; /* 버튼 그룹 위 여백 */
   `,
 
   Button: styled.button`
     width: 9rem;
     padding: 1rem 1rem;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
     font-size: 1.5rem;
     background-color: ${(props) =>
       props.isLoading ? "#ccc" : props.theme.color.fontPink};
-    color: #fff;
+    color: ${(props) => props.theme.color.fontWhite};
     border: none;
     border-radius: 0.7rem;
     cursor: ${(props) => (props.isLoading ? "not-allowed" : "pointer")};

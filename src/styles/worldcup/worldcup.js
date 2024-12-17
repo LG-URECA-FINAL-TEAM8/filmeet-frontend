@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const PageWrapper = styled.div`
-  padding: 2rem;
-  background-color: ${(props) => props.theme.color.commentColor};
+  padding: 0 0 4rem 0;
+  background-color: ${(props) => props.theme.color.mainColor};
   height: 84vh;
   overflow: hidden;
 `;
@@ -33,14 +33,15 @@ export const WinnerPageWrapper = styled.div`
 export const ButtonContainer = styled.div`
     display: flex;
     flex-direction: column; 
-    align-items: center; 
-    height: 450px;
+    align-items: center;
+    width: 100%;
+    height: 100%;
     gap: 2rem; 
-    margin: 40px 700px;
-    padding: 50px 10px 50px 10px;
-    border-radius: 30px;
-    background-color: #D9D9D9;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+    padding: 100px 10px 50px 10px;
+    border-radius: 10px;
+    background-color: ${(props) => props.theme.color.commentColor};
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
   `;
 
 export const Title = styled.div`

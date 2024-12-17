@@ -45,6 +45,7 @@ const S = {
     justify-content: center;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
 
     &:hover {
       transform: scale(1.1);
