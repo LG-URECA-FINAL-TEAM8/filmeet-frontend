@@ -27,7 +27,6 @@ const pageComponents = {
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieCommentAll: () => import('../pages/movieDetail/MovieCommentDetail'),
   AdminPage: () => import('../pages/admin/AdminPage'),
-  AdminLoginPage: () => import('../pages/admin/AdminLoginPage'),
   Bin: () => import('../components/common/bin/Bin'),
   Policy: () => import('../pages/policy/Policy'),
 };
@@ -109,7 +108,6 @@ const routes = [
     path: '/admin',
     children: [
       { index: true, element: createLazyComponent(pageComponents.AdminPage) },
-      { path: 'login', element: createLazyComponent(pageComponents.AdminLoginPage) },
     ],
     errorElement: <ErrorPage />,
   },
