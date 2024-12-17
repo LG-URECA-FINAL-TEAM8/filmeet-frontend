@@ -32,7 +32,7 @@ function Main() {
   const movieSections = [
     userId
       ? {
-          title: '개인 추천 영화.',
+          title: '개인 추천 영화',
           component: <Poster caseType={1} movies={RecommendedData} />,
         }
       : {
