@@ -33,7 +33,7 @@ function Header() {
           <>
             <Button onClick={() => navigate('/notifications')}>알림</Button>
             <Button onClick={() => navigate('/review')}>평가하기</Button>
-            <S.MyButton onClick={() => navigate('/mypage')}>
+            <S.MyButton onClick={() => navigate(`/mypage/${userInfo.id}`)}>
               <S.ProfileImg
                 src={userInfo?.profileImage || 'https://via.placeholder.com/40'}
                 alt="프로필 이미지"

@@ -1,17 +1,13 @@
 import { useEffect } from 'react';
-import { useUserInfo } from '../../../apis/users/queries';
 import CollectionList from '../../../components/collection/CollectionList';
 import CollectionsOverview from '../../../components/collection/CollectionsOverview';
 import useCollectionsStore from '../../../store/collections/useCollectionsStore';
 import { CollectionPageWrapper } from '../../../styles/collectionspage/collections';
+import { useParams } from 'react-router-dom';
 
 const CollectionsPage = () => {
-  const { data: userInfo } = useUserInfo();
-  const userId = userInfo?.data?.id;
-
-  const { collections, fetchCollections, isLoading, error } =
-    useCollectionsStore();
-
+  const { userId } = useParams();
+  const { collections, fetchCollections, isLoading, error } = useCollectionsStore();
   // 서버에서 컬렉션 데이터 가져오기
   useEffect(() => {
     if (userId) {
@@ -30,7 +26,7 @@ const CollectionsPage = () => {
   return (
     <CollectionPageWrapper>
       <CollectionsOverview />
-      <CollectionList collections={collections}/>
+      <CollectionList collections={collections} />
     </CollectionPageWrapper>
   );
 };

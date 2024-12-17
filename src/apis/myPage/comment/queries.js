@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUserComments } from './comment';
 
-export const useUserComments = (userId, page = 0, size = 10, sort = 'createdAt,desc') => {
+export const useUserComments = (userId) => {
   return useQuery({
-    queryKey: ['userComments', page, size, sort],
-    queryFn: () => getUserComments(userId, page, size, sort),
+    queryKey: ['userComments', userId],
+    queryFn: () => getUserComments(userId),
     refetchOnWindowFocus: false,
+    enabled: !!userId,
   });
 };

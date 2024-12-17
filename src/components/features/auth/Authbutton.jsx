@@ -9,7 +9,7 @@ import { registerToken } from '../../../firebase/registerToken';
 const AuthButton = ({ value, userData, disabled }) => {
   const { mutate: signupMutate } = useSignUp();
   const { mutate: loginMutate } = useLogin();
-  const { isLoggedIn } = useLoginStore();
+  const { isLoggedIn, setLoggedIn } = useLoginStore();
   const { setCode } = useErrorStore();
   const { refetch: refetchUserInfo } = useUserInfo();
 
@@ -26,6 +26,7 @@ const AuthButton = ({ value, userData, disabled }) => {
       refetchUserInfo,
       setCode,
       isLoggedIn,
+      setLoggedIn,
       registerToken
     );
   };

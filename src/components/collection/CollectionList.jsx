@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import NoResult from "./NoResult";
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import NoResult from './NoResult';
 
 const CollectionList = ({ collections }) => {
   const navigate = useNavigate();
 
   const CollectionsLabel = {
-    Like: "좋아요",
-    Comment: "댓글",
+    Like: '좋아요',
+    Comment: '댓글',
   };
 
   if (!collections || collections.length === 0) {
@@ -27,35 +27,23 @@ const CollectionList = ({ collections }) => {
           return (
             <S.CollectionCard
               key={collection.collectionId}
-              onClick={() =>
-                navigate(`/mypage/collections/${collection.collectionId}`)
-              }
-            >
+              onClick={() => navigate(`/mypage/collections/detail/${collection.collectionId}`)}>
               <S.ImageSection>
                 <S.Image
-                  src={firstMovie.posterImage || "https://via.placeholder.com/640x260"}
-                  alt={firstMovie.title || ""}
+                  src={firstMovie.posterImage || 'https://via.placeholder.com/640x260'}
+                  alt={firstMovie.title || ''}
                 />
                 <S.Overlay>
                   <S.Profile>
-                    <S.ProfileImage
-                      src={collection.userProfileImage || ""}
-                      alt="Profile"
-                    />
-                    <S.ProfileName>
-                      {collection.nickname || ""}
-                    </S.ProfileName>
+                    <S.ProfileImage src={collection.userProfileImage || ''} alt="Profile" />
+                    <S.ProfileName>{collection.nickname || ''}</S.ProfileName>
                   </S.Profile>
                   <S.Badge>{movies.length}</S.Badge> {/* movies가 빈 배열일 경우 0 */}
                 </S.Overlay>
               </S.ImageSection>
               <S.CardContent>
-                <S.CollectionName>
-                  {collection.collectionTitle || ""}
-                </S.CollectionName>
-                <S.Description>
-                  {collection.collectionContent || ""}
-                </S.Description>
+                <S.CollectionName>{collection.collectionTitle || ''}</S.CollectionName>
+                <S.Description>{collection.collectionContent || ''}</S.Description>
               </S.CardContent>
               <S.CardActions>
                 <S.Action>
@@ -71,7 +59,7 @@ const CollectionList = ({ collections }) => {
       </S.ListContainer>
     </S.Wrapper>
   );
-}
+};
 
 export default CollectionList;
 
@@ -190,5 +178,3 @@ const S = {
     }
   `,
 };
-
-
