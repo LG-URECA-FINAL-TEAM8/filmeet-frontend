@@ -4,15 +4,34 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../../../store/user/userStore';
 import { AUTH_BUTTONS, HEADER_BUTTONS } from '../../../data/header/header';
+import useWorldcupStore from '../../../store/worldcup/worldcupStore';
+import { useCreateGame } from '../../../apis/worldcup/queries';
+import { createWorldcupGame } from '../../../utils/worldcup/createWorldcupGame';
+
 
 function Header() {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
   const userInfo = useUserStore((state) => state.userInfo);
 
+  const { setGameId, setGameStarted, setCurrentRound } = useWorldcupStore();
+  const createGameMutation = useCreateGame();
+
   const handleButtonClick = (title, route) => {
     setActiveButton(title);
-    if (route) navigate(route);
+
+    if (route === '/worldcup') {
+      createWorldcupGame(
+        createGameMutation.mutate, // mutate 함수 전달
+        setGameId,
+        setGameStarted,
+        setCurrentRound,
+        navigate,
+        route
+      );
+    } else if (route) {
+      navigate(route);
+    }
   };
 
   const renderButtons = (buttons) =>
@@ -20,7 +39,8 @@ function Header() {
       <Button
         key={index}
         onClick={() => handleButtonClick(title, route)}
-        active={activeButton === title}>
+        active={activeButton === title}
+      >
         {title}
       </Button>
     ));
@@ -64,23 +84,25 @@ const S = {
     display: flex;
     align-items: center;
   `,
+
   MyButton: styled.button`
     gap: 0.5rem;
     width: 5.8rem;
     display: flex;
     align-items: center;
-    /* gap: 0.5rem;     */
     padding: 0;
     border-radius: 1rem;
     margin-right: 2rem;
     border: none;
     cursor: pointer;
   `,
+
   ProfileImg: styled.img`
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
   `,
+
   ProfileName: styled.span`
     font-size: 1rem;
     font-family: ${(props) => props.theme.font.fontSuitRegular};
