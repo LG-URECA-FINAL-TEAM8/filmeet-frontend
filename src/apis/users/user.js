@@ -42,7 +42,6 @@ export const userInfoId = async ({ userId }) => {
 };
 
 export const getUserInfo = async () => {
-  console.trace('getUserInfo 호출됨'); // 호출 스택을 추적할 수 있는 로그 추가
   const setUserInfo = useUserStore.getState().setUserInfo;
 
   let accessToken = localStorage.getItem('accessToken');

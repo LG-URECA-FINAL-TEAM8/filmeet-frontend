@@ -8,7 +8,6 @@ const FollowersList = ({ userId }) => {
   if (error) return <div>오류가 발생했습니다: {error.message}</div>;
 
   const followers = data?.data?.content || [];
-  console.log(followers);
 
   return (
     <S.ListWrapper>
