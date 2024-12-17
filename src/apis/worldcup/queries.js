@@ -4,11 +4,7 @@ import { createGameApi, getGameDetailApi, getGameRankingsApi, getRecommendMovies
 export const useCreateGame = () => {
     return useMutation({
       mutationFn: (payload) => createGameApi(payload),
-      onSuccess: (data) => {
-        console.log("게임 생성 성공", data);
-      },
-      onError: (error) => {
-        console.error("게임 생성 실패. 에러 메시지:", error);
+      onSuccess: () => {
       },
     });
   };
@@ -27,11 +23,7 @@ export const useGameDetail = (gameId) => {
   export const useSelectWinner = () => {
     return useMutation({
       mutationFn: ({ gameMatchId, selectedMovieId }) => selectWinnerApi(gameMatchId, selectedMovieId),
-      onSuccess: (data) => {
-        console.log("승자 선택 성공:", data);
-      },
-      onError: (error) => {
-        console.error("승자 선택 실패:", error.message || error);
+      onSuccess: () => {
       },
     });
   };

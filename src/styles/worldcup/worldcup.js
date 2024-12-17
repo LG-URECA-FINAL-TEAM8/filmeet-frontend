@@ -18,6 +18,18 @@ export const FinishPageWrapper = styled.div`
   overflow: hidden; /* 스크롤 방지 */
 `;
 
+export const WinnerPageWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(
+      135deg,
+      ${(props) => props.theme.color.fontWhite} 0%,
+      ${(props) => props.theme.color.commentColor} 100%
+    );
+  `;
+
 export const ButtonContainer = styled.div`
     display: flex;
     flex-direction: column; 
@@ -50,3 +62,24 @@ export const Subtitle = styled.div`
     margin-bottom: 3rem;
   `;
 
+export const CongratsText = styled.p`
+    font-size: 1.5rem;
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+    color: ${(props) => props.theme.color.fontPink};
+    margin-bottom: 1rem;
+  `;
+
+export const WinnerTitle = styled.h1`
+    font-size: 2.5rem;
+    font-family: ${(props) => props.theme.font.fontSuitBold};
+    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  `;
+
+export const WinnerCardWrapper = styled.div`
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    background-color: ${(props) => props.theme.color.fontWhite};
+    margin-bottom: 2rem;
+  `;

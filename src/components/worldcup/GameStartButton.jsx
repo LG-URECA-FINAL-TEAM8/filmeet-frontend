@@ -14,7 +14,7 @@ const GameStartButton = ({ onClick, isLoading }) => {
   </S.RoundContainer>
   <S.ButtonGroup>
     <S.Button onClick={onClick} disabled={isLoading} isLoading={isLoading}>
-      {isLoading ? "게임 생성 중..." : "게임 시작"}
+      {"게임 시작"}
     </S.Button>
     <RankButton />
   </S.ButtonGroup>

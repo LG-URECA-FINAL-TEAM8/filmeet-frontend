@@ -37,8 +37,7 @@ const WorldcupPage = () => {
       {!isGameStarted ? (
         <ButtonContainer>
           <GameStartButton
-            onClick={handleGameCreate}
-            isLoading={createGameMutation.isLoading}
+            onClick={handleGameCreate} 
           />
         </ButtonContainer>
       ) : (

@@ -3,8 +3,6 @@ let accessToken = localStorage.getItem("accessToken");
 
 //게임 생성 API
 export const createGameApi = async ({ title, totalRounds }) => {
-    console.log("API 요청 데이터:", { title, totalRounds });
-  // 최초 요청
   let response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/games`, {
     method: "POST",
     headers: {
@@ -16,13 +14,11 @@ export const createGameApi = async ({ title, totalRounds }) => {
 
   if (!response.ok) {
     const errorMessage = await response.text();
-    console.error("응답 에러 메시지:", errorMessage);
     throw new Error(`서버 에러: ${errorMessage}`);
   }
   
   // AccessToken 만료 처리
   if (response.status === 401) {
-    console.warn("AccessToken 만료됨. 갱신 시도 중...");
     const refreshToken = localStorage.getItem("refreshToken");
     await postRefresh(refreshToken);
 
@@ -39,7 +35,6 @@ export const createGameApi = async ({ title, totalRounds }) => {
   }
 
   if (!response.ok) {
-    console.error("게임 생성에 실패:", response.statusText);
     throw new Error("게임 생성에 실패했습니다.");
   }
 
@@ -60,7 +55,6 @@ export const getGameDetailApi = async (gameId) => {
   
     // AccessToken 만료 처리
     if (response.status === 401) {
-      console.warn("AccessToken 만료됨. 갱신 시도 중...");
       const refreshToken = localStorage.getItem("refreshToken");
       await postRefresh(refreshToken);
   
@@ -76,8 +70,6 @@ export const getGameDetailApi = async (gameId) => {
     }
   
     if (!response.ok) {
-      const errorMessage = await response.text();
-      console.error("게임 조회 실패:", errorMessage);
       throw new Error(`게임 조회 실패: ${response.statusText}`);
     }
   
@@ -102,7 +94,6 @@ export const getGameDetailApi = async (gameId) => {
   
     // AccessToken 만료 처리
     if (response.status === 401) {
-      console.warn("AccessToken 만료됨. 갱신 시도 중...");
       const refreshToken = localStorage.getItem("refreshToken");
       await postRefresh(refreshToken);
   
@@ -122,8 +113,6 @@ export const getGameDetailApi = async (gameId) => {
     }
   
     if (!response.ok) {
-      const errorMessage = await response.text();
-      console.error("승자 선택 실패:", errorMessage);
       throw new Error(`승자 선택 실패: ${response.statusText}`);
     }
   
@@ -148,7 +137,6 @@ export const getRecommendMoviesApi = async (gameId) => {
 
   // AccessToken 만료 처리
   if (response.status === 401) {
-    console.warn("AccessToken 만료됨. 갱신 시도 중...");
     const refreshToken = localStorage.getItem("refreshToken");
     await postRefresh(refreshToken);
 
@@ -167,8 +155,6 @@ export const getRecommendMoviesApi = async (gameId) => {
   }
 
   if (!response.ok) {
-    const errorMessage = await response.text();
-    console.error("추천 영화 조회 실패:", errorMessage);
     throw new Error(`추천 영화 조회 실패: ${response.statusText}`);
   }
 
@@ -187,7 +173,6 @@ export const getGameRankingsApi = async () => {
 
   // AccessToken 만료 처리
   if (response.status === 401) {
-    console.warn("AccessToken 만료됨. 갱신 시도 중...");
     const refreshToken = localStorage.getItem("refreshToken");
     await postRefresh(refreshToken);
 
@@ -202,8 +187,6 @@ export const getGameRankingsApi = async () => {
   }
 
   if (!response.ok) {
-    const errorMessage = await response.text();
-    console.error("게임 랭킹 조회 실패:", errorMessage);
     throw new Error(`게임 랭킹 조회 실패: ${response.statusText}`);
   }
 
