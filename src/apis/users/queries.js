@@ -12,11 +12,16 @@ export const useUserInfo = () => {
 };
 
 export const useUserInfoId = (userId) => {
-  const { data, error, isLoading } = useQuery({
+  const {
+    data,
+    error,
+    isLoading,
+    refetch: queryRefetch,
+  } = useQuery({
     queryKey: ['userInfoId'],
     queryFn: () => userInfoId({ userId }),
     refetchOnWindowFocus: false,
     enabled: !!userId,
   });
-  return { data, error, isLoading };
+  return { data, error, isLoading, refetch: queryRefetch };
 };
