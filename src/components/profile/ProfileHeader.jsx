@@ -12,13 +12,15 @@ import Stats from './Stats';
 import { useFollowCount } from '../../apis/myPage/queries';
 import LogoutModal from '../common/modal/LogoutModal';
 import { useState } from 'react';
+import { useUserInfo } from '../../apis/users/queries';
 
-const ProfileHeader = ({ userInfo }) => {
+const ProfileHeader = ({ userInfo, userId }) => {
   const navigate = useNavigate();
-  const userId = userInfo?.id;
   const [showModal, setShowModal] = useState(false);
   const { data: result, isLoading } = useFollowCount(userId);
+  const { data: loginUser } = useUserInfo();
   const followData = result?.data;
+  const loginUserData = loginUser?.data?.id;
 
   const Profiles = {
     stats: [
@@ -37,10 +39,12 @@ const ProfileHeader = ({ userInfo }) => {
 
   return (
     <>
-      <SettingsWrapper onClick={() => setShowModal((prev) => !prev)}>
-        <SettingsIcon icon={faGear} />
-        {showModal && <LogoutModal text="로그아웃" />}
-      </SettingsWrapper>
+      {String(loginUserData) === String(userId) && (
+        <SettingsWrapper onClick={() => setShowModal((prev) => !prev)}>
+          <SettingsIcon icon={faGear} />
+          {showModal && <LogoutModal text="로그아웃" />}
+        </SettingsWrapper>
+      )}
       <ProfileImage src={userInfo?.profileImage} alt="프로필 이미지"></ProfileImage>
       <ProfileName>{userInfo?.nickname}</ProfileName>
       <FollowStats>
@@ -50,7 +54,7 @@ const ProfileHeader = ({ userInfo }) => {
           </div>
         ))}
       </FollowStats>
-      <FollowButton>Follow</FollowButton>
+      <FollowButton disabled={String(loginUserData) === String(userId)}>Follow</FollowButton>{' '}
       <Stats count={userInfo} />
     </>
   );

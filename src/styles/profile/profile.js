@@ -12,10 +12,13 @@ export const MyPageContainer = styled.div`
 // 프로필 컨테이너
 export const ProfileContainer = styled.div`
   width: 40rem;
-  height: 25rem;
+  height: auto;
+  max-height: 25rem;
   background-color: ${({ theme }) => theme.color.mainColor};
   border-radius: 0.3rem;
-  border: ${(props) => {props.theme.font.borderDefault}};
+  border: ${(props) => {
+    props.theme.font.borderDefault;
+  }};
   position: relative;
   padding: 0rem 1rem;
   margin: 0 auto;
@@ -90,9 +93,10 @@ export const FollowStats = styled.div`
 export const FollowButton = styled.button`
   width: 100%;
   height: 2.5rem;
-  background-color: ${({ theme }) => theme.color.fontBlack};
+  background-color: ${({ theme, disabled }) =>
+    disabled ? theme.color.fontGray : theme.color.fontBlack};
   font-family: ${({ theme }) => theme.font.fontSuitRegular};
-  color: ${({ theme }) => theme.color.fontWhite};
+  color: ${({ theme, disabled }) => (disabled ? theme.color.fontBlack : theme.color.fontWhite)};
   border: none;
   border-radius: 0.25rem;
   display: flex;
@@ -100,11 +104,15 @@ export const FollowButton = styled.button`
   align-items: center;
   margin-top: 0.875rem;
   margin-bottom: 1rem;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.fontGray};
-    color: ${({ theme }) => theme.color.fontBlack};
+    background-color: ${({ theme, disabled }) =>
+      disabled ? theme.color.fontGray : theme.color.fontGray};
+    color: ${({ theme, disabled }) => (disabled ? theme.color.fontBlack : theme.color.fontBlack)};
   }
 `;
 

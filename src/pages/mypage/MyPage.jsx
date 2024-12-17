@@ -6,12 +6,11 @@ const MyPage = () => {
   const { userId } = useParams();
   const { data: result } = useUserInfoId(userId);
   const userInfo = result?.data;
-  console.log(userInfo);
 
   return (
     <MyPageContainer>
       <ProfileContainer>
-        <ProfileHeader userInfo={userInfo} />
+        <ProfileHeader userInfo={userInfo} userId={userId} />
       </ProfileContainer>
     </MyPageContainer>
   );
