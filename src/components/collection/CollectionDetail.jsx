@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAddComment, useFetchComments } from '../../apis/myPage/collection/queries';
-import SvgComment from '../../assets/svg/comment';
+import SvgComment from '../../assets/svg/Comment';
 import SvgIcLikeFilled24 from '../../assets/svg/IcLikeFilled24';
 import SvgOption from '../../assets/svg/Option';
 import useCollectionsDeleteStore from '../../store/collections/useCollectionsDeleteStore';
