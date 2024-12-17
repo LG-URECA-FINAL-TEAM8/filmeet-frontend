@@ -28,18 +28,10 @@ const CollectionsLabel = {
 
 const CollectionDetail = ({ collectionData, movies, userInfo }) => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { setSelectedCollection, toggleLike, toggleCancelLike, collectionDetail, liking } =
+    useCollectionsStore();
 
-  const {
-    setSelectedCollection,
-    toggleLike,
-    toggleCancelLike,
-    initializeLikeStatus,
-    collectionDetail,
-    liking,
-  } = useCollectionsStore();
-
-  const isAuthor = collectionData.nickname === userInfo?.nickname;
+  const isAuthor = collectionData?.userId === userInfo?.id;
   // 좋아요 상태 및 카운트는 store에서 직접 가져옴
   const isLiked = collectionDetail?.isLiked || false;
   const likeCounts = collectionDetail?.likeCounts || 0;
@@ -55,13 +47,6 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
 
   const [commentContent, setCommentContent] = useState('');
   const [openCommentMenu, setOpenCommentMenu] = useState(null);
-
-  useEffect(() => {
-    if (collectionData) {
-      initializeLikeStatus(collectionData.isLiked || false, collectionData.likeCounts || 0);
-    }
-    closeMenu();
-  }, [location, closeMenu, collectionData, initializeLikeStatus]);
 
   const handleEditClick = () => {
     setSelectedCollection(collectionData);
@@ -209,7 +194,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
               </S.CommentLeft>
               <S.CommentTimeAndMenu>
                 <S.CommentTime>{new Date(comment.createdAt).toLocaleString()}</S.CommentTime>
-                {comment.nickname === userInfo?.nickname && ( // 작성자일 때만 표시
+                {comment?.commentUserId === userInfo?.id && ( // 작성자일 때만 표시
                   <>
                     <S.StyledCommentMenuIcon onClick={() => toggleCommentMenu(index)} />
                     {openCommentMenu === index && (

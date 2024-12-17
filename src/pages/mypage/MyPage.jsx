@@ -1,14 +1,20 @@
 import { MyPageContainer, ProfileContainer } from '../../styles/profile/profile';
 import ProfileHeader from '../../components/profile/ProfileHeader';
-import { useUserInfo } from '../../apis/users/queries';
-const MyPage = () => {
-  const { data: result } = useUserInfo();
-  const userInfo = result?.data;
+import { useParams } from 'react-router-dom';
+import { useUserInfoId } from '../../apis/users/queries';
+import { useEffect } from 'react';
 
+const MyPage = () => {
+  const { userId } = useParams();
+  const { data: result, refetch } = useUserInfoId(userId);
+  const userInfo = result?.data;
+  useEffect(() => {
+    refetch();
+  }, [userId]);
   return (
     <MyPageContainer>
       <ProfileContainer>
-        <ProfileHeader userInfo={userInfo} />
+        <ProfileHeader userInfo={userInfo} userId={userId} />
       </ProfileContainer>
     </MyPageContainer>
   );
