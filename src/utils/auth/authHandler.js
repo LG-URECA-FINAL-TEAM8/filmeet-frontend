@@ -7,11 +7,13 @@ export const handleAuthClick = (
   refetchUserInfo,
   setCode,
   isLoggedIn,
+  setLoggedIn,
   registerToken
 ) => {
   if (userData && value === '회원가입') {
     signupMutate(userData, {
       onSuccess: () => {
+        setLoggedIn(false);
         navigate('/login');
       },
       onError: (error) => {
