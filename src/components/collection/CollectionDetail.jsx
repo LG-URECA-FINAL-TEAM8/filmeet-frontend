@@ -39,7 +39,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
     liking,
   } = useCollectionsStore();
 
-  const isAuthor = collectionData.nickname === userInfo?.nickname;
+  const isAuthor = collectionData?.userId === userInfo?.id;
   // 좋아요 상태 및 카운트는 store에서 직접 가져옴
   const isLiked = collectionDetail?.isLiked || false;
   const likeCounts = collectionDetail?.likeCounts || 0;
@@ -209,7 +209,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
               </S.CommentLeft>
               <S.CommentTimeAndMenu>
                 <S.CommentTime>{new Date(comment.createdAt).toLocaleString()}</S.CommentTime>
-                {comment.nickname === userInfo?.nickname && ( // 작성자일 때만 표시
+                {comment?.userId === userInfo?.id && ( // 작성자일 때만 표시
                   <>
                     <S.StyledCommentMenuIcon onClick={() => toggleCommentMenu(index)} />
                     {openCommentMenu === index && (
