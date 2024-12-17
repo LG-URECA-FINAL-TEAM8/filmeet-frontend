@@ -1,11 +1,18 @@
 import styled from 'styled-components';
 import SvgIcLikeFilled24 from '../../../assets/svg/IcLikeFilled24';
 import SvgIcReplyFilled24 from '../../../assets/svg/IcReplyFilled24';
+import { useNavigate } from 'react-router-dom';
+
 function HotFeed({ reviews }) {
+  const navigate = useNavigate();
+  console.log(reviews);
+  const handleNavigate = (reviewId) => {
+    navigate(`/mypage/comments/detail/${reviewId}`);
+  };
   return (
     <S.FeedContainer>
       {reviews.slice(0, 3).map((review) => (
-        <S.FeedItem key={review.id}>
+        <S.FeedItem key={review.id} onClick={() => handleNavigate(review?.reviewId)}>
           <S.FeedUserSection>
             <span className="user__span">{review.nickname}</span>
             <span className="user__score">★ {review.ratingScore || '0'}</span>
@@ -47,6 +54,7 @@ const S = {
     max-height: 12rem;
     gap: 1rem;
     border: ${({ theme }) => theme.box.defaultBorder};
+    cursor: pointer;
   `,
 
   FeedUserSection: styled.div`
