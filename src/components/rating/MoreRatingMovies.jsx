@@ -6,16 +6,18 @@ import Poster from '../common/poster/Poster';
 import { createBackClickHandler } from '../../utils/ratings/navigationHandlers';
 import { pagecontents } from '../../data/pagecontents';
 import { useMovieRatings } from '../../apis/myPage/rating/queries';
-import { useUserInfo } from '../../apis/users/queries';
+import { useUserInfoId } from '../../apis/users/queries';
+
 const MoreRatingMovies = () => {
   const navigate = useNavigate();
   const { rating } = useParams();
+  const { userId } = useParams();
   const parsedRating = parseFloat(rating);
-  const { data: result } = useUserInfo();
-  const userId = result?.data?.id;
+  const { data: result } = useUserInfoId(userId);
+  const userIdData = result?.data?.id;
 
-  const { data, isLoading, error } = useMovieRatings(userId);
-  const handleBackClick = createBackClickHandler(navigate, '/mypage/contents/movies/ratings');
+  const { data, isLoading, error } = useMovieRatings(userIdData);
+  const handleBackClick = createBackClickHandler(navigate, `contents/movies/ratings/${userId}`);
   const { noResults } = pagecontents.moreRatingMovies;
 
   if (isLoading) {

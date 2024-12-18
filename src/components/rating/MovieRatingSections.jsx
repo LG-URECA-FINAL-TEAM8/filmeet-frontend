@@ -2,14 +2,16 @@ import Poster from '../common/poster/Poster';
 import * as S from '../../styles/rating/rating';
 import { useNavigate } from 'react-router-dom';
 import { pagecontents } from '../../data/pagecontents';
+import { useParams } from 'react-router-dom';
 
 const MovieRatingSections = ({ groupedRatings }) => {
   const navigate = useNavigate();
+  const { userId } = useParams();
 
   const { sectionTitle, noResults, moreButton } = pagecontents.movieRatingSections;
 
   const handleMoreClick = (rating) => () => {
-    navigate(`/mypage/contents/movies/ratings/${rating}`);
+    navigate(`/mypage/contents/movies/byratings/${rating}/${userId}`);
   };
 
   const renderContent = (moviesForRating) => {
