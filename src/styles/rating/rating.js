@@ -55,14 +55,14 @@ export const BottomContainer = styled.div`
   cursor: pointer;
 `;
 
-export const Label = styled.p`
+export const Label = styled.div`
   padding: 0 0.3rem;
   font-family: ${(props) => props.theme.font.fontSuitBold};
   font-weight: ${(props) => props.theme.font.fontWeightRegular};
   font-size: 1.2rem;
 `;
 
-export const Count = styled.p`
+export const Count = styled.div`
   padding: 0.3rem;
   font-family: ${(props) => props.theme.font.fontSuitRegular};
   font-weight: ${(props) => props.theme.font.fontWeightMedium};
