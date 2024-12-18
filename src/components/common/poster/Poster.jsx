@@ -48,7 +48,7 @@ function Poster({ caseType = 0, movies }) {
   const renderCases = {
     1: () =>
       renderCarousel((movie) => (
-        <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie?.movieId)}>
+        <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie.movieId)}>
           <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           <S.PostTitle>{movie.title}</S.PostTitle>
           <S.RatingField>{`★${movie.averageRating.toFixed(1)}`}</S.RatingField>
