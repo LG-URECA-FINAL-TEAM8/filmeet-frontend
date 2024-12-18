@@ -7,6 +7,7 @@ import { AUTH_BUTTONS, HEADER_BUTTONS } from '../../../data/header/header';
 import useWorldcupStore from '../../../store/worldcup/worldcupStore';
 import { useCreateGame } from '../../../apis/worldcup/queries';
 import { createWorldcupGame } from '../../../utils/worldcup/createWorldcupGame';
+import SearchBar from '../searchbar/SearchBar';
 function Header() {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ function Header() {
       <S.HeaderSection>
         {userInfo.nickname ? (
           <>
+            <SearchBar />
             <Button onClick={() => navigate('/notifications')}>알림</Button>
             <Button onClick={() => navigate('/review')}>평가하기</Button>
             <S.MyButton onClick={() => navigate(`/mypage/${userInfo.id}`)}>
