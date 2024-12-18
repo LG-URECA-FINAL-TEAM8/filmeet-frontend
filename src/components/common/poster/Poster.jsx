@@ -51,7 +51,7 @@ function Poster({ caseType = 0, movies }) {
         <S.PostItem key={movie.movieId} onClick={() => handleMovieClick(movie?.movieId)}>
           <S.PostCardImg src={movie.posterUrl} alt={movie.title} />
           <S.PostTitle>{movie.title}</S.PostTitle>
-          <S.RatingField>{`★${movie.averageRating}`}</S.RatingField>
+          <S.RatingField>{`★${movie.averageRating.toFixed(1)}`}</S.RatingField>
         </S.PostItem>
       )),
 

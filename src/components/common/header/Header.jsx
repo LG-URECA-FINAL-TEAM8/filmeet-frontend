@@ -7,8 +7,7 @@ import { AUTH_BUTTONS, HEADER_BUTTONS } from '../../../data/header/header';
 import useWorldcupStore from '../../../store/worldcup/worldcupStore';
 import { useCreateGame } from '../../../apis/worldcup/queries';
 import { createWorldcupGame } from '../../../utils/worldcup/createWorldcupGame';
-import Searchbar from '../../Searchbar';
-
+import Searchbar from '../searchbar/SearchBar';
 
 function Header() {
   const [activeButton, setActiveButton] = useState(null);
@@ -23,7 +22,7 @@ function Header() {
 
     if (route === '/worldcup') {
       createWorldcupGame(
-        createGameMutation.mutate, // mutate 함수 전달
+        createGameMutation.mutate,
         setGameId,
         setGameStarted,
         setCurrentRound,
@@ -40,8 +39,7 @@ function Header() {
       <Button
         key={index}
         onClick={() => handleButtonClick(title, route)}
-        active={activeButton === title}
-      >
+        active={activeButton === title}>
         {title}
       </Button>
     ));

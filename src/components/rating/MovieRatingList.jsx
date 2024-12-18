@@ -25,7 +25,7 @@ const MovieRatingList = ({ userId }) => {
     ],
   };
 
-  const handleBackClick = createBackClickHandler(navigate, `/`);
+  const handleBackClick = createBackClickHandler(navigate, `ratings/${userId}`);
   const handleFilterClick = createFilterClickHandler(setActiveFilter);
   const filterClickHandlers = filters.map((option) => () => handleFilterClick(option.value));
 

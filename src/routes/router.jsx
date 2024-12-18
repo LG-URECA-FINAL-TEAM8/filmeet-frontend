@@ -60,7 +60,7 @@ const routes = [
         element: createLazyComponent(pageComponents.MovieRatingsPage),
       },
       {
-        path: 'mypage/contents/movies/ratings/:rating',
+        path: 'mypage/contents/movies/byratings/:rating/:userId',
         element: createLazyComponent(pageComponents.AllMoviesByRatingsPage),
       },
       {
