@@ -5,7 +5,6 @@ import MovieManagement from '../../components/common/admin/MovieManagement';
 import AddNewMovie from '../../components/common/admin/AddMovie';
 import LikeManagement from '../../components/common/admin/LikeManagement';
 import RankManagement from '../../components/common/admin/RankManagement';
-import usePageStore from '../../store/admin/usePagestore';
 
 function AdminPage() {
   const { currentPage, setPage } = usePageStore();
@@ -19,7 +18,7 @@ function AdminPage() {
       case 'likeManagement':
         return <LikeManagement />;
       case 'rankManagement':
-        return <RankManagement/>
+        return <RankManagement />;
       default:
         return <MovieManagement />;
     }
@@ -49,5 +48,5 @@ const S = {
     flex: 1,
     padding: '2rem 0',
     marginTop: '4rem',
-  })
+  }),
 };
