@@ -1,13 +1,13 @@
-import { 
-  Box, 
-  TextField, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow, 
-  Paper, 
+import {
+  Box,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
   Pagination,
 } from '@mui/material';
 import { handleSearch, handlePageChange } from '../../../utils/admin/movieManagementUtils';
@@ -18,6 +18,7 @@ import tableHeaders from '../../../data/admintableheaders';
 import { useAdminSelectMovies } from '../../../apis/admin/queries';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import RankTransferList from './RankTransferList';
+import Loading from '../loading/Loading';
 
 function RankManagement() {
   const { rankingManagement } = tableHeaders;
@@ -42,7 +43,7 @@ function RankManagement() {
     }
   }, [movies]);
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return <Loading />;
   if (error) return <div>에러 발생: {error.message}</div>;
   if (!movies.length) return <div>검색 결과가 없습니다.</div>;
 
@@ -73,15 +74,12 @@ function RankManagement() {
                 <S.TableBodyCell>{movie.title}</S.TableBodyCell>
                 <S.TableBodyCell>{movie.likeCounts || 0}</S.TableBodyCell>
                 <S.TableBodyCell>
-                  {movie.averageRating !== null &&
-                  movie.averageRating !== undefined
+                  {movie.averageRating !== null && movie.averageRating !== undefined
                     ? movie.averageRating.toFixed(2)
                     : 'N/A'}
                 </S.TableBodyCell>
                 <S.TableBodyCell>
-                  {movie.genreTypes?.length > 0
-                    ? movie.genreTypes.join(', ')
-                    : '미정'}
+                  {movie.genreTypes?.length > 0 ? movie.genreTypes.join(', ') : '미정'}
                 </S.TableBodyCell>
                 <S.TableBodyCell>{movie.releaseDate || '알 수 없음'}</S.TableBodyCell>
               </TableRow>

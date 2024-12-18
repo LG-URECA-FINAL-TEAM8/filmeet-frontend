@@ -1,12 +1,13 @@
 import * as S from '../../styles/follow/follow';
 import { useFollowers } from '../../apis/myPage/follow/queries';
 import { useAddFollow } from '../../apis/follow/query';
+import Loading from '../common/loading/Loading';
 
 const FollowersList = ({ userId }) => {
   const { data, isLoading, error } = useFollowers(userId);
   const { mutate: addFollow } = useAddFollow();
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return <Loading />;
   if (error) return <div>오류가 발생했습니다: {error.message}</div>;
 
   const followers = data?.data?.content || [];

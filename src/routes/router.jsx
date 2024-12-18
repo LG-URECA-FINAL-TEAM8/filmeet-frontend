@@ -89,8 +89,8 @@ const routes = [
         element: createLazyComponent(pageComponents.CollectionEditPage),
       },
       { path: 'genre', element: createLazyComponent(pageComponents.GenrePage) },
-      { path: 'followers', element: createLazyComponent(pageComponents.FollowerPage) },
-      { path: 'followings', element: createLazyComponent(pageComponents.FollowingPage) },
+      { path: 'followers/:userId', element: createLazyComponent(pageComponents.FollowerPage) },
+      { path: 'followings/:userId', element: createLazyComponent(pageComponents.FollowingPage) },
       { path: 'notifications', element: createLazyComponent(pageComponents.AlarmHistoryPage) },
       { path: 'bin', element: createLazyComponent(pageComponents.Bin) },
       { path: 'error', element: <ErrorPage /> },
@@ -112,12 +112,9 @@ const routes = [
   },
   {
     path: '/admin',
-    children: [
-      { index: true, element: createLazyComponent(pageComponents.AdminPage) },
-    ],
+    children: [{ index: true, element: createLazyComponent(pageComponents.AdminPage) }],
     errorElement: <ErrorPage />,
   },
-
 ];
 
 const router = createBrowserRouter(routes);

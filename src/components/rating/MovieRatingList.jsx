@@ -9,6 +9,7 @@ import {
   createFilterClickHandler,
 } from '../../utils/ratings/navigationHandlers';
 import { useMovieRatings } from '../../apis/myPage/rating/queries';
+import Loading from '../common/loading/Loading';
 
 const MovieRatingList = ({ userId }) => {
   const { activeFilter, setActiveFilter } = useRatingsStore();
@@ -30,7 +31,7 @@ const MovieRatingList = ({ userId }) => {
   const filterClickHandlers = filters.map((option) => () => handleFilterClick(option.value));
 
   // 로딩 상태 처리
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return <Loading />;
   if (error) {
     return <div>오류가 발생했습니다: {error.message}</div>;
   }

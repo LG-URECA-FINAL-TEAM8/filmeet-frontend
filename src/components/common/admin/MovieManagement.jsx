@@ -1,20 +1,20 @@
-import { 
-  Box, 
-  TextField, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow, 
-  Paper, 
-  Pagination 
+import {
+  Box,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Pagination,
 } from '@mui/material';
-import { 
-  handleSearch, 
-  handlePageChange, 
-  handleEdit, 
-  handleDelete 
+import {
+  handleSearch,
+  handlePageChange,
+  handleEdit,
+  handleDelete,
 } from '../../../utils/admin/movieManagementUtils';
 import { useState } from 'react';
 import { styled } from '@mui/system';
@@ -27,13 +27,13 @@ import { useAdminDeleteMovie } from '../../../apis/admin/queries';
 import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import useAdminModalStore from '../../../store/modal/useAdminModalStore';
-
+import Loading from '../loading/Loading';
 
 function MovieManagement() {
   const { movieManagement } = tableHeaders;
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
-  const [ searchTerm, setSearchTerm ] = useState('');
-  const [ submittedTerm, setSubmittedTerm ] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [submittedTerm, setSubmittedTerm] = useState('');
   const { isOpen, openModal, setModalData } = useAdminModalStore();
   const { mutate: deleteMovie } = useAdminDeleteMovie();
   const { data, isLoading, error } = useAdminSelectMovies({
@@ -42,9 +42,9 @@ function MovieManagement() {
     query: submittedTerm,
   });
   const movies = data?.content || [];
-  const totalPages = data?.totalPages || 1
+  const totalPages = data?.totalPages || 1;
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return <Loading />;
   if (error) return <div>에러 발생: {error.message}</div>;
   if (!movies.length) return <div>검색 결과가 없습니다.</div>;
 
@@ -77,19 +77,18 @@ function MovieManagement() {
                   <S.TableBodyCell>{movie.title}</S.TableBodyCell>
                   <S.TableBodyCell>{movie.likeCounts || 0}</S.TableBodyCell>
                   <S.TableBodyCell>
-                    {movie.averageRating !== null &&
-                    movie.averageRating !== undefined
+                    {movie.averageRating !== null && movie.averageRating !== undefined
                       ? movie.averageRating.toFixed(2)
                       : 'N/A'}
                   </S.TableBodyCell>
                   <S.TableBodyCell>
-                    {movie.genreTypes?.length > 0
-                      ? movie.genreTypes.join(', ')
-                      : '미정'}
+                    {movie.genreTypes?.length > 0 ? movie.genreTypes.join(', ') : '미정'}
                   </S.TableBodyCell>
                   <S.TableBodyCell>{movie.releaseDate || '알 수 없음'}</S.TableBodyCell>
                   <S.TableBodyCell>
-                    <S.ModeEditTwoToneIcon onClick={() => handleEdit(movie, setModalData, openModal)} />
+                    <S.ModeEditTwoToneIcon
+                      onClick={() => handleEdit(movie, setModalData, openModal)}
+                    />
                     <S.DeleteIcon onClick={() => handleDelete(movie, deleteMovie)} />
                   </S.TableBodyCell>
                 </TableRow>

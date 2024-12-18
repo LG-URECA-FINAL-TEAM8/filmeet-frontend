@@ -5,6 +5,7 @@ import * as S from '../../styles/rating/rating';
 import { createBackClickHandler } from '../../utils/ratings/navigationHandlers';
 import { useMovieRatings } from '../../apis/myPage/rating/queries';
 import { useParams } from 'react-router-dom';
+import Loading from '../common/loading/Loading';
 
 const Rating = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Rating = () => {
   const handleBackClick = createBackClickHandler(navigate, userId);
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <Loading />;
   }
 
   if (error) {

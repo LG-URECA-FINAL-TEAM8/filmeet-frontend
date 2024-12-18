@@ -4,11 +4,18 @@ import CollectionDetail from '../../../components/collection/CollectionDetail';
 import { Wrapper } from '../../../styles/collectionspage/collections';
 import { useEffect } from 'react';
 import { useUserInfo } from '../../../apis/users/queries';
+import Loading from '../../../components/common/loading/Loading';
 
 const CollectionDetailPage = () => {
   const { collectionId } = useParams();
-  const { collectionDetail, fetchCollectionDetail, fetchCollectionMovies, collectionMovies, isLoading, error } =
-    useCollectionsStore();
+  const {
+    collectionDetail,
+    fetchCollectionDetail,
+    fetchCollectionMovies,
+    collectionMovies,
+    isLoading,
+    error,
+  } = useCollectionsStore();
 
   const { data: userResult } = useUserInfo(); // 유저 정보 가져오기
   const userInfo = userResult?.data; // 로그인한 유저 정보
@@ -21,7 +28,7 @@ const CollectionDetailPage = () => {
   }, [collectionId, fetchCollectionDetail, fetchCollectionMovies]);
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <Loading />;
   }
 
   if (error) {
@@ -34,7 +41,11 @@ const CollectionDetailPage = () => {
 
   return (
     <Wrapper>
-      <CollectionDetail collectionData={collectionDetail} movies={collectionMovies} userInfo={userInfo} />
+      <CollectionDetail
+        collectionData={collectionDetail}
+        movies={collectionMovies}
+        userInfo={userInfo}
+      />
     </Wrapper>
   );
 };

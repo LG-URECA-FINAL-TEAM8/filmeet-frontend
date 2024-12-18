@@ -6,7 +6,7 @@ import AuthMessage from '../../components/features/auth/AuthMessage';
 import Authlink from '../../components/features/auth/Authlink';
 import useAuthStore from '../../store/auth/authStore';
 import { loginInput } from '../../data/auth/input';
-import { NaverLogo, GoogleLogo } from '../../assets/svg';
+import { NaverLogo, GoogleLogo, KakaoLogo } from '../../assets/svg';
 import { handleLoginClick } from '../../utils/auth/socialLoginHandler';
 import { S } from '../../styles/auth/auth';
 
@@ -55,6 +55,7 @@ function Login() {
         <S.SocialWrapper>
           <NaverLogo onClick={() => handleLoginClick('naver')} />
           <GoogleLogo onClick={() => handleLoginClick('google')} />
+          <KakaoLogo onClick={() => handleLoginClick('kakao')} />
         </S.SocialWrapper>
       </S.AuthBody>
     </>

@@ -1,15 +1,10 @@
 import TopHeader from '../../components/common/back/TopHeader';
-import { useUserInfo } from '../../apis/users/queries';
 import FollowersList from '../../components/follow/FollowerList';
 import { FollowPageWrapper } from '../../styles/follow/follow';
+import { useParams } from 'react-router-dom';
 
 const FollowerPage = () => {
-  const { data: userInfo, isLoading, error } = useUserInfo();
-
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error || !userInfo) return <div>유효한 유저 정보를 불러올 수 없습니다.</div>;
-
-  const userId = userInfo.data?.id;
+  const { userId } = useParams();
 
   return (
     <FollowPageWrapper>

@@ -7,6 +7,7 @@ import { createBackClickHandler } from '../../utils/ratings/navigationHandlers';
 import { pagecontents } from '../../data/pagecontents';
 import { useMovieRatings } from '../../apis/myPage/rating/queries';
 import { useUserInfoId } from '../../apis/users/queries';
+import Loading from '../common/loading/Loading';
 
 const MoreRatingMovies = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const MoreRatingMovies = () => {
   const { noResults } = pagecontents.moreRatingMovies;
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <Loading />;
   }
 
   if (error) {
