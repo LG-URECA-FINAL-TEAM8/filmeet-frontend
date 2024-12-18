@@ -91,3 +91,10 @@ export const fetchEvaluation = async ({ pageParam = 0 }) => {
 
   return await response.json();
 };
+export const AdminRanking = async () => {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/movies/admin-rankings`);
+  if (!response.ok) {
+    throw new Error('어드민 추천 영화 패칭실패');
+  }
+  return response.json();
+};

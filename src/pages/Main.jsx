@@ -7,6 +7,7 @@ import {
   useRecommendation,
   useTopTen,
   useUpcoming,
+  useAdminRank,
 } from '../apis/getMovies/queries';
 import { useHotReview } from '../apis/reviews/queries';
 import Footer from '../components/common/footer/Footer';
@@ -35,7 +36,8 @@ function Main() {
   const { data: HotReview } = useHotReview();
   const { data: Recommended } = useRecommendation(userId);
   const { data: RandomGenre } = useRandomGenre();
-
+  const { data: AdminMovie } = useAdminRank();
+  console.log(AdminMovie);
   const movieSections = [
     userId
       ? {
@@ -52,6 +54,10 @@ function Main() {
       component: <Poster caseType={2} movies={upComing?.data?.content || []} />,
     },
     { title: '박스오피스 순위', component: <Poster caseType={3} movies={boxOffice?.data || []} /> },
+    {
+      title: '관리자 추천 영화',
+      component: <Poster caseType={1} movies={AdminMovie?.data} />,
+    },
     { title: '지금 뜨는 코멘트', component: <HotFeed reviews={HotReview?.data?.content || []} /> },
   ];
 
