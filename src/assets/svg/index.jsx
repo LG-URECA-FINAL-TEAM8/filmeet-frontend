@@ -1,3 +1,5 @@
+export { default as Svg1987 } from './1987';
+export { default as Busan } from './Busan';
 export { default as CastDefault } from './CastDefault';
 export { default as Circle } from './Circle';
 export { default as Clapperboard } from './Clapperboard';
@@ -9,6 +11,9 @@ export { default as GoogleLogo } from './GoogleLogo';
 export { default as Hidden } from './Hidden';
 export { default as IcLikeFilled24 } from './IcLikeFilled24';
 export { default as IcReplyFilled24 } from './IcReplyFilled24';
+export { default as ImagePreview } from './ImagePreview';
+export { default as Jung } from './Jung';
+export { default as KakaoLogo } from './KakaoLogo';
 export { default as Kingdom } from './Kingdom';
 export { default as NaverLogo } from './NaverLogo';
 export { default as Option } from './Option';
