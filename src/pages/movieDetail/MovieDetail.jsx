@@ -4,6 +4,7 @@ import Content from '../../components/features/movieDetail/Content';
 import MovieComment from '../../components/features/movieDetail/MovieComment';
 import { useParams } from 'react-router-dom';
 import { useMovieDetail, useMovieComment } from '../../apis/movieDetail/query';
+import Footer from '../../components/common/footer/Footer';
 function MovieDetail() {
   const { id } = useParams();
   const { data: movieDetail } = useMovieDetail(id);
@@ -17,6 +18,7 @@ function MovieDetail() {
       <Content movieData={movieDetailData} movieId={id} />
       <CastAndCrew castData={castDetailData} />
       <MovieComment comment={movieCommentData} id={id} />
+      <Footer />
     </>
   );
 }

@@ -29,6 +29,9 @@ const pageComponents = {
   AdminPage: () => import('../pages/admin/AdminPage'),
   Bin: () => import('../components/common/bin/Bin'),
   Policy: () => import('../pages/policy/Policy'),
+  WorldcupPage: () => import('../pages/worldcup/WorldcupPage'),
+  WorldcupFinishPage: () => import('../pages/worldcup/WorldcupFinishPage'),
+  WorldcupRankPage: () => import('../pages/worldcup/WorldcupRankPage'),
 };
 
 const createLazyComponent = (importFn) => {
@@ -58,7 +61,7 @@ const routes = [
         element: createLazyComponent(pageComponents.MovieRatingsPage),
       },
       {
-        path: 'mypage/contents/movies/ratings/:rating',
+        path: 'mypage/contents/movies/byratings/:rating/:userId',
         element: createLazyComponent(pageComponents.AllMoviesByRatingsPage),
       },
       {
@@ -101,6 +104,9 @@ const routes = [
         path: '/moviedetail/comments/:reviewId',
         element: createLazyComponent(pageComponents.CommentsDetailPage),
       },
+      { path: 'worldcup', element: createLazyComponent(pageComponents.WorldcupPage) },
+      { path: 'worldcupfinish', element: createLazyComponent(pageComponents.WorldcupFinishPage) },
+      { path: 'worldcuprank', element: createLazyComponent(pageComponents.WorldcupRankPage) },
     ],
     errorElement: <ErrorPage />,
   },

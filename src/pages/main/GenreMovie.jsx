@@ -3,6 +3,7 @@ import Poster from '../../components/common/poster/Poster';
 import { MainBody } from '../../styles/main/main';
 import Title from '../../components/features/main/title/Title';
 import genresText from '../../data/main/text';
+import Footer from '../../components/common/footer/Footer';
 
 function GenreMovie() {
   const genreQueries = useGenreMovies();
@@ -20,6 +21,7 @@ function GenreMovie() {
           />
         </div>
       ))}
+      <Footer />
     </MainBody>
   );
 }

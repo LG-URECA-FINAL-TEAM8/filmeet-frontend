@@ -20,6 +20,7 @@ export const useDeleteFollow = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['followCount'] });
       queryClient.invalidateQueries({ queryKey: ['userInfoId'] });
+      queryClient.invalidateQueries({ queryKey: ['followings'] });
     },
     onError: (error) => error,
   });
