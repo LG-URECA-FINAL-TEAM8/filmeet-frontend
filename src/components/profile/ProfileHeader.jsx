@@ -27,8 +27,8 @@ const ProfileHeader = ({ userInfo, userId }) => {
 
   const Profiles = {
     stats: [
-      { label: 'Follower', count: followData?.followerCount || 0, path: '/followers' },
-      { label: 'Following', count: followData?.followingCount || 0, path: '/followings' },
+      { label: 'Follower', count: followData?.followerCount || 0, path: `/followers/${userId}` },
+      { label: 'Following', count: followData?.followingCount || 0, path: `/followings/${userId}` },
     ],
   };
   const handleAddFollow = () => {
