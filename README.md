@@ -158,5 +158,3 @@ main
     - 예: `MemberId`, `UserInfo`.
 
 </details>
-
-## 폴더 구조
