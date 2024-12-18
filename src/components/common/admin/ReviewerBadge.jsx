@@ -19,7 +19,6 @@ const S = {
     textAlign: 'center',
     display: 'inline-flex',
     alignItems: 'center',
-    //justifyContent: 'center',
     color: lightTheme.color.badgeGreen,
     backgroundColor: lightTheme.color.backgroundGreen,
     fontSize: '1rem',

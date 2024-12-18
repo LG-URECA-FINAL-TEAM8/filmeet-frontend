@@ -54,9 +54,6 @@ function AddMovie() {
   }, [data]);
   const totalMovies = movies.length;
 
-  /* 현재 페이지의 모든 영화가 선택되었는지 여부를 나타내는 isAllSelected 상태를 업데이트하는 역할
-    개별영화나 전체 선택 박스를 클릭할 때 isAllSelected 상태를 유지해야 하고, selectedMovies,totalMovies가
-    바뀔 경우 상태 동기화가 필요함 */
   useEffect(() => {
     const allSelected =
       movies.length > 0 &&

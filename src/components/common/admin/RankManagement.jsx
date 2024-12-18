@@ -36,7 +36,6 @@ function RankManagement() {
   const [left, setLeft] = useState([]);
   const [right, setRight] = useState([]);
 
-  // movies가 업데이트될 때만 left를 설정
   useEffect(() => {
     if (movies.length > 0) {
       setLeft(movies);

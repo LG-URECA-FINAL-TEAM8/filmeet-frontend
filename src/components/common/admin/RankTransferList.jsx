@@ -26,9 +26,7 @@ function RankTransferList({ leftItems, setLeftItems, rightItems, setRightItems }
 
   const customList = (title, items, checkedList, setCheckedList) => (
     <S.ListWrapper>
-      <Typography variant="h6" align="center" sx={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>
-        {title}
-      </Typography>
+      <S.Title variant="h6">{title}</S.Title>
       <S.ListContainer>
         <List dense>
           {items.map((item) => (
@@ -132,5 +130,13 @@ const S = {
     width: '5rem',
     height: '2.5rem',
     backgroundColor: `${lightTheme.color.fontDark}`,
+    fontFamily: `${lightTheme.font.fontSuitRegular}`,
+    fontWeight: `${lightTheme.font.fontWeightRegular}`,
+  }),
+  Title: styled(Typography)({
+    marginBottom: '0.5rem',
+    textAlign: 'center',
+    fontFamily: `${lightTheme.font.fontSuitRegular}`,
+    fontWeight: `${lightTheme.font.fontWeightRegular}`,
   }),
 };

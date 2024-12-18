@@ -41,9 +41,6 @@ function LikeManagement() {
   });
   const { mutate: blindReview } = useAdminReviewBlind();
   
-  /* 서버에서 받아온 리뷰 데이터가 data.content에 있고, data.content가 배열인지 확인해서 데이터 처리
-  enhancedMovies에서는 각 데이터를 컴포넌트에 필요한 형태로 재구성하고 변환된 데이터를 
-  useMovieStore를 통해 전역 상태 movies로 저장 */
   useEffect(() => {
     if (data && Array.isArray(data.content)) {
       const enhancedMovies = data.content.map(({ id, movieTitle, username, createdAt }) => ({
