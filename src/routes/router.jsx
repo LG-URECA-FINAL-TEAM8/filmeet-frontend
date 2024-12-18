@@ -26,6 +26,7 @@ const pageComponents = {
   StarRatingPage: () => import('../pages/header/StarRatingPage'),
   MovieDetail: () => import('../pages/movieDetail/MovieDetail'),
   MovieCommentAll: () => import('../pages/movieDetail/MovieCommentDetail'),
+  AdminPage: () => import('../pages/admin/AdminPage'),
   Bin: () => import('../components/common/bin/Bin'),
   Policy: () => import('../pages/policy/Policy'),
   WorldcupPage: () => import('../pages/worldcup/WorldcupPage'),
@@ -109,6 +110,14 @@ const routes = [
     ],
     errorElement: <ErrorPage />,
   },
+  {
+    path: '/admin',
+    children: [
+      { index: true, element: createLazyComponent(pageComponents.AdminPage) },
+    ],
+    errorElement: <ErrorPage />,
+  },
+
 ];
 
 const router = createBrowserRouter(routes);
