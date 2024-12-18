@@ -24,7 +24,7 @@ const S = {
     left: 50%;
     transform: translateX(-50%);
     width: 100vw;
-    height: 9rem;
+    height: 10rem;
     background-color: ${(props) => props.theme.color.footerBlack};
     -webkit-font-smoothing: antialiased;
     

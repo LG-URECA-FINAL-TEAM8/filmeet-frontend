@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const MainBody = styled.body`
+export const MainBody = styled.div`
   height: auto;
   display: flex;
   flex: 1;

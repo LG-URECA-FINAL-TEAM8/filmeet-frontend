@@ -24,7 +24,7 @@ const ByRatingList = ({ userId }) => {
   // 하드코딩된 필터 데이터 활용
   const { title, filters } = pagecontents.movieRatingList;
 
-  const handleBackClick = createBackClickHandler(navigate, `/`);
+  const handleBackClick = createBackClickHandler(navigate, `ratings/${userId}`);
   const handleFilterClick = createFilterClickHandler(setActiveFilter);
   const filterClickHandlers = filters.map((option) => () => handleFilterClick(option.value));
 

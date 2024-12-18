@@ -10,7 +10,7 @@ const AlarmHistoryList = () => {
       {NotificationData.map((AlarmHistory) => (
         <S.ListItem key={AlarmHistory.id}>
           <S.AvatarWrapper>
-            <S.Avatar src={AlarmHistory.avatar} alt="유저 프로필" />
+            <S.Avatar src={AlarmHistory?.sender?.profileImage} alt="유저 프로필" />
           </S.AvatarWrapper>
           <S.MessageWrapper>
             <S.TextWrapper>
