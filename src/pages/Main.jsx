@@ -13,8 +13,8 @@ import Footer from '../components/common/footer/Footer';
 import Poster from '../components/common/poster/Poster';
 import HotFeed from '../components/features/comments/HotFeed';
 import Title from '../components/features/main/title/Title';
-import carouselSlides from '../data/carouselMovie.js';
 import useUserStore from '../store/user/userStore';
+import carouselSlides from '../data/carouselMovie.js';
 import {
   Content,
   GradientOverlay,
