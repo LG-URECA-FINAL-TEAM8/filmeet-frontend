@@ -7,8 +7,9 @@ import Footer from '../components/common/footer/Footer';
 import Poster from '../components/common/poster/Poster';
 import HotFeed from '../components/features/comments/HotFeed';
 import Title from '../components/features/main/title/Title';
+import carouselSlides from '../data/carouselMovie';
 import useUserStore from '../store/user/userStore';
-import { GradientOverlay, MainBody, StyledCarouselContainer, StyledCarouselImage } from '../styles/main/main.js';
+import { Content, GradientOverlay, MainBody, MovieTitle, SlideContainer, StyledCarouselContainer, StyledCarouselImage, Subtitle, TextOverlay } from '../styles/main/main.js';
 
 function Main() {
   const userId = useUserStore((state) => state.userInfo?.id);
@@ -18,14 +19,6 @@ function Main() {
   const { data: HotReview } = useHotReview();
   const { data: Recommended } = useRecommendation(userId);
   const { data: RandomGenre } = useRandomGenre();
-
-  const carouselImages = [
-    '/assets/Kingdom.svg',
-    '/assets/hidden.svg',
-    '/assets/DP2.svg',
-    '/assets/jung.svg',
-    '/assets/busan.svg',
-  ];
 
   const movieSections = [
     userId
@@ -41,12 +34,17 @@ function Main() {
     <MainBody>
       {/* Carousel Section */}
       <StyledCarouselContainer>
-        <Carousel autoplay>
-          {carouselImages.map((image, index) => (
-            <div key={index}>
+        <Carousel autoplay autoplaySpeed={5000} speed={1000}>
+          {carouselSlides.map((slide, index) => (
+            <SlideContainer key={index}>
               <GradientOverlay />
-              <StyledCarouselImage src={image} alt={`carousel-${index}`} />
-            </div>
+              <StyledCarouselImage src={slide.image} alt={`carousel-${index}`} />
+              <TextOverlay>
+                <MovieTitle>{slide.title}</MovieTitle>
+                <Subtitle>{slide.subtitle}</Subtitle>
+                <Content>{slide.content}</Content>
+              </TextOverlay>
+            </SlideContainer>
           ))}
         </Carousel>
       </StyledCarouselContainer>
