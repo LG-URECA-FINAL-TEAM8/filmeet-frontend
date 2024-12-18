@@ -10,7 +10,7 @@ export const fetchRegisteredMovies = async ({ page = 1, size = 7, query = '' }) 
   }
 
   if (!allMoviesCache) {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/admin/movies??page=${page}&size=100`;
+    const url = `${import.meta.env.VITE_API_BASE_URL}/admin/movies??page=${page}&size=200`;
     const response = await fetch(url, {
       method: 'GET',
       headers: {
