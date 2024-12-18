@@ -18,6 +18,6 @@ const S = {
     font-weight: ${(props) => props.theme.font.fontWeightMedium};
     background-color: ${(props) => props.theme.color.commentColor};
     color: ${(props) => props.theme.color.fontPink};
-    padding: 1rem 0 0 0;
+    padding: 4rem 0 0 0;
   `,
 };

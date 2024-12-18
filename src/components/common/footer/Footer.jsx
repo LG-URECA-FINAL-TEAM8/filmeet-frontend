@@ -24,10 +24,9 @@ const S = {
     left: 50%;
     transform: translateX(-50%);
     width: 100vw;
-    height: 10rem;
+    height: 9rem;
     background-color: ${(props) => props.theme.color.footerBlack};
     -webkit-font-smoothing: antialiased;
-    
 
     .footerMain {
       display: flex;
@@ -35,7 +34,7 @@ const S = {
       align-items: center;
       width: 100%;
       font-size: 1.2rem;
-      padding: 1rem 0;
+      padding: 2rem 0;
       font-family: ${(props) => props.theme.font.fontSuitRegular};
       color: ${(props) => props.theme.color.fontPink};
     }
