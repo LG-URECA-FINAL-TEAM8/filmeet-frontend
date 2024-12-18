@@ -7,6 +7,7 @@ import {
   RandomGenre,
   fetchEvaluation,
   genreMovies,
+  AdminRanking,
 } from './movies';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import genresText from '../../data/main/text';
@@ -25,6 +26,16 @@ export const useUpcoming = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['upcoming'],
     queryFn: UpComingMovies,
+    refetchOnWindowFocus: false,
+  });
+
+  return { data, isLoading, error };
+};
+
+export const useAdminRank = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['adminRank'],
+    queryFn: AdminRanking,
     refetchOnWindowFocus: false,
   });
 
