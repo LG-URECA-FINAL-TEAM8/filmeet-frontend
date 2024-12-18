@@ -1,13 +1,14 @@
-import styled from "styled-components";
-import { useGameRankings } from "../../apis/worldcup/queries";
-import { useNavigate } from "react-router-dom";
-import TopHeader from "../../components/common/back/TopHeader";
+import styled from 'styled-components';
+import { useGameRankings } from '../../apis/worldcup/queries';
+import { useNavigate } from 'react-router-dom';
+import TopHeader from '../../components/common/back/TopHeader';
+import Loading from '../../components/common/loading/Loading';
 
 const WorldcupRankPage = () => {
   const { data, isLoading, error } = useGameRankings();
   const navigate = useNavigate();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
   if (error) return <div>Error occurred</div>;
 
   const rankings = data?.data || [];

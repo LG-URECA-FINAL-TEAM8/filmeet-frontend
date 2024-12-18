@@ -14,6 +14,7 @@ import LogoutModal from '../common/modal/LogoutModal';
 import { useState } from 'react';
 import { useUserInfo } from '../../apis/users/queries';
 import { useAddFollow, useDeleteFollow } from '../../apis/follow/query';
+import Loading from '../common/loading/Loading';
 
 const ProfileHeader = ({ userInfo, userId }) => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const ProfileHeader = ({ userInfo, userId }) => {
   };
   // 로딩 상태 처리
   if (!userId || isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

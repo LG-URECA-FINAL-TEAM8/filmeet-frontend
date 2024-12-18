@@ -27,17 +27,27 @@ import {
   Subtitle,
   TextOverlay,
 } from '../styles/main/main.js';
+import Loading from '../components/common/loading/Loading.jsx';
 
 function Main() {
   const userId = useUserStore((state) => state.userInfo?.id);
-  const { data: upComing } = useUpcoming();
-  const { data: boxOffice } = useBoxOffice();
-  const { data: TopTen } = useTopTen();
-  const { data: HotReview } = useHotReview();
-  const { data: Recommended } = useRecommendation(userId);
-  const { data: RandomGenre } = useRandomGenre();
-  const { data: AdminMovie } = useAdminRank();
+  const { data: upComing, isLoading: loadingUpComing } = useUpcoming();
+  const { data: boxOffice, isLoading: loadingBoxOffice } = useBoxOffice();
+  const { data: TopTen, isLoading: loadingTopTen } = useTopTen();
+  const { data: HotReview, isLoading: loadingHotReview } = useHotReview();
+  const { data: Recommended, isLoading: loadingRecommended } = useRecommendation(userId);
+  const { data: RandomGenre, isLoading: loadingRandomGenre } = useRandomGenre();
+  const { data: AdminMovie, isLoading: loadingAdminRank } = useAdminRank();
   const AdminMovieData = AdminMovie?.data || [];
+  const isLoading =
+    loadingUpComing ||
+    loadingBoxOffice ||
+    loadingTopTen ||
+    loadingHotReview ||
+    loadingRecommended ||
+    loadingRandomGenre ||
+    loadingAdminRank;
+
   const movieSections = [
     userId
       ? {
@@ -63,28 +73,34 @@ function Main() {
 
   return (
     <MainBody>
-      <StyledCarouselContainer>
-        <Carousel autoplay autoplaySpeed={5000} speed={1000}>
-          {carouselSlides.map((slide, index) => (
-            <SlideContainer key={index}>
-              <GradientOverlay />
-              <StyledCarouselImage src={slide.image} alt={`carousel-${index}`} />
-              <TextOverlay>
-                <MovieTitle>{slide.title}</MovieTitle>
-                <Subtitle>{slide.subtitle}</Subtitle>
-                <Content>{slide.content}</Content>
-              </TextOverlay>
-            </SlideContainer>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <StyledCarouselContainer>
+            <Carousel autoplay autoplaySpeed={5000} speed={1000}>
+              {carouselSlides.map((slide, index) => (
+                <SlideContainer key={index}>
+                  <GradientOverlay />
+                  <StyledCarouselImage src={slide.image} alt={`carousel-${index}`} />
+                  <TextOverlay>
+                    <MovieTitle>{slide.title}</MovieTitle>
+                    <Subtitle>{slide.subtitle}</Subtitle>
+                    <Content>{slide.content}</Content>
+                  </TextOverlay>
+                </SlideContainer>
+              ))}
+            </Carousel>
+          </StyledCarouselContainer>
+          {movieSections.map(({ title, component }, index) => (
+            <React.Fragment key={index}>
+              <Title>{title}</Title>
+              {component}
+            </React.Fragment>
           ))}
-        </Carousel>
-      </StyledCarouselContainer>
-      {movieSections.map(({ title, component }, index) => (
-        <React.Fragment key={index}>
-          <Title>{title}</Title>
-          {component}
-        </React.Fragment>
-      ))}
-      <Footer />
+          <Footer />
+        </>
+      )}
     </MainBody>
   );
 }

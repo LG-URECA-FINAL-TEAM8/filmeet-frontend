@@ -4,9 +4,20 @@ import { MainBody } from '../../styles/main/main';
 import Title from '../../components/features/main/title/Title';
 import genresText from '../../data/main/text';
 import Footer from '../../components/common/footer/Footer';
+import Loading from '../../components/common/loading/Loading';
 
 function GenreMovie() {
   const genreQueries = useGenreMovies();
+
+  const isLoading = genreQueries.some((query) => query.isLoading);
+
+  if (isLoading) {
+    return (
+      <MainBody>
+        <Loading />
+      </MainBody>
+    );
+  }
 
   return (
     <MainBody>
