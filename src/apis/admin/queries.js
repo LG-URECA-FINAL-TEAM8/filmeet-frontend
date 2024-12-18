@@ -5,13 +5,13 @@ import { fetchRegisteredMovies } from './selectMovie';
 import { fetchReviewList } from './showReviewList';
 import { reviewBlind } from './reviewBlind';
 import { editMovie } from './editMovie';
-import { uploadPoster } from "./uploadPoster";
+import { uploadPoster } from './uploadPoster';
 import { deleteMovie } from './deleteMovie';
 import { movieRecommend } from './movieRecommend';
 
 export const useAdminSearchMovies = (searchTerm) => {
   return useQuery({
-    queryKey: ['searchMovies'],
+    queryKey: ['adminSearchMovies'],
     queryFn: () => fetchMovies(searchTerm),
     enabled: !!searchTerm,
     refetchOnWindowFocus: false,
@@ -20,11 +20,10 @@ export const useAdminSearchMovies = (searchTerm) => {
 
 export const useAdminRegisterMovies = (clearSelection) => {
   return useMutation({
-    mutationKey: ['registerMovies'],
+    mutationKey: ['adminRegisterMovies'],
     mutationFn: registerMovies,
-    onSuccess: (response) => {
-      const registeredCount = response?.length || 0;
-      alert(`${registeredCount}개의 영화가 성공적으로 등록되었습니다.`);
+    onSuccess: () => {
+      alert(`영화가 성공적으로 등록되었습니다.`);
       clearSelection();
     },
     onError: (error) => {
@@ -35,18 +34,18 @@ export const useAdminRegisterMovies = (clearSelection) => {
 
 export const useAdminSelectMovies = ({ page = 1, size = 7, query = '' }) => {
   return useQuery({
-    queryKey: ['registeredMovies', page, query],
+    queryKey: ['adminFetchMovies', page, query],
     queryFn: () => fetchRegisteredMovies({ page, size, query }),
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
   });
 };
 
 export const useAdminShowReviewList = ({ movieTitle, sort, size, page }) => {
   return useQuery({
-      queryKey: ['reviewList', movieTitle, sort, size, page],
-      queryFn: () => fetchReviewList({ movieTitle, sort, size, page }),
-      refetchOnWindowFocus: false,
-      staleTime: 0,
+    queryKey: ['adminReviewList', movieTitle, sort, size, page],
+    queryFn: () => fetchReviewList({ movieTitle, sort, size, page }),
+    refetchOnWindowFocus: false,
+    staleTime: 0,
   });
 };
 
@@ -69,16 +68,21 @@ export const useAdminEditMovie = () => {
       return editMovie(variables);
     },
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries(['registeredMovies']);
-      queryClient.setQueryData(['registeredMovies'], (oldData) => {
+      queryClient.invalidateQueries(['adminFetchMovies']);
+      queryClient.setQueryData(['adminFetchMovies'], (oldData) => {
         if (!oldData) return oldData;
         return {
           ...oldData,
           content: oldData.content.map((movie) =>
             movie.id === variables.movieId
-              ? { ...movie, title: variables.title, image: variables.image, likeCounts: variables.likeCount }
+              ? {
+                  ...movie,
+                  title: variables.title,
+                  image: variables.image,
+                  likeCounts: variables.likeCount,
+                }
               : movie
-            ),
+          ),
         };
       });
     },
@@ -92,10 +96,10 @@ export const useAdminAddPoster = () => {
   return useMutation({
     mutationFn: uploadPoster,
     onSuccess: () => {
-      alert('포스터 업로드 성공')
+      alert('포스터 업로드 성공');
     },
     onError: (error) => {
-      console.error("포스터 업로드 실패:", error.message);
+      console.error('포스터 업로드 실패:', error.message);
     },
   });
 };
@@ -105,8 +109,7 @@ export const useAdminDeleteMovie = () => {
   return useMutation({
     mutationFn: (movieId) => deleteMovie(movieId),
     onSuccess: () => {
-      console.log('영화 삭제 후 데이터 갱신');
-      queryClient.invalidateQueries(['movieList']);
+      queryClient.invalidateQueries({ queryKey: ['adminFetchMovies'] });
     },
     onError: (error) => {
       console.error('영화 삭제 실패:', error);
@@ -121,12 +124,12 @@ export const useAdminMovieRecommend = () => {
   return useMutation({
     mutationFn: movieRecommend,
     onSuccess: () => {
-      alert("추천 영화가 성공적으로 업데이트되었습니다.");
-      queryClient.invalidateQueries(["recommendedMovies"]);
+      alert('추천 영화가 성공적으로 업데이트되었습니다.');
+      queryClient.invalidateQueries(['adminFetchMovies']);
     },
     onError: (error) => {
-      console.error("추천 영화 업데이트 실패:", error.message);
-      alert("추천 영화 업데이트에 실패했습니다.");
+      console.error('추천 영화 업데이트 실패:', error.message);
+      alert('추천 영화 업데이트에 실패했습니다.');
     },
   });
 };
