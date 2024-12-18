@@ -5,9 +5,9 @@ import MovieManagement from '../../components/common/admin/MovieManagement';
 import AddNewMovie from '../../components/common/admin/AddMovie';
 import LikeManagement from '../../components/common/admin/LikeManagement';
 import RankManagement from '../../components/common/admin/RankManagement';
-import usePageStore from '../../store/admin/usePagestore';
+import usePagingStore from '../../store/admin/usePagingStore';
 function AdminPage() {
-  const { currentPage, setPage } = usePageStore();
+  const { currentPage, setPage } = usePagingStore();
 
   const renderPage = () => {
     switch (currentPage) {
