@@ -8,7 +8,6 @@ const FollowingList = ({ userId }) => {
   const { data, isLoading, error } = useFollowings(userId);
   const { mutate: deleteFollow } = useDeleteFollow();
   const myUserid = myUserInfo?.data?.id;
-  console.log(myUserid, userId);
 
   if (isLoading) {
     return <div>로딩 중...</div>;
