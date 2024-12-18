@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
-const usePageStore = create((set) => ({
+const usePagestore = create((set) => ({
   currentPage: 'movieManagement',
   setPage: (page) => set({ currentPage: page }),
 }));
 
-export default usePageStore;
+export default usePagestore;
