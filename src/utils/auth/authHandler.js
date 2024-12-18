@@ -10,7 +10,15 @@ export const handleAuthClick = (
   setLoggedIn,
   registerToken
 ) => {
-  if (userData && value === '회원가입') {
+  if (userData?.username === 'admin' && value === '로그인') {
+    loginMutate(userData, {
+      onSuccess: async () => {
+        await refetchUserInfo();
+        navigate('/admin');
+      },
+      onError: () => {},
+    });
+  } else if (userData && value === '회원가입') {
     signupMutate(userData, {
       onSuccess: () => {
         setLoggedIn(false);
@@ -22,9 +30,7 @@ export const handleAuthClick = (
         }
       },
     });
-  }
-
-  if (userData && value === '로그인') {
+  } else if (userData && value === '로그인') {
     loginMutate(userData, {
       onSuccess: async () => {
         if (isLoggedIn === false || isLoggedIn == null) {
