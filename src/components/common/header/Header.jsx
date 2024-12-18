@@ -22,7 +22,7 @@ function Header() {
 
     if (route === '/worldcup') {
       createWorldcupGame(
-        createGameMutation.mutate, // mutate 함수 전달
+        createGameMutation.mutate,
         setGameId,
         setGameStarted,
         setCurrentRound,

@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 function HotFeed({ reviews }) {
   const navigate = useNavigate();
-  console.log(reviews);
   const handleNavigate = (reviewId) => {
     navigate(`/mypage/comments/detail/${reviewId}`);
   };
