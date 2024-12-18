@@ -25,9 +25,7 @@
 
 ## 📚 라이브러리
 
-- `@emotion/react: "^11.11.4"`
 - `@tanstack/react-query: "^5.49.2"`
-- `storybook: "^8.1.11"`
 - `vite-plugin-svgr: "^4.2.0"`
 
 ## Commit 메시지 구조
