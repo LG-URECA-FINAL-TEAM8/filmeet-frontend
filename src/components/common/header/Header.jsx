@@ -8,7 +8,6 @@ import useWorldcupStore from '../../../store/worldcup/worldcupStore';
 import { useCreateGame } from '../../../apis/worldcup/queries';
 import { createWorldcupGame } from '../../../utils/worldcup/createWorldcupGame';
 import Searchbar from '../searchbar/SearchBar';
-
 function Header() {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
