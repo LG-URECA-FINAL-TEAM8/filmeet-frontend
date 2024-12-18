@@ -78,4 +78,14 @@ export const FollowButton = styled.button`
     background-color: ${(props) => (props.isFollowing ? '#ffe0e9' : props.theme.color.fontPink)};
     color: ${(props) => (props.isFollowing ? props.theme.color.fontPink : '#fff')};
   }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  &:disabled:hover {
+    background-color: #cccccc;
+    color: inherit;
+  }
 `;
