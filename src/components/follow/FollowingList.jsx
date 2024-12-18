@@ -2,6 +2,7 @@ import * as S from '../../styles/follow/follow';
 import { useFollowings } from '../../apis/myPage/follow/queries';
 import { useDeleteFollow } from '../../apis/follow/query';
 import { useUserInfo } from '../../apis/users/queries';
+import Loading from '../common/loading/Loading';
 
 const FollowingList = ({ userId }) => {
   const { data: myUserInfo } = useUserInfo();
@@ -10,7 +11,7 @@ const FollowingList = ({ userId }) => {
   const myUserid = myUserInfo?.data?.id;
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <Loading />;
   }
 
   if (error) {

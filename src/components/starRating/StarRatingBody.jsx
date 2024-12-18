@@ -5,6 +5,7 @@ import { useEvaluation } from '../../apis/getMovies/queries';
 import { useRef } from 'react';
 import useScrollHandler from '../../hooks/evaluation/useScrollHandler';
 import { useMovieEvaluation } from '../../apis/evaluation/query';
+import Loading from '../common/loading/Loading';
 const StarRatingBody = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useEvaluation();
   const { ratings, setRating } = useStarRatingStore();
@@ -43,7 +44,11 @@ const StarRatingBody = () => {
           </S.MovieInfo>
         </S.MovieCard>
       ))}
-      {isFetchingNextPage && <S.LoadingIndicator>더 많은 영화 로딩 중...</S.LoadingIndicator>}
+      {isFetchingNextPage && (
+        <S.LoadingIndicator>
+          <Loading />
+        </S.LoadingIndicator>
+      )}
     </S.BodyContainer>
   );
 };

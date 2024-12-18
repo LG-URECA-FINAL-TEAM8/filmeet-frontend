@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { createProfileClickHandler } from '../../../utils/ratings/navigationHandlers';
 import { useUserComments } from '../../../apis/myPage/comment/queries';
 import { useParams } from 'react-router-dom';
+import Loading from '../../common/loading/Loading';
 
 const Comment = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Comment = () => {
   };
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <Loading />;
   }
 
   if (error) {
