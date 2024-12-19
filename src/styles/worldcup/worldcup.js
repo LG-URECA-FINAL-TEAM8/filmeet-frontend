@@ -16,6 +16,7 @@ export const FinishPageWrapper = styled.div`
 `;
 
 export const WinnerPageWrapper = styled.div`
+  padding: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,8 +69,8 @@ export const CongratsText = styled.p`
 `;
 
 export const WinnerTitle = styled.h1`
-  font-size: 2.5rem;
-  font-family: ${(props) => props.theme.font.fontSuitBold};
+  font-size: 2rem;
+  font-family: ${(props) => props.theme.font.fontSuitRegular};
   text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
 `;

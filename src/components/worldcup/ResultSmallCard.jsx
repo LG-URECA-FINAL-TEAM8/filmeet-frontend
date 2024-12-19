@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { StarFilled } from "@ant-design/icons";
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { StarFilled } from '@ant-design/icons';
 
 const SmallCard = ({ title, image, movieId, rating }) => {
   const navigate = useNavigate();
@@ -15,8 +15,8 @@ const SmallCard = ({ title, image, movieId, rating }) => {
         <S.Image src={image} alt={title} />
       </S.Card>
       <S.Rating>
-        <StarFilled style={{ color: "#FF2F6E", marginRight: "0.3rem" }} />
-        {rating ? rating.toFixed(1) : "0.0"}
+        <StarFilled style={{ color: '#FF2F6E', marginRight: '0.3rem' }} />
+        {rating ? rating.toFixed(1) : '0.0'}
       </S.Rating>
     </S.CardWrapper>
   );
@@ -35,7 +35,7 @@ const S = {
 
   Card: styled.div`
     width: 10rem;
-    height: 11.87rem;
+    height: 12rem;
     border-radius: 0.5rem;
     background-color: ${(props) => props.theme.color.cardBackground};
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -44,7 +44,10 @@ const S = {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease,
+      background-color 0.3s ease;
     cursor: pointer;
 
     &:hover {

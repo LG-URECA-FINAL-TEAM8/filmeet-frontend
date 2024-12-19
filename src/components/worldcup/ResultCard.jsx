@@ -1,7 +1,7 @@
-import { Card } from "antd";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { StarFilled } from "@ant-design/icons"; // 아이콘 사용
+import { Card } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { StarFilled } from '@ant-design/icons'; // 아이콘 사용
 
 const ResultCard = ({ image, title, movieId, rating }) => {
   const navigate = useNavigate();
@@ -12,9 +12,13 @@ const ResultCard = ({ image, title, movieId, rating }) => {
 
   return (
     <S.CardWrapper>
-      <S.StyledCard hoverable cover={<S.StyledImage alt={title} src={image} />} onClick={handleCardClick} />
+      <S.StyledCard
+        hoverable
+        cover={<S.StyledImage alt={title} src={image} />}
+        onClick={handleCardClick}
+      />
       <S.Rating>
-        <StarFilled style={{ color: "#FF2F6E", marginRight: "0.3rem" }} />
+        <StarFilled style={{ color: '#FF2F6E', marginRight: '0.3rem' }} />
         {rating.toFixed(1)} {/* 소수점 첫째자리까지 표시 */}
       </S.Rating>
     </S.CardWrapper>
@@ -33,12 +37,14 @@ const S = {
   `,
 
   StyledCard: styled(Card)`
-    width: 20rem;
+    width: 17rem;
     height: 25rem;
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 0.25rem 0.37rem rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
 
     .ant-card-body {
       padding: 0;
@@ -56,7 +62,7 @@ const S = {
   `,
 
   Rating: styled.div`
-    margin-top: 0.5rem;
+    margin-top: 1.2rem;
     font-size: 1.1rem;
     color: ${(props) => props.theme.color.fontPink};
     font-family: ${(props) => props.theme.font.fontSuitBold};
