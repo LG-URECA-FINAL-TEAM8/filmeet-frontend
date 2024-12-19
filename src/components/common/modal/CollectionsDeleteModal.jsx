@@ -12,7 +12,7 @@ const MODALTEXTS = {
 
 ReactModal.setAppElement('#root');
 
-const CollectionDeleteModal = () => {
+const CollectionDeleteModal = ({ userId }) => {
   const { isModalOpen, closeModal, selectedCollection, removeCollection } =
     useCollectionsDeleteStore();
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const CollectionDeleteModal = () => {
     const movieIds = movies.length > 0 ? movies.map((movie) => movie.movieId) : [];
     await removeCollection(collectionId, movieIds, navigate); // `navigate` 전달
     closeModal();
-    navigate('/mypage/collections');
+    navigate(`/mypage/collections/${userId}`);
   };
 
   if (!isModalOpen) return null;

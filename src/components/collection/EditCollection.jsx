@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import MovieSearchModal from '../common/modal/MovieSearchModal';
 import { updateCollection } from '../../apis/myPage/collection/collectiondetail';
 import useCollectionsStore from '../../store/collections/useCollectionsStore';
+import { useParams } from 'react-router-dom';
 
 const CollectionsLabel = {
   EditCollection: '컬렉션 수정',
@@ -18,6 +19,8 @@ const CollectionsLabel = {
 };
 
 const EditCollection = () => {
+  const { collectionId } = useParams();
+
   const {
     selectedCollection,
     collectionMovies,
@@ -82,7 +85,7 @@ const EditCollection = () => {
 
     await updateCollection(updatedCollection); // PATCH 요청
     resetFields(); // 상태 초기화
-    navigate('/mypage/collections'); // 목록 페이지로 이동
+    navigate(`/mypage/collections/detail/${collectionId}`); // 목록 페이지로 이동
   };
 
   const handleCancelEdit = () => {

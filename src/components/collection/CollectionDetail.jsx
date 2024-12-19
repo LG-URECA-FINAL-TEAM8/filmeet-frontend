@@ -11,7 +11,6 @@ import useCollectionsMenuStore from '../../store/collections/useCollectionsMenuS
 import useCollectionsStore from '../../store/collections/useCollectionsStore';
 import useCommentDeleteStore from '../../store/collections/useCommentDeleteStore';
 import useCommentsStore from '../../store/collections/useCommentsStore';
-import Poster from '../common/poster/Poster';
 import CollectionCommentDelete from '../common/modal/CollectionCommentDelete';
 import EditModal from '../common/modal/collection/EditModal';
 
@@ -250,7 +249,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
       </S.CommentSection>
 
       <EditModal />
-      <CollectionsDeleteModal />
+      <CollectionsDeleteModal userId={userInfo?.id} />
       <CollectionCommentDelete />
     </S.Container>
   );
