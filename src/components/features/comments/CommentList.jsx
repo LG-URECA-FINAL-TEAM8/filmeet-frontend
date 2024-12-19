@@ -5,6 +5,7 @@ import { useMenuStore } from '../../../store/comment/useMenuStore';
 import useCommentStore from '../../../store/modal/useCommentStore';
 import { useFetchComments } from '../../../apis/commentDetails/queries';
 import { pagecontents } from '../../../data/pagecontents';
+import Loading from '../../common/loading/Loading';
 
 const CommentList = ({ reviewId, userInfo, onEdit }) => {
   const { data: comments, isLoading, isError, error } = useFetchComments({ reviewId });
@@ -13,7 +14,7 @@ const CommentList = ({ reviewId, userInfo, onEdit }) => {
   const { openModal } = useCommentStore();
 
   if (isLoading) {
-    return <div>댓글을 불러오는 중...</div>;
+    return <Loading />;
   }
 
   if (isError) {

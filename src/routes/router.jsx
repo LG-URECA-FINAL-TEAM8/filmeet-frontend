@@ -2,6 +2,7 @@ import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import DefaultLayout from '../components/layout/DefaultLayout';
 import ErrorPage from '../pages/errorpage/ErrorPage';
+import Loading from '../components/common/loading/Loading';
 
 // 컴포넌트 동적 로딩 설정
 const pageComponents = {
@@ -37,7 +38,12 @@ const pageComponents = {
 const createLazyComponent = (importFn) => {
   const LazyComponent = React.lazy(importFn);
   return (
-    <React.Suspense fallback={<div>Loading...</div>}>
+    <React.Suspense
+      fallback={
+        <div>
+          <Loading />
+        </div>
+      }>
       <LazyComponent />
     </React.Suspense>
   );

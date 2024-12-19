@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import useCollectionsStore from '../../../store/collections/useCollectionsStore';
 import SvgSearch from '../../../assets/svg/Search';
 import ListPoster from '../poster/ModalList';
-
-ReactModal.setAppElement("#root");
+import Loading from '../loading/Loading';
+ReactModal.setAppElement('#root');
 
 const CollectionsLabel = {
-  AddMovies: "작품 추가",
-  AddMoviesButton: "개 추가하기",
-  SearchPlaceholder: "검색하여 작품 추가하기",
+  AddMovies: '작품 추가',
+  AddMoviesButton: '개 추가하기',
+  SearchPlaceholder: '검색하여 작품 추가하기',
 };
 
 const MovieSearchModal = ({ onAddMovies }) => {
@@ -50,8 +50,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
       isOpen={isModalOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      contentLabel="Movie Search Modal"
-    >
+      contentLabel="Movie Search Modal">
       <S.ModalContainer>
         <S.ButtonWrapper>
           <S.CloseButton onClick={closeModal}>✕</S.CloseButton>
@@ -59,10 +58,7 @@ const MovieSearchModal = ({ onAddMovies }) => {
         <S.Header>
           <S.Title>
             {CollectionsLabel.AddMovies}
-            <S.AddButton
-              disabled={tempSelectedMovies.length === 0}
-              onClick={handleAddMovies}
-            >
+            <S.AddButton disabled={tempSelectedMovies.length === 0} onClick={handleAddMovies}>
               {tempSelectedMovies.length}
               {CollectionsLabel.AddMoviesButton}
             </S.AddButton>
@@ -79,23 +75,23 @@ const MovieSearchModal = ({ onAddMovies }) => {
         </S.Header>
         <S.MovieList>
           {searchLoading ? (
-            <S.EmptyMessage>검색 중...</S.EmptyMessage>
+            <Loading />
           ) : searchResults.length > 0 ? (
             <ListPoster
-            movies={searchResults.map((movie) => {
-              const isAlreadyAdded = selectedMovies.some(
-                (selectedMovie) => selectedMovie.id === movie.id
-              );
-              const isSelected = tempSelectedMovies.some(
-                (tempMovie) => tempMovie.id === movie.id
-              );
-              return {
-                ...movie,
-                isSelected,
-                isDisabled: isAlreadyAdded,
-              };
-            })}
-            onMovieSelect={handleMovieSelect}
+              movies={searchResults.map((movie) => {
+                const isAlreadyAdded = selectedMovies.some(
+                  (selectedMovie) => selectedMovie.id === movie.id
+                );
+                const isSelected = tempSelectedMovies.some(
+                  (tempMovie) => tempMovie.id === movie.id
+                );
+                return {
+                  ...movie,
+                  isSelected,
+                  isDisabled: isAlreadyAdded,
+                };
+              })}
+              onMovieSelect={handleMovieSelect}
             />
           ) : (
             <S.EmptyMessage>검색 결과가 없습니다.</S.EmptyMessage>

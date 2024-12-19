@@ -1,14 +1,14 @@
-import { 
-  Box, 
-  TextField, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow, 
-  Paper, 
-  Pagination 
+import {
+  Box,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Pagination,
 } from '@mui/material';
 import { styled } from '@mui/system';
 import LockIcon from '@mui/icons-material/Lock';
@@ -20,12 +20,12 @@ import useMovieStore from '../../../store/admin/useMovieStore';
 import { useAdminReviewBlind } from '../../../apis/admin/queries';
 import { useAdminShowReviewList } from '../../../apis/admin/queries';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
-import { 
-  handleBlind, 
-  handleKeyDown, 
-  handlePageChange 
+import {
+  handleBlind,
+  handleKeyDown,
+  handlePageChange,
 } from '../../../utils/admin/likeManagementUtils';
-
+import Loading from '../loading/Loading';
 
 function LikeManagement() {
   const { movies, setMovies } = useMovieStore();
@@ -33,14 +33,14 @@ function LikeManagement() {
   const [searchTerm, setSearchTerm] = useState('');
   const [submittedTerm, setSubmittedTerm] = useState('');
   const tableHeader = tableHeaders.likeManagement;
-  const { data, isLoading, isError } = useAdminShowReviewList({
-    movieTitle: submittedTerm || "",
+  const { data, isLoading } = useAdminShowReviewList({
+    movieTitle: submittedTerm || '',
     sort: 'asc',
     size: moviesPerPage,
     page: currentPage - 1,
   });
   const { mutate: blindReview } = useAdminReviewBlind();
-  
+
   useEffect(() => {
     if (data && Array.isArray(data.content)) {
       const enhancedMovies = data.content.map(({ id, movieTitle, username, createdAt }) => ({
@@ -53,8 +53,7 @@ function LikeManagement() {
     }
   }, [data, setMovies]);
 
-  if (isLoading) return <p>Loading data...</p>;
-  if (isError) return <p>An error occurred while fetching data. Please try again.</p>;
+  if (isLoading) return <Loading />;
 
   const currentMovies = movies || [];
 

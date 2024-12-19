@@ -4,6 +4,7 @@ import CollectionsOverview from '../../../components/collection/CollectionsOverv
 import useCollectionsStore from '../../../store/collections/useCollectionsStore';
 import { CollectionPageWrapper } from '../../../styles/collectionspage/collections';
 import { useParams } from 'react-router-dom';
+import Loading from '../../../components/common/loading/Loading';
 
 const CollectionsPage = () => {
   const { userId } = useParams();
@@ -16,7 +17,7 @@ const CollectionsPage = () => {
   }, [userId, fetchCollections]);
 
   if (isLoading) {
-    return <div>Loading collections...</div>;
+    return <Loading />;
   }
 
   if (error) {
