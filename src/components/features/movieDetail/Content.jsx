@@ -9,7 +9,7 @@ import { useMovieEvaluation, useDeleteEvaluation } from '../../../apis/evaluatio
 import { useMovieLikeUpdate, useMovieLikeDelete } from '../../../apis/movieDetail/query';
 import CommentCard from './CommentCard';
 
-function Content({ movieData, movieId, userId }) {
+function Content({ movieData, movieId }) {
   const { openModal } = useMovieCommentStore();
   const { mutate: evaluationMutate } = useMovieEvaluation();
   const { mutate: deleteMutate } = useDeleteEvaluation();

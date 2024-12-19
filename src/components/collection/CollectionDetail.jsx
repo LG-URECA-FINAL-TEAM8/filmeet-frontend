@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAddComment, useFetchComments } from '../../apis/myPage/collection/queries';
 import SvgComment from '../../assets/svg/Comment';

@@ -1,7 +1,7 @@
-import { Card } from "antd";
-import styled, { keyframes, css } from "styled-components";
-import SvgStar from "../../assets/svg/Star";
-import { useState } from "react";
+import { Card } from 'antd';
+import styled, { keyframes, css } from 'styled-components';
+import SvgStar from '../../assets/svg/Star';
+import { useState } from 'react';
 
 const { Meta } = Card;
 
@@ -23,7 +23,7 @@ const WorldcupMoviecard = ({ image, title, rating, onClick }) => {
     <S.CardWrapper>
       <S.StyledCard
         hoverable
-        className={`${isVanishing ? "vanishOut" : ""} ${isSelected ? "selected" : ""}`}
+        className={`${isVanishing ? 'vanishOut' : ''} ${isSelected ? 'selected' : ''}`}
         isSelected={isSelected}
         onClick={handleCardClick}
         cover={<S.StyledImage alt={title} src={image} />}>
@@ -33,9 +33,8 @@ const WorldcupMoviecard = ({ image, title, rating, onClick }) => {
             <SvgStar width={20} height={20} />
             {rating.toFixed(1)}
           </S.StarItem>
-      </S.CardDetails>
+        </S.CardDetails>
       </S.StyledCard>
-      
     </S.CardWrapper>
   );
 };
@@ -59,7 +58,7 @@ const S = {
     align-items: center;
     text-align: center;
     gap: 0.5rem; /* 카드와 별점/제목 사이 간격 */
-    margin:1rem 0 1rem 0;
+    margin: 1rem 0 1rem 0;
   `,
 
   StyledCard: styled(Card)`
@@ -68,7 +67,9 @@ const S = {
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 0.25rem 0.37rem rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
 
     ${(props) =>
       props.isSelected &&
