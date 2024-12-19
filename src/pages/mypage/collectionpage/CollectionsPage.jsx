@@ -5,9 +5,12 @@ import useCollectionsStore from '../../../store/collections/useCollectionsStore'
 import { CollectionPageWrapper } from '../../../styles/collectionspage/collections';
 import { useParams } from 'react-router-dom';
 import Loading from '../../../components/common/loading/Loading';
+import { useUserInfo } from '../../../apis/users/queries';
 
 const CollectionsPage = () => {
   const { userId } = useParams();
+  const { data: userInfo } = useUserInfo();
+  const myUserId = userInfo?.data?.id;
   const { collections, fetchCollections, isLoading, error } = useCollectionsStore();
   // 서버에서 컬렉션 데이터 가져오기
   useEffect(() => {
@@ -26,7 +29,7 @@ const CollectionsPage = () => {
 
   return (
     <CollectionPageWrapper>
-      <CollectionsOverview userId={userId} />
+      <CollectionsOverview userId={userId} myUserId={myUserId} />
       <CollectionList collections={collections} />
     </CollectionPageWrapper>
   );

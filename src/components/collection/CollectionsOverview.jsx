@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const CollectionsOverview = ({ userId }) => {
+const CollectionsOverview = ({ userId, myUserId }) => {
   const navigate = useNavigate();
 
   const CollectionsLabel = {
@@ -16,7 +16,9 @@ const CollectionsOverview = ({ userId }) => {
   return (
     <S.Container>
       <S.Title>{CollectionsLabel.CollectionManagement}</S.Title>
-      <S.Button onClick={handleAddClick}>{CollectionsLabel.AddCollections}</S.Button>
+      {Number(userId) === Number(myUserId) && (
+        <S.Button onClick={handleAddClick}>{CollectionsLabel.AddCollections}</S.Button>
+      )}
     </S.Container>
   );
 };
