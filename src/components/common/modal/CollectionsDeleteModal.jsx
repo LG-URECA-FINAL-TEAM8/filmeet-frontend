@@ -1,16 +1,16 @@
-import ReactModal from "react-modal";
-import styled from "styled-components";
-import useCollectionsDeleteStore from "../../../store/collections/useCollectionsDeleteStore";
-import { useNavigate } from "react-router-dom";
+import ReactModal from 'react-modal';
+import styled from 'styled-components';
+import useCollectionsDeleteStore from '../../../store/collections/useCollectionsDeleteStore';
+import { useNavigate } from 'react-router-dom';
 
 const MODALTEXTS = {
-  modalTitle: "알림",
-  deleteComment: "컬렉션을 정말 삭제하시겠어요?",
-  cancel: "취소",
-  confirm: "확인",
+  modalTitle: '알림',
+  deleteComment: '컬렉션을 정말 삭제하시겠어요?',
+  cancel: '취소',
+  confirm: '확인',
 };
 
-ReactModal.setAppElement("#root");
+ReactModal.setAppElement('#root');
 
 const CollectionDeleteModal = () => {
   const { isModalOpen, closeModal, selectedCollection, removeCollection } =
@@ -24,10 +24,10 @@ const CollectionDeleteModal = () => {
 
     const { collectionId, movies = [] } = selectedCollection; // 기본값 설정
 
-      const movieIds = movies.length > 0 ? movies.map((movie) => movie.movieId) : [];
-      await removeCollection(collectionId, movieIds, navigate); // `navigate` 전달
-      closeModal();
-      navigate("/mypage/collections"); 
+    const movieIds = movies.length > 0 ? movies.map((movie) => movie.movieId) : [];
+    await removeCollection(collectionId, movieIds, navigate); // `navigate` 전달
+    closeModal();
+    navigate('/mypage/collections');
   };
 
   if (!isModalOpen) return null;
@@ -51,15 +51,15 @@ export default CollectionDeleteModal;
 
 const customStyles = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   content: {
-    width: "17.5rem",
-    height: "7.5rem",
-    margin: "auto",
-    borderRadius: "0.6rem",
-    padding: "1.25rem 0 0 0",
-    overflow: "hidden",
+    width: '17.5rem',
+    height: '8.5rem',
+    margin: 'auto',
+    borderRadius: '0.6rem',
+    padding: '1.25rem 0 0 0',
+    overflow: 'hidden',
   },
 };
 
@@ -114,5 +114,3 @@ const S = {
     cursor: pointer;
   `,
 };
-
-
