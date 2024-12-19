@@ -58,7 +58,7 @@ const customStyles = {
   },
   content: {
     width: '17.5rem',
-    height: '7.5rem',
+    height: '8.5rem',
     margin: 'auto',
     borderRadius: '0.6rem',
     padding: '1.25rem 0 0 0',
