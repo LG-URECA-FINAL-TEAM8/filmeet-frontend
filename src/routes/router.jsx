@@ -83,7 +83,7 @@ const routes = [
         element: createLazyComponent(pageComponents.CollectionsPage),
       },
       {
-        path: 'mypage/collections/create',
+        path: 'mypage/collections/create/:userId',
         element: createLazyComponent(pageComponents.CollectionCreatePage),
       },
       {

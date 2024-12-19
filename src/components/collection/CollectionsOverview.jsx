@@ -1,24 +1,22 @@
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-const CollectionsOverview = () => {
+const CollectionsOverview = ({ userId }) => {
   const navigate = useNavigate();
 
   const CollectionsLabel = {
-    CollectionManagement: "컬렉션",
-    AddCollections: "새 컬렉션 추가",
+    CollectionManagement: '컬렉션',
+    AddCollections: '새 컬렉션 추가',
   };
 
   const handleAddClick = () => {
-    navigate("/mypage/collections/create");
-  }
+    navigate(`/mypage/collections/create/${userId}`);
+  };
 
   return (
     <S.Container>
       <S.Title>{CollectionsLabel.CollectionManagement}</S.Title>
-      <S.Button onClick={handleAddClick}>
-        {CollectionsLabel.AddCollections}
-      </S.Button>
+      <S.Button onClick={handleAddClick}>{CollectionsLabel.AddCollections}</S.Button>
     </S.Container>
   );
 };
@@ -53,5 +51,3 @@ const S = {
     transition: color 0.3s ease;
   `,
 };
-
-

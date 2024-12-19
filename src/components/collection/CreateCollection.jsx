@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import MovieSearchModal from '../common/modal/MovieSearchModal';
 import { createNewCollection } from '../../apis/myPage/collection/collection';
 import useCollectionsStore from '../../store/collections/useCollectionsStore';
-
+import { useParams } from 'react-router-dom';
 const CollectionsLabel = {
   NewCollection: '새 컬렉션',
   Create: '만들기',
@@ -17,6 +17,7 @@ const CollectionsLabel = {
 };
 
 const CreateCollection = () => {
+  const { userId } = useParams();
   const navigate = useNavigate();
   const {
     title,
@@ -39,7 +40,6 @@ const CreateCollection = () => {
 
   const handleSaveCollection = async () => {
     if (title.trim() && description.trim() && selectedMovies.length > 0) {
-      const userId = localStorage.getItem('userId');
       const movieIds = selectedMovies.map((movie) => movie.id);
 
       const newCollectionData = {
@@ -50,7 +50,7 @@ const CreateCollection = () => {
       };
       await createNewCollection(newCollectionData);
       resetFields(); // 상태 초기화
-      navigate('/mypage/collections');
+      navigate(`/mypage/collections/${userId}`);
     }
   };
 

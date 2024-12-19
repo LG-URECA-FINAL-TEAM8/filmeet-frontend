@@ -26,7 +26,7 @@ const CollectionsPage = () => {
 
   return (
     <CollectionPageWrapper>
-      <CollectionsOverview />
+      <CollectionsOverview userId={userId} />
       <CollectionList collections={collections} />
     </CollectionPageWrapper>
   );

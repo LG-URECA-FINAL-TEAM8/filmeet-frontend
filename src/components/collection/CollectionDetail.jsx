@@ -171,7 +171,14 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
           <S.SectionTitle>{CollectionsLabel.Movies}</S.SectionTitle>
           <S.TitleCount>{movies.length}</S.TitleCount>
         </S.SectionHeader>
-        <Poster caseType={4} movies={movies} />
+        <S.MoviesGrid>
+          {movies.map((movie) => (
+            <S.MovieThumbnail key={movie?.id}>
+              <S.ThumbnailImage src={movie?.posterImage} alt={movie.title} />
+              <S.ThumbnailTitle>{movie?.title}</S.ThumbnailTitle>
+            </S.MovieThumbnail>
+          ))}
+        </S.MoviesGrid>
       </S.MoviesSection>
 
       <S.CommentSection>
@@ -179,6 +186,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
           <S.SectionTitle>{CollectionsLabel.Comment}</S.SectionTitle>
           <S.TitleCount>{comments.length}</S.TitleCount>
         </S.SectionHeader>
+
         <S.CommentList>
           {comments.map((comment, index) => (
             <S.Comment key={index}>
@@ -228,6 +236,7 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
             </S.Comment>
           ))}
         </S.CommentList>
+
         <S.CommentInputWrapper>
           <S.CommentInput
             placeholder={CollectionsLabel.Placeholder}
@@ -250,6 +259,43 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
 export default CollectionDetail;
 
 const S = {
+  MoviesGrid: styled.div`
+    padding: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(6.1rem, 1fr));
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  `,
+  MovieThumbnail: styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 6rem;
+    margin: 0 auto;
+    border-radius: 0.3rem;
+    overflow: hidden;
+    text-align: center;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+  `,
+  ThumbnailImage: styled.img`
+    width: 100%;
+    height: 9rem;
+    object-fit: cover;
+    border-radius: 0.3rem;
+  `,
+  ThumbnailTitle: styled.div`
+    margin-top: 0.4rem;
+    width: 100%;
+    font-family: ${(props) => props.theme.font.fontSuitRegular};
+    font-size: 0.9rem;
+    color: ${(props) => props.theme.color.fontPink};
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  `,
+
   // 전체 컨테이너
   Container: styled.div`
     width: 40rem;
