@@ -11,7 +11,7 @@ function CastAndCrew({ castData }) {
             {cast.profileImage ? (
               <S.CastImage src={cast.profileImage} alt={cast.name} />
             ) : (
-              <SvgDefaultProfile width={'2rem'} heigh={'2rem'} />
+              <SvgDefaultProfile width={'3rem'} heigh={'3rem'} />
             )}
             <S.CastDetails>
               <S.CastName>{cast.name}</S.CastName>
