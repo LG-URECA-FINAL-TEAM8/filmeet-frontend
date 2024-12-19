@@ -28,6 +28,7 @@ import {
   TextOverlay,
 } from '../styles/main/main.js';
 import Loading from '../components/common/loading/Loading.jsx';
+import { Helmet } from 'react-helmet';
 
 function Main() {
   const userId = useUserStore((state) => state.userInfo?.id);
@@ -73,6 +74,12 @@ function Main() {
 
   return (
     <MainBody>
+      <Helmet>
+        <meta
+          name="페이지 설명"
+          content="박스오피스, TOP10 영화와 같이 영화 정보를 확인할 수 있는 페이지입니다."
+        />
+      </Helmet>
       {isLoading ? (
         <Loading />
       ) : (
