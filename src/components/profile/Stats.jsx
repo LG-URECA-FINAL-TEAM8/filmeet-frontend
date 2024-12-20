@@ -23,8 +23,8 @@ const Stats = ({ count }) => {
   return (
     <StatsContainerWrapper>
       <StatsContainer>
-        {stats.map((stat, index) => (
-          <StatBox key={index} onClick={() => handleNavigation(stat.path)}>
+        {stats.map((stat, id) => (
+          <StatBox key={id} onClick={() => handleNavigation(stat.path)}>
             <StatNumber>{stat.count}</StatNumber>
             <StatText>{stat.label}</StatText>
           </StatBox>

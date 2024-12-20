@@ -44,11 +44,11 @@ const MovieRatingList = ({ userId }) => {
         </S.BackButton>
         <S.TopTitle>{title}</S.TopTitle>
         <S.FilterContainer>
-          {filters.map((option, index) => (
+          {filters.map((option, id) => (
             <S.FilterButton
               key={option.value}
               isActive={activeFilter === option.value}
-              onClick={filterClickHandlers[index]}>
+              onClick={filterClickHandlers[id]}>
               {option.label}
             </S.FilterButton>
           ))}

@@ -6,8 +6,8 @@ function Policy() {
       <Title>{policyText.title}</Title>
       <Paragraph>발효일: {policyText.effectiveDate}</Paragraph>
 
-      {policyText.sections.map((section, index) => (
-        <div key={index}>
+      {policyText.sections.map((section, id) => (
+        <div key={id}>
           <SectionTitle>{section.title}</SectionTitle>
 
           {section.content &&

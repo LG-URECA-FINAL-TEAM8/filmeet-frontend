@@ -1,16 +1,16 @@
-import { 
-  Box, 
-  Button, 
-  Checkbox, 
-  Pagination, 
-  Paper, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow, 
-  TextField 
+import {
+  Box,
+  Button,
+  Checkbox,
+  Pagination,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
 } from '@mui/material';
 import { styled } from '@mui/system';
 import AvgRatingBadge from './AvgRatingBadge';
@@ -20,7 +20,12 @@ import tableHeaders from '../../../data/admintableheaders';
 import useSelectionStore from '../../../store/admin/useSelectionStore';
 import usePaginationStore from '../../../store/admin/usePaginationStore';
 import { useAdminRegisterMovies, useAdminSearchMovies } from '../../../apis/admin/queries';
-import { handleSearch, handleSelectAll, handleCheckboxChange, handleRegister } from '../../../utils/admin/addMovieUtils';
+import {
+  handleSearch,
+  handleSelectAll,
+  handleCheckboxChange,
+  handleRegister,
+} from '../../../utils/admin/addMovieUtils';
 
 function AddMovie() {
   const { currentPage, moviesPerPage, setCurrentPage } = usePaginationStore();
@@ -29,24 +34,25 @@ function AddMovie() {
   const [submittedTerm, setSubmittedTerm] = useState('');
   const [isAllSelected, setIsAllSelected] = useState(false);
   const { data, isLoading: isSearching, error } = useAdminSearchMovies(submittedTerm);
-  const { mutate: registerMovies, isLoading: isRegistering } = useAdminRegisterMovies(clearSelection);
+  const { mutate: registerMovies, isLoading: isRegistering } =
+    useAdminRegisterMovies(clearSelection);
   const searchingTerm = {
-    searching: "검색 중...",
-    noResults: "검색 결과가 없습니다."
+    searching: '검색 중...',
+    noResults: '검색 결과가 없습니다.',
   };
   const movies = useMemo(() => {
-    const transformedMovies = data?.data.map((movie, index) => {
+    const transformedMovies = data?.data.map((movie, id) => {
       return {
-        id: movie.id || `${movie.title}-${index}`,
+        id: movie.id || `${movie.title}-${id}`,
         title: movie.title,
-        titleEng: movie.titleEng || "",
-        repRlsDate: movie.repRlsDate || "",
+        titleEng: movie.titleEng || '',
+        repRlsDate: movie.repRlsDate || '',
         staffs: movie.staffs || [],
-        nation: movie.nation || "",
+        nation: movie.nation || '',
         plots: movie.plots || [],
-        runtime: movie.runtime || "",
-        rating: movie.rating || "미정",
-        genre: movie.genre || "미정",
+        runtime: movie.runtime || '',
+        rating: movie.rating || '미정',
+        genre: movie.genre || '미정',
         posters: movie.posters || [],
       };
     });
@@ -56,8 +62,7 @@ function AddMovie() {
 
   useEffect(() => {
     const allSelected =
-      movies.length > 0 &&
-      movies.every((movie) => selectedMovies.includes(movie.id));
+      movies.length > 0 && movies.every((movie) => selectedMovies.includes(movie.id));
     setIsAllSelected(allSelected);
   }, [selectedMovies, movies]);
 
@@ -95,9 +100,7 @@ function AddMovie() {
                 <S.TableHeadCell>
                   <Checkbox
                     checked={isAllSelected}
-                    indeterminate={
-                      selectedMovies.length > 0 && selectedMovies.length < totalMovies
-                    }
+                    indeterminate={selectedMovies.length > 0 && selectedMovies.length < totalMovies}
                     onChange={() =>
                       handleSelectAll(movies, isAllSelected, clearSelection, addMovie)
                     }
@@ -112,12 +115,12 @@ function AddMovie() {
               {currentMovies.map((movie) => (
                 <TableRow key={movie.id}>
                   <TableCell>
-                  <Checkbox
-                    checked={selectedMovies.includes(movie.id)}
-                    onChange={() =>
-                      handleCheckboxChange(movie.id,selectedMovies,addMovie,removeMovie
-                    )}
-                  />
+                    <Checkbox
+                      checked={selectedMovies.includes(movie.id)}
+                      onChange={() =>
+                        handleCheckboxChange(movie.id, selectedMovies, addMovie, removeMovie)
+                      }
+                    />
                   </TableCell>
                   <TableCell>{movie.title}</TableCell>
                   <TableCell>
@@ -141,8 +144,7 @@ function AddMovie() {
       <Button
         variant="contained"
         onClick={() => handleRegister(movies, selectedMovies, registerMovies)}
-        disabled={!selectedMovies.length || isRegistering}
-      >
+        disabled={!selectedMovies.length || isRegistering}>
         {isRegistering ? '등록 중...' : '등록'}
       </Button>
     </S.Container>

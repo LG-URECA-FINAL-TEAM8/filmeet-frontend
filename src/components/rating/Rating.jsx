@@ -40,8 +40,8 @@ const Rating = () => {
         <S.TopTitle>평가</S.TopTitle>
       </S.TopContainer>
 
-      {categories.map((category, index) => (
-        <S.BottomContainer key={index} onClick={handleCategoryClick}>
+      {categories.map((category, id) => (
+        <S.BottomContainer key={id} onClick={handleCategoryClick}>
           <S.Label>{category.label}</S.Label>
           <S.Count>{category.count}</S.Count>
         </S.BottomContainer>

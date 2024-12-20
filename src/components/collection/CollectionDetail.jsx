@@ -187,8 +187,8 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
         </S.SectionHeader>
 
         <S.CommentList>
-          {comments.map((comment, index) => (
-            <S.Comment key={index}>
+          {comments.map((comment, id) => (
+            <S.Comment key={id}>
               <S.CommentLeft>
                 <S.CommentUserProfile
                   src={comment.profileImage || 'https://via.placeholder.com/38x38'}
@@ -203,8 +203,8 @@ const CollectionDetail = ({ collectionData, movies, userInfo }) => {
                 <S.CommentTime>{new Date(comment.createdAt).toLocaleString()}</S.CommentTime>
                 {comment?.commentUserId === userInfo?.id && ( // 작성자일 때만 표시
                   <>
-                    <S.StyledCommentMenuIcon onClick={() => toggleCommentMenu(index)} />
-                    {openCommentMenu === index && (
+                    <S.StyledCommentMenuIcon onClick={() => toggleCommentMenu(id)} />
+                    {openCommentMenu === id && (
                       <S.CommentDropdown>
                         <S.DropdownItem
                           onClick={() => {

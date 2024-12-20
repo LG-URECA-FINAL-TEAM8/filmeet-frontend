@@ -34,9 +34,9 @@ function Header() {
   };
 
   const renderButtons = (buttons) =>
-    buttons.map(({ title, route }, index) => (
+    buttons.map(({ title, route }, id) => (
       <Button
-        key={index}
+        key={id}
         onClick={() => handleButtonClick(title, route)}
         active={activeButton === title}>
         {title}

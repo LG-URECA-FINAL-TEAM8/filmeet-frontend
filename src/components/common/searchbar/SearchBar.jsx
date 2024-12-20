@@ -67,8 +67,8 @@ const SearchBar = () => {
       />
       {isModalOpen && searchResults.length > 0 && (
         <S.ItemWrapper>
-          {searchResults.map((result, index) => (
-            <S.SearchItem key={index} onClick={() => handleItemClick(result?.movieId)}>
+          {searchResults.map((result, id) => (
+            <S.SearchItem key={id} onClick={() => handleItemClick(result?.movieId)}>
               <span>{result.title}</span>
             </S.SearchItem>
           ))}

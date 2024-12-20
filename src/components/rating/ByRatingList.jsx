@@ -40,11 +40,11 @@ const ByRatingList = ({ userId }) => {
         </S.BackButton>
         <S.TopTitle>{title}</S.TopTitle>
         <S.FilterContainer>
-          {filters.map((filter, index) => (
+          {filters.map((filter, id) => (
             <S.FilterButton
               key={filter.value}
               isActive={activeFilter === filter.value}
-              onClick={filterClickHandlers[index]}>
+              onClick={filterClickHandlers[id]}>
               {filter.label}
             </S.FilterButton>
           ))}

@@ -86,10 +86,10 @@ function Main() {
         <>
           <StyledCarouselContainer>
             <Carousel autoplay autoplaySpeed={5000} speed={1000}>
-              {carouselSlides.map((slide, index) => (
-                <SlideContainer key={index}>
+              {carouselSlides.map((slide, id) => (
+                <SlideContainer key={id}>
                   <GradientOverlay />
-                  <StyledCarouselImage src={slide.image} alt={`carousel-${index}`} />
+                  <StyledCarouselImage src={slide.image} alt={`carousel-${id}`} />
                   <TextOverlay>
                     <MovieTitle>{slide.title}</MovieTitle>
                     <Subtitle>{slide.subtitle}</Subtitle>
@@ -99,8 +99,8 @@ function Main() {
               ))}
             </Carousel>
           </StyledCarouselContainer>
-          {movieSections.map(({ title, component }, index) => (
-            <React.Fragment key={index}>
+          {movieSections.map(({ title, component }, id) => (
+            <React.Fragment key={id}>
               <Title>{title}</Title>
               {component}
             </React.Fragment>

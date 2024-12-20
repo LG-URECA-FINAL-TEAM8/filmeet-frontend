@@ -17,11 +17,11 @@ const AlarmHistoryList = () => {
               <S.Message>
                 {AlarmHistory.message
                   .split(/(좋아요|팔로우|댓글)/)
-                  .map((part, index) =>
+                  .map((part, id) =>
                     part === '댓글' ? (
-                      <S.BoldHighlight key={index}>{part}</S.BoldHighlight>
+                      <S.BoldHighlight key={id}>{part}</S.BoldHighlight>
                     ) : ['좋아요', '팔로우'].includes(part) ? (
-                      <S.Highlight key={index}>{part}</S.Highlight>
+                      <S.Highlight key={id}>{part}</S.Highlight>
                     ) : (
                       part
                     )

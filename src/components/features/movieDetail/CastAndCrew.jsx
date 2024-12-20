@@ -6,8 +6,8 @@ function CastAndCrew({ castData }) {
     <S.CastAndCrewContainer>
       <S.SectionTitle>{castTitle.title}</S.SectionTitle>
       <S.CastList>
-        {castData?.map((cast, index) => (
-          <S.CastItem key={index}>
+        {castData?.map((cast, id) => (
+          <S.CastItem key={id}>
             {cast.profileImage ? (
               <S.CastImage src={cast.profileImage} alt={cast.name} />
             ) : (

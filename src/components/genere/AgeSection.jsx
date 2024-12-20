@@ -15,8 +15,8 @@ const AgeSection = () => {
       <S.Subtitle>{AgeLabel.subtitle}</S.Subtitle>
       <S.Label>{AgeLabel.label}</S.Label>
       <S.ButtonGroupContainer>
-        {ageOptions.map((option, index) => (
-          <AgeButton key={index} label={option.label} emoji={option.emoji} value={option.value} />
+        {ageOptions.map((option, id) => (
+          <AgeButton key={id} label={option.label} emoji={option.emoji} value={option.value} />
         ))}
       </S.ButtonGroupContainer>
     </S.AgeSectionContainer>

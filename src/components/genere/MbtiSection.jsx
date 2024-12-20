@@ -1,11 +1,11 @@
-import { mbtiOptions } from "../../data/generedata";
-import MbtiButton from "./MbtiButton";
-import styled from "styled-components";
+import { mbtiOptions } from '../../data/generedata';
+import MbtiButton from './MbtiButton';
+import styled from 'styled-components';
 
 const MbtiLabel = {
-  title: "당신의 MBTI?",
-  subtitle: "MBTI를 선택해 주세요",
-  label: "MBTI",
+  title: '당신의 MBTI?',
+  subtitle: 'MBTI를 선택해 주세요',
+  label: 'MBTI',
 };
 
 const MbtiSection = () => {
@@ -15,8 +15,8 @@ const MbtiSection = () => {
       <S.Subtitle>{MbtiLabel.subtitle}</S.Subtitle>
       <S.Label>{MbtiLabel.label}</S.Label>
       <S.ButtonGroupContainer>
-        {mbtiOptions.map((option, index) => (
-          <MbtiButton key={index} label={option.label} emoji={option.emoji} />
+        {mbtiOptions.map((option, id) => (
+          <MbtiButton key={id} label={option.label} emoji={option.emoji} />
         ))}
       </S.ButtonGroupContainer>
     </S.MbtiSectionContainer>

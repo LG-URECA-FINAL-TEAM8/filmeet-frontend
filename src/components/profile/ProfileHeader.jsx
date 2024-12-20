@@ -58,8 +58,8 @@ const ProfileHeader = ({ userInfo, userId }) => {
       <ProfileImage src={userInfo?.profileImage} alt="프로필 이미지"></ProfileImage>
       <ProfileName>{userInfo?.nickname}</ProfileName>
       <FollowStats>
-        {Profiles.stats.map((stat, index) => (
-          <div key={index} onClick={() => handleNavigate(stat.path)}>
+        {Profiles.stats.map((stat, id) => (
+          <div key={id} onClick={() => handleNavigate(stat.path)}>
             {stat.label}: <span>{stat.count}</span>
           </div>
         ))}
